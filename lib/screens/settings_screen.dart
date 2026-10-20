@@ -10,6 +10,8 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:path_provider/path_provider.dart'
     show getTemporaryDirectory, getApplicationCacheDirectory;
+import '../features/ai_settings/providers/ai_settings_provider.dart';
+import '../features/ai_settings/screens/ai_settings_screen.dart';
 import '../database/app_database.dart';
 import '../database/providers.dart';
 import '../l10n/app_localizations.dart';
@@ -330,6 +332,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       context,
       title: l10n.learningSection,
       children: [
+        const _AiSettingsTile(),
         ListTile(
           leading: _settingsSvgIcon('assets/icon/bell.svg'),
           title: Text(l10n.reminderSettings),
@@ -1884,6 +1887,53 @@ class _DictionaryLookupDialogState extends State<_DictionaryLookupDialog> {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// 自托管版「AI 设置」入口：显示当前模型，未配置 Key 时提示「未配置」。
+class _AiSettingsTile extends ConsumerWidget {
+  const _AiSettingsTile();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+    final config = ref.watch(aiSettingsProvider).valueOrNull;
+    final configured = config?.hasApiKey ?? false;
+    return ListTile(
+      // 与其它设置项的 SVG 图标占位尺寸对齐，保证标题左缘一致。
+      leading: SizedBox(
+        width: _settingsLeadingIconExtent,
+        height: _settingsLeadingIconExtent,
+        child: Center(
+          child: Icon(
+            Icons.auto_awesome_outlined,
+            size: _settingsSvgIconExtent,
+            color: colorScheme.onSurfaceVariant,
+          ),
+        ),
+      ),
+      title: Text(l10n.aiSettingsTitle),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (config != null)
+            Text(
+              configured ? config.model : l10n.aiSettingsNotConfigured,
+              style: TextStyle(
+                color: configured
+                    ? colorScheme.onSurfaceVariant
+                    : colorScheme.error,
+              ),
+            ),
+          const SizedBox(width: AppSpacing.xs),
+          const Icon(Icons.chevron_right),
+        ],
+      ),
+      onTap: () => Navigator.of(
+        context,
+      ).push(MaterialPageRoute<void>(builder: (_) => const AiSettingsScreen())),
     );
   }
 }

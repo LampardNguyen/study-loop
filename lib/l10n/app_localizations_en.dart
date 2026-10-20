@@ -5582,4 +5582,98 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expandSidebar => 'Expand sidebar';
+
+  @override
+  String get aiSettingsTitle => 'AI Settings';
+
+  @override
+  String get aiSettingsNotConfigured => 'Not configured';
+
+  @override
+  String get aiSettingsIntro =>
+      'Echo Loop calls your AI provider directly with your own API key. The key is stored only on this device, in the system\'s secure storage, and is never sent anywhere else.';
+
+  @override
+  String get aiSettingsApiKeyLabel => 'API Key';
+
+  @override
+  String aiSettingsApiKeySavedHint(String masked) {
+    return 'Saved: $masked — type to replace';
+  }
+
+  @override
+  String get aiSettingsShowKey => 'Show key';
+
+  @override
+  String get aiSettingsHideKey => 'Hide key';
+
+  @override
+  String get aiSettingsBaseUrlLabel => 'Base URL';
+
+  @override
+  String get aiSettingsBaseUrlHelper =>
+      'OpenAI-compatible endpoint (OpenAI, OpenRouter, local server…)';
+
+  @override
+  String get aiSettingsBaseUrlInvalid =>
+      'Enter a valid URL, e.g. https://api.openai.com/v1';
+
+  @override
+  String get aiSettingsBaseUrlInsecure =>
+      'Use https (http is only allowed for localhost / LAN)';
+
+  @override
+  String get aiSettingsModelLabel => 'Model';
+
+  @override
+  String get aiSettingsTestConnection => 'Test connection';
+
+  @override
+  String get aiSettingsSave => 'Save';
+
+  @override
+  String get aiSettingsSaved => 'AI settings saved';
+
+  @override
+  String get aiSettingsSaveFailed => 'Could not save AI settings';
+
+  @override
+  String get aiSettingsLoadFailed =>
+      'Could not read saved AI settings. You can enter them again.';
+
+  @override
+  String get aiSettingsKeyRequired => 'Enter an API key first';
+
+  @override
+  String aiSettingsTestOk(int count) {
+    return 'Connected — $count models available';
+  }
+
+  @override
+  String get aiSettingsTestOkUnknown => 'Connected';
+
+  @override
+  String aiSettingsTestUnauthorized(int status) {
+    return 'Invalid API key ($status)';
+  }
+
+  @override
+  String aiSettingsTestHttpError(int status) {
+    return 'Server error ($status)';
+  }
+
+  @override
+  String aiSettingsTestNetworkError(String message) {
+    return 'Cannot reach server: $message';
+  }
+
+  @override
+  String get aiSettingsRemoveKey => 'Remove API key';
+
+  @override
+  String get aiSettingsRemoveKeyConfirm =>
+      'Remove the saved API key from this device? AI features will stop working until you add a key again.';
+
+  @override
+  String get aiSettingsRemoveKeyDone => 'API key removed';
 }

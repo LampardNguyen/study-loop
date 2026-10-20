@@ -3,6 +3,8 @@
 /// 测试设置页面的渲染和交互。
 library;
 
+import 'package:echo_loop/features/ai_settings/screens/ai_settings_screen.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 import 'dart:io' show File;
 
@@ -434,10 +436,29 @@ void main() {
         }
       });
 
+      testWidgets('AI 设置入口：未配置时提示，点击进入 AI 设置页', (tester) async {
+        FlutterSecureStorage.setMockInitialValues({});
+        await tester.pumpWidget(
+          createTestScreen(const SettingsScreen(), overrides: buildOverrides()),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text('AI Settings'), findsOneWidget);
+        expect(find.text('Not configured'), findsOneWidget);
+
+        await tester.tap(find.text('AI Settings'));
+        await tester.pumpAndSettle();
+
+        expect(find.byType(AiSettingsScreen), findsOneWidget);
+      });
+
       testWidgets('显示关于信息区域', (tester) async {
         await tester.pumpWidget(
           createTestScreen(const SettingsScreen(), overrides: buildOverrides()),
         );
+        await tester.pumpAndSettle();
+        // 自托管版在 Learning 区新增「AI 设置」入口，关于区需滚动到可见。
+        await tester.scrollUntilVisible(find.text('Open Source Project'), 200);
         await tester.pumpAndSettle();
 
         expect(find.text('About'), findsOneWidget);
@@ -463,6 +484,8 @@ void main() {
               overrides: buildOverrides(),
             ),
           );
+          await tester.pumpAndSettle();
+          await tester.scrollUntilVisible(find.text('Rate Us'), 200);
           await tester.pumpAndSettle();
 
           expect(find.text('Rate Us'), findsOneWidget);

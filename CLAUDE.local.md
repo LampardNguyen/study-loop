@@ -32,6 +32,12 @@
 6. Quyết định quan trọng → ghi vào mục *Ghi chú / Quyết định* cuối `SELFHOST_TASKS.md`.
 7. Mỗi task PASS → 1 git commit: `selfhost(T<x.y>): <mô tả>`.
 
+## 3b. Chế độ tự chạy (từ 2026-10-20)
+
+Người dùng cho phép làm tiếp không cần hỏi: task 🎨 UI vẫn phải làm design trước và lưu vào
+`docs/selfhost/design-*.md`, nhưng Claude tự duyệt (ghi `Design tự duyệt: <ngày>`). Khi người dùng
+quay lại và yêu cầu dừng, quay về quy trình chờ duyệt ở mục 3.
+
 ## 4. Quy tắc bảo mật riêng
 
 - **Không bao giờ** hardcode, log, commit, hay đưa vào `--dart-define` OpenAI API key.

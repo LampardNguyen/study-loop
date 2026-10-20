@@ -5331,4 +5331,94 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get expandSidebar => '展开侧边栏';
+
+  @override
+  String get aiSettingsTitle => 'AI 设置';
+
+  @override
+  String get aiSettingsNotConfigured => '未配置';
+
+  @override
+  String get aiSettingsIntro =>
+      'Echo Loop 使用你自己的 API Key 直接调用 AI 服务商。Key 只保存在本设备的系统安全存储中，绝不会发送到其他任何地方。';
+
+  @override
+  String get aiSettingsApiKeyLabel => 'API Key';
+
+  @override
+  String aiSettingsApiKeySavedHint(String masked) {
+    return '已保存：$masked，输入新值即可替换';
+  }
+
+  @override
+  String get aiSettingsShowKey => '显示 Key';
+
+  @override
+  String get aiSettingsHideKey => '隐藏 Key';
+
+  @override
+  String get aiSettingsBaseUrlLabel => '接口地址';
+
+  @override
+  String get aiSettingsBaseUrlHelper => 'OpenAI 兼容接口（OpenAI、OpenRouter、本地服务器…）';
+
+  @override
+  String get aiSettingsBaseUrlInvalid => '请输入有效地址，例如 https://api.openai.com/v1';
+
+  @override
+  String get aiSettingsBaseUrlInsecure => '请使用 https（http 仅允许本机 / 局域网地址）';
+
+  @override
+  String get aiSettingsModelLabel => '模型';
+
+  @override
+  String get aiSettingsTestConnection => '测试连接';
+
+  @override
+  String get aiSettingsSave => '保存';
+
+  @override
+  String get aiSettingsSaved => 'AI 设置已保存';
+
+  @override
+  String get aiSettingsSaveFailed => 'AI 设置保存失败';
+
+  @override
+  String get aiSettingsLoadFailed => '无法读取已保存的 AI 设置，请重新输入。';
+
+  @override
+  String get aiSettingsKeyRequired => '请先输入 API Key';
+
+  @override
+  String aiSettingsTestOk(int count) {
+    return '连接成功，可用模型 $count 个';
+  }
+
+  @override
+  String get aiSettingsTestOkUnknown => '连接成功';
+
+  @override
+  String aiSettingsTestUnauthorized(int status) {
+    return 'API Key 无效（$status）';
+  }
+
+  @override
+  String aiSettingsTestHttpError(int status) {
+    return '服务器错误（$status）';
+  }
+
+  @override
+  String aiSettingsTestNetworkError(String message) {
+    return '无法连接服务器：$message';
+  }
+
+  @override
+  String get aiSettingsRemoveKey => '删除 API Key';
+
+  @override
+  String get aiSettingsRemoveKeyConfirm =>
+      '确定从本设备删除已保存的 API Key？删除后 AI 功能将无法使用，直到重新添加。';
+
+  @override
+  String get aiSettingsRemoveKeyDone => 'API Key 已删除';
 }

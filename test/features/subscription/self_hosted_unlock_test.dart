@@ -1,11 +1,13 @@
 /// 自托管版全功能解锁的回归保护：
 /// - 未登录也解锁全部 [PremiumFeature]；
-/// - 订阅 controller 恒为 Premium，且任何刷新/恢复都不访问权益后端与缓存。
+/// - 订阅 controller 恒为 Premium，且任何刷新/恢复都不访问权益后端与缓存；
+/// - 订阅入口 / Paywall / Web 结账一律隐藏（T2.3 方案 A）。
 library;
 
 import 'package:echo_loop/features/auth/providers/auth_providers.dart';
 import 'package:echo_loop/features/subscription/models/premium_feature.dart';
 import 'package:echo_loop/features/subscription/providers/feature_access_provider.dart';
+import 'package:echo_loop/features/subscription/providers/subscription_availability.dart';
 import 'package:echo_loop/features/subscription/providers/subscription_controller.dart';
 import 'package:echo_loop/features/subscription/services/entitlement_cache.dart';
 import 'package:echo_loop/features/subscription/services/entitlement_repository.dart';
@@ -67,5 +69,13 @@ void main() {
       throwsStateError,
     );
     await expectLater(controller.createPaddlePortal(), throwsStateError);
+  });
+
+  test('订阅入口、Web 结账与商店 Web 兜底一律隐藏', () {
+    final container = createContainer();
+
+    expect(container.read(subscriptionAvailabilityProvider), isFalse);
+    expect(container.read(webCheckoutModeProvider), isFalse);
+    expect(container.read(showStoreWebCheckoutFallbackProvider), isFalse);
   });
 }

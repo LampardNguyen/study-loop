@@ -9835,6 +9835,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expand sidebar'**
   String get expandSidebar;
+
+  /// No description provided for @aiSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Settings'**
+  String get aiSettingsTitle;
+
+  /// No description provided for @aiSettingsNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Not configured'**
+  String get aiSettingsNotConfigured;
+
+  /// No description provided for @aiSettingsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Echo Loop calls your AI provider directly with your own API key. The key is stored only on this device, in the system\'s secure storage, and is never sent anywhere else.'**
+  String get aiSettingsIntro;
+
+  /// No description provided for @aiSettingsApiKeyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'API Key'**
+  String get aiSettingsApiKeyLabel;
+
+  /// No description provided for @aiSettingsApiKeySavedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved: {masked} — type to replace'**
+  String aiSettingsApiKeySavedHint(String masked);
+
+  /// No description provided for @aiSettingsShowKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Show key'**
+  String get aiSettingsShowKey;
+
+  /// No description provided for @aiSettingsHideKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide key'**
+  String get aiSettingsHideKey;
+
+  /// No description provided for @aiSettingsBaseUrlLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Base URL'**
+  String get aiSettingsBaseUrlLabel;
+
+  /// No description provided for @aiSettingsBaseUrlHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'OpenAI-compatible endpoint (OpenAI, OpenRouter, local server…)'**
+  String get aiSettingsBaseUrlHelper;
+
+  /// No description provided for @aiSettingsBaseUrlInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid URL, e.g. https://api.openai.com/v1'**
+  String get aiSettingsBaseUrlInvalid;
+
+  /// No description provided for @aiSettingsBaseUrlInsecure.
+  ///
+  /// In en, this message translates to:
+  /// **'Use https (http is only allowed for localhost / LAN)'**
+  String get aiSettingsBaseUrlInsecure;
+
+  /// No description provided for @aiSettingsModelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get aiSettingsModelLabel;
+
+  /// No description provided for @aiSettingsTestConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'Test connection'**
+  String get aiSettingsTestConnection;
+
+  /// No description provided for @aiSettingsSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get aiSettingsSave;
+
+  /// No description provided for @aiSettingsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'AI settings saved'**
+  String get aiSettingsSaved;
+
+  /// No description provided for @aiSettingsSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save AI settings'**
+  String get aiSettingsSaveFailed;
+
+  /// No description provided for @aiSettingsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read saved AI settings. You can enter them again.'**
+  String get aiSettingsLoadFailed;
+
+  /// No description provided for @aiSettingsKeyRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an API key first'**
+  String get aiSettingsKeyRequired;
+
+  /// No description provided for @aiSettingsTestOk.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected — {count} models available'**
+  String aiSettingsTestOk(int count);
+
+  /// No description provided for @aiSettingsTestOkUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Connected'**
+  String get aiSettingsTestOkUnknown;
+
+  /// No description provided for @aiSettingsTestUnauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid API key ({status})'**
+  String aiSettingsTestUnauthorized(int status);
+
+  /// No description provided for @aiSettingsTestHttpError.
+  ///
+  /// In en, this message translates to:
+  /// **'Server error ({status})'**
+  String aiSettingsTestHttpError(int status);
+
+  /// No description provided for @aiSettingsTestNetworkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot reach server: {message}'**
+  String aiSettingsTestNetworkError(String message);
+
+  /// No description provided for @aiSettingsRemoveKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove API key'**
+  String get aiSettingsRemoveKey;
+
+  /// No description provided for @aiSettingsRemoveKeyConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the saved API key from this device? AI features will stop working until you add a key again.'**
+  String get aiSettingsRemoveKeyConfirm;
+
+  /// No description provided for @aiSettingsRemoveKeyDone.
+  ///
+  /// In en, this message translates to:
+  /// **'API key removed'**
+  String get aiSettingsRemoveKeyDone;
 }
 
 class _AppLocalizationsDelegate

@@ -16,22 +16,27 @@ import '../../../config/paddle_config.dart';
 import '../../../config/revenuecat_config.dart';
 import '../../remote_config/remote_config.dart';
 import '../../remote_config/remote_config_providers.dart';
+import 'self_hosted_unlock.dart';
 
 part 'subscription_availability.g.dart';
 
 /// 当前平台是否支持订阅（订阅 UI 展示总闸）。
 @riverpod
-bool subscriptionAvailability(Ref ref) => subscriptionAvailableFor(
-  channel: clientPaymentChannel,
-  // 本地 StoreKit 测试模式仅对 Apple 渠道生效（与 purchaseServiceTypeFor 一致），
-  // 避免 Android 下 USE_LOCAL_STOREKIT=true 但无 Google key 时门控误判可用、
-  // 购买却落回 Stub。
-  nativeStoreConfigured:
-      isRevenueCatConfigured ||
-      (useLocalStoreKit &&
-          clientPaymentChannel == ClientPaymentChannel.appleStore),
-  webConfigured: isPaddleCheckoutConfigured,
-);
+bool subscriptionAvailability(Ref ref) {
+  // 自托管版：全功能已解锁，订阅入口与 Paywall 一律隐藏。
+  if (ref.watch(selfHostedUnlockAllProvider)) return false;
+  return subscriptionAvailableFor(
+    channel: clientPaymentChannel,
+    // 本地 StoreKit 测试模式仅对 Apple 渠道生效（与 purchaseServiceTypeFor 一致），
+    // 避免 Android 下 USE_LOCAL_STOREKIT=true 但无 Google key 时门控误判可用、
+    // 购买却落回 Stub。
+    nativeStoreConfigured:
+        isRevenueCatConfigured ||
+        (useLocalStoreKit &&
+            clientPaymentChannel == ClientPaymentChannel.appleStore),
+    webConfigured: isPaddleCheckoutConfigured,
+  );
+}
 
 /// 根据本地渠道与对应实现的配置状态决定是否展示订阅能力。
 bool subscriptionAvailableFor({
@@ -52,10 +57,13 @@ bool subscriptionAvailableFor({
 /// Paywall 据此切换购买动作：套餐仍由统一 UI 展示，点击后改为
 /// 「服务端创建 Paddle checkout + 浏览器结账 + 回流对账」。
 @riverpod
-bool webCheckoutMode(Ref ref) => webCheckoutModeFor(
-  channel: clientPaymentChannel,
-  webConfigured: isPaddleCheckoutConfigured,
-);
+bool webCheckoutMode(Ref ref) {
+  if (ref.watch(selfHostedUnlockAllProvider)) return false;
+  return webCheckoutModeFor(
+    channel: clientPaymentChannel,
+    webConfigured: isPaddleCheckoutConfigured,
+  );
+}
 
 /// 仅 direct 且网页结账配置完整时进入 Web checkout 模式。
 bool webCheckoutModeFor({
@@ -68,6 +76,7 @@ bool webCheckoutModeFor({
 /// 这是 UI 展示门控，不改变默认购买渠道；只有商店包、Paddle 后端可用、远程开关
 /// 同时满足时才展示，便于按国家/审核策略灰度。
 final showStoreWebCheckoutFallbackProvider = Provider<bool>((ref) {
+  if (ref.watch(selfHostedUnlockAllProvider)) return false;
   return showStoreWebCheckoutFallbackFor(
     channel: clientPaymentChannel,
     webConfigured: isPaddleBackendConfigured,

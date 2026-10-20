@@ -64,7 +64,10 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
 
 - [P] **T2.1** `entitlement_repository` / `subscription_controller`: luôn trả trạng thái Pro (nguồn `local`)
 - [P] **T2.2** Gỡ RevenueCat (`purchases_flutter`), Paddle, `in_app_purchase`; gỡ quyền `BILLING`
-- [D] **T2.3** 🎨 Ẩn mọi lối vào paywall / mục "Gói đăng ký" trong Cài đặt — *chờ duyệt design*
+- [P] **T2.3** 🎨 Ẩn mọi lối vào paywall / mục "Gói đăng ký" trong Cài đặt
+  - Design duyệt: 2026-10-20 — phương án A (ẩn hoàn toàn, không đổi giao diện)
+  - Hoàn thành: 2026-10-20 — `subscriptionAvailability` / `webCheckoutMode` / `showStoreWebCheckoutFallback` → `false` khi bật tự host
+  - Test: `self_hosted_unlock_test.dart` +1 test; emulator: Cài đặt không có mục Pro
 - Test phase: unit test "mọi `PremiumFeature` đều unlocked"; build OK; duyệt tay không thấy paywall
 - **T2.1 + T2.2 hoàn thành: 2026-10-20**
   - Công tắc `selfHostedUnlockAllProvider` (mặc định `true`, `lib/features/subscription/providers/self_hosted_unlock.dart`):
@@ -83,14 +86,24 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
 
 ## Phase 3 — Màn hình nhập OpenAI key 🎨 UI
 
-- [ ] **T3.1** 🎨 **Design** màn hình "Cấu hình AI" (mockup gửi duyệt) gồm:
+- [P] **T3.1** 🎨 **Design** màn hình "Cấu hình AI" (mockup gửi duyệt) gồm:
   ô nhập API key (ẩn/hiện), Base URL (mặc định `https://api.openai.com/v1`, cho phép endpoint tương thích),
   chọn model, nút "Kiểm tra kết nối", nút xoá key, vị trí mục này trong Cài đặt
-- [ ] **T3.2** `OpenAiSettingsRepository`: lưu key bằng `flutter_secure_storage` (KHÔNG SharedPreferences, KHÔNG log key)
-- [ ] **T3.3** Provider `openAiConfigProvider` (state: chưa cấu hình / hợp lệ / lỗi)
-- [ ] **T3.4** Code UI theo design đã duyệt + chuỗi l10n (en/zh; vi nếu muốn)
-- [ ] **T3.5** Loại key khỏi backup: kiểm tra `backup_service.dart` không export secure storage
+- [P] **T3.2** `OpenAiSettingsRepository`: lưu key bằng `flutter_secure_storage` (KHÔNG SharedPreferences, KHÔNG log key)
+- [P] **T3.3** Provider `openAiConfigProvider` (state: chưa cấu hình / hợp lệ / lỗi)
+- [P] **T3.4** Code UI theo design đã duyệt + chuỗi l10n (en/zh; vi nếu muốn)
+- [P] **T3.5** Loại key khỏi backup: kiểm tra `backup_service.dart` không export secure storage
 - Test phase: unit test repository (lưu/đọc/xoá, không rò ra prefs); widget test form; test tay "Kiểm tra kết nối"
+- **Phase 3 hoàn thành: 2026-10-20**
+  - Design tự duyệt: `docs/selfhost/design-ai-settings.md`
+  - Code: `lib/features/ai_settings/` (model + validate URL, repository secure storage, `aiSettingsProvider`,
+    `AiConnectionTester` GET /models, `AiSettingsScreen`), mục "AI Settings" đầu nhóm Learning trong Cài đặt, 26 chuỗi en/zh
+  - T3.5: backup trong app chỉ xuất SharedPreferences + DB → key (secure storage) không bị đưa vào.
+    Android auto-backup có thể chép dữ liệu secure storage nhưng đã mã hoá bằng Keystore của máy → không đọc được ở máy khác; giữ nguyên
+  - Test mới: `test/features/ai_settings/` 4 file / 22 test + 1 test mục Cài đặt; sửa 2 test Cài đặt cũ (cần cuộn vì danh sách dài thêm)
+  - Test: `flutter analyze` = baseline; `flutter test` 5563 pass / 0 fail; emulator: màn hình đúng design,
+    Test connection với key giả → hiện lỗi mạng (DNS emulator hỏng), logcat không chứa key
+  - Chưa test: key thật (để người dùng); DNS emulator cần chạy lại với `-dns-server 8.8.8.8` trước Phase 6
 
 ## Phase 4 — Thay AI backend bằng OpenAI trực tiếp
 
@@ -136,6 +149,21 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
 - [ ] **T7.3** Kiểm thử tổng: `flutter analyze`, `flutter test`, smoke test trên máy thật
 - [ ] **T7.4** Viết `docs/selfhost/README.md`: cách build, cách nhập key, giữ LICENSE gốc (AGPL-3.0 — nếu phân phối APK cho người khác phải công khai mã đã sửa)
 
+## Phase 8 — Tiếng Việt (yêu cầu thêm 2026-10-20)
+
+> Làm sau Phase 3 (cùng sửa file `.arb`), trước Phase 4. T8.4 gắn với Phase 4 (prompt AI).
+
+- [P] **T8.1** Khảo sát mọi chỗ giả định `zh` / `zh-CN` (UI locale, native language, từ điển offline, prompt, TTS, sắp xếp/định dạng) → ghi `docs/selfhost/vietnamese.md`
+  - Hoàn thành: 2026-10-20 — xem `docs/selfhost/vietnamese.md`
+- [ ] **T8.2** Giao diện tiếng Việt: `lib/l10n/app_vi.arb` dịch đủ mọi key (đối chiếu số key với `app_en.arb`),
+  thêm `Locale('vi')` vào `supportedLocales` + `matchUiLocale` (máy tiếng Việt → UI tiếng Việt), thêm "Tiếng Việt" vào chọn App Language
+- [ ] **T8.3** Native language `vi`: thêm vào `supportedNativeLanguages`; không có từ điển offline Anh→Việt →
+  ẩn/không tải từ điển local cho `vi`, mặc định dùng từ điển AI + thêm Cambridge English–Vietnamese vào từ điển web
+- [ ] **T8.4** Prompt AI (Phase 4) trả lời theo native language (vi / zh-CN / zh-TW)
+- [ ] **T8.5** 🎨 Design: dòng "Tiếng Việt" trong 2 màn chọn ngôn ngữ + trạng thái "không có từ điển offline" → tự duyệt
+- Test phase: unit test `matchUiLocale` / `matchNativeLanguage` với `vi`/`vi-VN`; test số key `app_vi.arb` == `app_en.arb`;
+  widget test chuyển sang tiếng Việt; emulator: đổi ngôn ngữ → UI tiếng Việt, tra từ không lỗi
+
 ---
 
 ## Ghi chú / Quyết định
@@ -144,4 +172,13 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
 - 2026-10-20 **Baseline test (bản gốc, chưa sửa gì)** — mọi fail dưới đây KHÔNG phải do mình:
   - `flutter test`: 5551 pass / 11 skip / 7 fail — cả 7 đều trong `test/providers/retell_recording_controller_test.dart`, lỗi "did not complete" (test treo/timeout)
   - `flutter analyze`: 3 error, cả 3 trong `integration_test/kokoro_tts_test.dart` (API `TtsEngineKind.echoLoop` / `TtsEngineFactory` đã đổi, test cũ chưa cập nhật)
+  - **Đính chính (2026-10-20)**: baseline còn **3 warning** có sẵn (`text_context_menu.dart`, `notification_permission_dialog.dart`,
+    `test/database/database_switch_test.dart`) — ghi "0 warning" ở T0.4 là sai do lệnh grep lọc thiếu
 - 2026-10-20 `flutter pub get` cảnh báo advisory GHSA-cr65-55v9-xhvv ở `dio_http2_adapter` 2.7.1 (bản vá 2.9.0) — cân nhắc nâng cấp sau Phase 6
+- 2026-10-20 **Chế độ tự chạy (người dùng đi ngủ, yêu cầu làm hết không cần hỏi):**
+  - Design UI (T3.1, T4.6): Claude tự duyệt, mockup lưu ở `docs/selfhost/design-*.md` để người dùng xem lại sau
+  - T5.1: chọn cả hai — chưa cấu hình Supabase → chế độ khách (ẩn đăng nhập); điền `SUPABASE_URL`/key → đăng nhập bật lại
+  - Test AI với key thật: để người dùng tự làm (checklist trong `docs/selfhost/README.md`)
+  - T6.2: model tải thẳng từ nguồn công khai gốc thay vì CDN riêng
+  - T7.2: Claude tự tạo keystore + mật khẩu ngẫu nhiên trong `android/key.properties` (không commit) — người dùng PHẢI sao lưu
+
