@@ -58,3 +58,8 @@ METHOD.md
 
 # Test artifacts
 test-results.json
+
+# Self-host: secrets không commit
+android/key.properties
+*.jks
+*.keystore
