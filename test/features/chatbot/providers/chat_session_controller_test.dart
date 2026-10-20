@@ -1,6 +1,7 @@
 /// ChatSessionController 测试：状态流转 / 防竞态 / 闸门 / 计费。
 library;
 
+import 'package:echo_loop/features/subscription/providers/self_hosted_unlock.dart';
 import 'dart:async';
 
 import 'package:dio/dio.dart';
@@ -126,6 +127,8 @@ void main() {
     trialUsage = _RecordingTrialUsage();
     final container = ProviderContainer(
       overrides: [
+        // 验证原始付费墙逻辑：关闭自托管全解锁。
+        selfHostedUnlockAllProvider.overrideWithValue(false),
         analyticsOverride(),
         chatApiClientProvider.overrideWithValue(api),
         isAuthenticatedProvider.overrideWithValue(authenticated),

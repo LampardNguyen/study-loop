@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:echo_loop/features/subscription/providers/self_hosted_unlock.dart';
 import 'package:clock/clock.dart';
 import 'package:dio/dio.dart';
 import 'package:echo_loop/features/subscription/models/entitlement.dart';
@@ -11,8 +12,6 @@ import 'package:echo_loop/features/subscription/services/entitlement_cache.dart'
 import 'package:echo_loop/features/subscription/services/entitlement_repository.dart';
 import 'package:echo_loop/features/subscription/services/paddle_billing_repository.dart';
 import 'package:echo_loop/features/subscription/services/purchase_service.dart';
-import 'package:echo_loop/features/subscription/services/revenuecat_purchase_service.dart'
-    show PurchaseServiceType, purchaseServiceProvider, purchaseServiceTypeFor;
 import 'package:echo_loop/config/client_distribution.dart';
 import 'package:echo_loop/features/subscription/state/entitlement_state.dart';
 import 'package:echo_loop/services/entitlement_signal_interceptor.dart';
@@ -200,82 +199,6 @@ class FakeEntitlementCache extends EntitlementCache {
 }
 
 void main() {
-  group('purchaseServiceTypeFor', () {
-    test('app_store / play 仅在 SDK 已就绪时选择 RevenueCat', () {
-      for (final channel in [
-        ClientPaymentChannel.appleStore,
-        ClientPaymentChannel.googlePlay,
-      ]) {
-        expect(
-          purchaseServiceTypeFor(
-            channel: channel,
-            useLocalStoreKit: false,
-            nativeStoreReady: true,
-            webConfigured: true,
-          ),
-          PurchaseServiceType.revenueCat,
-        );
-      }
-    });
-
-    test('direct 只选择 Web service', () {
-      expect(
-        purchaseServiceTypeFor(
-          channel: ClientPaymentChannel.web,
-          useLocalStoreKit: false,
-          nativeStoreReady: true,
-          webConfigured: true,
-        ),
-        PurchaseServiceType.web,
-      );
-    });
-
-    test('SDK 未就绪或未知渠道回退 stub', () {
-      expect(
-        purchaseServiceTypeFor(
-          channel: ClientPaymentChannel.googlePlay,
-          useLocalStoreKit: false,
-          nativeStoreReady: false,
-          webConfigured: true,
-        ),
-        PurchaseServiceType.stub,
-      );
-      expect(
-        purchaseServiceTypeFor(
-          channel: ClientPaymentChannel.unavailable,
-          useLocalStoreKit: false,
-          nativeStoreReady: true,
-          webConfigured: true,
-        ),
-        PurchaseServiceType.stub,
-      );
-    });
-
-    test('useLocalStoreKit 仅对 Apple 渠道生效', () {
-      // Apple 渠道：即便未配 RC，本地 StoreKit 模式也可用。
-      expect(
-        purchaseServiceTypeFor(
-          channel: ClientPaymentChannel.appleStore,
-          useLocalStoreKit: true,
-          nativeStoreReady: false,
-          webConfigured: false,
-        ),
-        PurchaseServiceType.localStoreKit,
-      );
-      // Google Play 渠道：useLocalStoreKit 不生效，无 RC key 时仍回退 stub
-      // （与 subscriptionAvailability 门控对齐，避免「门控可用、购买落 stub」）。
-      expect(
-        purchaseServiceTypeFor(
-          channel: ClientPaymentChannel.googlePlay,
-          useLocalStoreKit: true,
-          nativeStoreReady: false,
-          webConfigured: false,
-        ),
-        PurchaseServiceType.stub,
-      );
-    });
-  });
-
   group('canStartPaddleCheckoutForChannel', () {
     test('direct 默认允许，商店包必须显式允许 fallback', () {
       expect(
@@ -333,6 +256,8 @@ void main() {
   }) {
     final container = ProviderContainer(
       overrides: [
+        // 验证原始付费墙逻辑：关闭自托管全解锁。
+        selfHostedUnlockAllProvider.overrideWithValue(false),
         entitlementRepositoryProvider.overrideWithValue(repo),
         entitlementCacheProvider.overrideWithValue(cache),
         purchaseServiceProvider.overrideWithValue(
@@ -446,6 +371,8 @@ void main() {
       final cache = FakeEntitlementCache();
       final container = ProviderContainer(
         overrides: [
+          // 验证原始付费墙逻辑：关闭自托管全解锁。
+          selfHostedUnlockAllProvider.overrideWithValue(false),
           entitlementRepositoryProvider.overrideWithValue(repo),
           entitlementCacheProvider.overrideWithValue(cache),
           purchaseServiceProvider.overrideWithValue(FakePurchaseService()),

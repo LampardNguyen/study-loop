@@ -1,6 +1,7 @@
 /// ChatView 集成测试（真实 controller + 可控 fake api）。
 library;
 
+import 'package:echo_loop/features/subscription/providers/self_hosted_unlock.dart';
 import 'dart:async';
 
 import 'package:dio/dio.dart';
@@ -88,6 +89,8 @@ void main() {
     ChatApi api, {
     FreeAllowancePolicy policy = const AlwaysAllowPolicy(),
   }) => [
+    // 验证原始付费墙逻辑：关闭自托管全解锁。
+    selfHostedUnlockAllProvider.overrideWithValue(false),
     // controller 完成/中断一轮会记录埋点，避免依赖 app 启动期全局初始化。
     analyticsServiceProvider.overrideWithValue(
       createTestAnalyticsServiceSync(),

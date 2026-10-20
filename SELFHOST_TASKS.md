@@ -62,10 +62,24 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
 
 ## Phase 2 — Mở khoá Pro, bỏ thanh toán
 
-- [ ] **T2.1** `entitlement_repository` / `subscription_controller`: luôn trả trạng thái Pro (nguồn `local`)
-- [ ] **T2.2** Gỡ RevenueCat (`purchases_flutter`), Paddle, `in_app_purchase`; gỡ quyền `BILLING`
-- [ ] **T2.3** Ẩn mọi lối vào paywall / mục "Gói đăng ký" trong Cài đặt
+- [P] **T2.1** `entitlement_repository` / `subscription_controller`: luôn trả trạng thái Pro (nguồn `local`)
+- [P] **T2.2** Gỡ RevenueCat (`purchases_flutter`), Paddle, `in_app_purchase`; gỡ quyền `BILLING`
+- [D] **T2.3** 🎨 Ẩn mọi lối vào paywall / mục "Gói đăng ký" trong Cài đặt — *chờ duyệt design*
 - Test phase: unit test "mọi `PremiumFeature` đều unlocked"; build OK; duyệt tay không thấy paywall
+- **T2.1 + T2.2 hoàn thành: 2026-10-20**
+  - Công tắc `selfHostedUnlockAllProvider` (mặc định `true`, `lib/features/subscription/providers/self_hosted_unlock.dart`):
+    `featureAccess` → luôn `true` (không cần đăng nhập); `SubscriptionController` → luôn Premium,
+    `refresh/restore/purchase/refreshIfStale/clearLocalCacheAndRefresh/refreshAfterExternalCheckout` no-op,
+    Paddle checkout/portal ném `StateError`
+  - `purchaseServiceProvider` → `StubPurchaseService` (chuyển sang `purchase_service.dart`); xoá
+    `revenuecat_purchase_service.dart`, `local_storekit_purchase_service.dart` + 2 file test; gỡ RevenueCat init khi khởi động;
+    gỡ `purchases_flutter`, `in_app_purchase`; manifest `BILLING` → `tools:node="remove"`
+  - Test cũ của logic thanh toán gốc: override công tắc = `false` (8 file) → vẫn kiểm tra logic gốc, không xoá test;
+    chỉ xoá group `purchaseServiceTypeFor` (hàm đã gỡ)
+  - Test mới: `test/features/subscription/self_hosted_unlock_test.dart` (3 test)
+  - Test: analyze không có issue mới; `flutter test` 5531 pass, fail duy nhất = 7 test retell flaky đã biết;
+    APK 109.8MB: không còn quyền BILLING, dex không còn `com/revenuecat` / billingclient; emulator chạy OK
+  - Còn lại (Phase 4): `sentence_ai_provider` / chat / retell vẫn tự kiểm tra đăng nhập + xử lý 402 từ backend → sẽ thay khi chuyển sang OpenAI
 
 ## Phase 3 — Màn hình nhập OpenAI key 🎨 UI
 

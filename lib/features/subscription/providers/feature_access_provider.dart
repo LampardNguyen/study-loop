@@ -19,6 +19,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import '../../auth/providers/auth_providers.dart';
 import '../models/premium_feature.dart';
 import '../services/free_allowance_policy.dart';
+import 'self_hosted_unlock.dart';
 import 'subscription_controller.dart';
 
 part 'feature_access_provider.g.dart';
@@ -26,6 +27,8 @@ part 'feature_access_provider.g.dart';
 /// 某 [feature] 当前是否对用户可用。
 @riverpod
 bool featureAccess(Ref ref, PremiumFeature feature) {
+  // 第零层（自托管版）：全功能解锁，无需登录。
+  if (ref.watch(selfHostedUnlockAllProvider)) return true;
   // 第一层：未登录禁用一切高级功能（连免费额度也不发放，须先登录）。
   if (!ref.watch(isAuthenticatedProvider)) return false;
   // 第二层：已确认 Premium → 无限解锁。

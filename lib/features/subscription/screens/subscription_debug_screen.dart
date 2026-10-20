@@ -16,8 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../auth/providers/auth_providers.dart';
 import '../providers/subscription_controller.dart';
 import '../providers/subscription_identity.dart';
-import '../services/revenuecat_purchase_service.dart'
-    show purchaseServiceProvider;
+import '../services/purchase_service.dart' show purchaseServiceProvider;
 import '../state/entitlement_state.dart';
 
 /// 订阅调试面板页面。

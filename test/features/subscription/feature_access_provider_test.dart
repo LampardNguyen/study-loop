@@ -1,4 +1,5 @@
 import 'package:echo_loop/features/auth/providers/auth_providers.dart';
+import 'package:echo_loop/features/subscription/providers/self_hosted_unlock.dart';
 import 'package:echo_loop/features/subscription/models/entitlement.dart';
 import 'package:echo_loop/features/subscription/models/premium_feature.dart';
 import 'package:echo_loop/features/subscription/providers/feature_access_provider.dart';
@@ -30,6 +31,8 @@ void main() {
   }) {
     final container = ProviderContainer(
       overrides: [
+        // 验证原始付费墙逻辑：关闭自托管全解锁。
+        selfHostedUnlockAllProvider.overrideWithValue(false),
         subscriptionControllerProvider.overrideWith(
           () => _FixedController(state),
         ),

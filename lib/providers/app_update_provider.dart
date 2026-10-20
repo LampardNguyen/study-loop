@@ -16,7 +16,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../features/subscription/services/revenuecat_purchase_service.dart'
+import '../features/subscription/services/purchase_service.dart'
     show purchaseServiceProvider;
 import '../models/app_update_info.dart';
 import '../services/app_logger.dart';

@@ -6,6 +6,8 @@
 /// 上层零改动（解耦核心，便于将来迁移）。
 library;
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../models/entitlement.dart';
 import '../models/subscription_plan.dart';
 
@@ -163,3 +165,11 @@ class StubPurchaseService implements PurchaseService {
   @override
   Future<String?> storefrontCountryCode() async => null;
 }
+
+/// 购买服务 Provider。
+///
+/// 自托管版已移除 RevenueCat / StoreKit / Paddle 购买实现，固定返回无网络、
+/// 不发起真实购买的 [StubPurchaseService]。
+final purchaseServiceProvider = Provider<PurchaseService>(
+  (ref) => const StubPurchaseService(),
+);

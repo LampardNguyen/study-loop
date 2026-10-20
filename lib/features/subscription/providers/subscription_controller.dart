@@ -25,7 +25,7 @@ import '../services/entitlement_reconciler.dart';
 import '../services/entitlement_repository.dart';
 import '../services/paddle_billing_repository.dart';
 import '../services/purchase_service.dart';
-import '../services/revenuecat_purchase_service.dart';
+import 'self_hosted_unlock.dart';
 import '../state/entitlement_state.dart';
 import 'subscription_identity.dart';
 
@@ -88,8 +88,12 @@ class SubscriptionController extends _$SubscriptionController {
   Future<void>? _normalRefreshInFlight;
   Future<void>? _forceRefreshInFlight;
 
+  /// 自托管版：恒为 Premium，所有权益/购买网络请求一律跳过。
+  bool get _selfHosted => ref.read(selfHostedUnlockAllProvider);
+
   @override
   EntitlementState build() {
+    if (_selfHosted) return selfHostedPremiumState;
     // 监听身份变化：登出清权益、切换用户重对账。
     // fireImmediately：build 时立即以当前身份触发一次，确保已登录用户即使在
     // 「身份早已落定后」才首次创建本 controller，也会执行一次 Purchases.logIn 绑定
@@ -146,6 +150,7 @@ class SubscriptionController extends _$SubscriptionController {
   /// 与后端权威源对账并刷新权益。集中状态变更入口之一。
   /// [force] 让后端绕过节流回源 RC（成交收敛 / 用户主动刷新用）。
   Future<void> refresh({bool force = false}) async {
+    if (_selfHosted) return;
     await _waitForIdentitySync();
     if (!force) {
       final stronger = _forceRefreshInFlight;
@@ -326,6 +331,7 @@ class SubscriptionController extends _$SubscriptionController {
 
   /// 发起购买。成交后不做本地裁决，统一回源后端收敛（单一来源）。
   Future<void> purchase(String planId) async {
+    if (_selfHosted) return;
     AppLogger.log(
       'Subscription',
       '发起购买: planId=$planId userId=${_identity.userId ?? "匿名"}',
@@ -368,6 +374,9 @@ class SubscriptionController extends _$SubscriptionController {
     String planId, {
     bool allowStoreFallback = false,
   }) async {
+    if (_selfHosted) {
+      throw StateError('自托管版已禁用 Paddle 结账');
+    }
     if (!canStartPaddleCheckoutForChannel(
       channel: _paymentChannel,
       allowStoreFallback: allowStoreFallback,
@@ -425,6 +434,9 @@ class SubscriptionController extends _$SubscriptionController {
 
   /// 创建 Paddle Customer Portal session，供 direct 用户取消订阅或更新支付方式。
   Future<Uri> createPaddlePortal() async {
+    if (_selfHosted) {
+      throw StateError('自托管版已禁用 Paddle 订阅管理');
+    }
     final currentEntitlement = state.entitlement;
     final hasActivePaddleEntitlement =
         currentEntitlement?.source == EntitlementSource.paddle &&
@@ -469,6 +481,7 @@ class SubscriptionController extends _$SubscriptionController {
   /// 1) 先回源后端（唯一权威，含 Paddle 与已同步的商店订阅），命中即结束；
   /// 2) 仍非会员且是商店渠道 → RC restore 认领游离商店收据，认领后回源收敛。
   Future<void> restore() async {
+    if (_selfHosted) return;
     AppLogger.log(
       'Subscription',
       '恢复/刷新会员发起: channel=${_paymentChannel.name} '
@@ -539,6 +552,7 @@ class SubscriptionController extends _$SubscriptionController {
   Future<void> refreshIfStale({
     Duration maxAge = const Duration(hours: 24),
   }) async {
+    if (_selfHosted) return;
     // 冷启动身份绑定本身会完成首次对账；先等它落定再判断，避免 Paywall 进入事件
     // 与启动对账并发造成第二次 entitlement GET。
     await _waitForIdentitySync();
@@ -608,6 +622,7 @@ class SubscriptionController extends _$SubscriptionController {
   /// RevenueCat SDK 的 CustomerInfo 缓存都会让旧权益继续生效，这里一并清掉
   /// 再回源对账。同时解除调试覆盖，回到真实在线结果。
   Future<void> clearLocalCacheAndRefresh() async {
+    if (_selfHosted) return;
     _debugOverride = null;
     _generation++; // 作废在途对账。
     await _cache.clear();
@@ -673,6 +688,7 @@ class SubscriptionController extends _$SubscriptionController {
 
   /// 外部 checkout 回跳后的权益收敛；回跳本身不是支付凭证。
   Future<void> refreshAfterExternalCheckout() {
+    if (_selfHosted) return Future<void>.value();
     return _convergeAfterTransaction('external-checkout');
   }
 

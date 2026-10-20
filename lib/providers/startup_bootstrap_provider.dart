@@ -11,7 +11,6 @@ import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -19,8 +18,6 @@ import '../analytics/analytics_providers.dart';
 import '../analytics/analytics_service.dart';
 import '../analytics/permission_snapshot.dart';
 import '../config/auth_config.dart' as auth_config;
-import '../config/paddle_config.dart' as paddle_config;
-import '../config/revenuecat_config.dart' as revenuecat_config;
 import '../database/app_database.dart';
 import '../database/providers.dart';
 import '../features/onboarding_survey/providers/onboarding_survey_provider.dart'
@@ -305,7 +302,8 @@ class DefaultStartupBootstrapper implements StartupBootstrapper {
       );
     }
 
-    final revenueCatReady = await _initializeRevenueCat(issues, restoredUserId);
+    // 自托管版已移除 RevenueCat，购买 SDK 永不初始化。
+    const revenueCatReady = false;
 
     await _runBestEffort(issues, 'permission_snapshot_report', () async {
       final snapshot = await PermissionSnapshot.capture(_prefs);
@@ -337,57 +335,6 @@ class DefaultStartupBootstrapper implements StartupBootstrapper {
       _recordIssue(issues, 'app_log_file_sink', error, stackTrace);
     } finally {
       activeStartupTrace?.attachLogger();
-    }
-  }
-
-  Future<bool> _initializeRevenueCat(
-    List<StartupIssue> issues,
-    String? restoredUserId,
-  ) async {
-    if (revenuecat_config.useLocalStoreKit) {
-      activeStartupTrace?.mark(
-        'step_skipped',
-        fields: {'step': 'revenuecat_initialize', 'reason': 'local_storekit'},
-      );
-      return false;
-    }
-    if (paddle_config.isPaddleCheckoutChannel) {
-      activeStartupTrace?.mark(
-        'step_skipped',
-        fields: {'step': 'revenuecat_initialize', 'reason': 'paddle_direct'},
-      );
-      return false;
-    }
-    if (!revenuecat_config.isRevenueCatConfigured) {
-      activeStartupTrace?.mark(
-        'step_skipped',
-        fields: {'step': 'revenuecat_initialize', 'reason': 'not_configured'},
-      );
-      return false;
-    }
-
-    try {
-      final configuration = PurchasesConfiguration(
-        revenuecat_config.revenueCatApiKey,
-      );
-      if (restoredUserId != null) configuration.appUserID = restoredUserId;
-      await _trace(
-        'revenuecat_initialize',
-        () => Purchases.configure(configuration),
-      );
-      // RevenueCat 必须先完成 configure；否则 Debug 模式下 setLogLevel 会触发
-      // PurchasesHybridCommon 的 native fatalError，直接终止启动进程。
-      if (kDebugMode) {
-        await _runBestEffort(
-          issues,
-          'revenuecat_log_level',
-          () => Purchases.setLogLevel(LogLevel.debug),
-        );
-      }
-      return true;
-    } catch (error, stackTrace) {
-      _recordIssue(issues, 'revenuecat_initialize', error, stackTrace);
-      return false;
     }
   }
 

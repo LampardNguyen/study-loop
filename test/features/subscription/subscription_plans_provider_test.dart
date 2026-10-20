@@ -6,8 +6,6 @@ import 'package:echo_loop/features/subscription/models/subscription_plan.dart';
 import 'package:echo_loop/features/subscription/providers/subscription_plans_provider.dart';
 import 'package:echo_loop/features/subscription/services/paddle_billing_repository.dart';
 import 'package:echo_loop/features/subscription/services/purchase_service.dart';
-import 'package:echo_loop/features/subscription/services/revenuecat_purchase_service.dart'
-    show purchaseServiceProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 

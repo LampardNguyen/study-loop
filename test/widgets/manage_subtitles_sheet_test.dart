@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:echo_loop/features/subscription/providers/self_hosted_unlock.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -339,6 +340,8 @@ void main() {
             session: signedInSession(),
             subscriptionPro: false,
             extraOverrides: [
+              // 验证原始付费墙逻辑：关闭自托管全解锁。
+              selfHostedUnlockAllProvider.overrideWithValue(false),
               sharedPreferencesProvider.overrideWithValue(prefs),
               freeAllowancePolicyProvider.overrideWithValue(
                 const _DenyAiAllowancePolicy(),

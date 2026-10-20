@@ -1,6 +1,7 @@
 /// RetellReviewEvaluationController 测试：登录/额度闸门、后端 401/402 映射、计费。
 library;
 
+import 'package:echo_loop/features/subscription/providers/self_hosted_unlock.dart';
 import 'package:dio/dio.dart';
 import 'package:echo_loop/features/auth/providers/auth_providers.dart';
 import 'package:echo_loop/features/subscription/models/entitlement.dart';
@@ -140,6 +141,8 @@ void main() {
   }) async {
     final container = ProviderContainer(
       overrides: [
+        // 验证原始付费墙逻辑：关闭自托管全解锁。
+        selfHostedUnlockAllProvider.overrideWithValue(false),
         sentenceAiApiClientProvider.overrideWithValue(api),
         retellReviewAudioPreparerProvider.overrideWithValue(preparer),
         isAuthenticatedProvider.overrideWithValue(authenticated),

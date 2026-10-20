@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:echo_loop/features/subscription/providers/self_hosted_unlock.dart';
 import 'package:echo_loop/features/subscription/models/entitlement.dart';
 import 'package:echo_loop/features/subscription/models/subscription_plan.dart';
 import 'package:echo_loop/features/subscription/providers/subscription_identity.dart';
@@ -7,8 +8,6 @@ import 'package:echo_loop/features/subscription/screens/subscription_debug_scree
 import 'package:echo_loop/features/subscription/services/entitlement_cache.dart';
 import 'package:echo_loop/features/subscription/services/entitlement_repository.dart';
 import 'package:echo_loop/features/subscription/services/purchase_service.dart';
-import 'package:echo_loop/features/subscription/services/revenuecat_purchase_service.dart'
-    show purchaseServiceProvider;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -74,6 +73,8 @@ class _MemCache extends EntitlementCache {
 Widget _wrap(PurchaseService purchases, {Entitlement? backendEntitlement}) {
   return ProviderScope(
     overrides: [
+      // 验证原始付费墙逻辑：关闭自托管全解锁。
+      selfHostedUnlockAllProvider.overrideWithValue(false),
       purchaseServiceProvider.overrideWithValue(purchases),
       entitlementRepositoryProvider.overrideWithValue(
         _FakeRepo(backendEntitlement),

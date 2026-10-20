@@ -10,7 +10,7 @@ import '../../../services/app_logger.dart';
 import '../models/subscription_plan.dart';
 import '../services/paddle_billing_repository.dart';
 import '../services/purchase_service.dart';
-import '../services/revenuecat_purchase_service.dart';
+import '../services/purchase_service.dart';
 
 /// 同一 storefront 下套餐自动刷新的最长期限。
 const subscriptionPlansRefreshInterval = Duration(days: 1);
