@@ -38,15 +38,27 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
 
 ## Phase 1 — Gỡ analytics & tracking
 
-- [ ] **T1.1** Bỏ Firebase: gỡ `firebase_core`, `firebase_analytics`; xoá `lib/firebase_options.dart`,
+- [P] **T1.1** Bỏ Firebase: gỡ `firebase_core`, `firebase_analytics`; xoá `lib/firebase_options.dart`,
   `android/app/google-services.json`, `ios|macos/Runner/GoogleService-Info.plist`,
   plugin `google-services` trong gradle; xoá `lib/analytics/channels/firebase_channel.dart`
-- [ ] **T1.2** Bỏ PostHog (`posthog_flutter`, `PostHogWidget` trong `main.dart`, `posthog_channel.dart`)
-- [ ] **T1.3** Bỏ Umeng (`umeng_common_sdk`, `umeng_channel.dart`)
-- [ ] **T1.4** `analytics_providers.dart` luôn trả `LogOnlyChannel` (log local, không gửi đi)
-- [ ] **T1.5** Gỡ quyền `AD_ID` / `ACCESS_ADSERVICES_AD_ID` khỏi `AndroidManifest.xml` (dùng `tools:node="remove"`)
+- [P] **T1.2** Bỏ PostHog (`posthog_flutter`, `PostHogWidget` trong `main.dart`, `posthog_channel.dart`)
+- [P] **T1.3** Bỏ Umeng (`umeng_common_sdk`, `umeng_channel.dart`)
+- [P] **T1.4** `analytics_providers.dart` luôn trả `LogOnlyChannel` (log local, không gửi đi)
+- [P] **T1.5** Gỡ quyền `AD_ID` / `ACCESS_ADSERVICES_AD_ID` khỏi `AndroidManifest.xml` (dùng `tools:node="remove"`)
 - Test phase: `flutter analyze` 0 lỗi; `flutter test` không phát sinh fail mới;
   `grep -ri "posthog\|firebase\|umeng" lib android/app` không còn tham chiếu; build APK OK
+- **Phase 1 hoàn thành: 2026-10-20**
+  - Đã xoá: 4 package, `firebase_options.dart`, `google-services.json`, 2× `GoogleService-Info.plist`, `firebase.json`,
+    3 channel (firebase/posthog/umeng), `posthog_event_policy.dart` + test; plugin gradle `google-services`;
+    iOS `setupPostHogNative()` (có bật **Session Replay**) + PostHog key trong `Info.plist` iOS/macOS
+  - T1.5: bản gốc đã có `tools:node="remove"` cho AD_ID → giữ nguyên, xác nhận bằng aapt2
+  - Test mới: `test/analytics/analytics_providers_test.dart` "默认通道固定为 LogOnly"
+  - Test: `flutter analyze` 34 issue = baseline (3 error cũ); `flutter test` 5558 pass / 0 fail
+    (7 test retell baseline lần này pass → là test flaky/timeout, không phải lỗi thật);
+    `aapt2 dump permissions` không còn AD_ID; dex không còn class posthog/firebase-analytics/umeng
+    (còn 3 file `firebase-encoders*.properties` do Google Play Services kéo theo — không phải analytics);
+    emulator: app mở OK, log `LogOnlyChannel initialized`, crash buffer trống
+  - Chưa làm: `.github/workflows/*` vẫn truyền `POSTHOG_*` dart-define (CI của tác giả, không dùng, vô hại vì code đã gỡ)
 
 ## Phase 2 — Mở khoá Pro, bỏ thanh toán
 

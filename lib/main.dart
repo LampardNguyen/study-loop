@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -76,7 +75,7 @@ void main() async {
     SharedPreferences.getInstance,
   );
   // SecureStorage 在新装设备上可能较慢。立即并行启动匿名 ID 初始化，但不能让它
-  // 阻塞 PostHog channel ready 或首帧；完成后再注册为事件 super property。
+  // 阻塞 analytics channel ready 或首帧；完成后再注册为事件 super property。
   final anonymousIdReady = startUserIdService(prefs);
   final analyticsService = await startupTrace.run(
     'analytics_initialize',
@@ -163,45 +162,42 @@ void main() async {
   // 任务由 ProviderScope 内的标准 Riverpod 启动 provider 编排。
   startupTrace.mark('run_app_invoked');
   runApp(
-    PostHogWidget(
-      child: ProviderScope(
-        overrides: [
-          analyticsServiceProvider.overrideWithValue(analyticsService),
-          packageInfoProvider.overrideWithValue(packageInfo),
-          isFirstLaunchProvider.overrideWithValue(isFirstLaunch),
-          sharedPreferencesProvider.overrideWithValue(prefs),
-          initialOnboardingCompletedProvider.overrideWithValue(
-            onboardingCompleted,
-          ),
-          initialLearningSettingsProvider.overrideWithValue(
-            initialLearningSettings,
-          ),
-          initialTtsSettingsProvider.overrideWithValue(initialTtsSettings),
-          initialIntensiveListenPrefsProvider.overrideWithValue(
-            initialIntensiveListenPrefs,
-          ),
-          initialBlindListenPrefsProvider.overrideWithValue(
-            initialBlindListenPrefs,
-          ),
-          initialRetellPrefsProvider.overrideWithValue(initialRetellPrefs),
-          initialDifficultPracticePrefsProvider.overrideWithValue(
-            initialDifficultPracticePrefs,
-          ),
-          initialUiLocaleProvider.overrideWithValue(initialUiLocale),
-          initialAiTranscriptionAutoMergeEnabledProvider.overrideWithValue(
-            initialAiTranscriptionAutoMergeEnabled,
-          ),
-          initialRemoteConfigProvider.overrideWithValue(initialRemoteConfig),
-          startupDemoModeProvider.overrideWithValue(isDemoMode),
-        ],
-        child: EchoLoopApp(windowActivator: appWindowActivator),
-      ),
+    ProviderScope(
+      overrides: [
+        analyticsServiceProvider.overrideWithValue(analyticsService),
+        packageInfoProvider.overrideWithValue(packageInfo),
+        isFirstLaunchProvider.overrideWithValue(isFirstLaunch),
+        sharedPreferencesProvider.overrideWithValue(prefs),
+        initialOnboardingCompletedProvider.overrideWithValue(
+          onboardingCompleted,
+        ),
+        initialLearningSettingsProvider.overrideWithValue(
+          initialLearningSettings,
+        ),
+        initialTtsSettingsProvider.overrideWithValue(initialTtsSettings),
+        initialIntensiveListenPrefsProvider.overrideWithValue(
+          initialIntensiveListenPrefs,
+        ),
+        initialBlindListenPrefsProvider.overrideWithValue(
+          initialBlindListenPrefs,
+        ),
+        initialRetellPrefsProvider.overrideWithValue(initialRetellPrefs),
+        initialDifficultPracticePrefsProvider.overrideWithValue(
+          initialDifficultPracticePrefs,
+        ),
+        initialUiLocaleProvider.overrideWithValue(initialUiLocale),
+        initialAiTranscriptionAutoMergeEnabledProvider.overrideWithValue(
+          initialAiTranscriptionAutoMergeEnabled,
+        ),
+        initialRemoteConfigProvider.overrideWithValue(initialRemoteConfig),
+        startupDemoModeProvider.overrideWithValue(isDemoMode),
+      ],
+      child: EchoLoopApp(windowActivator: appWindowActivator),
     ),
   );
 }
 
-/// 匿名 ID 是附加事件属性，不是 PostHog distinct ID；其迟到不得丢弃已入 SDK 队列
-/// 的早期事件，也不得阻塞首帧。
+/// 匿名 ID 是附加事件属性（仅写入本地日志通道）；其迟到不得阻塞首帧。
 Future<void> _registerAnonymousIdWhenReady(
   Future<String> anonymousIdReady,
   AnalyticsService analyticsService,
@@ -444,11 +440,6 @@ class _EchoLoopAppState extends ConsumerState<EchoLoopApp>
         }
       case AppLifecycleState.paused:
       case AppLifecycleState.detached:
-        // 立即刷新 PostHog 埋点队列，避免 Application Backgrounded 等事件
-        // 卡在内存队列里，App 被 OS 挂起 / 杀进程时丢失。
-        // PostHog 默认 flushAt=20 / flushInterval=30s，单纯依赖默认策略
-        // 在快速切后台场景容易丢。
-        unawaited(Posthog().flush());
       case AppLifecycleState.inactive:
       case AppLifecycleState.hidden:
       // no-op

@@ -42,6 +42,15 @@ void main() {
     expect(channel.superProperties, isEmpty);
   });
 
+  // 自托管版回归保护：默认通道必须是本地日志，绝不发往第三方 SDK。
+  test('默认通道固定为 LogOnly（自托管版不接入任何第三方 analytics）', () async {
+    final prefs = await SharedPreferences.getInstance();
+
+    final service = await initAnalyticsService(prefs);
+
+    expect(service.channelName, 'LogOnly');
+  });
+
   test('channel 初始化失败时降级为 LogOnly', () async {
     final prefs = await SharedPreferences.getInstance();
 

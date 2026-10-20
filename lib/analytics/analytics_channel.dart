@@ -1,7 +1,7 @@
 /// 上报通道抽象接口（Strategy Pattern）
 ///
 /// 业务代码不直接依赖 Firebase/友盟，只通过此接口上报事件。
-/// 具体实现见 [FirebaseChannel]、[UmengChannel]、[LogOnlyChannel]。
+/// 自托管版仅保留 [LogOnlyChannel]（只写本地日志，不发往第三方）。
 library;
 
 /// 分析上报通道

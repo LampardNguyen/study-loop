@@ -7,8 +7,6 @@ library;
 import 'dart:async';
 import 'dart:io';
 
-import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,7 +27,6 @@ import '../features/onboarding_survey/providers/onboarding_survey_provider.dart'
     show sharedPreferencesProvider;
 import '../features/user_region/user_region_providers.dart';
 import '../features/community_collections/download/community_download_notifier.dart';
-import '../firebase_options.dart';
 import '../services/app_logger.dart';
 import '../services/asr/asr_model_manager.dart';
 import '../services/background_audio_handler.dart';
@@ -253,23 +250,6 @@ class DefaultStartupBootstrapper implements StartupBootstrapper {
           runtimeEndpointRouter.apiBaseUrl,
         ),
       );
-    }
-
-    var firebaseReady = false;
-    try {
-      await _trace('firebase_initialize', () {
-        return Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        );
-      });
-      firebaseReady = true;
-    } catch (error, stackTrace) {
-      _recordIssue(issues, 'firebase_initialize', error, stackTrace);
-    }
-    if (firebaseReady && !kDebugMode && !Platform.isMacOS) {
-      await _runBestEffort(issues, 'firebase_analytics_disable', () {
-        return FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(false);
-      });
     }
 
     var supabaseReady = false;
