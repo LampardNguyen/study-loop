@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:echo_loop/providers/backend_api_provider.dart';
 import 'package:echo_loop/features/auth/providers/auth_providers.dart';
 import 'package:echo_loop/features/podcast/data/featured_podcast_service.dart';
 import 'package:echo_loop/features/podcast/models/featured_podcast.dart';
@@ -152,12 +153,35 @@ _FakeFeaturedPodcastService _serviceWithPodcasts(
 );
 
 void main() {
-  testWidgets('精选目录为空时仍可下拉刷新且不加载 Apple 搜索', (tester) async {
+  testWidgets('自托管版未配置后端：不加载精选，只提示搜索或粘贴链接', (tester) async {
     final service = _serviceWithPodcasts(const []);
     await tester.pumpWidget(
       createTestApp(
         const PodcastDiscoveryScreen(),
         overrides: [featuredPodcastServiceProvider.overrideWithValue(service)],
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text(
+        'Search by podcast name, or paste a podcast / RSS link to subscribe.',
+      ),
+      findsOneWidget,
+    );
+    expect(find.text('No curated podcasts yet'), findsNothing);
+  });
+
+  testWidgets('精选目录为空时仍可下拉刷新且不加载 Apple 搜索', (tester) async {
+    final service = _serviceWithPodcasts(const []);
+    await tester.pumpWidget(
+      createTestApp(
+        const PodcastDiscoveryScreen(),
+        overrides: [
+          // 精选 Podcast 依赖原作者后端：这些用例验证原有行为，模拟已配置。
+          backendApiConfiguredProvider.overrideWithValue(true),
+          featuredPodcastServiceProvider.overrideWithValue(service),
+        ],
       ),
     );
     await tester.pumpAndSettle();
@@ -177,7 +201,11 @@ void main() {
     await tester.pumpWidget(
       createTestApp(
         const PodcastDiscoveryScreen(),
-        overrides: [featuredPodcastServiceProvider.overrideWithValue(service)],
+        overrides: [
+          // 精选 Podcast 依赖原作者后端：这些用例验证原有行为，模拟已配置。
+          backendApiConfiguredProvider.overrideWithValue(true),
+          featuredPodcastServiceProvider.overrideWithValue(service),
+        ],
       ),
     );
     await tester.pumpAndSettle();
@@ -202,7 +230,11 @@ void main() {
     await tester.pumpWidget(
       createTestApp(
         const PodcastDiscoveryScreen(),
-        overrides: [featuredPodcastServiceProvider.overrideWithValue(service)],
+        overrides: [
+          // 精选 Podcast 依赖原作者后端：这些用例验证原有行为，模拟已配置。
+          backendApiConfiguredProvider.overrideWithValue(true),
+          featuredPodcastServiceProvider.overrideWithValue(service),
+        ],
       ),
     );
     await tester.pumpAndSettle();
@@ -231,7 +263,11 @@ void main() {
     await tester.pumpWidget(
       createTestApp(
         const PodcastDiscoveryScreen(),
-        overrides: [featuredPodcastServiceProvider.overrideWithValue(service)],
+        overrides: [
+          // 精选 Podcast 依赖原作者后端：这些用例验证原有行为，模拟已配置。
+          backendApiConfiguredProvider.overrideWithValue(true),
+          featuredPodcastServiceProvider.overrideWithValue(service),
+        ],
       ),
     );
     await tester.pumpAndSettle();
@@ -267,7 +303,11 @@ void main() {
     await tester.pumpWidget(
       createTestApp(
         const PodcastDiscoveryScreen(),
-        overrides: [featuredPodcastServiceProvider.overrideWithValue(service)],
+        overrides: [
+          // 精选 Podcast 依赖原作者后端：这些用例验证原有行为，模拟已配置。
+          backendApiConfiguredProvider.overrideWithValue(true),
+          featuredPodcastServiceProvider.overrideWithValue(service),
+        ],
       ),
     );
     await tester.pumpAndSettle();
@@ -309,7 +349,11 @@ void main() {
           ..nextPageRefreshStarted = paginationStarted
           ..nextPageOutcome = paginationOutcome;
     final container = ProviderContainer(
-      overrides: [featuredPodcastServiceProvider.overrideWithValue(service)],
+      overrides: [
+        // 精选 Podcast 依赖原作者后端：这些用例验证原有行为，模拟已配置。
+        backendApiConfiguredProvider.overrideWithValue(true),
+        featuredPodcastServiceProvider.overrideWithValue(service),
+      ],
     );
     addTearDown(container.dispose);
 
@@ -343,6 +387,9 @@ void main() {
       createTestApp(
         const PodcastDiscoveryScreen(),
         overrides: [
+          // 精选 Podcast 依赖原作者后端：这些用例验证原有行为，模拟已配置。
+          backendApiConfiguredProvider.overrideWithValue(true),
+
           featuredPodcastServiceProvider.overrideWithValue(service),
           isAuthenticatedProvider.overrideWithValue(true),
           podcastRepositoryProvider.overrideWithValue(fakeRepo),
@@ -366,6 +413,9 @@ void main() {
       createTestApp(
         const PodcastDiscoveryScreen(),
         overrides: [
+          // 精选 Podcast 依赖原作者后端：这些用例验证原有行为，模拟已配置。
+          backendApiConfiguredProvider.overrideWithValue(true),
+
           featuredPodcastServiceProvider.overrideWithValue(service),
           collectionListProvider.overrideWith(
             () => TestCollectionList(
@@ -408,6 +458,9 @@ void main() {
       createTestApp(
         const PodcastDiscoveryScreen(),
         overrides: [
+          // 精选 Podcast 依赖原作者后端：这些用例验证原有行为，模拟已配置。
+          backendApiConfiguredProvider.overrideWithValue(true),
+
           featuredPodcastServiceProvider.overrideWithValue(service),
           isAuthenticatedProvider.overrideWithValue(false),
           podcastRepositoryProvider.overrideWithValue(fakeRepo),
@@ -428,7 +481,11 @@ void main() {
     await tester.pumpWidget(
       createTestApp(
         const PodcastDiscoveryScreen(),
-        overrides: [featuredPodcastServiceProvider.overrideWithValue(service)],
+        overrides: [
+          // 精选 Podcast 依赖原作者后端：这些用例验证原有行为，模拟已配置。
+          backendApiConfiguredProvider.overrideWithValue(true),
+          featuredPodcastServiceProvider.overrideWithValue(service),
+        ],
       ),
     );
     await tester.pumpAndSettle();
@@ -451,6 +508,9 @@ void main() {
       createTestApp(
         const PodcastDiscoveryScreen(),
         overrides: [
+          // 精选 Podcast 依赖原作者后端：这些用例验证原有行为，模拟已配置。
+          backendApiConfiguredProvider.overrideWithValue(true),
+
           featuredPodcastServiceProvider.overrideWithValue(service),
           podcastSearchServiceProvider.overrideWithValue(fakeSearch),
         ],
@@ -473,6 +533,9 @@ void main() {
       createTestApp(
         const PodcastDiscoveryScreen(),
         overrides: [
+          // 精选 Podcast 依赖原作者后端：这些用例验证原有行为，模拟已配置。
+          backendApiConfiguredProvider.overrideWithValue(true),
+
           featuredPodcastServiceProvider.overrideWithValue(service),
           podcastPreviewProvider(url).overrideWith(
             (ref) async => const PodcastPreviewData(

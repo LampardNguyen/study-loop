@@ -76,6 +76,64 @@ class OpenAiAudioClient {
     return result;
   }
 
+  /// 转写 [audioFile]，返回 `verbose_json` 原始结果（含 segments 与词级时间戳）。
+  ///
+  /// [language] 为 ISO-639-1 代码；传 null 让模型自动识别。
+  Future<Map<String, dynamic>> transcribeVerbose(
+    AiProviderConfig config,
+    File audioFile, {
+    String? language,
+    String model = defaultTranscriptionModel,
+    CancelToken? cancelToken,
+    void Function(int sent, int total)? onSendProgress,
+  }) async {
+    final url = '${normalizeAiBaseUrl(config.baseUrl)}/audio/transcriptions';
+    AppLogger.log(
+      'OpenAI',
+      'transcribe verbose start ${config.logSummary} model=$model '
+          'language=${language ?? 'auto'} bytes=${await audioFile.length()}',
+    );
+    final response = await _dio.post<Object?>(
+      url,
+      data: FormData.fromMap({
+        'file': await MultipartFile.fromFile(
+          audioFile.path,
+          filename: audioFile.uri.pathSegments.last,
+        ),
+        'model': model,
+        'language': ?language,
+        'response_format': 'verbose_json',
+        // multiCompatible 会编码为 timestamp_granularities[]=word&...=segment。
+        'timestamp_granularities': ['word', 'segment'],
+      }, ListFormat.multiCompatible),
+      options: Options(
+        validateStatus: (_) => true,
+        headers: {'Authorization': 'Bearer ${config.apiKey}'},
+      ),
+      cancelToken: cancelToken,
+      onSendProgress: onSendProgress,
+    );
+    final status = response.statusCode ?? 0;
+    final data = response.data;
+    if (status != 200 || data is! Map<String, dynamic>) {
+      AppLogger.log('OpenAI', 'transcribe verbose failed status=$status');
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        type: DioExceptionType.badResponse,
+      );
+    }
+    final segments = data['segments'];
+    final words = data['words'];
+    AppLogger.log(
+      'OpenAI',
+      'transcribe verbose done '
+          'segments=${segments is List ? segments.length : 0} '
+          'words=${words is List ? words.length : 0}',
+    );
+    return data;
+  }
+
   /// 释放资源。
   void dispose() => _dio.close();
 }

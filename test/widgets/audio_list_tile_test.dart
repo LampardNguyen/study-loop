@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:echo_loop/features/ai_settings/providers/ai_settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -1025,6 +1026,10 @@ void main() {
             ),
             supabaseSessionProvider.overrideWith(
               (ref) => Stream<Session?>.value(_signedInSession()),
+            ),
+            // 自托管版：AI 凭证改由 aiAccessTokenProvider 提供；测试沿用 session 语义。
+            aiAccessTokenProvider.overrideWithValue(
+              _signedInSession().accessToken,
             ),
             // 已登录用户视为已解锁（Pro），转录机制测试不被额度闸拦截。
             subscriptionEntitlementOverride(),

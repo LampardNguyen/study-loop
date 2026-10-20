@@ -18,7 +18,6 @@ import '../models/retell_review_sample.dart';
 import '../services/app_logger.dart';
 import '../services/retell_review_audio_preparer.dart';
 import '../services/sentence_ai_api_client.dart';
-import '../services/runtime_endpoint_router.dart';
 
 const _maxReviewAudioBytes = 2 * 1024 * 1024;
 
@@ -189,11 +188,7 @@ class RetellReviewEvaluationController
           _setFailure(generation, attemptKey, 'request_failed');
       }
     } catch (error, stackTrace) {
-      AppLogger.log(
-        'RetellReview',
-        '评估失败: error=$error stack=$stackTrace '
-            'baseUrl=${runtimeEndpointRouter.apiBaseUrl}',
-      );
+      AppLogger.log('RetellReview', '评估失败: error=$error stack=$stackTrace');
       _setFailure(generation, attemptKey, 'request_failed');
     } finally {
       if (preparedFile != null) {

@@ -4,14 +4,9 @@ import 'package:echo_loop/config/regional_service_endpoints.dart';
 import 'package:echo_loop/services/runtime_endpoint_router.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-const _expectedChinaApiBaseUrl = String.fromEnvironment(
-  'API_CHINA_BASE_URL',
-  defaultValue: 'https://www.echo-loop.cn',
-);
-const _expectedGlobalApiBaseUrl = String.fromEnvironment(
-  'API_BASE_URL',
-  defaultValue: 'https://www.echo-loop.top',
-);
+// 自托管版：原作者后端 API 默认未配置（空），只允许通过编译期变量显式指定。
+const _expectedChinaApiBaseUrl = String.fromEnvironment('API_CHINA_BASE_URL');
+const _expectedGlobalApiBaseUrl = String.fromEnvironment('API_BASE_URL');
 
 const _testEndpoints = RegionalServiceEndpoints(
   globalApiBaseUrl: 'https://global-api.example',
@@ -28,9 +23,10 @@ void main() {
       regionalServiceEndpoints.apiBaseUrlFor(ServiceEndpointRegion.global),
       apiBaseUrl,
     );
+    // 未配置（空串）在注册表里表现为 null，调用方走「未配置」降级分支。
     expect(
       regionalServiceEndpoints.apiBaseUrlFor(ServiceEndpointRegion.china),
-      _expectedChinaApiBaseUrl,
+      _expectedChinaApiBaseUrl.isEmpty ? isNull : _expectedChinaApiBaseUrl,
     );
     expect(
       regionalServiceEndpoints.modelCdnBaseUrlFor(ServiceEndpointRegion.global),
@@ -48,7 +44,7 @@ void main() {
       runtimeEndpointRouter.endpoints.apiBaseUrlFor(
         ServiceEndpointRegion.china,
       ),
-      _expectedChinaApiBaseUrl,
+      _expectedChinaApiBaseUrl.isEmpty ? isNull : _expectedChinaApiBaseUrl,
     );
     expect(
       runtimeEndpointRouter.endpoints.modelCdnBaseUrlFor(

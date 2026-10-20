@@ -2,15 +2,14 @@
 //
 // 封装与后端的所有 HTTP API 通信，用于 AI 转录流程。
 // 基于 Dio，支持 CancelToken、上传进度回调和错误处理。
+import 'openai/openai_transcription_api_client.dart';
+import '../features/ai_settings/providers/ai_settings_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter_riverpod/flutter_riverpod.dart' show Ref;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:universal_io/io.dart';
-import '../features/auth/providers/auth_providers.dart';
-import '../config/api_config.dart';
 import '../models/word_timestamp.dart';
-import '../providers/package_info_provider.dart';
 import 'api_log_interceptor.dart';
 import 'backend_dio.dart';
 import 'supabase_token_coordinator.dart';
@@ -292,13 +291,13 @@ class TranscriptionApiClient {
 // ─── Provider ───────────────────────────────────────────────
 
 /// 转录 API 客户端单例 Provider
+///
+/// 自托管版：本地音频直接交给用户自己的 OpenAI 兼容接口（Whisper）转录，
+/// 不再上传到原作者后端。
 @Riverpod(keepAlive: true)
 TranscriptionApiClient transcriptionApiClient(Ref ref) {
-  final client = TranscriptionApiClient(
-    baseUrl: apiBaseUrl,
-    endpointRouter: runtimeEndpointRouter,
-    appVersion: readAppVersion(ref),
-    tokenCoordinator: ref.read(supabaseTokenCoordinatorProvider),
+  final client = OpenAiTranscriptionApiClient(
+    readConfig: () => ref.read(aiSettingsProvider.future),
   );
   ref.onDispose(client.dispose);
   return client;

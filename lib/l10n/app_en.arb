@@ -2762,5 +2762,6 @@
   "dictionaryOfflineUnavailable": "No offline dictionary for your native language yet. Use the AI or web dictionaries instead.",
   "aiKeyRequiredTitle": "AI is not set up",
   "aiKeyRequiredMessage": "Add your own OpenAI-compatible API key in AI Settings to use AI features.",
-  "aiOpenSettings": "Open AI Settings"
+  "aiOpenSettings": "Open AI Settings",
+  "podcastSearchToStart": "Search by podcast name, or paste a podcast / RSS link to subscribe."
 }

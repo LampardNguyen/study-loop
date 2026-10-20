@@ -8,6 +8,7 @@
 /// 只有点「去学习」才 `context.go` 跳合集详情。
 library;
 
+import '../../../providers/backend_api_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -214,12 +215,15 @@ class _PodcastPreviewScreenState extends ConsumerState<PodcastPreviewScreen> {
 
   Future<void> _subscribe() async {
     final l10n = AppLocalizations.of(context)!;
-    final canEnroll = await ensureSignedInForAction(
-      context: context,
-      ref: ref,
-      title: l10n.communityCollectionSignInRequiredTitle,
-      message: l10n.podcastSignInRequiredMessage,
-    );
+    // 自托管版：订阅只在本地解析 RSS，不需要登录（无原作者后端时跳过登录门槛）。
+    final canEnroll =
+        !ref.read(backendApiConfiguredProvider) ||
+        await ensureSignedInForAction(
+          context: context,
+          ref: ref,
+          title: l10n.communityCollectionSignInRequiredTitle,
+          message: l10n.podcastSignInRequiredMessage,
+        );
     if (!mounted || !canEnroll) return;
 
     setState(() => _subscribing = true);

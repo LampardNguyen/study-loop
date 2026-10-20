@@ -18,6 +18,13 @@ const supabasePublishableKey = String.fromEnvironment(
   'SUPABASE_PUBLISHABLE_KEY',
 );
 
+/// 是否配置了全球 Supabase 登录（URL + publishable key）。
+///
+/// 自托管版：未配置时 App 以「访客模式」运行，设置页隐藏账号入口；
+/// 用户在 `.dev.env` / `.prod.env` 填入自己的 Supabase 后自动恢复登录功能。
+const isSupabaseAuthConfigured =
+    supabaseUrl != '' && supabasePublishableKey != '';
+
 /// Google OAuth Web Client ID，仅 Android 平台用作 `serverClientId`。
 /// iOS / macOS 不接 Google 登录，无需配。
 const googleWebClientId = String.fromEnvironment('GOOGLE_WEB_CLIENT_ID');

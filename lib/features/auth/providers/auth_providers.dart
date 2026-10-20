@@ -9,6 +9,7 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../analytics/analytics_providers.dart';
+import '../../../config/auth_config.dart' as auth_config;
 import '../../../providers/startup_bootstrap_provider.dart';
 import '../../../services/app_logger.dart';
 import '../../../services/supabase_token_coordinator.dart';
@@ -424,6 +425,14 @@ final supabaseTokenCoordinatorProvider = Provider<SupabaseTokenCoordinator?>((
   ref.onDispose(coordinator.dispose);
   return coordinator;
 });
+
+/// 是否启用 Supabase 登录功能（自托管版：未配置 URL / key 时为访客模式）。
+///
+/// 默认取编译期配置 [auth_config.isSupabaseAuthConfigured]；做成 provider 是为了让
+/// 原有账号相关 UI 测试可以 override 为 true 继续验证。
+final supabaseAuthEnabledProvider = Provider<bool>(
+  (ref) => auth_config.isSupabaseAuthConfigured,
+);
 
 /// 当前是否已登录的便捷 Provider。
 ///

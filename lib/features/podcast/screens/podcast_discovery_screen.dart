@@ -10,6 +10,7 @@
 /// 「已添加」角标），支持连续订阅多个播客。
 library;
 
+import '../../../providers/backend_api_provider.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -60,7 +61,11 @@ class _PodcastDiscoveryScreenState
     _featuredScrollController.addListener(_handleFeaturedScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      unawaited(ref.read(featuredPodcastsProvider.notifier).refreshFirstPage());
+      if (ref.read(backendApiConfiguredProvider)) {
+        unawaited(
+          ref.read(featuredPodcastsProvider.notifier).refreshFirstPage(),
+        );
+      }
     });
   }
 
@@ -230,6 +235,10 @@ class _PodcastDiscoveryScreenState
 
   /// 展示缓存/网络加载状态；请求和分页状态由精选 Podcast provider 管理。
   Widget _buildFeatured(AppLocalizations l10n) {
+    // 自托管版：精选 Podcast 来自原作者后端，未配置时只提示搜索 / 粘贴链接。
+    if (!ref.watch(backendApiConfiguredProvider)) {
+      return _PodcastListMessage(message: l10n.podcastSearchToStart);
+    }
     return ref
         .watch(featuredPodcastsProvider)
         .when(
@@ -434,12 +443,15 @@ class _PodcastDiscoveryScreenState
     final l10n = AppLocalizations.of(context)!;
     if (_subscribingIds.contains(id)) return;
 
-    final canEnroll = await ensureSignedInForAction(
-      context: context,
-      ref: ref,
-      title: l10n.communityCollectionSignInRequiredTitle,
-      message: l10n.podcastSignInRequiredMessage,
-    );
+    // 自托管版：订阅只在本地解析 RSS，不需要登录（无原作者后端时跳过登录门槛）。
+    final canEnroll =
+        !ref.read(backendApiConfiguredProvider) ||
+        await ensureSignedInForAction(
+          context: context,
+          ref: ref,
+          title: l10n.communityCollectionSignInRequiredTitle,
+          message: l10n.podcastSignInRequiredMessage,
+        );
     if (!mounted || !canEnroll) return;
 
     setState(() => _subscribingIds.add(id));

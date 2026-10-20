@@ -10023,6 +10023,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open AI Settings'**
   String get aiOpenSettings;
+
+  /// No description provided for @podcastSearchToStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by podcast name, or paste a podcast / RSS link to subscribe.'**
+  String get podcastSearchToStart;
 }
 
 class _AppLocalizationsDelegate

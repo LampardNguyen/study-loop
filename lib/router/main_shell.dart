@@ -4,6 +4,7 @@
 /// 实现 Tab 切换并保持各 Tab 状态。
 library;
 
+import '../config/api_config.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -17,7 +18,6 @@ import '../models/learning_progress.dart';
 import '../models/reminder_settings.dart';
 import '../analytics/analytics_providers.dart';
 import '../analytics/models/event_names.dart';
-import '../services/runtime_endpoint_router.dart';
 import '../database/providers.dart';
 import '../features/podcast/podcast_refresh_controller.dart';
 import '../features/remote_config/remote_config_providers.dart';
@@ -162,10 +162,7 @@ class _MainShellState extends ConsumerState<MainShell> with RouteAware {
   /// 按社区入口的相同规则打开联系我们页面。
   Future<void> _openContactUs() async {
     ref.read(analyticsServiceProvider).track(Events.communityInviteTapped);
-    final isZh = Localizations.localeOf(context).languageCode == 'zh';
-    final path = isZh ? '/zh-CN/social' : '/en/social';
-    final uri = runtimeEndpointRouter.apiUri(path);
-    await launchUrl(uri);
+    await launchUrl(communityPageUri());
   }
 
   /// 预热学习页首屏所需数据：音频列表 + 学习进度。

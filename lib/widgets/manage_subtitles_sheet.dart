@@ -2,6 +2,8 @@
 //
 // 提供本地上传、AI 转录和删除字幕三种操作。
 // AI 转录在后台运行，弹窗关闭后任务继续。
+import '../features/ai_settings/ai_key_required_dialog.dart';
+import '../features/ai_settings/providers/ai_settings_provider.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -9,8 +11,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:universal_io/io.dart';
 import '../analytics/models/event_names.dart';
-import '../features/auth/providers/auth_providers.dart';
-import '../features/auth/sign_in_required_dialog.dart';
 import '../features/subscription/models/ai_quota_rejection.dart';
 import '../features/subscription/models/premium_feature.dart';
 import '../features/subscription/providers/ai_trial_usage_provider.dart';
@@ -1765,9 +1765,9 @@ class _ManageSubtitlesSheetState extends ConsumerState<ManageSubtitlesSheet> {
     AudioItem audioItem,
   ) async {
     final l10n = AppLocalizations.of(context)!;
-    final accessToken = (await ref.read(
-      supabaseSessionProvider.future,
-    ))?.accessToken;
+    // 自托管版：凭证 = 是否已配置 OpenAI Key（转录走用户自己的 Whisper）。
+    await ref.read(aiSettingsProvider.future);
+    final accessToken = ref.read(aiAccessTokenProvider);
     if (!mounted || !context.mounted) return;
     if (accessToken == null || accessToken.isEmpty) {
       await _showTranscriptionSignInDialog(context);
@@ -1968,18 +1968,9 @@ class _ManageSubtitlesSheetState extends ConsumerState<ManageSubtitlesSheet> {
   ///
   /// AI 转录会上传音频并访问云端转录服务，因此只允许登录用户发起；
   /// 本地上传字幕和已有本地字幕不受影响。
+  /// 自托管版：AI 转录需要先配置 OpenAI Key（替代原登录引导）。
   Future<void> _showTranscriptionSignInDialog(BuildContext context) async {
-    final l10n = AppLocalizations.of(context);
-    await ensureSignedInForAction(
-      context: context,
-      ref: ref,
-      title:
-          l10n?.transcriptionSignInRequiredTitle ??
-          'Sign in to use AI transcription',
-      message:
-          l10n?.transcriptionSignInRequiredMessage ??
-          'AI transcription uses the cloud transcription service. Sign in to transcribe audio with AI.',
-    );
+    await ensureAiConfiguredForAction(context: context, ref: ref);
   }
 
   /// 处理删除字幕

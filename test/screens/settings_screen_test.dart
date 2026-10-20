@@ -111,6 +111,8 @@ void main() {
       type: AsrModelType.whisper,
     );
     return [
+      // 账号相关 UI 测试：模拟已配置 Supabase（自托管版默认访客模式会隐藏账号分组）。
+      supabaseAuthEnabledProvider.overrideWithValue(true),
       ...learningSettingsOverrides(prefs: prefs),
       appSettingsProvider.overrideWith(() => TestAppSettings(settings)),
       initialTtsSettingsProvider.overrideWithValue(ttsSettings),
@@ -317,7 +319,8 @@ void main() {
 
         await tester.scrollUntilVisible(find.text('About'), 200);
         await tester.pumpAndSettle();
-        expect(findSvgAsset('assets/icon/refresh.svg'), findsOneWidget);
+        // 自托管版：未配置原作者后端时隐藏「检查更新」入口。
+        expect(findSvgAsset('assets/icon/refresh.svg'), findsNothing);
         expect(findSvgAsset('assets/icon/documents.svg'), findsOneWidget);
         expect(findSvgAsset('assets/icon/lock.svg'), findsOneWidget);
         expect(findSvgAsset('assets/icon/feedback.svg'), findsOneWidget);
@@ -382,11 +385,12 @@ void main() {
         await tester.scrollUntilVisible(find.text('Open Source Project'), 200);
         await tester.pumpAndSettle();
 
-        final refreshIcon = tester.widget<SvgPicture>(
-          findSvgAsset('assets/icon/refresh.svg'),
+        // 自托管版隐藏了「检查更新」，改用同为满框图标的锁图标验证尺寸。
+        final lockIcon = tester.widget<SvgPicture>(
+          findSvgAsset('assets/icon/lock.svg'),
         );
-        expect(refreshIcon.width, 26);
-        expect(refreshIcon.height, 26);
+        expect(lockIcon.width, 26);
+        expect(lockIcon.height, 26);
 
         final githubIcons = tester.widgetList<FaIcon>(find.byType(FaIcon));
         expect(githubIcons, hasLength(1));
@@ -416,7 +420,6 @@ void main() {
           'assets/icon/speak.svg',
           'assets/icon/microphone.svg',
           'assets/icon/play-pause.svg',
-          'assets/icon/refresh.svg',
           'assets/icon/lock.svg',
           'assets/icon/feedback.svg',
           'assets/icon/group.svg',
@@ -434,6 +437,22 @@ void main() {
             reason: asset,
           );
         }
+      });
+
+      testWidgets('访客模式（未配置 Supabase）隐藏账号分组', (tester) async {
+        await tester.pumpWidget(
+          createTestScreen(
+            const SettingsScreen(),
+            overrides: [
+              ...buildOverrides(),
+              supabaseAuthEnabledProvider.overrideWithValue(false),
+            ],
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text('Account'), findsNothing);
+        expect(find.text('AI Settings'), findsOneWidget);
       });
 
       testWidgets('AI 设置入口：未配置时提示，点击进入 AI 设置页', (tester) async {

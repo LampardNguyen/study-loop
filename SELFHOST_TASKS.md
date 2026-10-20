@@ -135,29 +135,49 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
 
 ## Phase 5 — Đăng nhập / Supabase
 
-- [ ] **T5.1** Quyết định: (a) Supabase riêng (chỉ auth) hoặc (b) bỏ đăng nhập — *hỏi người dùng*
-- [ ] **T5.2a** Nếu (a): tạo project, điền `.dev.env` (`SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`), cấu hình Google/Apple OAuth
-- [ ] **T5.2b** Nếu (b): app khởi động ở chế độ khách, ẩn UI đăng nhập/tài khoản
+- [P] **T5.1** Quyết định: (a) Supabase riêng (chỉ auth) hoặc (b) bỏ đăng nhập — *hỏi người dùng*
+- [-] **T5.2a** Nếu (a): tạo project, điền `.dev.env` (`SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`), cấu hình Google/Apple OAuth
+- [P] **T5.2b** Nếu (b): app khởi động ở chế độ khách, ẩn UI đăng nhập/tài khoản
 - Test phase: khởi động sạch, không request tới `echo-loop.*`
+- **Phase 5 hoàn thành: 2026-10-20** — chọn cả hai (tự quyết theo chế độ tự chạy): mặc định **chế độ khách**
+  (`supabaseAuthEnabledProvider` = `isSupabaseAuthConfigured`, ẩn nhóm Tài khoản); điền `SUPABASE_URL`/key → tự bật lại.
+  T5.2a `[-]`: người dùng tự tạo project khi cần (hướng dẫn trong `docs/selfhost/README.md` §6). Test: `settings_screen_test` thêm case khách
 
 ## Phase 6 — Các dịch vụ còn phụ thuộc server tác giả
 
-- [ ] **T6.1** Cloud transcription (`transcription_api_client.dart`): chuyển sang ASR offline mặc định; (tùy chọn) Whisper API bằng key người dùng
-- [ ] **T6.2** Model CDN (`regional_service_endpoints.dart`): trỏ về CDN riêng (R2 / GitHub Releases) theo `scripts/piper_tts_models.manifest.txt`
-- [ ] **T6.3** Remote config (`remote_config_service.dart`): dùng giá trị mặc định local, không gọi mạng
-- [ ] **T6.4** Featured podcasts + community collections: tắt hoặc trỏ JSON tĩnh
-- [ ] **T6.5** App update check: tắt
-- [ ] **T6.6** Baidu Netdisk: gỡ tính năng (OAuth qua server tác giả)
-- [ ] **T6.7** `API_BASE_URL` không còn được dùng → xoá cấu hình
+- [P] **T6.1** Cloud transcription (`transcription_api_client.dart`): chuyển sang ASR offline mặc định; (tùy chọn) Whisper API bằng key người dùng
+- [P] **T6.2** Model CDN (`regional_service_endpoints.dart`): trỏ về CDN riêng (R2 / GitHub Releases) theo `scripts/piper_tts_models.manifest.txt`
+- [P] **T6.3** Remote config (`remote_config_service.dart`): dùng giá trị mặc định local, không gọi mạng
+- [P] **T6.4** Featured podcasts + community collections: tắt hoặc trỏ JSON tĩnh
+- [P] **T6.5** App update check: tắt
+- [P] **T6.6** Baidu Netdisk: gỡ tính năng (OAuth qua server tác giả)
+- [P] **T6.7** `API_BASE_URL` không còn được dùng → xoá cấu hình
 - Test phase: chạy app + mitmproxy/Charles, xác nhận **không còn request nào tới `echo-loop.top/.cn`**,
   posthog, firebase, umeng; chỉ còn OpenAI (khi dùng AI), CDN riêng, trang từ điển
+- **Phase 6 hoàn thành: 2026-10-20**
+  - T6.7 (gốc rễ): `API_BASE_URL` / `API_CHINA_BASE_URL` mặc định **rỗng** → mọi dịch vụ của tác giả đi vào nhánh "chưa cấu hình" có sẵn
+    (cấu hình từ xa → giá trị mặc định, xác định vùng → theo hệ thống); `backendApiConfiguredProvider` để ẩn các lối vào
+  - T6.1: chuyển giọng nói thành văn bản trên đám mây → **Whisper** bằng key người dùng (`OpenAiTranscriptionApiClient`: upload giả, gửi đồng bộ, verbose_json → câu + timestamp từng từ).
+    Bản offline vẫn bị tác giả ẩn, nên giữ lại tính năng đám mây
+  - T6.2 (**khác kế hoạch**): model/từ điển là gói do tác giả đóng gói, không có nguồn gốc tương đương → giữ CDN tác giả (chỉ file tĩnh công khai, lộ IP),
+    nhưng cho cấu hình qua `MODEL_CDN_BASE_URL` + hướng dẫn tự host
+  - T6.3: remote config dùng giá trị mặc định; T6.4: ẩn banner Khám phá tài nguyên, trang Podcast chỉ hiện gợi ý tìm/dán RSS,
+    **đăng ký podcast không cần đăng nhập**; T6.5: ẩn "Kiểm tra cập nhật"; T6.6: Baidu (`cloudDriveImport`) mặc định tắt;
+    link "Cộng đồng/Liên hệ" → trang GitHub mã nguồn mở
+  - Test: cập nhật test có chủ đích (remote config default, endpoint router, settings icon), thêm test Whisper (5), podcast khách (1)
+  - Kiểm tra mạng (emulator, cài mới bản prod): logcat của tiến trình app chỉ có `cdn.echo-loop.top`
+    (gói phát âm); không có posthog/firebase/umeng/API tác giả. (Chưa dùng mitmproxy — cần cài CA trên emulator)
 
 ## Phase 7 — Hoàn thiện
 
-- [ ] **T7.1** Đổi `applicationId` (vd `com.<bạn>.echoloop`) + tên app để cài song song bản gốc
-- [ ] **T7.2** Tạo keystore riêng + `android/key.properties` (KHÔNG commit), build `--flavor prod`
-- [ ] **T7.3** Kiểm thử tổng: `flutter analyze`, `flutter test`, smoke test trên máy thật
-- [ ] **T7.4** Viết `docs/selfhost/README.md`: cách build, cách nhập key, giữ LICENSE gốc (AGPL-3.0 — nếu phân phối APK cho người khác phải công khai mã đã sửa)
+- [P] **T7.1** Đổi `applicationId` (vd `com.<bạn>.echoloop`) + tên app để cài song song bản gốc
+- [P] **T7.2** Tạo keystore riêng + `android/key.properties` (KHÔNG commit), build `--flavor prod`
+- [P] **T7.3** Kiểm thử tổng: `flutter analyze`, `flutter test`, smoke test trên máy thật
+- **Phase 7 hoàn thành: 2026-10-20**
+  - T7.1: prod `applicationIdSuffix=".selfhost"` → `app.echoloop.selfhost`, tên "Echo Loop (SH)"
+  - T7.2: keystore `android/app/selfhost-release.jks` + `android/key.properties` (mật khẩu ngẫu nhiên, đã ignore, SHA-256 F5:1E:…:8A:93) — **người dùng phải sao lưu**
+  - T7.3: `flutter test` 5610 pass / 0 fail; APK prod 109.8MB, `apksigner` khớp chứng chỉ, không có AD_ID/BILLING; chạy được trên emulator (tiếng Việt)
+- [P] **T7.4** Viết `docs/selfhost/README.md`: cách build, cách nhập key, giữ LICENSE gốc (AGPL-3.0 — nếu phân phối APK cho người khác phải công khai mã đã sửa)
 
 ## Phase 8 — Tiếng Việt (yêu cầu thêm 2026-10-20)
 

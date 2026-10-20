@@ -14,6 +14,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import '../features/ai_settings/models/ai_provider_config.dart';
 import '../analytics/analytics_providers.dart';
 import '../analytics/analytics_service.dart';
 import '../analytics/permission_snapshot.dart';
@@ -31,7 +32,6 @@ import '../services/bundled_example_installer.dart';
 import '../services/network_permission_trigger.dart';
 import '../services/speech_practice_platform.dart';
 import '../services/startup_trace.dart';
-import '../services/runtime_endpoint_router.dart';
 import '../services/temp_cleanup_service.dart';
 import '../services/tts/tts_cache_store.dart';
 import '../utils/app_data_dir.dart';
@@ -242,10 +242,8 @@ class DefaultStartupBootstrapper implements StartupBootstrapper {
         fields: {'step': 'ios_network_permission_trigger'},
       );
       unawaited(
-        NetworkPermissionTrigger.trigger(
-          _prefs,
-          runtimeEndpointRouter.apiBaseUrl,
-        ),
+        // 自托管版：没有原作者后端，用 AI 默认地址触发 iOS 网络权限弹窗。
+        NetworkPermissionTrigger.trigger(_prefs, defaultAiBaseUrl),
       );
     }
 

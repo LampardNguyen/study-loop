@@ -5437,4 +5437,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get aiOpenSettings => '打开 AI 设置';
+
+  @override
+  String get podcastSearchToStart => '输入播客名称搜索，或粘贴播客 / RSS 链接进行订阅。';
 }

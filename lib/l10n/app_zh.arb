@@ -2264,5 +2264,6 @@
   "dictionaryOfflineUnavailable": "你的母语暂无离线词典，请使用 AI 词典或网页词典。",
   "aiKeyRequiredTitle": "尚未配置 AI",
   "aiKeyRequiredMessage": "请在「AI 设置」中填写你自己的 OpenAI 兼容 API Key 后再使用 AI 功能。",
-  "aiOpenSettings": "打开 AI 设置"
+  "aiOpenSettings": "打开 AI 设置",
+  "podcastSearchToStart": "输入播客名称搜索，或粘贴播客 / RSS 链接进行订阅。"
 }

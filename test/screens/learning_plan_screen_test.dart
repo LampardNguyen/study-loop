@@ -1326,9 +1326,8 @@ void main() {
               (ref) => Stream<Session?>.value(signedInSession()),
             ),
             // 自托管版：AI 凭证改由 aiAccessTokenProvider 提供；测试沿用 session 语义。
-            aiAccessTokenProvider.overrideWith(
-              (ref) =>
-                  ref.watch(supabaseSessionProvider).valueOrNull?.accessToken,
+            aiAccessTokenProvider.overrideWithValue(
+              signedInSession().accessToken,
             ),
             // 已登录用户视为已解锁（Pro），转录机制测试不被额度闸拦截。
             subscriptionEntitlementOverride(),

@@ -5693,4 +5693,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aiOpenSettings => 'Open AI Settings';
+
+  @override
+  String get podcastSearchToStart =>
+      'Search by podcast name, or paste a podcast / RSS link to subscribe.';
 }

@@ -1652,5 +1652,6 @@
   "dictionaryOfflineUnavailable": "Chưa có từ điển offline cho ngôn ngữ mẹ đẻ của bạn. Hãy dùng từ điển AI hoặc từ điển web.",
   "aiKeyRequiredTitle": "Chưa cấu hình AI",
   "aiKeyRequiredMessage": "Thêm API key OpenAI (hoặc dịch vụ tương thích) của bạn trong Cài đặt AI để dùng các tính năng AI.",
-  "aiOpenSettings": "Mở Cài đặt AI"
+  "aiOpenSettings": "Mở Cài đặt AI",
+  "podcastSearchToStart": "Tìm theo tên podcast, hoặc dán link podcast / RSS để đăng ký."
 }

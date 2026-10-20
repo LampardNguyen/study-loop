@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import '../providers/backend_api_provider.dart';
+import '../config/api_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -66,7 +68,6 @@ import 'playback_settings_screen.dart';
 import 'preferences_viewer_screen.dart';
 import 'storage_browser_screen.dart';
 import 'reminder_settings_screen.dart';
-import '../services/runtime_endpoint_router.dart';
 import '../widgets/app_update_dialog.dart';
 
 const double _settingsLeadingIconExtent = 32;
@@ -99,8 +100,11 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.m),
         children: [
-          _buildAccountSection(context, l10n),
-          const SizedBox(height: AppSpacing.m),
+          // 自托管版：未配置 Supabase 时以访客模式运行，隐藏账号分组。
+          if (ref.watch(supabaseAuthEnabledProvider)) ...[
+            _buildAccountSection(context, l10n),
+            const SizedBox(height: AppSpacing.m),
+          ],
           _buildSection(
             context,
             title: l10n.appearance,
@@ -626,10 +630,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           title: Text(l10n.aboutCommunity),
           trailing: const Icon(Icons.chevron_right),
           onTap: () async {
-            final isZh = Localizations.localeOf(context).languageCode == 'zh';
-            final path = isZh ? '/zh-CN/social' : '/en/social';
-            final uri = runtimeEndpointRouter.apiUri(path);
-            await launchUrl(uri);
+            await launchUrl(communityPageUri());
           },
         ),
         ListTile(
@@ -657,18 +658,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             mode: LaunchMode.externalApplication,
           ),
         ),
-        ListTile(
-          leading: _settingsThemedSvgIcon(context, 'assets/icon/refresh.svg'),
-          title: Text(l10n.checkForUpdate),
-          trailing: isChecking
-              ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(strokeWidth: 2),
-                )
-              : const Icon(Icons.chevron_right),
-          onTap: isChecking ? null : () => _checkForUpdate(context, ref, l10n),
-        ),
+        // 自托管版：版本检查依赖原作者后端（version.json），未配置时隐藏入口。
+        if (ref.watch(backendApiConfiguredProvider))
+          ListTile(
+            leading: _settingsThemedSvgIcon(context, 'assets/icon/refresh.svg'),
+            title: Text(l10n.checkForUpdate),
+            trailing: isChecking
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.chevron_right),
+            onTap: isChecking
+                ? null
+                : () => _checkForUpdate(context, ref, l10n),
+          ),
         ListTile(
           leading: _settingsSvgIcon('assets/icon/documents.svg'),
           title: Text(l10n.termsOfService),

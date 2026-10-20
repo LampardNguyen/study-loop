@@ -5689,4 +5689,8 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get aiOpenSettings => 'Mở Cài đặt AI';
+
+  @override
+  String get podcastSearchToStart =>
+      'Tìm theo tên podcast, hoặc dán link podcast / RSS để đăng ký.';
 }

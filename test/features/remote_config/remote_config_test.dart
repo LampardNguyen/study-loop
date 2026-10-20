@@ -168,7 +168,8 @@ void main() {
 
     test('缺字段和未知版本回退本地默认，网盘导入和 AI 聊天入口默认开启', () {
       final missing = RemoteConfig.fromJson({'version': 1});
-      expect(missing.isEnabled(RemoteFeature.cloudDriveImport), isTrue);
+      // 自托管版：百度网盘导入依赖原作者后端，本地默认关闭。
+      expect(missing.isEnabled(RemoteFeature.cloudDriveImport), isFalse);
       expect(
         missing.isEnabled(RemoteFeature.showStoreWebCheckoutFallback),
         isFalse,
@@ -191,7 +192,8 @@ void main() {
           'cloudDriveImport': {'enabled': true},
         },
       });
-      expect(unknownVersion.isEnabled(RemoteFeature.cloudDriveImport), isTrue);
+      // 未知版本回退本地默认：自托管版网盘导入默认关闭。
+      expect(unknownVersion.isEnabled(RemoteFeature.cloudDriveImport), isFalse);
       expect(unknownVersion.isEnabled(RemoteFeature.aiChatAssistant), isTrue);
     });
 
@@ -390,7 +392,8 @@ void main() {
         store: RemoteConfigStore(emptyPrefs),
         now: () => DateTime(2026, 7, 19, 14, 1),
       ).load();
-      expect(fallback.isEnabled(RemoteFeature.cloudDriveImport), isTrue);
+      // 自托管版：无缓存时回退本地默认（网盘导入默认关闭）。
+      expect(fallback.isEnabled(RemoteFeature.cloudDriveImport), isFalse);
     });
 
     test('fetchRemote 直接触网并覆盖未过期缓存', () async {

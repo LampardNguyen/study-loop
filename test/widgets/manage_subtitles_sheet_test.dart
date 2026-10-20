@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:echo_loop/features/ai_settings/providers/ai_settings_provider.dart';
 import 'package:echo_loop/features/subscription/providers/self_hosted_unlock.dart';
 import 'dart:io';
 
@@ -125,6 +126,8 @@ void main() {
           supabaseSessionProvider.overrideWith(
             (ref) => Stream<Session?>.value(session),
           ),
+          // 自托管版：AI 凭证改由 aiAccessTokenProvider 提供；测试沿用 session 语义。
+          aiAccessTokenProvider.overrideWithValue(session?.accessToken),
           // 已登录用户视为已解锁（Pro），使转录机制测试不被额度闸拦截。
           subscriptionEntitlementOverride(pro: subscriptionPro),
           ...extraOverrides,
@@ -317,17 +320,13 @@ void main() {
         );
         await tester.pumpAndSettle();
 
-        expect(find.text('Sign in to use AI transcription'), findsOneWidget);
-        expect(
-          find.textContaining(
-            'AI transcription uses the cloud transcription service',
-          ),
-          findsOneWidget,
-        );
+        // 自托管版：未配置 AI Key → 「AI 未配置」引导（T4.6），取代登录弹窗。
+        expect(find.text('AI is not set up'), findsOneWidget);
+        expect(find.text('Open AI Settings'), findsOneWidget);
 
         await tester.tap(find.text('Cancel'));
         await tester.pumpAndSettle();
-        expect(find.text('Sign in to use AI transcription'), findsNothing);
+        expect(find.text('AI is not set up'), findsNothing);
       });
 
       testWidgets('免费用户点击 AI 转录时先显示额度提示', (tester) async {

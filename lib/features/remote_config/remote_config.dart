@@ -58,7 +58,8 @@ class RemoteFeatureConfig {
 
 class RemoteConfigFeatures {
   const RemoteConfigFeatures({
-    this.cloudDriveImport = const RemoteFeatureConfig(enabled: true),
+    // 自托管版：百度网盘导入依赖原作者后端做 OAuth，默认关闭。
+    this.cloudDriveImport = const RemoteFeatureConfig(enabled: false),
     this.showStoreWebCheckoutFallback = const RemoteFeatureConfig(
       enabled: false,
     ),
