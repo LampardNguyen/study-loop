@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_vi.dart';
 import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
@@ -95,6 +96,7 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
+    Locale('vi'),
     Locale('zh'),
   ];
 
@@ -1051,6 +1053,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'简体中文'**
   String get languageChinese;
+
+  /// No description provided for @languageVietnamese.
+  ///
+  /// In en, this message translates to:
+  /// **'Tiếng Việt'**
+  String get languageVietnamese;
 
   /// No description provided for @nativeLanguage.
   ///
@@ -9991,6 +9999,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'API key removed'**
   String get aiSettingsRemoveKeyDone;
+
+  /// No description provided for @dictionaryOfflineUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No offline dictionary for your native language yet. Use the AI or web dictionaries instead.'**
+  String get dictionaryOfflineUnavailable;
+
+  /// No description provided for @aiKeyRequiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'AI is not set up'**
+  String get aiKeyRequiredTitle;
+
+  /// No description provided for @aiKeyRequiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your own OpenAI-compatible API key in AI Settings to use AI features.'**
+  String get aiKeyRequiredMessage;
+
+  /// No description provided for @aiOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open AI Settings'**
+  String get aiOpenSettings;
 }
 
 class _AppLocalizationsDelegate
@@ -10004,7 +10036,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'zh'].contains(locale.languageCode);
+      <String>['en', 'vi', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -10015,6 +10047,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'vi':
+      return AppLocalizationsVi();
     case 'zh':
       return AppLocalizationsZh();
   }

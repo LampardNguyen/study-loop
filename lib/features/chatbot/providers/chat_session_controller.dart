@@ -5,6 +5,7 @@
 /// CancelToken 关流；[_disposed] 守卫销毁后回调。
 library;
 
+import '../../ai_settings/providers/ai_settings_provider.dart';
 import 'package:clock/clock.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
@@ -16,7 +17,6 @@ import '../../../analytics/analytics_providers.dart';
 import '../../../analytics/models/event_names.dart';
 import '../../../providers/settings_provider.dart';
 import '../../../services/app_logger.dart';
-import '../../auth/providers/auth_providers.dart';
 import '../../subscription/models/premium_feature.dart';
 import '../../subscription/models/ai_quota_rejection.dart';
 import '../../subscription/providers/ai_trial_usage_provider.dart';
@@ -144,14 +144,8 @@ class ChatSessionController extends _$ChatSessionController {
     // 1) 闸门（gate 是 banner 的唯一数据源）。
     //    注意：当前 freeAllowancePolicy 为 AlwaysAllowPolicy（恒放行），本地额度预测在
     //    现网是前向兼容的死分支；额度唯一权威是后端 402。
-    if (!ref.read(isAuthenticatedProvider)) {
-      state = state.copyWith(gate: ChatGate.authRequired);
-      return;
-    }
-    final accessToken = ref
-        .read(supabaseSessionProvider)
-        .valueOrNull
-        ?.accessToken;
+    // 自托管版：不需要 Supabase 登录，凭证 = 是否已配置 OpenAI Key。
+    final accessToken = ref.read(aiAccessTokenProvider);
     if (accessToken == null || accessToken.isEmpty) {
       state = state.copyWith(gate: ChatGate.authRequired);
       return;

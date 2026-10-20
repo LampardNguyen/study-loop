@@ -6,6 +6,7 @@
 /// 保证过程不崩、不写脏状态。
 library;
 
+import 'package:echo_loop/features/ai_settings/providers/ai_settings_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:echo_loop/analytics/analytics_providers.dart';
 import 'package:echo_loop/features/auth/providers/auth_providers.dart';
@@ -112,6 +113,10 @@ void main() {
         isAuthenticatedProvider.overrideWithValue(true),
         supabaseSessionProvider.overrideWith(
           (ref) => Stream<Session?>.value(_session()),
+        ),
+        // 自托管版：AI 凭证改由 aiAccessTokenProvider 提供；测试沿用 session 语义。
+        aiAccessTokenProvider.overrideWith(
+          (ref) => ref.watch(supabaseSessionProvider).valueOrNull?.accessToken,
         ),
         freeAllowancePolicyProvider.overrideWithValue(
           const AlwaysAllowPolicy(),

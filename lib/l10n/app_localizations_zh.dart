@@ -526,6 +526,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get languageChinese => '简体中文';
 
   @override
+  String get languageVietnamese => 'Tiếng Việt';
+
+  @override
   String get nativeLanguage => '母语';
 
   @override
@@ -5421,4 +5424,17 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get aiSettingsRemoveKeyDone => 'API Key 已删除';
+
+  @override
+  String get dictionaryOfflineUnavailable => '你的母语暂无离线词典，请使用 AI 词典或网页词典。';
+
+  @override
+  String get aiKeyRequiredTitle => '尚未配置 AI';
+
+  @override
+  String get aiKeyRequiredMessage =>
+      '请在「AI 设置」中填写你自己的 OpenAI 兼容 API Key 后再使用 AI 功能。';
+
+  @override
+  String get aiOpenSettings => '打开 AI 设置';
 }

@@ -45,3 +45,18 @@ final aiSettingsProvider =
     AsyncNotifierProvider<AiSettingsNotifier, AiProviderConfig>(
       AiSettingsNotifier.new,
     );
+
+/// 自托管版 AI「凭证」占位 token。
+///
+/// 原业务代码在调用 AI 前检查 Supabase access token；自托管版改为检查用户是否
+/// 已在「AI 设置」里配置 API Key。已配置时返回占位 token（真实 Key 由 AI 客户端
+/// 从安全存储读取，不经由这里传递），未配置返回 null，复用原有「需要登录」分支
+/// 引导用户去配置 Key。
+const selfHostedAiAccessToken = 'self-hosted-openai';
+
+/// 当前是否可调用 AI：已配置 API Key → [selfHostedAiAccessToken]，否则 null。
+final aiAccessTokenProvider = Provider<String?>((ref) {
+  final configured =
+      ref.watch(aiSettingsProvider).valueOrNull?.hasApiKey ?? false;
+  return configured ? selfHostedAiAccessToken : null;
+});

@@ -7,13 +7,13 @@
 /// 录音回放复用 [SpeechRatingBadge] 的播放状态。
 library;
 
+import '../features/ai_settings/ai_key_required_dialog.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../database/enums.dart';
-import '../features/auth/sign_in_required_dialog.dart';
 import '../features/subscription/models/premium_feature.dart';
 import '../features/subscription/widgets/ai_quota_exceeded_dialog.dart';
 import '../features/subscription/widgets/feature_gate.dart' show openPaywall;
@@ -423,21 +423,11 @@ class _RetellPlayerScreenState extends ConsumerState<RetellPlayerScreen>
     }
   }
 
-  /// 云端 AI 复述评估的登录引导（与 AI 转录、意群共用同一个通用弹窗）。
+  /// AI 复述评估的「AI 未配置」引导（自托管版替代登录引导）。
   Future<void> _showRetellReviewSignInDialog() async {
     if (!mounted) return;
-    final l10n = AppLocalizations.of(context);
-    await ensureSignedInForAction(
-      context: context,
-      ref: ref,
-      title:
-          l10n?.retellAiReviewSignInRequiredTitle ??
-          'Sign in to use AI retell review',
-      message:
-          l10n?.retellAiReviewSignInRequiredMessage ??
-          'AI retell review uses the cloud AI service. Sign in to get '
-              'feedback on your retelling.',
-    );
+    // 自托管版：不需要登录，引导配置 AI Key。
+    await ensureAiConfiguredForAction(context: context, ref: ref);
   }
 
   /// 复述评估额度用尽时先明确告知用户，再由用户选择是否进入订阅页。

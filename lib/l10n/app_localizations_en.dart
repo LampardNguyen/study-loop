@@ -546,6 +546,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get languageChinese => '简体中文';
 
   @override
+  String get languageVietnamese => 'Tiếng Việt';
+
+  @override
   String get nativeLanguage => 'Native Language';
 
   @override
@@ -5676,4 +5679,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aiSettingsRemoveKeyDone => 'API key removed';
+
+  @override
+  String get dictionaryOfflineUnavailable =>
+      'No offline dictionary for your native language yet. Use the AI or web dictionaries instead.';
+
+  @override
+  String get aiKeyRequiredTitle => 'AI is not set up';
+
+  @override
+  String get aiKeyRequiredMessage =>
+      'Add your own OpenAI-compatible API key in AI Settings to use AI features.';
+
+  @override
+  String get aiOpenSettings => 'Open AI Settings';
 }

@@ -68,7 +68,16 @@ class LocalDictResultView extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.l),
       child: Column(
         children: [
-          if (dictState.status == DictionaryStatus.downloading) ...[
+          if (dictState.status == DictionaryStatus.unavailable) ...[
+            // 当前母语没有离线词典：只提示，不提供下载按钮。
+            Text(
+              l10n.dictionaryOfflineUnavailable,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ] else if (dictState.status == DictionaryStatus.downloading) ...[
             Text(
               l10n.dictionaryDownloading,
               style: theme.textTheme.bodyMedium?.copyWith(

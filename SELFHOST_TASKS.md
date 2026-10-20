@@ -110,18 +110,28 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
 > Giữ nguyên giao diện client hiện có (`SentenceAiApiClient`, `ChatApiClient`) → chỉ thay implementation,
 > UI và parser NDJSON phía trên không đổi.
 
-- [ ] **T4.1** Khảo sát: liệt kê mọi endpoint `/api/v1/stream/*`, định dạng frame NDJSON
+- [P] **T4.1** Khảo sát: liệt kê mọi endpoint `/api/v1/stream/*`, định dạng frame NDJSON
   (`ndjson_object_stream.dart` — giao thức "set leaf theo path", xem CLAUDE.md §7.27) và model kết quả;
   ghi vào `docs/selfhost/ai-endpoints.md`
-- [ ] **T4.2** `OpenAiClient` tầng thấp (dio, streaming SSE `chat/completions`, timeout, huỷ, map lỗi 401/429/5xx)
-- [ ] **T4.3** Adapter: chuyển output OpenAI (JSON) → frame/kết quả mà UI đang chờ
-- [ ] **T4.4** Viết prompt + JSON schema cho từng tính năng:
+- [P] **T4.2** `OpenAiClient` tầng thấp (dio, streaming SSE `chat/completions`, timeout, huỷ, map lỗi 401/429/5xx)
+- [P] **T4.3** Adapter: chuyển output OpenAI (JSON) → frame/kết quả mà UI đang chờ
+- [x] **T4.4** Viết prompt + JSON schema cho từng tính năng:
   - [ ] translate  - [ ] lookup-word  - [ ] lookup-phrase  - [ ] analyze
   - [ ] sense-groups  - [ ] evaluate-review  - [ ] chat/sentence
-- [ ] **T4.5** Thay `SentenceAiApiClient` + `ChatApiClient` bằng bản OpenAI qua provider
-- [ ] **T4.6** 🎨 **Design** trạng thái "chưa có key" khi bấm tính năng AI (banner/dialog dẫn tới Cấu hình AI) → duyệt → code
+- [P] **T4.5** Thay `SentenceAiApiClient` + `ChatApiClient` bằng bản OpenAI qua provider
+- [P] **T4.6** 🎨 **Design** trạng thái "chưa có key" khi bấm tính năng AI (banner/dialog dẫn tới Cấu hình AI) → duyệt → code
 - Test phase: unit test adapter với stream giả lập (đúng, cắt giữa chừng, lỗi 401/429, huỷ);
   test tay mỗi tính năng với key thật
+- **Phase 4 hoàn thành code + test tự động: 2026-10-20** (T4.4 còn chờ người dùng thử với key thật → giữ `[x]`)
+  - Khảo sát: `docs/selfhost/ai-endpoints.md`; design T4.6 tự duyệt: `docs/selfhost/design-ai-key-required.md`
+  - Cách làm: OpenAI stream JSON → `parsePartialJson` → `diffJsonLeafOps` → frame NDJSON cũ → `accumulateNdjsonObject` cũ
+    (`lib/services/openai/`), nên provider/cache/UI hiện dần giữ nguyên. Chat: `OpenAiChatApi`. Kể lại: Whisper + chat
+  - "Đăng nhập" để dùng AI → `aiAccessTokenProvider` (đã có key hay chưa); các hộp thoại/nút "Đăng nhập" ở AI → "Chưa cấu hình AI / Mở Cài đặt AI"
+  - Test mới: `test/services/openai/` (5 file, 27 test), `test/features/chatbot/services/openai_chat_api_test.dart`;
+    test cũ: override `aiAccessTokenProvider` từ session giả lập (giữ nguyên ý nghĩa), cập nhật chữ ở 5 test UI (thay đổi có chủ đích);
+    `test/flutter_test_config.dart` giả lập `FlutterSecureStorage` dùng chung
+  - Test: `flutter test` 5603 pass / 0 fail; analyze = baseline
+  - Còn lại: chưa thử với key thật; chuyển giọng nói thành văn bản trên đám mây + word timestamps vẫn đi server tác giả → T6.1
 
 ## Phase 5 — Đăng nhập / Supabase
 
@@ -155,14 +165,21 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
 
 - [P] **T8.1** Khảo sát mọi chỗ giả định `zh` / `zh-CN` (UI locale, native language, từ điển offline, prompt, TTS, sắp xếp/định dạng) → ghi `docs/selfhost/vietnamese.md`
   - Hoàn thành: 2026-10-20 — xem `docs/selfhost/vietnamese.md`
-- [ ] **T8.2** Giao diện tiếng Việt: `lib/l10n/app_vi.arb` dịch đủ mọi key (đối chiếu số key với `app_en.arb`),
+- [P] **T8.2** Giao diện tiếng Việt: `lib/l10n/app_vi.arb` dịch đủ mọi key (đối chiếu số key với `app_en.arb`),
   thêm `Locale('vi')` vào `supportedLocales` + `matchUiLocale` (máy tiếng Việt → UI tiếng Việt), thêm "Tiếng Việt" vào chọn App Language
-- [ ] **T8.3** Native language `vi`: thêm vào `supportedNativeLanguages`; không có từ điển offline Anh→Việt →
+- [P] **T8.3** Native language `vi`: thêm vào `supportedNativeLanguages`; không có từ điển offline Anh→Việt →
   ẩn/không tải từ điển local cho `vi`, mặc định dùng từ điển AI + thêm Cambridge English–Vietnamese vào từ điển web
-- [ ] **T8.4** Prompt AI (Phase 4) trả lời theo native language (vi / zh-CN / zh-TW)
-- [ ] **T8.5** 🎨 Design: dòng "Tiếng Việt" trong 2 màn chọn ngôn ngữ + trạng thái "không có từ điển offline" → tự duyệt
+- [P] **T8.4** Prompt AI (Phase 4) trả lời theo native language (vi / zh-CN / zh-TW)
+- [P] **T8.5** 🎨 Design: dòng "Tiếng Việt" trong 2 màn chọn ngôn ngữ + trạng thái "không có từ điển offline" → tự duyệt
 - Test phase: unit test `matchUiLocale` / `matchNativeLanguage` với `vi`/`vi-VN`; test số key `app_vi.arb` == `app_en.arb`;
   widget test chuyển sang tiếng Việt; emulator: đổi ngôn ngữ → UI tiếng Việt, tra từ không lỗi
+- **Phase 8 hoàn thành: 2026-10-20**
+  - `app_vi.arb`: 1655 key, dịch bằng 6 agent song song, kiểm tra tự động placeholder/ICU; design `docs/selfhost/design-vietnamese.md`
+  - Native `vi`: không có từ điển offline → `DictionaryStatus.unavailable`, mặc định Local → AI, thêm nguồn web `cambridgeVi`
+  - T8.4: prompt OpenAI dùng `aiLanguageName(targetLanguage)` (vi / zh-CN / zh-TW)
+  - Test mới: `test/l10n/arb_parity_test.dart`, `dictionary_provider_vi_test.dart`, thêm case vi trong settings/visible sources/web dict
+  - Emulator: đặt locale app = vi-VN → onboarding, trang chủ, Cài đặt hiển thị tiếng Việt; chọn native Tiếng Việt → từ điển mặc định "Từ điển AI"
+  - Ghi nhận nhỏ: nút "Quay lại" ở onboarding bị xuống dòng (chữ tiếng Việt dài hơn), chưa sửa
 
 ---
 
@@ -181,4 +198,6 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
   - Test AI với key thật: để người dùng tự làm (checklist trong `docs/selfhost/README.md`)
   - T6.2: model tải thẳng từ nguồn công khai gốc thay vì CDN riêng
   - T7.2: Claude tự tạo keystore + mật khẩu ngẫu nhiên trong `android/key.properties` (không commit) — người dùng PHẢI sao lưu
+- 2026-10-20 **Sự cố (đã khắc phục)**: một vòng lặp `git diff --name-only | git checkout` bị hook `rtk` làm hỏng output → khôi phục nhầm
+  toàn bộ file đã sửa trong `lib/` (chưa commit). Đã áp dụng lại từ lịch sử phiên và kiểm tra bằng test. Bài học: parse output git thì dùng `/usr/bin/git`
 

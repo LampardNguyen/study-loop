@@ -8,7 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../models/dictionary/dictionary_settings.dart';
+import '../../services/dictionary/dictionary_catalog.dart';
 import '../../services/dictionary/dictionary_source.dart';
+import '../settings_provider.dart';
 import 'dictionary_registry.dart';
 import 'dictionary_settings_provider.dart';
 
@@ -25,10 +27,20 @@ List<DictionarySource> visibleDictionarySources(Ref ref) {
 }
 
 /// 生效的默认源 id（默认源不可见时回退到第一个可见源）
+///
+/// 当前母语没有离线词典（如越南语）且默认源是本地词典时，回退到 AI 词典。
 @riverpod
 String resolvedDefaultSourceId(Ref ref) {
   final visible = ref.watch(visibleDictionarySourcesProvider);
   final wanted = ref.watch(dictionarySettingsNotifierProvider).defaultSourceId;
+  final nativeLanguage = ref.watch(
+    appSettingsProvider.select((s) => s.nativeLanguage),
+  );
+  if (wanted == 'local' &&
+      !hasOfflineDictionary(nativeLanguage) &&
+      visible.any((s) => s.id == 'ai')) {
+    return 'ai';
+  }
   if (visible.any((s) => s.id == wanted)) return wanted;
   return visible.isNotEmpty ? visible.first.id : DictionarySettings.defaultId;
 }

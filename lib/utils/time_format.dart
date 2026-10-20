@@ -8,10 +8,11 @@ import 'package:timeago/timeago.dart' as timeago;
 
 import '../l10n/app_localizations.dart';
 
-/// 初始化 timeago 中文 locale（在 main() 中调用一次）
+/// 初始化 timeago 中文 / 英文 / 越南语 locale（在 main() 中调用一次）
 void initTimeago() {
   timeago.setLocaleMessages('zh', _ZhCnMessages());
   timeago.setLocaleMessages('en', _EnMessages());
+  timeago.setLocaleMessages('vi', timeago.ViMessages());
 }
 
 /// 将 [dateTime] 格式化为相对时间（如"5分钟前"/"5 minutes ago"）

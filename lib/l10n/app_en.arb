@@ -262,6 +262,7 @@
   "languageSystem": "Follow System",
   "languageEnglish": "English",
   "languageChinese": "简体中文",
+  "languageVietnamese": "Tiếng Việt",
   "nativeLanguage": "Native Language",
   "nativeLanguageDescription": "translations & analysis language",
   "about": "About",
@@ -2757,5 +2758,9 @@
   "@aiSettingsTestNetworkError": {"placeholders": {"message": {"type": "String"}}},
   "aiSettingsRemoveKey": "Remove API key",
   "aiSettingsRemoveKeyConfirm": "Remove the saved API key from this device? AI features will stop working until you add a key again.",
-  "aiSettingsRemoveKeyDone": "API key removed"
+  "aiSettingsRemoveKeyDone": "API key removed",
+  "dictionaryOfflineUnavailable": "No offline dictionary for your native language yet. Use the AI or web dictionaries instead.",
+  "aiKeyRequiredTitle": "AI is not set up",
+  "aiKeyRequiredMessage": "Add your own OpenAI-compatible API key in AI Settings to use AI features.",
+  "aiOpenSettings": "Open AI Settings"
 }

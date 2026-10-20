@@ -6,6 +6,8 @@
 /// 用于精听、难句补练、难句跟读和收藏复习页面。
 library;
 
+import '../../features/ai_settings/ai_key_required_dialog.dart';
+import '../../features/ai_settings/providers/ai_settings_provider.dart';
 import 'dart:async';
 import 'dart:ui';
 
@@ -14,8 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../features/auth/providers/auth_providers.dart';
-import '../../features/auth/sign_in_required_dialog.dart';
 import '../../features/chatbot/chatbot_flags.dart';
 import '../../features/chatbot/widgets/sentence_chat_button.dart';
 import '../../features/remote_config/remote_config.dart';
@@ -422,10 +422,8 @@ class _SentenceExplanationViewState
     // 必须回退到 Provider，避免工具栏请求回调为空而整组 AI 按钮被禁用。
     final ai = widget.aiNotifier ?? ref.read(sentenceAiNotifierProvider);
     if (ai == null) return;
-    final accessToken = ref
-        .read(supabaseSessionProvider)
-        .valueOrNull
-        ?.accessToken;
+    // 自托管版：凭证 = 是否已配置 OpenAI Key（见 aiAccessTokenProvider）。
+    final accessToken = ref.read(aiAccessTokenProvider);
 
     ref.read(usageTrackerProvider).record(UsageEvent.senseGroupTapped);
 
@@ -526,14 +524,8 @@ class _SentenceExplanationViewState
   /// 只在确实需要请求 L3 API 且当前无 Supabase session 时出现；
   /// 已缓存的 L1/L2 结果不会触发登录门槛。
   Future<void> _showAiFeatureSignInDialog() async {
-    final l10n = AppLocalizations.of(context);
-    if (l10n == null) return;
-    await ensureSignedInForAction(
-      context: context,
-      ref: ref,
-      title: l10n.senseGroupSignInRequiredTitle,
-      message: l10n.senseGroupSignInRequiredMessage,
-    );
+    // 自托管版：不需要登录，引导配置 AI Key。
+    await ensureAiConfiguredForAction(context: context, ref: ref);
   }
 
   /// 已登录但未解锁 AI 功能时展示统一额度提示。
@@ -978,10 +970,8 @@ class _SentenceExplanationViewState
     final cachedAnalysis = autoShowAiAnalysis
         ? ai?.getCachedAnalysis(_text, targetLanguage: nativeLanguage)
         : null;
-    final accessToken = ref
-        .watch(supabaseSessionProvider)
-        .valueOrNull
-        ?.accessToken;
+    // 自托管版：凭证 = 是否已配置 OpenAI Key（见 aiAccessTokenProvider）。
+    final accessToken = ref.watch(aiAccessTokenProvider);
     // 讲解视图自包含：是否自动请求只由认证状态和用户 AI 设置决定，
     // 宿主无需额外传入“启用自动加载”的开关。
     final shouldAutoLoadSentenceAi =

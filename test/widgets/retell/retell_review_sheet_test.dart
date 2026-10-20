@@ -889,10 +889,11 @@ void main() {
     await tester.tap(find.text('open'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Sign in to use AI retell review'), findsOneWidget);
+    // 自托管版：auth_required = 未配置 AI Key，入口改为「打开 AI 设置」（T4.6）。
+    expect(find.text('AI is not set up'), findsOneWidget);
     expect(find.text('Retry'), findsNothing);
 
-    await tester.tap(find.text('Sign In'));
+    await tester.tap(find.text('Open AI Settings'));
     await tester.pumpAndSettle();
 
     expect(signedIn, 1);

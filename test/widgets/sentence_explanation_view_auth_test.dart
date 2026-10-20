@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:echo_loop/features/ai_settings/screens/ai_settings_screen.dart';
+import 'package:echo_loop/features/ai_settings/providers/ai_settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -339,6 +341,11 @@ void main() {
           supabaseSessionProvider.overrideWith(
             (ref) => Stream<Session?>.value(signedIn ? testSession() : null),
           ),
+          // 自托管版：AI 凭证改由 aiAccessTokenProvider 提供；测试沿用 session 语义。
+          aiAccessTokenProvider.overrideWith(
+            (ref) =>
+                ref.watch(supabaseSessionProvider).valueOrNull?.accessToken,
+          ),
           savedSenseGroupDaoProvider.overrideWithValue(savedSenseGroupDao),
           savedWordDaoProvider.overrideWithValue(savedWordDao),
           audioEngineProvider.overrideWith(() => _NoopAudioEngine()),
@@ -494,6 +501,7 @@ void main() {
     expect(aiNotifier.translationRequests, hasLength(1));
   });
 
+  // 自托管版：「未登录」= 未配置 AI Key，弹窗改为引导去 AI 设置（T4.6）。
   testWidgets('未登录请求新意群时展示可关闭的登录弹窗', (tester) async {
     final cacheDao = _MockCacheDao();
     final savedSenseGroupDao = _MockSavedSenseGroupDao();
@@ -512,20 +520,20 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
 
-    expect(find.text('Sign in to use AI features'), findsOneWidget);
+    expect(find.text('AI is not set up'), findsOneWidget);
 
     await tester.tap(find.text('Cancel'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    expect(find.text('Sign in to use AI features'), findsNothing);
+    expect(find.text('AI is not set up'), findsNothing);
 
     await tester.tap(find.text('Sense Groups'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    await tester.tap(find.text('Sign In'));
+    await tester.tap(find.text('Open AI Settings'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
-    expect(find.text('Login page'), findsOneWidget);
+    expect(find.byType(AiSettingsScreen), findsOneWidget);
   });
 
   testWidgets('未登录请求新翻译时展示登录弹窗', (tester) async {
@@ -546,9 +554,9 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 300));
 
-    expect(find.text('Sign in to use AI features'), findsOneWidget);
+    expect(find.text('AI is not set up'), findsOneWidget);
     expect(find.text('Cancel'), findsOneWidget);
-    expect(find.text('Sign In'), findsOneWidget);
+    expect(find.text('Open AI Settings'), findsOneWidget);
   });
 
   for (final button in ['Translation', 'Analysis']) {

@@ -1,13 +1,13 @@
 /// 通用聊天视图（载体无关纯组件，双载体共用）。
 library;
 
+import '../../ai_settings/ai_key_required_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../../widgets/selection/selection_toolbar_host.dart';
-import '../../auth/sign_in_required_dialog.dart';
 import '../../subscription/widgets/feature_gate.dart';
 import '../models/chatbot_config.dart';
 import '../providers/chat_session_controller.dart';
@@ -146,7 +146,6 @@ class _ChatViewState extends ConsumerState<ChatView> {
     ChatSessionController notifier,
     String messageId,
   ) async {
-    final l10n = AppLocalizations.of(context)!;
     final original = notifier.messageContent(messageId);
     if (original == null) return;
     final edited = await Navigator.of(context).push<String>(
@@ -156,17 +155,12 @@ class _ChatViewState extends ConsumerState<ChatView> {
       ),
     );
     if (edited == null || !mounted) return; // 关闭编辑页 = 取消，不改会话
-    final ok = await ensureSignedInForAction(
-      context: context,
-      ref: ref,
-      title: l10n.chatSignInTitle,
-      message: l10n.chatSignInMessage,
-    );
+    final ok = await ensureAiConfiguredForAction(context: context, ref: ref);
     if (!ok || !mounted) return;
     await notifier.editAndResend(messageId, edited);
   }
 
-  /// 发送前登录拦截（tap site）。带待发引用时随消息发送并清空引用。
+  /// 发送前 AI 配置拦截（tap site，自托管版替代登录拦截）。带待发引用时随消息发送并清空引用。
   Future<void> _handleSend(
     BuildContext context,
     WidgetRef ref,
@@ -174,31 +168,21 @@ class _ChatViewState extends ConsumerState<ChatView> {
     ChatSessionController notifier,
     String text,
   ) async {
-    final ok = await ensureSignedInForAction(
-      context: context,
-      ref: ref,
-      title: l10n.chatSignInTitle,
-      message: l10n.chatSignInMessage,
-    );
+    final ok = await ensureAiConfiguredForAction(context: context, ref: ref);
     if (!ok) return;
     final quote = _pendingQuote;
     if (quote != null && mounted) setState(() => _pendingQuote = null);
     await notifier.send(text, quote: quote);
   }
 
-  /// 闸门 banner 的登录入口。
+  /// 闸门 banner 的「AI 未配置」入口（自托管版：引导去 AI 设置）。
   Future<void> _signIn(
     BuildContext context,
     WidgetRef ref,
     AppLocalizations l10n,
     ChatSessionController notifier,
   ) async {
-    await ensureSignedInForAction(
-      context: context,
-      ref: ref,
-      title: l10n.chatSignInTitle,
-      message: l10n.chatSignInMessage,
-    );
+    await ensureAiConfiguredForAction(context: context, ref: ref);
   }
 
   /// 复制消息内容到剪贴板并提示。

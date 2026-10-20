@@ -4,6 +4,7 @@
 /// 基于 Dio，receiveTimeout 设为 60 秒以适应 LLM 响应延迟。
 library;
 
+import '../features/ai_settings/providers/ai_settings_provider.dart';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -12,15 +13,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart' show Ref;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:universal_io/io.dart';
 
-import '../config/api_config.dart';
-import '../features/auth/providers/auth_providers.dart';
-import '../providers/package_info_provider.dart';
 import 'ai_http_client_adapter.dart';
 import 'app_logger.dart';
 import 'backend_dio.dart';
 import 'dictionary/dictionary_source.dart';
 import 'ndjson_object_stream.dart';
 import 'ndjson_stream.dart';
+import 'openai/openai_sentence_ai_api_client.dart';
 import 'supabase_token_coordinator.dart';
 import 'runtime_endpoint_router.dart';
 import '../models/sentence_ai_result.dart';
@@ -659,13 +658,13 @@ class SentenceAiApiClient {
 }
 
 /// AI API 客户端单例 Provider
+///
+/// 自托管版：返回直连用户自有 OpenAI 兼容接口的实现（Key 来自「AI 设置」），
+/// 不再请求原作者后端。
 @Riverpod(keepAlive: true)
 SentenceAiApiClient sentenceAiApiClient(Ref ref) {
-  final client = SentenceAiApiClient(
-    baseUrl: apiBaseUrl,
-    endpointRouter: runtimeEndpointRouter,
-    appVersion: readAppVersion(ref),
-    tokenCoordinator: ref.read(supabaseTokenCoordinatorProvider),
+  final client = OpenAiSentenceAiApiClient(
+    readConfig: () => ref.read(aiSettingsProvider.future),
   );
   ref.onDispose(client.dispose);
   return client;

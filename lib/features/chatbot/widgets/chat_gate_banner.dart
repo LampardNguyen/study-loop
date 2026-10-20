@@ -36,9 +36,9 @@ class ChatGateBanner extends StatelessWidget {
 
     final bool isAuth = gate == ChatGate.authRequired;
     final String message = isAuth
-        ? l10n.chatSignInMessage
+        ? l10n.aiKeyRequiredMessage
         : aiQuotaExceededTitleFor(l10n, PremiumFeature.aiChat);
-    final String action = isAuth ? l10n.chatSignInTitle : l10n.chatUpgrade;
+    final String action = isAuth ? l10n.aiOpenSettings : l10n.chatUpgrade;
     final VoidCallback onAction = isAuth ? onSignIn : onUpgrade;
 
     return Container(
@@ -51,7 +51,7 @@ class ChatGateBanner extends StatelessWidget {
       child: Row(
         children: [
           Icon(
-            isAuth ? Icons.lock_outline : Icons.workspace_premium_outlined,
+            isAuth ? Icons.key_outlined : Icons.workspace_premium_outlined,
             size: 18,
             color: scheme.onPrimaryContainer,
           ),

@@ -216,7 +216,8 @@ class AiDictResultView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            l10n.aiSignInRequired,
+            // 自托管版：未配置 / Key 无效时引导去 AI 设置。
+            l10n.aiKeyRequiredMessage,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
             ),
@@ -224,7 +225,7 @@ class AiDictResultView extends StatelessWidget {
           const SizedBox(height: AppSpacing.s),
           FilledButton.tonal(
             onPressed: onSignIn,
-            child: Text(l10n.authSignInButton),
+            child: Text(l10n.aiOpenSettings),
           ),
         ],
       ),

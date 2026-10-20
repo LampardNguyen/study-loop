@@ -1566,6 +1566,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     if (locale == null) return l10n.languageSystem;
     if (locale.languageCode == 'zh') return l10n.languageChinese;
     if (locale.languageCode == 'en') return l10n.languageEnglish;
+    if (locale.languageCode == 'vi') return l10n.languageVietnamese;
     return l10n.languageSystem;
   }
 
@@ -1705,6 +1706,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               const Locale('zh', 'CN'),
               '🇨🇳',
               l10n.languageChinese,
+            ),
+            _buildLanguageOption(
+              context,
+              l10n,
+              settings,
+              controller,
+              const Locale('vi'),
+              '🇻🇳',
+              l10n.languageVietnamese,
             ),
           ],
         ),

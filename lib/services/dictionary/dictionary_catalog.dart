@@ -51,3 +51,7 @@ DictionarySpec dictionarySpecOf(String nativeLanguage) {
   }
   return spec;
 }
+
+/// 指定母语是否有内置离线词典（如越南语暂无英越离线词典）。
+bool hasOfflineDictionary(String nativeLanguage) =>
+    dictionarySpecs.containsKey(nativeLanguage);

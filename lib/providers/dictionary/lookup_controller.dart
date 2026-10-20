@@ -5,6 +5,7 @@
 /// （切走/重查时取消在途 HTTP）。切词由 family(word) 天然隔离。
 library;
 
+import '../../features/ai_settings/providers/ai_settings_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -110,10 +111,8 @@ class DictionaryLookupState {
 /// 查词请求上下文（鉴权 + 目标语言），收敛为单一 provider 便于测试覆盖
 @riverpod
 DictionaryLookupContext dictionaryLookupContext(Ref ref) {
-  final accessToken = ref
-      .watch(supabaseSessionProvider)
-      .valueOrNull
-      ?.accessToken;
+  // 自托管版：凭证 = 是否已配置 OpenAI Key（见 aiAccessTokenProvider）。
+  final accessToken = ref.watch(aiAccessTokenProvider);
   final targetLanguage = ref.watch(
     appSettingsProvider.select((s) => s.nativeLanguage),
   );

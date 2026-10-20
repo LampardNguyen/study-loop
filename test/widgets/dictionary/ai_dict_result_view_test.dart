@@ -455,8 +455,17 @@ void main() {
 
   testWidgets('需登录显示提示与登录按钮', (tester) async {
     await tester.pumpWidget(_wrap(view(const LookupAuthRequired())));
-    expect(find.text('Sign in to use the AI dictionary'), findsOneWidget);
-    expect(find.byType(FilledButton), findsOneWidget);
+    // 自托管版：未配置 AI Key → 提示去 AI 设置（T4.6）。
+    expect(
+      find.text(
+        'Add your own OpenAI-compatible API key in AI Settings to use AI features.',
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.widgetWithText(FilledButton, 'Open AI Settings'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('失败显示重试', (tester) async {

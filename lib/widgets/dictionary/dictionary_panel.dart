@@ -10,12 +10,12 @@
 /// controller 订阅、预热新词 TTS），不重播面板入场动画。
 library;
 
+import '../../features/ai_settings/ai_key_required_dialog.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../features/auth/sign_in_required_dialog.dart';
 import '../../features/subscription/widgets/feature_gate.dart';
 import '../../models/dictionary/dict_speakable_texts.dart';
 import '../../models/pronunciation/pronunciation_clip.dart';
@@ -350,8 +350,13 @@ class _DictionaryPanelState extends ConsumerState<DictionaryPanel> {
   }
 
   /// 显式登录按钮直接打开登录页；认证完成后当前查词会自动续跑。
-  void _openAiSignInPage() {
-    openSignInPage(context);
+  /// 自托管版：AI 词典「未配置 Key」→ 打开 AI 设置，返回后重试当前查询。
+  Future<void> _openAiSettingsAndRetry(
+    DictionaryLookupController notifier,
+  ) async {
+    await openAiSettings(context);
+    if (!mounted) return;
+    notifier.retry();
   }
 
   /// 本月免费额度用尽 → 打开订阅页；返回后重试（已订阅则放行，否则仍显示额度用尽）。
@@ -528,7 +533,7 @@ class _DictionaryPanelState extends ConsumerState<DictionaryPanel> {
       state: state.current,
       word: word,
       onRetry: notifier.retry,
-      onSignIn: _openAiSignInPage,
+      onSignIn: () => unawaited(_openAiSettingsAndRetry(notifier)),
       onUpgrade: () => _handleUpgrade(lookupQuery),
     );
     if (isWeb) {

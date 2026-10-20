@@ -1,6 +1,7 @@
 /// 收藏词汇极简闪卡复习页面（本步仅实现正面 + 反面占位）。
 library;
 
+import '../features/ai_settings/ai_key_required_dialog.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:go_router/go_router.dart';
 
 import '../l10n/app_localizations.dart';
 import '../features/chatbot/widgets/sentence_chat_button.dart';
-import '../features/auth/sign_in_required_dialog.dart';
 import '../features/subscription/widgets/feature_gate.dart';
 import '../features/memory_scheduler/domain/memory_rating.dart';
 import '../features/memory_scheduler/domain/memory_scheduler_results.dart';
@@ -538,8 +538,18 @@ class _VocabularyBackState extends ConsumerState<_VocabularyBack> {
   }
 
   /// 显式登录按钮直接打开登录页；认证完成后当前 AI 查词会自动续跑。
-  void _openAiSignInPage() {
-    openSignInPage(context);
+  /// 自托管版：AI 释义「未配置 Key」→ 打开 AI 设置，返回后重试。
+  Future<void> _openAiSettingsAndRetry(String displayText) async {
+    await openAiSettings(context);
+    if (!mounted) return;
+    ref
+        .read(
+          dictionaryLookupControllerProvider(
+            displayText,
+            preferredSourceId: 'ai',
+          ).notifier,
+        )
+        .retry();
   }
 
   /// 将当前 AI 查词结果中的可发音文本提交到统一 TTS 后台缓存。
@@ -712,7 +722,8 @@ class _VocabularyBackState extends ConsumerState<_VocabularyBack> {
                           ).notifier,
                         )
                         .retry(),
-                    onSignIn: _openAiSignInPage,
+                    onSignIn: () =>
+                        unawaited(_openAiSettingsAndRetry(card.displayText)),
                     onUpgrade: () => unawaited(openPaywall(context, ref)),
                   ),
                 ],

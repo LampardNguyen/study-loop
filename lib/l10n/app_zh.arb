@@ -248,6 +248,7 @@
   "languageSystem": "跟随系统",
   "languageEnglish": "English",
   "languageChinese": "简体中文",
+  "languageVietnamese": "Tiếng Việt",
   "nativeLanguage": "母语",
   "nativeLanguageDescription": "翻译和解析使用的语言",
   "about": "关于",
@@ -2259,5 +2260,9 @@
   "aiSettingsTestNetworkError": "无法连接服务器：{message}",
   "aiSettingsRemoveKey": "删除 API Key",
   "aiSettingsRemoveKeyConfirm": "确定从本设备删除已保存的 API Key？删除后 AI 功能将无法使用，直到重新添加。",
-  "aiSettingsRemoveKeyDone": "API Key 已删除"
+  "aiSettingsRemoveKeyDone": "API Key 已删除",
+  "dictionaryOfflineUnavailable": "你的母语暂无离线词典，请使用 AI 词典或网页词典。",
+  "aiKeyRequiredTitle": "尚未配置 AI",
+  "aiKeyRequiredMessage": "请在「AI 设置」中填写你自己的 OpenAI 兼容 API Key 后再使用 AI 功能。",
+  "aiOpenSettings": "打开 AI 设置"
 }

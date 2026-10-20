@@ -1,6 +1,7 @@
 /// RetellReviewEvaluationController 测试：登录/额度闸门、后端 401/402 映射、计费。
 library;
 
+import 'package:echo_loop/features/ai_settings/providers/ai_settings_provider.dart';
 import 'package:echo_loop/features/subscription/providers/self_hosted_unlock.dart';
 import 'package:dio/dio.dart';
 import 'package:echo_loop/features/auth/providers/auth_providers.dart';
@@ -148,6 +149,10 @@ void main() {
         isAuthenticatedProvider.overrideWithValue(authenticated),
         supabaseSessionProvider.overrideWith(
           (ref) => Stream<Session?>.value(hasSession ? _session() : null),
+        ),
+        // 自托管版：AI 凭证改由 aiAccessTokenProvider 提供；测试沿用 session 语义。
+        aiAccessTokenProvider.overrideWith(
+          (ref) => ref.watch(supabaseSessionProvider).valueOrNull?.accessToken,
         ),
         subscriptionControllerProvider.overrideWith(
           () => _FixedSubscription(subscription),

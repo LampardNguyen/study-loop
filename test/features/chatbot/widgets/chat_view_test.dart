@@ -1,6 +1,7 @@
 /// ChatView 集成测试（真实 controller + 可控 fake api）。
 library;
 
+import 'package:echo_loop/features/ai_settings/providers/ai_settings_provider.dart';
 import 'package:echo_loop/features/subscription/providers/self_hosted_unlock.dart';
 import 'dart:async';
 
@@ -99,6 +100,10 @@ void main() {
     isAuthenticatedProvider.overrideWithValue(true),
     supabaseSessionProvider.overrideWith(
       (ref) => Stream<Session?>.value(_session()),
+    ),
+    // 自托管版：AI 凭证改由 aiAccessTokenProvider 提供；测试沿用 session 语义。
+    aiAccessTokenProvider.overrideWith(
+      (ref) => ref.watch(supabaseSessionProvider).valueOrNull?.accessToken,
     ),
     freeAllowancePolicyProvider.overrideWithValue(policy),
     aiTrialUsageProvider.overrideWith(() => _Trial()),

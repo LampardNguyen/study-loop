@@ -510,6 +510,14 @@ void main() {
       );
     });
 
+    test('越南语（不论国家）→ Locale("vi")', () {
+      expect(matchUiLocale(const Locale('vi')), equals(const Locale('vi')));
+      expect(
+        matchUiLocale(const Locale('vi', 'VN')),
+        equals(const Locale('vi')),
+      );
+    });
+
     test('其它任何语言均回退到英文', () {
       expect(matchUiLocale(const Locale('ja')), equals(const Locale('en')));
       expect(matchUiLocale(const Locale('ko')), equals(const Locale('en')));
@@ -518,6 +526,34 @@ void main() {
         matchUiLocale(const Locale('xx', 'YY')),
         equals(const Locale('en')),
       );
+    });
+  });
+
+  group('越南语（自托管版）', () {
+    test('readInitialUiLocaleSync 识别 vi / vi-VN', () async {
+      for (final stored in ['vi', 'vi-VN']) {
+        SharedPreferences.setMockInitialValues({'locale': stored});
+        final prefs = await SharedPreferences.getInstance();
+        expect(readInitialUiLocaleSync(prefs), const Locale('vi'));
+      }
+    });
+
+    test('matchNativeLanguage：越南语系统匹配到 vi', () {
+      expect(matchNativeLanguage(const Locale('vi', 'VN')), 'vi');
+      expect(matchNativeLanguage(const Locale('vi')), 'vi');
+    });
+
+    test('setLocale(vi) 持久化后可被启动期读回', () async {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+
+      await container
+          .read(appSettingsProvider.notifier)
+          .setLocale(const Locale('vi'));
+
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getString('locale'), 'vi');
+      expect(readInitialUiLocaleSync(prefs), const Locale('vi'));
     });
   });
 }

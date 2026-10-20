@@ -1,13 +1,13 @@
 /// 复述 AI 评估的页面生命周期状态。
 library;
 
+import '../features/ai_settings/providers/ai_settings_provider.dart';
 import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:universal_io/io.dart';
 
-import '../features/auth/providers/auth_providers.dart';
 import '../features/subscription/models/ai_quota_rejection.dart';
 import '../features/subscription/models/premium_feature.dart';
 import '../features/subscription/providers/ai_trial_usage_provider.dart';
@@ -104,10 +104,8 @@ class RetellReviewEvaluationController
 
     // 闸门与 AI 转录 / 对话同一套，且必须早于音频转码与 2MB 上传：撞墙时既不烧
     // 本地转码算力，也不占上行带宽。额度的唯一权威仍是后端 402。
-    final accessToken = ref
-        .read(supabaseSessionProvider)
-        .valueOrNull
-        ?.accessToken;
+    // 自托管版：凭证 = 是否已配置 OpenAI Key（见 aiAccessTokenProvider）。
+    final accessToken = ref.read(aiAccessTokenProvider);
     if (accessToken == null || accessToken.isEmpty) {
       AppLogger.log('RetellReview', '评估需要登录态，未取到 access token');
       _failFast(attemptKey, 'auth_required');

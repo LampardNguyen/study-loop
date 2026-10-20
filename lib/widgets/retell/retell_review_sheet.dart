@@ -28,7 +28,7 @@ String retellReviewErrorMessage(
 }) => switch (errorCode) {
   'audio_preparation_failed' => l10n.retellAiReviewAudioPreparationError,
   'audio_too_large' => l10n.retellAiReviewAudioTooLarge,
-  'auth_required' => l10n.retellAiReviewSignInRequiredTitle,
+  'auth_required' => l10n.aiKeyRequiredTitle,
   'quota_exceeded' => aiQuotaTitleFor(
     l10n,
     PremiumFeature.aiRetellReview,
@@ -312,7 +312,7 @@ class _ReviewFailure extends StatelessWidget {
         Icons.workspace_premium_rounded,
         onUpgrade,
       ),
-      'auth_required' => (l10n.authSignInButton, Icons.login_rounded, onSignIn),
+      'auth_required' => (l10n.aiOpenSettings, Icons.key_rounded, onSignIn),
       _ => (l10n.retellAiReviewRetry, Icons.refresh_rounded, onRetry),
     };
     return Center(

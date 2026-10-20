@@ -7,6 +7,7 @@ library;
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +21,8 @@ Future<void> testExecutable(FutureOr<void> testMain()) async {
 
   // 全局提供纯 Dart 的偏好实现，避免未显式注入 provider 的测试访问真实平台通道。
   SharedPreferences.setMockInitialValues({});
+  // 同理：安全存储（自托管版 AI 设置）用内存实现，未配置 Key 时快速走「需要配置」分支。
+  FlutterSecureStorage.setMockInitialValues({});
   // 原生 media_kit 依赖只在对应平台 runner 中存在；本地无原生框架时保留测试回退路径。
   try {
     MediaKit.ensureInitialized();

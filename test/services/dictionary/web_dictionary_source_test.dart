@@ -17,10 +17,11 @@ void main() {
     expect(ids.indexOf('britannica'), greaterThan(ids.indexOf('collins')));
   });
 
-  test('已确认的 16 个网页源都在、Macmillan 不在', () {
+  test('已确认的 17 个网页源都在（含自托管版新增的 cambridgeVi）、Macmillan 不在', () {
     final ids = kWebDictConfigs.map((c) => c.id).toSet();
     expect(ids, {
       'cambridge',
+      'cambridgeVi',
       'oxford',
       'longman',
       'britannica',
@@ -38,6 +39,21 @@ void main() {
       'eudic',
     });
     expect(ids.contains('macmillan'), isFalse);
+  });
+
+  test('Cambridge EN–VI 使用英越词条 URL', () async {
+    final source = WebDictionarySource(
+      kWebDictConfigs.singleWhere((config) => config.id == 'cambridgeVi'),
+    );
+    final result = await source.lookup(
+      const DictionaryLookupRequest(word: 'ice cream'),
+    );
+
+    expect(result, isA<WebDictResult>());
+    expect(
+      (result! as WebDictResult).url.toString(),
+      'https://dictionary.cambridge.org/dictionary/english-vietnamese/ice%20cream',
+    );
   });
 
   test('Britannica Dictionary 使用词条页 URL 模板', () async {

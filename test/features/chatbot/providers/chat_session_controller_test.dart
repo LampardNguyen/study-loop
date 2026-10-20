@@ -1,6 +1,7 @@
 /// ChatSessionController 测试：状态流转 / 防竞态 / 闸门 / 计费。
 library;
 
+import 'package:echo_loop/features/ai_settings/providers/ai_settings_provider.dart';
 import 'package:echo_loop/features/subscription/providers/self_hosted_unlock.dart';
 import 'dart:async';
 
@@ -135,6 +136,10 @@ void main() {
         supabaseSessionProvider.overrideWith(
           (ref) => Stream<Session?>.value(hasSession ? _session() : null),
         ),
+        // 自托管版：AI 凭证改由 aiAccessTokenProvider 提供；测试沿用 session 语义。
+        aiAccessTokenProvider.overrideWith(
+          (ref) => ref.watch(supabaseSessionProvider).valueOrNull?.accessToken,
+        ),
         subscriptionControllerProvider.overrideWith(
           () => _FixedSubscription(subscription),
         ),
@@ -204,9 +209,10 @@ void main() {
     expect(api.callCount, 0);
   });
 
+  // 自托管版：「未登录」= 没有 AI 凭证（未配置 Key），不再单独检查 isAuthenticated。
   test('未登录 send → gate=authRequired，不发请求', () async {
     final api = _ScriptApi((_) => okStream());
-    final c = await make(api, authenticated: false);
+    final c = await make(api, authenticated: false, hasSession: false);
     await ctrl(c).send('hi');
     expect(st(c).gate, ChatGate.authRequired);
     expect(st(c).messages, isEmpty);

@@ -95,6 +95,14 @@ const List<WebDictConfig> kWebDictConfigs = [
     color: Color(0xFF00BDB6), // 站点导航栏青绿
     buildUrl: _cambridgeUrl,
   ),
+  // 自托管版：越南语母语用户的英越词典。
+  WebDictConfig(
+    id: 'cambridgeVi',
+    displayName: 'Cambridge EN–VI',
+    icon: Icons.school_outlined,
+    color: Color(0xFF00897B),
+    buildUrl: _cambridgeViUrl,
+  ),
   WebDictConfig(
     id: 'oxford',
     displayName: 'Oxford',
@@ -205,6 +213,8 @@ const List<WebDictConfig> kWebDictConfigs = [
 // URL 模板（顶层函数，便于 const 配置引用）。`w` 为已 URL 编码的查询词。
 String _cambridgeUrl(String w) =>
     'https://dictionary.cambridge.org/dictionary/english-chinese-simplified/$w';
+String _cambridgeViUrl(String w) =>
+    'https://dictionary.cambridge.org/dictionary/english-vietnamese/$w';
 String _oxfordUrl(String w) =>
     'https://www.oxfordlearnersdictionaries.com/definition/english/$w';
 String _longmanUrl(String w) => 'https://www.ldoceonline.com/dictionary/$w';

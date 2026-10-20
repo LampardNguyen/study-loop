@@ -8,6 +8,7 @@ import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../services/app_logger.dart';
+import '../services/dictionary/dictionary_catalog.dart';
 import '../services/dictionary_download_manager.dart';
 import '../services/dictionary_service.dart';
 import '../services/reliable_http_downloader.dart';
@@ -29,6 +30,9 @@ enum DictionaryStatus {
 
   /// 下载失败
   failed,
+
+  /// 当前母语没有内置离线词典（如越南语），不下载，引导使用 AI / 网页词典
+  unavailable,
 }
 
 /// 词典状态
@@ -86,6 +90,20 @@ class Dictionary extends _$Dictionary {
       _manager.dispose();
     });
 
+    // 当前母语没有内置离线词典（如越南语）：不检查也不下载。
+    // 必须在 build 里直接返回，_initialize 的同步段里改 state 会被 build 返回值覆盖。
+    if (!hasOfflineDictionary(nativeLanguage)) {
+      AppLogger.log('Dict', 'no offline dictionary for lang=$nativeLanguage');
+      // 从中文切到越南语时，取消仍在进行的中文词典下载并关闭旧库。
+      _cancelToken?.cancel('language changed');
+      _cancelToken = null;
+      DictionaryService.instance.close();
+      return DictionaryState(
+        status: DictionaryStatus.unavailable,
+        nativeLanguage: nativeLanguage,
+      );
+    }
+
     // 异步初始化：检查本地词典 → 打开或下载
     _initialize(nativeLanguage);
 
@@ -120,7 +138,6 @@ class Dictionary extends _$Dictionary {
         status: DictionaryStatus.downloaded,
         nativeLanguage: nativeLanguage,
       );
-
     } else {
       // 本地没有，开始下载
       AppLogger.log(
@@ -209,6 +226,8 @@ class Dictionary extends _$Dictionary {
 
   /// 重试下载（下载失败后调用）
   Future<void> retryDownload() async {
+    // 无内置离线词典的母语不发起下载（dictionarySpecOf 会抛 ArgumentError）。
+    if (!hasOfflineDictionary(state.nativeLanguage)) return;
     await _startDownload(state.nativeLanguage);
   }
 }

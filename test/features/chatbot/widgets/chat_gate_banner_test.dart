@@ -31,7 +31,8 @@ void main() {
       tester,
       banner(ChatGate.authRequired, onSignIn: () => signIn = true),
     );
-    expect(find.text('Sign in required'), findsOneWidget);
+    // 自托管版：authRequired = 未配置 AI Key，引导去 AI 设置（T4.6）。
+    expect(find.text('Open AI Settings'), findsOneWidget);
     await tester.tap(find.byType(TextButton));
     expect(signIn, isTrue);
   });

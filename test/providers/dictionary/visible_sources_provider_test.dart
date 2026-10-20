@@ -3,6 +3,7 @@ import 'package:echo_loop/features/onboarding_survey/providers/onboarding_survey
 import 'package:echo_loop/models/dictionary/dictionary_lookup_result.dart';
 import 'package:echo_loop/providers/dictionary/dictionary_registry.dart';
 import 'package:echo_loop/providers/dictionary/dictionary_settings_provider.dart';
+import 'package:echo_loop/providers/settings_provider.dart';
 import 'package:echo_loop/providers/dictionary/visible_sources_provider.dart';
 import 'package:echo_loop/services/dictionary/dictionary_source.dart';
 import 'package:flutter/material.dart';
@@ -120,5 +121,14 @@ void main() {
       'cambridge',
     );
     expect(c.read(resolvedDefaultSourceIdProvider), 'local'); // 回退
+  });
+
+  test('母语无离线词典（越南语）且默认是本地词典 → 生效默认源回退到 AI', () async {
+    final c = makeContainer();
+    expect(c.read(resolvedDefaultSourceIdProvider), 'local');
+
+    await c.read(appSettingsProvider.notifier).setNativeLanguage('vi');
+
+    expect(c.read(resolvedDefaultSourceIdProvider), 'ai');
   });
 }
