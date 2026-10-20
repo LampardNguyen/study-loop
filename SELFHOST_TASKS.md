@@ -25,10 +25,16 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
 - [P] **T0.1** Cài Flutter + Android Studio/SDK + JDK 17; `flutter doctor` sạch phần Android
   - Hoàn thành: 2026-10-20 — Flutter 3.41.5 (khớp CI) tại `~/development/flutter`, đã tắt analytics Flutter/Dart; SDK 36 có sẵn
   - Test: `flutter doctor` → Android toolchain ✓ (Xcode/CocoaPods lỗi, không ảnh hưởng APK)
-- [~] **T0.2** `git init` + commit baseline nguyên bản (để diff/rollback mọi thay đổi)
-- [ ] **T0.3** `flutter pub get` + `dart run build_runner build` + build APK `dev` nguyên bản thành công
+- [P] **T0.2** `git init` + commit baseline nguyên bản (để diff/rollback mọi thay đổi)
+  - Hoàn thành: 2026-10-20 — baseline `50f46c9` (1738 file gốc), không có remote; thêm ignore `key.properties`/`*.jks`/`*.keystore`
+  - Test: `git log` 2 commit, `git status` sạch
+- [P] **T0.3** `flutter pub get` + `dart run build_runner build` + build APK `dev` nguyên bản thành công
   - Test: `flutter build apk --release --flavor dev` ra file APK, cài chạy được
-- [ ] **T0.4** Chạy `flutter analyze` + `flutter test` baseline, ghi lại số test fail sẵn có (nếu có) vào mục *Ghi chú* để không nhầm là do mình gây ra
+  - Hoàn thành: 2026-10-20 — `.g.dart` có sẵn nên không cần build_runner; APK 108MB (lần đầu ~17 phút, Gradle tự cài NDK 28.2 + CMake 3.22.1)
+  - Test: cài lên emulator Pixel_9_Pro (arm64) → `app.echoloop.dev` mở tới onboarding, logcat crash buffer trống
+- [P] **T0.4** Chạy `flutter analyze` + `flutter test` baseline, ghi lại số test fail sẵn có (nếu có) vào mục *Ghi chú* để không nhầm là do mình gây ra
+  - Hoàn thành: 2026-10-20
+  - Test: `flutter test` → 5551 pass, 11 skip, **7 fail có sẵn** (xem Ghi chú); `flutter analyze` → 3 error có sẵn, 0 warning, 31 info
 
 ## Phase 1 — Gỡ analytics & tracking
 
@@ -109,3 +115,7 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
 ## Ghi chú / Quyết định
 
 - 2026-10-20: Chọn cách A (client gọi thẳng OpenAI). Key nhập trong app, lưu secure storage.
+- 2026-10-20 **Baseline test (bản gốc, chưa sửa gì)** — mọi fail dưới đây KHÔNG phải do mình:
+  - `flutter test`: 5551 pass / 11 skip / 7 fail — cả 7 đều trong `test/providers/retell_recording_controller_test.dart`, lỗi "did not complete" (test treo/timeout)
+  - `flutter analyze`: 3 error, cả 3 trong `integration_test/kokoro_tts_test.dart` (API `TtsEngineKind.echoLoop` / `TtsEngineFactory` đã đổi, test cũ chưa cập nhật)
+- 2026-10-20 `flutter pub get` cảnh báo advisory GHSA-cr65-55v9-xhvv ở `dio_http2_adapter` 2.7.1 (bản vá 2.9.0) — cân nhắc nâng cấp sau Phase 6
