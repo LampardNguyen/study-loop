@@ -30,15 +30,18 @@ OpenAI-compatible endpoint) using an API key you enter in the app**, and nothing
 
 <table>
   <tr>
-    <td align="center"><img src="assets/screenshots/01-import.png" alt="Import audio" width="160" /><br/><sub>Import audio</sub></td>
-    <td align="center"><img src="assets/screenshots/04-intensive.png" alt="Sentence-by-sentence" width="160" /><br/><sub>Intensive listening</sub></td>
-    <td align="center"><img src="assets/screenshots/05-analysis.png" alt="Sense groups" width="160" /><br/><sub>Sense groups &amp; AI analysis</sub></td>
-    <td align="center"><img src="assets/screenshots/06-retell.png" alt="Retelling" width="160" /><br/><sub>Retelling</sub></td>
-    <td align="center"><img src="assets/screenshots/08-flashcard.png" alt="Flashcards" width="160" /><br/><sub>Flashcard review</sub></td>
+    <td align="center"><img src="docs/screenshots/vi/01-import.png" alt="Import audio" width="200" /><br/><sub>Import audio</sub></td>
+    <td align="center"><img src="docs/screenshots/vi/03-plan.png" alt="Learning plan" width="200" /><br/><sub>Guided learning plan</sub></td>
+    <td align="center"><img src="docs/screenshots/vi/04-intensive.png" alt="Intensive listening" width="200" /><br/><sub>Sentence-by-sentence listening</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="docs/screenshots/vi/05-analysis.png" alt="Sense groups and AI analysis" width="200" /><br/><sub>Sense groups &amp; AI analysis</sub></td>
+    <td align="center"><img src="docs/screenshots/vi/06-retell.png" alt="Retelling" width="200" /><br/><sub>Retelling</sub></td>
+    <td align="center"><img src="docs/screenshots/vi/08-review.png" alt="Saved sentence review" width="200" /><br/><sub>Saved-sentence review</sub></td>
   </tr>
 </table>
 
-<sub>Screenshots are from the upstream app (Chinese UI).</sub>
+<sub>Vietnamese UI, AI answers from <code>gpt-4.1-mini</code>.</sub>
 
 ## ✨ Features (from upstream)
 
@@ -123,8 +126,7 @@ Requirements: Flutter 3.41.5 (stable), Android SDK (via Android Studio), JDK 17.
    ```
    Without them, `--flavor prod` cannot be signed with your key, and the build will **not** install over the
    copy already on your phones.
-5. Build (below). If the latest installed build number was N, use `--build-number=N+1`
-   (check it on a phone with `adb shell dumpsys package app.echoloop.selfhost | grep versionCode`).
+5. Build (below). The build number is tracked in `pubspec.yaml`, so a fresh clone already has the right one.
 
 ### Build commands
 
@@ -138,8 +140,11 @@ The APK is written to `build/app/outputs/flutter-apk/app-prod-release.apk`.
 
 - `--flavor prod`: package `app.echoloop.selfhost`, signed with your release keystore.
 - `--flavor dev`: package `app.echoloop.dev`, signed with the debug key.
-- To install an update over an existing build, `versionCode` must increase:
-  `flutter build apk --release --flavor prod --build-number=2` (then 3, 4, …).
+- **Versioning:** the build number lives in `pubspec.yaml` as `version: <name>+<build>` (e.g. `1.0.42+7`).
+  Android only installs an update over an existing copy when the build number (`versionCode`) is higher, so
+  **before every release, bump the `+N` part by one and commit it**, then build without `--build-number`.
+  Never lower it. To see what a phone has installed:
+  `adb shell dumpsys package app.echoloop.selfhost | grep versionCode`.
 
 ### Release signing
 
@@ -185,6 +190,23 @@ The OpenAI key is **never** a build variable. It is entered in the app only.
    `scripts/upload_asr_models_to_r2.sh`).
 2. Upload them to R2 / S3 / GitHub Pages with the same directory layout.
 3. Build with `--dart-define=MODEL_CDN_BASE_URL=https://your-cdn.example`.
+
+## 📦 Publishing a release (with in-app update notice)
+
+On Android the app checks this repo's **latest GitHub Release** on launch (and from **Settings → Check for
+updates**). If the release tag is newer than the installed version, it shows an update dialog with the release
+notes; tapping update downloads the attached APK in the browser, then Android asks to install it over the old one.
+
+For each release:
+
+1. Bump `version:` in `pubspec.yaml`, **both parts**: the name (compared by the update check) and the build number
+   (required by Android), e.g. `1.0.42+7` → `1.0.43+8`. Commit and push.
+2. Build: `flutter build apk --release --flavor prod`.
+3. On GitHub: **Releases → Draft a new release**, tag **`v1.0.43`** (must equal the version name), write the release
+   notes, attach `build/app/outputs/flutter-apk/app-prod-release.apk` (renaming it, e.g. `study-loop-1.0.43.apk`, is
+   fine), then **Publish release**.
+
+Only public release info is fetched (`api.github.com`); no user data is sent. A failed check is silently ignored.
 
 ## 🧪 Tests
 

@@ -19,6 +19,7 @@ import '../utils/version_compare.dart';
 import 'android_update_bridge.dart';
 import 'app_logger.dart';
 import 'client_info.dart';
+import 'github_release_update.dart';
 import 'runtime_endpoint_router.dart';
 
 /// App Store Lookup API endpoint。
@@ -42,6 +43,9 @@ class AppUpdateChecker {
   final AppUpdateRuntimePlatform _platform;
   final AndroidUpdateBridge _androidBridge;
 
+  /// 自托管版 Android 更新源（GitHub `releases/latest` API）；null 表示走原 version.json。
+  final String? _githubReleaseUrl;
+
   /// 使用默认配置创建检查器
   ///
   /// [bundleId] 用于 iOS App Store Lookup（其他平台忽略此参数）。
@@ -56,7 +60,10 @@ class AppUpdateChecker {
       _bundleId = bundleId,
       _endpointRouter = endpointRouter,
       _platform = _currentPlatform(),
-      _androidBridge = const MethodChannelAndroidUpdateBridge();
+      _androidBridge = const MethodChannelAndroidUpdateBridge(),
+      _githubReleaseUrl = isBackendApiConfigured
+          ? null
+          : selfHostLatestReleaseApiUri().toString();
 
   /// 用于测试的构造函数，允许注入 Dio 实例和配置
   ///
@@ -71,7 +78,9 @@ class AppUpdateChecker {
     RuntimeEndpointRouter? endpointRouter,
     AndroidUpdateBridge androidBridge =
         const MethodChannelAndroidUpdateBridge(),
+    String? githubReleaseUrl,
   }) : _url = url,
+       _githubReleaseUrl = githubReleaseUrl,
        _bundleId = bundleId,
        _endpointRouter = endpointRouter,
        _platform =
@@ -127,6 +136,8 @@ class AppUpdateChecker {
 
   /// Android：按安装来源选择 Google Play 或 APK 渠道。
   Future<AppUpdateInfo?> _checkAndroid() async {
+    final githubReleaseUrl = _githubReleaseUrl;
+    if (githubReleaseUrl != null) return _checkGithubRelease(githubReleaseUrl);
     final manifest = await _checkVersionJson();
     if (manifest == null) return null;
 
@@ -250,6 +261,33 @@ class AppUpdateChecker {
       );
     } catch (e) {
       AppLogger.log(_logTag, 'iOS lookup failed: $e');
+      return null;
+    }
+  }
+
+  /// 自托管版 Android：读取本 fork 的 GitHub 最新 Release。
+  ///
+  /// 失败（网络、限流、无 Release 返回 404）一律静默返回 null，视为无更新。
+  Future<AppUpdateInfo?> _checkGithubRelease(String url) async {
+    try {
+      AppLogger.log(_logTag, 'github release start: url=$url');
+      final response = await _dio.get<Map<String, dynamic>>(
+        url,
+        options: Options(
+          headers: const {'Accept': 'application/vnd.github+json'},
+        ),
+      );
+      final data = response.data;
+      if (data == null) return null;
+      final info = parseGithubLatestRelease(data);
+      AppLogger.log(
+        _logTag,
+        'github release done: latest=${info?.latestVersion ?? "null"} '
+        'apk=${info?.downloadUrl['androidApk'] != null}',
+      );
+      return info;
+    } catch (e) {
+      AppLogger.log(_logTag, 'github release failed: $e');
       return null;
     }
   }

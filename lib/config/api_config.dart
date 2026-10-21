@@ -31,5 +31,10 @@ Uri communityPageUri() => Uri.parse(_selfHostRepoUrl);
 /// 设置页「查看源码」：指向本 fork（AGPL 要求可获取所分发版本的源码）。
 Uri selfHostSourceUri() => Uri.parse(_selfHostRepoUrl);
 
+/// 自托管版更新检查：本 fork 最新 GitHub Release（仅公开信息，不带任何用户数据）。
+Uri selfHostLatestReleaseApiUri() => Uri.parse(
+  'https://api.github.com/repos/LampardNguyen/study-loop/releases/latest',
+);
+
 /// 设置页「反馈」：改为本 fork 的 GitHub Issues，不再发邮件给原作者。
 Uri selfHostFeedbackUri() => Uri.parse('$_selfHostRepoUrl/issues');

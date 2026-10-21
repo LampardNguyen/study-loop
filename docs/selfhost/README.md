@@ -37,8 +37,9 @@ flutter build apk --release --flavor prod
 File APK nằm ở `build/app/outputs/flutter-apk/app-prod-release.apk`, được ký bằng keystore riêng (xem mục 4).
 Bản `--flavor dev` ký bằng debug key, package `app.echoloop.dev`.
 
-**Cập nhật bản mới**: mỗi lần build để cài đè, `versionCode` phải lớn hơn bản đã cài, ví dụ
-`flutter build apk --release --flavor prod --build-number=2` (lần sau dùng 3, 4…).
+**Cập nhật bản mới**: số build nằm trong `pubspec.yaml`, dòng `version: 1.0.42+7` (phần sau dấu `+`).
+Android chỉ cho cài đè khi số build lớn hơn bản đang cài, nên **trước mỗi lần phát hành, tăng `+N` lên 1 rồi commit**
+(ví dụ `+7` → `+8`), sau đó build bình thường, không cần `--build-number`. Không bao giờ giảm số này.
 
 Có thể truyền thêm các biến lúc build (tuỳ chọn):
 

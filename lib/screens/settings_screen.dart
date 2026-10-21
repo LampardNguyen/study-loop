@@ -660,8 +660,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             mode: LaunchMode.externalApplication,
           ),
         ),
-        // 自托管版：版本检查依赖原作者后端（version.json），未配置时隐藏入口。
-        if (ref.watch(backendApiConfiguredProvider))
+        // 版本检查：原后端走 version.json；自托管版 Android 走本 fork 的 GitHub Releases。
+        if (ref.watch(backendApiConfiguredProvider) || Platform.isAndroid)
           ListTile(
             leading: _settingsThemedSvgIcon(context, 'assets/icon/refresh.svg'),
             title: Text(l10n.checkForUpdate),

@@ -212,6 +212,17 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
   (bỏ `temperature`, thêm `reasoning_effort`) mới gọi được. Design tham khảo: `docs/selfhost/design-ai-model-picker.md`.
   **Lưu ý nếu tự nhập model gpt-5*/gpt-6*:** có thể lỗi 400 vì app vẫn gửi `temperature`.
 
+## Phase 10 — Thông báo cập nhật trong app (yêu cầu thêm 2026-10-21) 🎨 UI
+
+- [P] **T10.1** Android: kiểm tra bản mới qua GitHub Releases của fork (`api.github.com/repos/LampardNguyen/study-loop/releases/latest`)
+  thay cho `version.json` của tác giả; hiện lại mục "Kiểm tra cập nhật" trong Cài đặt trên Android
+  - Design tự duyệt: 2026-10-21 — dùng lại nguyên hộp thoại cập nhật và mục Cài đặt có sẵn của bản gốc, không thêm UI mới
+  - Quy ước: tag Release `vX.Y.Z` = phần tên version trong `pubspec.yaml`; app so sánh tên version (không so build number);
+    đính file `.apk` vào Release (không có thì mở trang Release); không có cập nhật bắt buộc
+  - Hoàn thành: 2026-10-21
+  - Test: `test/services/github_release_update_test.dart` (5 test) + `app_update_checker_test.dart`, `test/providers` → pass;
+    `flutter analyze` các file đã sửa → 0 issue
+
 ## Ghi chú / Quyết định
 
 - 2026-10-20: Chọn cách A (client gọi thẳng OpenAI). Key nhập trong app, lưu secure storage.
