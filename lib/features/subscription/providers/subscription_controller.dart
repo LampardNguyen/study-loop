@@ -516,7 +516,7 @@ class SubscriptionController extends _$SubscriptionController {
               'originalAppUserId=$ownerUserId productId=${entitlement.productId}',
         );
         throw PurchaseException(
-          '此订阅已绑定到另一个 Echo Loop 账号。请登录原账号后重试。',
+          '此订阅已绑定到另一个 Study Loop 账号。请登录原账号后重试。',
           ownershipConflict: true,
         );
       }

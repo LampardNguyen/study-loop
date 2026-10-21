@@ -26,7 +26,7 @@ import '../helpers/mock_providers.dart';
 
 void main() {
   final testPackageInfo = PackageInfo(
-    appName: 'Echo Loop',
+    appName: 'Study Loop',
     packageName: 'top.echo-loop',
     version: '1.0.0',
     buildNumber: '1',

@@ -70,7 +70,7 @@ class _TestOfflineAsrSettingsNotifier extends OfflineAsrSettingsNotifier {
 
 const _recommendedModel = AsrModelInfo(
   id: 'whisper-base-en-int8',
-  displayName: 'Echo Loop AI (Balanced)',
+  displayName: 'Study Loop AI (Balanced)',
   type: AsrModelType.whisper,
 );
 

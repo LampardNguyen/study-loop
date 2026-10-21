@@ -28,10 +28,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get playbackFailedMessage => 'Please try again later.';
 
   @override
-  String get appTitle => 'Echo Loop';
+  String get appTitle => 'Study Loop';
 
   @override
-  String get premiumTitle => 'Echo Loop Premium';
+  String get premiumTitle => 'Study Loop Premium';
 
   @override
   String get premiumTagline => 'Unlimited AI to power your learning';
@@ -218,7 +218,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get premiumRestoreAccountMismatch =>
-      'This subscription is linked to another Echo Loop account. Sign in to the original account and try again.';
+      'This subscription is linked to another Study Loop account. Sign in to the original account and try again.';
 
   @override
   String get premiumRestoreNone => 'No purchases found to restore.';
@@ -2000,7 +2000,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Use the built-in system speech recognition.No download needed';
 
   @override
-  String get asrBackendOffline => 'Echo Loop AI';
+  String get asrBackendOffline => 'Study Loop AI';
 
   @override
   String get asrBackendOfflineDescription =>
@@ -3862,7 +3862,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guidePlanStartLearningDescription =>
-      'Tap here to follow the default practice plan step by step. Echo Loop will guide you and remind you to review at the right time.';
+      'Tap here to follow the default practice plan step by step. Study Loop will guide you and remind you to review at the right time.';
 
   @override
   String get guidePlanPauseLearningTitle => 'Pause';
@@ -4482,7 +4482,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Recording is not supported on this platform';
 
   @override
-  String get authSignInTitle => 'Sign in to Echo Loop';
+  String get authSignInTitle => 'Sign in to Study Loop';
 
   @override
   String get authChooseMethod => 'Choose how you\'d like to continue.';
@@ -4814,7 +4814,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get baiduNetdiskConnectDescription =>
-      'Authorize Echo Loop to browse your Baidu Netdisk and import selected media files.';
+      'Authorize Study Loop to browse your Baidu Netdisk and import selected media files.';
 
   @override
   String get baiduNetdiskConnectAction => 'Connect Baidu Netdisk';
@@ -4833,7 +4833,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get baiduNetdiskLogoutMessage =>
-      'Echo Loop will clear the saved Baidu Netdisk authorization on this device.';
+      'Study Loop will clear the saved Baidu Netdisk authorization on this device.';
 
   @override
   String get baiduNetdiskLogoutConfirm => 'Sign Out';
@@ -5090,7 +5090,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Built into your device. Fast, no download required, average quality.';
 
   @override
-  String get ttsEngineEchoLoop => 'Echo Loop AI (Advanced)';
+  String get ttsEngineEchoLoop => 'Study Loop AI (Advanced)';
 
   @override
   String get ttsEngineComingSoon => 'Coming soon';
@@ -5100,7 +5100,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Best sound quality. Needs a model download; recommended for high-performance devices.';
 
   @override
-  String get ttsEnginePiper => 'Echo Loop AI (Balanced)';
+  String get ttsEnginePiper => 'Study Loop AI (Balanced)';
 
   @override
   String get ttsEnginePiperDescription =>
@@ -5197,13 +5197,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ttsDeleteModelConfirm =>
-      'Delete the Echo Loop voice model? You can re-download it anytime.';
+      'Delete the Study Loop voice model? You can re-download it anytime.';
 
   @override
   String get ttsCancelDownload => 'Cancel';
 
   @override
-  String get ttsDownloadedModelsTitle => 'Downloaded Echo Loop models';
+  String get ttsDownloadedModelsTitle => 'Downloaded Study Loop models';
 
   @override
   String ttsDownloadedModelsDesc(String size) {
@@ -5212,7 +5212,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get asrDeleteAllModelsConfirm =>
-      'Delete all downloaded Echo Loop speech recognition models? You can re-download them anytime.';
+      'Delete all downloaded Study Loop speech recognition models? You can re-download them anytime.';
 
   @override
   String get asrDownloadedModelsTitle => 'Downloaded speech recognition models';
@@ -5594,7 +5594,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get aiSettingsIntro =>
-      'Echo Loop calls your AI provider directly with your own API key. The key is stored only on this device, in the system\'s secure storage, and is never sent anywhere else.';
+      'Study Loop calls your AI provider directly with your own API key. The key is stored only on this device, in the system\'s secure storage, and is never sent anywhere else.';
 
   @override
   String get aiSettingsApiKeyLabel => 'API Key';

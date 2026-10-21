@@ -625,19 +625,21 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       context,
       title: l10n.about,
       children: [
-        ListTile(
-          leading: _settingsThemedSvgIcon(context, 'assets/icon/group.svg'),
-          title: Text(l10n.aboutCommunity),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () async {
-            await launchUrl(communityPageUri());
-          },
-        ),
+        // 自托管版：社群属于原作者，未配置原后端时隐藏
+        if (isBackendApiConfigured)
+          ListTile(
+            leading: _settingsThemedSvgIcon(context, 'assets/icon/group.svg'),
+            title: Text(l10n.aboutCommunity),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () async {
+              await launchUrl(communityPageUri());
+            },
+          ),
         ListTile(
           leading: _settingsThemedSvgIcon(context, 'assets/icon/feedback.svg'),
           title: Text(l10n.writeFeedback),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () => launchUrl(Uri.parse('mailto:support@echo-loop.top')),
+          onTap: () => launchUrl(selfHostFeedbackUri()),
         ),
         if (defaultTargetPlatform == TargetPlatform.iOS)
           ListTile(
@@ -674,19 +676,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 ? null
                 : () => _checkForUpdate(context, ref, l10n),
           ),
-        ListTile(
-          leading: _settingsSvgIcon('assets/icon/documents.svg'),
-          title: Text(l10n.termsOfService),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () => launchUrl(Uri.parse('https://www.echo-loop.top/terms')),
-        ),
-        ListTile(
-          leading: _settingsThemedSvgIcon(context, 'assets/icon/lock.svg'),
-          title: Text(l10n.privacyPolicy),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () =>
-              launchUrl(Uri.parse('https://www.echo-loop.top/privacy')),
-        ),
+        // 自托管版：条款与隐私政策是原作者服务的，未配置原后端时隐藏
+        if (isBackendApiConfigured) ...[
+          ListTile(
+            leading: _settingsSvgIcon('assets/icon/documents.svg'),
+            title: Text(l10n.termsOfService),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () =>
+                launchUrl(Uri.parse('https://www.echo-loop.top/terms')),
+          ),
+          ListTile(
+            leading: _settingsThemedSvgIcon(context, 'assets/icon/lock.svg'),
+            title: Text(l10n.privacyPolicy),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () =>
+                launchUrl(Uri.parse('https://www.echo-loop.top/privacy')),
+          ),
+        ],
         ListTile(
           leading: SizedBox(
             width: _settingsLeadingIconExtent,
@@ -701,7 +707,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           title: Text(l10n.viewSourceCode),
           trailing: const Icon(Icons.chevron_right),
           onTap: () =>
-              launchUrl(Uri.parse('https://github.com/echo-loop/Echo-Loop/')),
+              launchUrl(selfHostSourceUri()),
         ),
       ],
     );

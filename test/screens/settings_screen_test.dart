@@ -77,7 +77,7 @@ class _FakeUrlLauncher extends UrlLauncherPlatform
 
 void main() {
   final testPackageInfo = PackageInfo(
-    appName: 'Echo Loop',
+    appName: 'Study Loop',
     packageName: 'top.echo-loop',
     version: '1.0.0',
     buildNumber: '1',
@@ -321,11 +321,12 @@ void main() {
         await tester.pumpAndSettle();
         // 自托管版：未配置原作者后端时隐藏「检查更新」入口。
         expect(findSvgAsset('assets/icon/refresh.svg'), findsNothing);
-        expect(findSvgAsset('assets/icon/documents.svg'), findsOneWidget);
-        expect(findSvgAsset('assets/icon/lock.svg'), findsOneWidget);
+        // 自托管版：原作者的条款/隐私/社群入口隐藏。
+        expect(findSvgAsset('assets/icon/documents.svg'), findsNothing);
+        expect(findSvgAsset('assets/icon/lock.svg'), findsNothing);
         expect(findSvgAsset('assets/icon/feedback.svg'), findsOneWidget);
         expect(findSvgAsset('assets/icon/help.svg'), findsOneWidget);
-        expect(findSvgAsset('assets/icon/group.svg'), findsOneWidget);
+        expect(findSvgAsset('assets/icon/group.svg'), findsNothing);
 
         await tester.scrollUntilVisible(find.text('Backup & Restore'), 200);
         await tester.pumpAndSettle();
@@ -382,15 +383,18 @@ void main() {
           const Size(32, 32),
         );
 
-        await tester.scrollUntilVisible(find.text('Open Source Project'), 200);
+        await tester.scrollUntilVisible(find.text('Backup & Restore'), 200);
         await tester.pumpAndSettle();
 
-        // 自托管版隐藏了「检查更新」，改用同为满框图标的锁图标验证尺寸。
-        final lockIcon = tester.widget<SvgPicture>(
-          findSvgAsset('assets/icon/lock.svg'),
+        // 自托管版隐藏了「检查更新」与条款/隐私，改用同为满框图标的保存图标验证尺寸。
+        final fullFrameIcon = tester.widget<SvgPicture>(
+          findSvgAsset('assets/icon/diskette.svg'),
         );
-        expect(lockIcon.width, 26);
-        expect(lockIcon.height, 26);
+        expect(fullFrameIcon.width, 26);
+        expect(fullFrameIcon.height, 26);
+
+        await tester.scrollUntilVisible(find.text('Open Source Project'), 200);
+        await tester.pumpAndSettle();
 
         final githubIcons = tester.widgetList<FaIcon>(find.byType(FaIcon));
         expect(githubIcons, hasLength(1));
@@ -420,9 +424,7 @@ void main() {
           'assets/icon/speak.svg',
           'assets/icon/microphone.svg',
           'assets/icon/play-pause.svg',
-          'assets/icon/lock.svg',
           'assets/icon/feedback.svg',
-          'assets/icon/group.svg',
           'assets/icon/help.svg',
           'assets/icon/trash-bin.svg',
         ];
@@ -481,11 +483,12 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.text('About'), findsOneWidget);
-        expect(find.text('Terms of Service'), findsOneWidget);
-        expect(find.text('Privacy Policy'), findsOneWidget);
+        // 自托管版：原作者的条款/隐私/社群入口隐藏。
+        expect(find.text('Terms of Service'), findsNothing);
+        expect(find.text('Privacy Policy'), findsNothing);
         expect(find.text('FAQ'), findsOneWidget);
         expect(find.text('Write Feedback'), findsOneWidget);
-        expect(find.text('Join Community'), findsOneWidget);
+        expect(find.text('Join Community'), findsNothing);
         expect(find.text('Open Source Project'), findsOneWidget);
         expect(find.text('github.com/echo-loop/Echo-Loop'), findsNothing);
         // 版本标签在页面底部，需要滚动到可见
@@ -820,18 +823,18 @@ void main() {
         expect(find.text('Speech Recognition'), findsOneWidget);
       });
 
-      testWidgets('语音合成入口显示当前 Echo Loop 引擎，不显示口音', (tester) async {
+      testWidgets('语音合成入口显示当前 Study Loop 引擎，不显示口音', (tester) async {
         await tester.pumpWidget(
           createTestScreen(const SettingsScreen(), overrides: buildOverrides()),
         );
         await tester.pumpAndSettle();
 
         expect(find.text('Text-to-Speech'), findsOneWidget);
-        expect(find.text('Echo Loop AI'), findsOneWidget);
+        expect(find.text('Study Loop AI'), findsOneWidget);
         expect(find.text('American'), findsNothing);
       });
 
-      testWidgets('语音合成入口显示 Echo Loop 引擎', (tester) async {
+      testWidgets('语音合成入口显示 Study Loop 引擎', (tester) async {
         await tester.pumpWidget(
           createTestScreen(
             const SettingsScreen(),
@@ -843,7 +846,7 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.text('Text-to-Speech'), findsOneWidget);
-        expect(find.text('Echo Loop AI'), findsOneWidget);
+        expect(find.text('Study Loop AI'), findsOneWidget);
       });
 
       testWidgets('开发者选项关闭时不显示开发者分组', (tester) async {

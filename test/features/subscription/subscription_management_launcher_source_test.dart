@@ -21,7 +21,7 @@ void main() {
     },
     channel: const MethodChannel('test/subscription_management_noop'),
     packageInfoLoader: () async => PackageInfo(
-      appName: 'Echo Loop',
+      appName: 'Study Loop',
       packageName: 'top.echo-loop',
       version: '1.0.0',
       buildNumber: '1',

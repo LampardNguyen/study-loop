@@ -677,7 +677,7 @@ void main() {
     expect(_findSvgAsset('assets/icon/reading.svg'), findsNothing);
   });
 
-  testWidgets('学习社群入口保持紧凑高度并使用发现入口青蓝色系', (tester) async {
+  testWidgets('自托管版未配置原作者后端时隐藏学习社群入口', (tester) async {
     final now = DateTime(2026, 2, 25, 12, 0);
     final audioItems = [
       AudioItem(
@@ -698,28 +698,9 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Join Community'), findsOneWidget);
-    expect(find.text('Learn, ask, and share'), findsOneWidget);
-
-    final communityDecoration = tester
-        .widgetList<DecoratedBox>(find.byType(DecoratedBox))
-        .map((box) => box.decoration)
-        .whereType<BoxDecoration>()
-        .firstWhere((decoration) {
-          final gradient = decoration.gradient;
-          return gradient is LinearGradient &&
-              gradient.colors.length == 2 &&
-              gradient.colors.first == const Color(0xFFEAF8FA) &&
-              gradient.colors.last == const Color(0xFFDDEFFA);
-        });
-
-    expect(communityDecoration.borderRadius, BorderRadius.circular(12));
-    expect(
-      (communityDecoration.border! as Border).top.color,
-      const Color(0xFFA9D5DF),
-    );
-    expect(tester.widget<Icon>(find.byIcon(Icons.group_rounded)).size, 20);
-    expect(tester.widget<Icon>(find.byIcon(Icons.chevron_right)).size, 20);
+    // 社群属于原作者，自托管版不展示。
+    expect(find.text('Join Community'), findsNothing);
+    expect(find.byIcon(Icons.group_rounded), findsNothing);
   });
 
   testWidgets('任务卡片中显示 LearningProgressIcon', (tester) async {

@@ -63,7 +63,7 @@ void main() {
     appDataDirectoryOverride = tempDir;
     AppLogger.instance.clear();
     PackageInfo.setMockInitialValues(
-      appName: 'Echo Loop',
+      appName: 'Study Loop',
       packageName: 'app.echoloop',
       version: '1.2.3',
       buildNumber: '45',
@@ -195,7 +195,7 @@ void main() {
     await tester.pump();
 
     expect(sharedPaths, hasLength(1));
-    expect(sharedSubjects.single, 'Echo Loop Logs');
+    expect(sharedSubjects.single, 'Study Loop Logs');
     expect(sharedOrigins.single, isNotNull);
     expect(sharedMimeTypes.single, 'application/zip');
     expect(sharedPaths.single, endsWith('.zip'));

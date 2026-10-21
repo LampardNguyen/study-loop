@@ -263,7 +263,7 @@ void main() {
       expect(find.byType(AlertDialog), findsNothing);
     });
 
-    testWidgets('Echo Loop（offline backend）时仅检查 mic', (tester) async {
+    testWidgets('Study Loop（offline backend）时仅检查 mic', (tester) async {
       final fake = _FakeService(
         current: const SpeechPracticePermissionState(
           microphone: _granted,

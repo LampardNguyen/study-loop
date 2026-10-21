@@ -115,9 +115,10 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
   ghi vào `docs/selfhost/ai-endpoints.md`
 - [P] **T4.2** `OpenAiClient` tầng thấp (dio, streaming SSE `chat/completions`, timeout, huỷ, map lỗi 401/429/5xx)
 - [P] **T4.3** Adapter: chuyển output OpenAI (JSON) → frame/kết quả mà UI đang chờ
-- [x] **T4.4** Viết prompt + JSON schema cho từng tính năng:
-  - [ ] translate  - [ ] lookup-word  - [ ] lookup-phrase  - [ ] analyze
-  - [ ] sense-groups  - [ ] evaluate-review  - [ ] chat/sentence
+- [P] **T4.4** Viết prompt + JSON schema cho từng tính năng:
+  - [x] translate  - [x] lookup-word  - [x] lookup-phrase  - [x] analyze
+  - [x] sense-groups  - [x] evaluate-review  - [x] chat/sentence
+  - Hoàn thành: 2026-10-21 — Test: người dùng tự thử với key OpenAI thật, mọi tính năng AI chạy ổn
 - [P] **T4.5** Thay `SentenceAiApiClient` + `ChatApiClient` bằng bản OpenAI qua provider
 - [P] **T4.6** 🎨 **Design** trạng thái "chưa có key" khi bấm tính năng AI (banner/dialog dẫn tới Cấu hình AI) → duyệt → code
 - Test phase: unit test adapter với stream giả lập (đúng, cắt giữa chừng, lỗi 401/429, huỷ);

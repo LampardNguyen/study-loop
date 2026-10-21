@@ -178,7 +178,7 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
       );
       await share(
         [XFile(path, mimeType: 'application/zip')],
-        subject: 'Echo Loop Logs',
+        subject: 'Study Loop Logs',
         sharePositionOrigin: box == null
             ? Rect.zero
             : box.localToGlobal(Offset.zero) & box.size,

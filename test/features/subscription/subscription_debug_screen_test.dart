@@ -40,8 +40,8 @@ class _FakePurchaseService implements PurchaseService {
   Future<void> invalidateCustomerInfoCache() async => invalidateCalls++;
   @override
   Future<Map<String, Object?>> debugCustomerInfoSnapshot() async => {
-    'lookForEntitlementId': 'Echo Loop Plus',
-    'activeEntitlements': current.isPremium ? ['Echo Loop Plus'] : <String>[],
+    'lookForEntitlementId': 'Study Loop Plus',
+    'activeEntitlements': current.isPremium ? ['Study Loop Plus'] : <String>[],
   };
   @override
   Future<String?> storefrontCountryCode() async => null;

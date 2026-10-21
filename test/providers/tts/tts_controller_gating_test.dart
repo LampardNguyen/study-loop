@@ -26,7 +26,7 @@ void main() {
       );
     });
 
-    test('选 Echo Loop 但未就绪 → 仍使用 Echo Loop，不回退平台', () {
+    test('选 Study Loop 但未就绪 → 仍使用 Echo Loop，不回退平台', () {
       expect(
         effectiveTtsEngine(
           TtsEngineKind.kokoro,
@@ -37,7 +37,7 @@ void main() {
       );
     });
 
-    test('选 Echo Loop 且已就绪 → Echo Loop', () {
+    test('选 Study Loop 且已就绪 → Echo Loop', () {
       expect(
         effectiveTtsEngine(
           TtsEngineKind.kokoro,

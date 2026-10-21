@@ -102,7 +102,31 @@ You pay OpenAI directly, at their standard per-token prices. With `gpt-4.1-mini`
 
 ## 🛠️ Build
 
-Requirements: Flutter 3.41+, Android SDK, JDK 17.
+Requirements: Flutter 3.41.5 (stable), Android SDK (via Android Studio), JDK 17.
+
+### Setting up on a new machine
+
+1. Install [Android Studio](https://developer.android.com/studio). In **SDK Manager**, install an Android SDK
+   platform, **Android SDK Command-line Tools** and **Platform-Tools**. Create an emulator in **Device Manager**
+   if you want one.
+2. Install JDK 17 (Android Studio's bundled JDK works: `flutter config --jdk-dir "<Android Studio>/Contents/jbr"`
+   on macOS).
+3. Install [Flutter](https://docs.flutter.dev/get-started/install) 3.41.5, add it to `PATH`, then run
+   `flutter doctor --android-licenses` and `flutter doctor` until the Android section is green.
+4. Clone and restore secrets:
+   ```bash
+   git clone https://github.com/LampardNguyen/study-loop.git
+   cd study-loop
+   # copy your backed-up keystore and key.properties (they are not in git)
+   cp /path/to/backup/selfhost-release.jks android/app/
+   cp /path/to/backup/key.properties android/
+   ```
+   Without them, `--flavor prod` cannot be signed with your key, and the build will **not** install over the
+   copy already on your phones.
+5. Build (below). If the latest installed build number was N, use `--build-number=N+1`
+   (check it on a phone with `adb shell dumpsys package app.echoloop.selfhost | grep versionCode`).
+
+### Build commands
 
 ```bash
 flutter pub get

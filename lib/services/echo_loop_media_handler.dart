@@ -177,7 +177,7 @@ class EchoLoopMediaHandler extends BaseAudioHandler with SeekHandler {
       MediaItem(
         id: id,
         title: title,
-        artist: subtitle ?? 'Echo Loop',
+        artist: subtitle ?? 'Study Loop',
         artUri: _artworkUri,
       ),
     );

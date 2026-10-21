@@ -28,10 +28,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get playbackFailedMessage => 'Vui lòng thử lại sau.';
 
   @override
-  String get appTitle => 'Echo Loop';
+  String get appTitle => 'Study Loop';
 
   @override
-  String get premiumTitle => 'Echo Loop Premium';
+  String get premiumTitle => 'Study Loop Premium';
 
   @override
   String get premiumTagline => 'AI không giới hạn để học hiệu quả hơn';
@@ -219,7 +219,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get premiumRestoreAccountMismatch =>
-      'Gói đăng ký này đã liên kết với một tài khoản Echo Loop khác. Hãy đăng nhập tài khoản gốc rồi thử lại.';
+      'Gói đăng ký này đã liên kết với một tài khoản Study Loop khác. Hãy đăng nhập tài khoản gốc rồi thử lại.';
 
   @override
   String get premiumRestoreNone => 'Không tìm thấy giao dịch mua để khôi phục.';
@@ -2003,7 +2003,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Dùng nhận dạng giọng nói tích hợp sẵn của hệ thống. Không cần tải về';
 
   @override
-  String get asrBackendOffline => 'Echo Loop AI';
+  String get asrBackendOffline => 'Study Loop AI';
 
   @override
   String get asrBackendOfflineDescription =>
@@ -3861,7 +3861,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get guidePlanStartLearningDescription =>
-      'Nhấn vào đây để luyện tập từng bước theo kế hoạch mặc định. Echo Loop sẽ hướng dẫn và nhắc bạn ôn tập đúng lúc.';
+      'Nhấn vào đây để luyện tập từng bước theo kế hoạch mặc định. Study Loop sẽ hướng dẫn và nhắc bạn ôn tập đúng lúc.';
 
   @override
   String get guidePlanPauseLearningTitle => 'Tạm dừng';
@@ -4479,7 +4479,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get speechPermUnsupportedToast => 'Nền tảng này không hỗ trợ ghi âm';
 
   @override
-  String get authSignInTitle => 'Đăng nhập vào Echo Loop';
+  String get authSignInTitle => 'Đăng nhập vào Study Loop';
 
   @override
   String get authChooseMethod => 'Chọn cách bạn muốn tiếp tục.';
@@ -4811,7 +4811,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get baiduNetdiskConnectDescription =>
-      'Cho phép Echo Loop duyệt Baidu Netdisk của bạn và nhập các tệp media đã chọn.';
+      'Cho phép Study Loop duyệt Baidu Netdisk của bạn và nhập các tệp media đã chọn.';
 
   @override
   String get baiduNetdiskConnectAction => 'Kết nối Baidu Netdisk';
@@ -4830,7 +4830,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get baiduNetdiskLogoutMessage =>
-      'Echo Loop sẽ xóa quyền truy cập Baidu Netdisk đã lưu trên thiết bị này.';
+      'Study Loop sẽ xóa quyền truy cập Baidu Netdisk đã lưu trên thiết bị này.';
 
   @override
   String get baiduNetdiskLogoutConfirm => 'Đăng xuất';
@@ -5088,7 +5088,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Có sẵn trên thiết bị. Nhanh, không cần tải, chất lượng trung bình.';
 
   @override
-  String get ttsEngineEchoLoop => 'Echo Loop AI (Nâng cao)';
+  String get ttsEngineEchoLoop => 'Study Loop AI (Nâng cao)';
 
   @override
   String get ttsEngineComingSoon => 'Sắp ra mắt';
@@ -5098,7 +5098,7 @@ class AppLocalizationsVi extends AppLocalizations {
       'Chất lượng âm thanh tốt nhất. Cần tải mô hình; khuyên dùng cho thiết bị cấu hình cao.';
 
   @override
-  String get ttsEnginePiper => 'Echo Loop AI (Cân bằng)';
+  String get ttsEnginePiper => 'Study Loop AI (Cân bằng)';
 
   @override
   String get ttsEnginePiperDescription =>
@@ -5194,13 +5194,13 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get ttsDeleteModelConfirm =>
-      'Xóa mô hình giọng nói Echo Loop? Bạn có thể tải lại bất cứ lúc nào.';
+      'Xóa mô hình giọng nói Study Loop? Bạn có thể tải lại bất cứ lúc nào.';
 
   @override
   String get ttsCancelDownload => 'Hủy';
 
   @override
-  String get ttsDownloadedModelsTitle => 'Mô hình Echo Loop đã tải';
+  String get ttsDownloadedModelsTitle => 'Mô hình Study Loop đã tải';
 
   @override
   String ttsDownloadedModelsDesc(String size) {
@@ -5209,7 +5209,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get asrDeleteAllModelsConfirm =>
-      'Xóa tất cả mô hình nhận dạng giọng nói Echo Loop đã tải? Bạn có thể tải lại bất cứ lúc nào.';
+      'Xóa tất cả mô hình nhận dạng giọng nói Study Loop đã tải? Bạn có thể tải lại bất cứ lúc nào.';
 
   @override
   String get asrDownloadedModelsTitle => 'Mô hình nhận dạng giọng nói đã tải';
@@ -5590,7 +5590,7 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get aiSettingsIntro =>
-      'Echo Loop gọi trực tiếp nhà cung cấp AI của bạn bằng API key riêng. Khóa chỉ được lưu trên thiết bị này, trong bộ nhớ bảo mật của hệ thống, và không bao giờ được gửi đi nơi khác.';
+      'Study Loop gọi trực tiếp nhà cung cấp AI của bạn bằng API key riêng. Khóa chỉ được lưu trên thiết bị này, trong bộ nhớ bảo mật của hệ thống, và không bao giờ được gửi đi nơi khác.';
 
   @override
   String get aiSettingsApiKeyLabel => 'API Key';

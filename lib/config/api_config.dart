@@ -20,7 +20,16 @@ const apiBaseUrl = kReleaseMode
 /// 是否配置了原作者后端 API（自托管版默认未配置）。
 const isBackendApiConfigured = globalApiBaseUrl != '';
 
-/// 自托管版的「社区 / 联系我们」入口：原作者后端未配置时改为打开开源项目主页。
+/// 自托管版（Study Loop）源码仓库。
+const _selfHostRepoUrl = 'https://github.com/LampardNguyen/study-loop';
+
+/// 自托管版的「社区 / 联系我们」入口：原作者后端未配置时改为打开本 fork 的主页。
 ///
 /// 只在用户主动点击时由系统浏览器打开，App 自身不发请求。
-Uri communityPageUri() => Uri.parse('https://github.com/echo-loop/Echo-Loop');
+Uri communityPageUri() => Uri.parse(_selfHostRepoUrl);
+
+/// 设置页「查看源码」：指向本 fork（AGPL 要求可获取所分发版本的源码）。
+Uri selfHostSourceUri() => Uri.parse(_selfHostRepoUrl);
+
+/// 设置页「反馈」：改为本 fork 的 GitHub Issues，不再发邮件给原作者。
+Uri selfHostFeedbackUri() => Uri.parse('$_selfHostRepoUrl/issues');

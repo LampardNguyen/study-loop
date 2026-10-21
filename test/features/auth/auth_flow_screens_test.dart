@@ -206,7 +206,7 @@ void main() {
     await tester.pumpWidget(_app(_authRouter()));
     await tester.pumpAndSettle();
 
-    expect(find.text('Sign in to Echo Loop'), findsOneWidget);
+    expect(find.text('Sign in to Study Loop'), findsOneWidget);
     expect(
       find.text('No password needed. We will email you a one-time code.'),
       findsNothing,
@@ -322,7 +322,7 @@ void main() {
     await tester.tap(find.text('Continue with Google'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Sign in to Echo Loop'), findsOneWidget);
+    expect(find.text('Sign in to Study Loop'), findsOneWidget);
     expect(find.text('Continue with Email Code'), findsOneWidget);
     expect(find.text('Source Page'), findsNothing);
     expect(
@@ -357,7 +357,7 @@ void main() {
     await tester.tap(find.text('Continue with Google'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Sign in to Echo Loop'), findsOneWidget);
+    expect(find.text('Sign in to Study Loop'), findsOneWidget);
     expect(find.text('Continue with Email Code'), findsOneWidget);
     expect(find.text('Source Page'), findsNothing);
     expect(
@@ -392,7 +392,7 @@ void main() {
     await tester.tap(find.text('Continue with Google'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Sign in to Echo Loop'), findsOneWidget);
+    expect(find.text('Sign in to Study Loop'), findsOneWidget);
     expect(find.text('Continue with Email Code'), findsOneWidget);
     expect(find.text('Source Page'), findsNothing);
     expect(find.text('Something went wrong. Try again.'), findsNothing);
@@ -415,7 +415,7 @@ void main() {
     await tester.tap(find.text('Continue with Apple'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Sign in to Echo Loop'), findsOneWidget);
+    expect(find.text('Sign in to Study Loop'), findsOneWidget);
     expect(find.text('Continue with Email Code'), findsOneWidget);
     expect(find.text('Source Page'), findsNothing);
     expect(find.text('Authentication is not configured yet.'), findsOneWidget);
@@ -441,7 +441,7 @@ void main() {
     await tester.tap(find.text('Continue with Apple'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Sign in to Echo Loop'), findsOneWidget);
+    expect(find.text('Sign in to Study Loop'), findsOneWidget);
     expect(find.text('Continue with Email Code'), findsOneWidget);
     expect(find.text('Source Page'), findsNothing);
     expect(find.text('Something went wrong. Try again.'), findsNothing);
@@ -487,7 +487,7 @@ void main() {
     await tester.tap(find.text('Continue with Email Code'));
     await tester.pumpAndSettle();
 
-    expect(find.bySemanticsLabel('Echo Loop'), findsOneWidget);
+    expect(find.bySemanticsLabel('Study Loop'), findsOneWidget);
     expect(find.text('Terms of Service'), findsOneWidget);
     expect(find.text('Privacy Policy'), findsOneWidget);
   });
@@ -690,7 +690,7 @@ void main() {
     await tester.tap(find.byIcon(Icons.arrow_back));
     await tester.pumpAndSettle();
 
-    expect(find.text('Sign in to Echo Loop'), findsOneWidget);
+    expect(find.text('Sign in to Study Loop'), findsOneWidget);
     expect(find.text('Continue with Email Code'), findsOneWidget);
   });
 
@@ -813,7 +813,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Settings'), findsOneWidget);
-    expect(find.text('Sign in to Echo Loop'), findsNothing);
+    expect(find.text('Sign in to Study Loop'), findsNothing);
   });
 
   testWidgets('账号页 Apple 登录显示 Apple 账户和完整邮箱', (tester) async {

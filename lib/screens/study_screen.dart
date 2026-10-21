@@ -208,8 +208,11 @@ class _StudyScreenState extends ConsumerState<StudyScreen> {
                 ),
                 children: [
                   // 加入学习社群邀请（置顶，保持单行紧凑高度，颜色对齐发现入口）
-                  const _CommunityInviteCard(),
-                  const SizedBox(height: AppSpacing.s),
+                  // 自托管版：社群属于原作者，未配置原后端时隐藏
+                  if (isBackendApiConfigured) ...[
+                    const _CommunityInviteCard(),
+                    const SizedBox(height: AppSpacing.s),
+                  ],
 
                   // 统计 Chips + 柱状图
                   GuideTarget(
@@ -292,8 +295,10 @@ class _StudyScreenState extends ConsumerState<StudyScreen> {
         vertical: AppSpacing.s,
       ),
       children: [
-        const _CommunityInviteCard(),
-        const SizedBox(height: AppSpacing.s),
+        if (isBackendApiConfigured) ...[
+          const _CommunityInviteCard(),
+          const SizedBox(height: AppSpacing.s),
+        ],
         GuideTarget(step: stepStatsHeader, child: const StudyStatsHeader()),
         const SizedBox(height: AppSpacing.xl),
         const _EmptyState(type: _EmptyStateType.allDone),

@@ -257,13 +257,13 @@ const _plans = [
 const _paddlePlans = [
   SubscriptionPlan(
     planId: 'plus_monthly',
-    title: 'Echo Loop Plus Monthly',
+    title: 'Study Loop Plus Monthly',
     priceString: r'$4.99',
     period: SubscriptionPeriod.monthly,
   ),
   SubscriptionPlan(
     planId: 'plus_yearly',
-    title: 'Echo Loop Plus Yearly',
+    title: 'Study Loop Plus Yearly',
     priceString: r'$49.99',
     period: SubscriptionPeriod.yearly,
     introOffer: SubscriptionIntroOffer(
@@ -277,7 +277,7 @@ const _paddlePlans = [
   ),
   SubscriptionPlan(
     planId: 'plus_yearly_one_time',
-    title: 'Echo Loop Plus One-time Year',
+    title: 'Study Loop Plus One-time Year',
     priceString: r'$44.99',
     period: SubscriptionPeriod.yearly,
     purchaseType: PurchaseType.oneTime,
@@ -755,7 +755,7 @@ void main() {
     await tester.tap(find.widgetWithText(FilledButton, 'Subscribe'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Sign in to Echo Loop'), findsOneWidget);
+    expect(find.text('Sign in to Study Loop'), findsOneWidget);
     expect(urlLauncher.launched, isEmpty);
     expect(spy.refreshCalls, 0);
     expect(spy.checkoutCalls, 0);
@@ -1054,7 +1054,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // 权益列表
-    expect(find.text('Echo Loop Premium'), findsWidgets);
+    expect(find.text('Study Loop Premium'), findsWidgets);
     expect(find.text('Unlimited AI to power your learning'), findsOneWidget);
     expect(find.text('Unlimited AI translations'), findsOneWidget);
     expect(
@@ -1484,7 +1484,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // 走通用 ensureSignedInForAction 登录引导弹窗，且未真正发起购买
-    expect(find.text('Sign in to Echo Loop'), findsOneWidget);
+    expect(find.text('Sign in to Study Loop'), findsOneWidget);
     expect(find.text('Please sign in before subscribing.'), findsOneWidget);
     expect(
       find.text('Please sign in before restoring purchases.'),
@@ -1507,7 +1507,7 @@ void main() {
     await tester.tap(find.text('Restore Purchases'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Sign in to Echo Loop'), findsOneWidget);
+    expect(find.text('Sign in to Study Loop'), findsOneWidget);
     expect(
       find.text('Please sign in before restoring purchases.'),
       findsOneWidget,
@@ -1537,7 +1537,7 @@ void main() {
     expect(spy.restoreCalls, 1);
     expect(
       find.text(
-        'This subscription is linked to another Echo Loop account. '
+        'This subscription is linked to another Study Loop account. '
         'Sign in to the original account and try again.',
       ),
       findsOneWidget,
@@ -1616,7 +1616,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Sign in to Echo Loop'), findsNothing);
+    expect(find.text('Sign in to Study Loop'), findsNothing);
     expect(spy.purchaseCalls, 1);
   });
 }

@@ -109,8 +109,8 @@ void main() {
     // 平台引擎显示名随宿主而变（Apple → Apple AI，其余 → System Speech）。
     expect(find.text(_platformEngineLabel), findsOneWidget);
     // Echo Loop 现拆为两档可选：Balanced(Piper) / Advanced(Kokoro)。
-    expect(find.text('Echo Loop AI (Balanced)'), findsOneWidget);
-    expect(find.text('Echo Loop AI (Advanced)'), findsNWidgets(2));
+    expect(find.text('Study Loop AI (Balanced)'), findsOneWidget);
+    expect(find.text('Study Loop AI (Advanced)'), findsNWidgets(2));
     expect(find.textContaining('Best sound quality'), findsOneWidget);
     expect(find.text('High quality'), findsOneWidget);
     expect(find.text('Recommended'), findsOneWidget);
@@ -121,7 +121,7 @@ void main() {
     expect(showPlatformTtsEngine(false), isTrue);
   });
 
-  testWidgets('Echo Loop → 显示两个模型变体（高质量带推荐徽标 / 轻量）', (tester) async {
+  testWidgets('Study Loop → 显示两个模型变体（高质量带推荐徽标 / 轻量）', (tester) async {
     await tester.pumpWidget(
       _wrap(const TtsSettings(engine: TtsEngineKind.kokoro)),
     );

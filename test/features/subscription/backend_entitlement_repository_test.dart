@@ -34,7 +34,7 @@ void main() {
     ).thenAnswer(
       (_) async => resp({
         'isPremium': true,
-        'entitlementIds': ['Echo Loop Plus'],
+        'entitlementIds': ['Study Loop Plus'],
         'productId': 'echo_loop_plus_annual',
         'expiresAtMs': 1750000000000,
         'willRenew': true,
@@ -45,7 +45,7 @@ void main() {
     final e = await repo.fetchRemote(userId: 'u1', accessToken: 't');
     expect(e, isNotNull);
     expect(e!.isPremium, isTrue);
-    expect(e.activeEntitlements, {'Echo Loop Plus'});
+    expect(e.activeEntitlements, {'Study Loop Plus'});
     expect(e.productId, 'echo_loop_plus_annual');
     expect(e.period, SubscriptionPeriod.yearly);
     expect(
@@ -71,7 +71,7 @@ void main() {
       ).thenAnswer(
         (_) async => resp({
           'isPremium': true,
-          'entitlementIds': ['Echo Loop Plus'],
+          'entitlementIds': ['Study Loop Plus'],
           'productId': 'echo_loop_plus_monthly',
           'expiresAtMs': 1750000000000,
           'willRenew': true,
@@ -94,7 +94,7 @@ void main() {
     ).thenAnswer(
       (_) async => resp({
         'isPremium': true,
-        'entitlementIds': ['Echo Loop Plus'],
+        'entitlementIds': ['Study Loop Plus'],
         'productId': 'echo_loop_plus_monthly',
         'expiresAtMs': 1750000000000,
         'willRenew': true,
@@ -114,7 +114,7 @@ void main() {
     ).thenAnswer(
       (_) async => resp({
         'isPremium': true,
-        'entitlementIds': ['Echo Loop Plus'],
+        'entitlementIds': ['Study Loop Plus'],
         'productId': 'echo_loop_plus_monthly',
         'expiresAtMs': 1750000000000,
         'willRenew': true,
@@ -135,7 +135,7 @@ void main() {
     ).thenAnswer(
       (_) async => resp({
         'isPremium': true,
-        'entitlementIds': ['Echo Loop Plus'],
+        'entitlementIds': ['Study Loop Plus'],
         'productId': 'echo_loop_plus_monthly',
         'expiresAtMs': 1750000000000,
         'willRenew': false,
@@ -156,7 +156,7 @@ void main() {
     ).thenAnswer(
       (_) async => resp({
         'isPremium': true,
-        'entitlementIds': ['Echo Loop Plus'],
+        'entitlementIds': ['Study Loop Plus'],
         'productId': 'pri_one_time',
         'expiresAtMs': 1785600000000,
         'willRenew': false,
@@ -181,7 +181,7 @@ void main() {
     ).thenAnswer(
       (_) async => resp({
         'isPremium': true,
-        'entitlementIds': ['Echo Loop Plus'],
+        'entitlementIds': ['Study Loop Plus'],
         'productId': 'echo_loop_plus_monthly',
         'expiresAtMs': 1750000000000,
       }),
@@ -221,7 +221,7 @@ void main() {
     ).thenAnswer(
       (_) async => resp({
         'isPremium': true,
-        'entitlementIds': ['Echo Loop Plus'],
+        'entitlementIds': ['Study Loop Plus'],
         'productId': 'echo_loop_lifetime',
         'expiresAtMs': null,
       }),

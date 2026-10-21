@@ -139,13 +139,13 @@ abstract class AppLocalizations {
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
-  /// **'Echo Loop'**
+  /// **'Study Loop'**
   String get appTitle;
 
   /// No description provided for @premiumTitle.
   ///
   /// In en, this message translates to:
-  /// **'Echo Loop Premium'**
+  /// **'Study Loop Premium'**
   String get premiumTitle;
 
   /// No description provided for @premiumTagline.
@@ -475,7 +475,7 @@ abstract class AppLocalizations {
   /// No description provided for @premiumRestoreAccountMismatch.
   ///
   /// In en, this message translates to:
-  /// **'This subscription is linked to another Echo Loop account. Sign in to the original account and try again.'**
+  /// **'This subscription is linked to another Study Loop account. Sign in to the original account and try again.'**
   String get premiumRestoreAccountMismatch;
 
   /// No description provided for @premiumRestoreNone.
@@ -3541,7 +3541,7 @@ abstract class AppLocalizations {
   /// No description provided for @asrBackendOffline.
   ///
   /// In en, this message translates to:
-  /// **'Echo Loop AI'**
+  /// **'Study Loop AI'**
   String get asrBackendOffline;
 
   /// No description provided for @asrBackendOfflineDescription.
@@ -6745,7 +6745,7 @@ abstract class AppLocalizations {
   /// No description provided for @guidePlanStartLearningDescription.
   ///
   /// In en, this message translates to:
-  /// **'Tap here to follow the default practice plan step by step. Echo Loop will guide you and remind you to review at the right time.'**
+  /// **'Tap here to follow the default practice plan step by step. Study Loop will guide you and remind you to review at the right time.'**
   String get guidePlanStartLearningDescription;
 
   /// No description provided for @guidePlanPauseLearningTitle.
@@ -7837,7 +7837,7 @@ abstract class AppLocalizations {
   /// No description provided for @authSignInTitle.
   ///
   /// In en, this message translates to:
-  /// **'Sign in to Echo Loop'**
+  /// **'Sign in to Study Loop'**
   String get authSignInTitle;
 
   /// No description provided for @authChooseMethod.
@@ -8461,7 +8461,7 @@ abstract class AppLocalizations {
   /// No description provided for @baiduNetdiskConnectDescription.
   ///
   /// In en, this message translates to:
-  /// **'Authorize Echo Loop to browse your Baidu Netdisk and import selected media files.'**
+  /// **'Authorize Study Loop to browse your Baidu Netdisk and import selected media files.'**
   String get baiduNetdiskConnectDescription;
 
   /// No description provided for @baiduNetdiskConnectAction.
@@ -8497,7 +8497,7 @@ abstract class AppLocalizations {
   /// No description provided for @baiduNetdiskLogoutMessage.
   ///
   /// In en, this message translates to:
-  /// **'Echo Loop will clear the saved Baidu Netdisk authorization on this device.'**
+  /// **'Study Loop will clear the saved Baidu Netdisk authorization on this device.'**
   String get baiduNetdiskLogoutMessage;
 
   /// No description provided for @baiduNetdiskLogoutConfirm.
@@ -8929,7 +8929,7 @@ abstract class AppLocalizations {
   /// No description provided for @ttsEngineEchoLoop.
   ///
   /// In en, this message translates to:
-  /// **'Echo Loop AI (Advanced)'**
+  /// **'Study Loop AI (Advanced)'**
   String get ttsEngineEchoLoop;
 
   /// No description provided for @ttsEngineComingSoon.
@@ -8947,7 +8947,7 @@ abstract class AppLocalizations {
   /// No description provided for @ttsEnginePiper.
   ///
   /// In en, this message translates to:
-  /// **'Echo Loop AI (Balanced)'**
+  /// **'Study Loop AI (Balanced)'**
   String get ttsEnginePiper;
 
   /// No description provided for @ttsEnginePiperDescription.
@@ -9109,7 +9109,7 @@ abstract class AppLocalizations {
   /// No description provided for @ttsDeleteModelConfirm.
   ///
   /// In en, this message translates to:
-  /// **'Delete the Echo Loop voice model? You can re-download it anytime.'**
+  /// **'Delete the Study Loop voice model? You can re-download it anytime.'**
   String get ttsDeleteModelConfirm;
 
   /// No description provided for @ttsCancelDownload.
@@ -9121,7 +9121,7 @@ abstract class AppLocalizations {
   /// No description provided for @ttsDownloadedModelsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Downloaded Echo Loop models'**
+  /// **'Downloaded Study Loop models'**
   String get ttsDownloadedModelsTitle;
 
   /// No description provided for @ttsDownloadedModelsDesc.
@@ -9133,7 +9133,7 @@ abstract class AppLocalizations {
   /// No description provided for @asrDeleteAllModelsConfirm.
   ///
   /// In en, this message translates to:
-  /// **'Delete all downloaded Echo Loop speech recognition models? You can re-download them anytime.'**
+  /// **'Delete all downloaded Study Loop speech recognition models? You can re-download them anytime.'**
   String get asrDeleteAllModelsConfirm;
 
   /// No description provided for @asrDownloadedModelsTitle.
@@ -9859,7 +9859,7 @@ abstract class AppLocalizations {
   /// No description provided for @aiSettingsIntro.
   ///
   /// In en, this message translates to:
-  /// **'Echo Loop calls your AI provider directly with your own API key. The key is stored only on this device, in the system\'s secure storage, and is never sent anywhere else.'**
+  /// **'Study Loop calls your AI provider directly with your own API key. The key is stored only on this device, in the system\'s secure storage, and is never sent anywhere else.'**
   String get aiSettingsIntro;
 
   /// No description provided for @aiSettingsApiKeyLabel.

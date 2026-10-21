@@ -11,7 +11,7 @@ void main() {
 
   setUp(() {
     PackageInfo.setMockInitialValues(
-      appName: 'Echo Loop',
+      appName: 'Study Loop',
       packageName: 'app.echoloop',
       version: '1.2.3',
       buildNumber: '45',

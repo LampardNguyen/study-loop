@@ -220,7 +220,7 @@ void main() {
         (_) async => [
           const PendingNotificationRequest(
             5000,
-            'Echo Loop',
+            'Study Loop',
             'old',
             'old_payload',
           ),
@@ -466,7 +466,7 @@ void main() {
         (_) async => [
           const PendingNotificationRequest(
             5000,
-            'Echo Loop',
+            'Study Loop',
             'old',
             'old_payload',
           ),
@@ -487,7 +487,7 @@ void main() {
         (_) async => [
           const PendingNotificationRequest(
             1001,
-            'Echo Loop',
+            'Study Loop',
             'daily',
             'open_study_tasks',
           ),
@@ -510,19 +510,19 @@ void main() {
         (_) async => [
           const PendingNotificationRequest(
             3000,
-            'Echo Loop',
+            'Study Loop',
             'a',
             'open_audio:a',
           ),
           const PendingNotificationRequest(
             4000,
-            'Echo Loop',
+            'Study Loop',
             'b',
             'open_audio:b',
           ),
           const PendingNotificationRequest(
             1001,
-            'Echo Loop',
+            'Study Loop',
             'daily',
             'open_study_tasks',
           ),

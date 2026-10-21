@@ -288,7 +288,7 @@ class EchoLoopAudioHandler extends BaseAudioHandler with SeekHandler {
         title: title,
         // 系统播放控制面板副标题展示所属合集名（subtitle）；不再附加 album「Echo
         // Loop」造成「合集 – Echo Loop」。无合集时回退显示 app 名「Echo Loop」。
-        artist: subtitle ?? 'Echo Loop',
+        artist: subtitle ?? 'Study Loop',
         artUri: _artworkUri,
       ),
     );
@@ -541,7 +541,7 @@ Future<void> _initializeAudioService(MediaSessionRouter router) async {
     builder: () => router,
     config: AudioServiceConfig(
       androidNotificationChannelId: 'app.echoloop.audio',
-      androidNotificationChannelName: 'Echo Loop Playback',
+      androidNotificationChannelName: 'Study Loop Playback',
       androidStopForegroundOnPause: false,
       // 通知 small icon：app logo 的白色剪影（Android 强制单色，彩色 logo 见封面图）。
       androidNotificationIcon: 'drawable/ic_stat_logo',

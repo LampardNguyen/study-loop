@@ -25,7 +25,7 @@ void main() {
   }
 
   group('TtsSettings.fromPrefsSync', () {
-    test('SP 缺失 → 默认 Echo Loop AI Advanced + 美音', () async {
+    test('SP 缺失 → 默认 Study Loop AI Advanced + 美音', () async {
       SharedPreferences.setMockInitialValues({});
       final prefs = await SharedPreferences.getInstance();
       final s = TtsSettings.fromPrefsSync(prefs);
@@ -56,7 +56,7 @@ void main() {
       expect(s.accent, TtsAccent.us);
     });
 
-    test('Android 历史系统语音偏好迁移为 Echo Loop AI Advanced', () async {
+    test('Android 历史系统语音偏好迁移为 Study Loop AI Advanced', () async {
       SharedPreferences.setMockInitialValues({
         TtsSettingsKeys.engine: TtsEngineKind.platform.name,
       });

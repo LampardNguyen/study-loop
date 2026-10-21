@@ -27,10 +27,10 @@ class AppLocalizationsZh extends AppLocalizations {
   String get playbackFailedMessage => '请稍后重试。';
 
   @override
-  String get appTitle => 'Echo Loop';
+  String get appTitle => 'Study Loop';
 
   @override
-  String get premiumTitle => 'Echo Loop 会员';
+  String get premiumTitle => 'Study Loop 会员';
 
   @override
   String get premiumTagline => '无限 AI，学习更高效。';
@@ -208,7 +208,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get premiumRestoreAccountMismatch =>
-      '此订阅已绑定到另一个 Echo Loop 账号。请登录原账号后重试。';
+      '此订阅已绑定到另一个 Study Loop 账号。请登录原账号后重试。';
 
   @override
   String get premiumRestoreNone => '未找到可恢复的购买。';
@@ -1923,7 +1923,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get asrBackendPlatformDescription => '使用系统自带的语音识别，无需下载';
 
   @override
-  String get asrBackendOffline => 'Echo Loop AI';
+  String get asrBackendOffline => 'Study Loop AI';
 
   @override
   String get asrBackendOfflineDescription => '使用应用自带的 AI 模型，支持离线使用，需下载';
@@ -3700,7 +3700,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get guidePlanStartLearningDescription =>
-      '点击这里即可按照学习计划逐步学习。Echo Loop 会自动引导你学习，并及时提醒你复习。';
+      '点击这里即可按照学习计划逐步学习。Study Loop 会自动引导你学习，并及时提醒你复习。';
 
   @override
   String get guidePlanPauseLearningTitle => '暂停学习';
@@ -4274,7 +4274,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get speechPermUnsupportedToast => '当前平台不支持录音';
 
   @override
-  String get authSignInTitle => '登录 Echo Loop';
+  String get authSignInTitle => '登录 Study Loop';
 
   @override
   String get authChooseMethod => '选择一种方式继续。';
@@ -4591,7 +4591,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get baiduNetdiskConnectDescription =>
-      '授权 Echo Loop 浏览你的百度网盘，并导入选中的素材文件。';
+      '授权 Study Loop 浏览你的百度网盘，并导入选中的素材文件。';
 
   @override
   String get baiduNetdiskConnectAction => '连接百度网盘';
@@ -4609,7 +4609,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get baiduNetdiskLogoutTitle => '退出百度网盘登录？';
 
   @override
-  String get baiduNetdiskLogoutMessage => 'Echo Loop 会清除当前设备上保存的百度网盘授权。';
+  String get baiduNetdiskLogoutMessage => 'Study Loop 会清除当前设备上保存的百度网盘授权。';
 
   @override
   String get baiduNetdiskLogoutConfirm => '退出登录';
@@ -4858,7 +4858,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get ttsEnginePlatformDescription => '设备自带，速度快、无需下载，但音质一般。';
 
   @override
-  String get ttsEngineEchoLoop => 'Echo Loop AI (Advanced)';
+  String get ttsEngineEchoLoop => 'Study Loop AI (Advanced)';
 
   @override
   String get ttsEngineComingSoon => '即将推出';
@@ -4867,7 +4867,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get ttsEngineEchoLoopDescription => '音质最好，需下载模型，推荐高性能设备使用。';
 
   @override
-  String get ttsEnginePiper => 'Echo Loop AI (Balanced)';
+  String get ttsEnginePiper => 'Study Loop AI (Balanced)';
 
   @override
   String get ttsEnginePiperDescription => '音质自然流畅，需下载模型，推荐中等配置设备使用。';
@@ -4956,13 +4956,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get ttsDeleteModel => '删除模型';
 
   @override
-  String get ttsDeleteModelConfirm => '删除 Echo Loop 语音模型？可随时重新下载。';
+  String get ttsDeleteModelConfirm => '删除 Study Loop 语音模型？可随时重新下载。';
 
   @override
   String get ttsCancelDownload => '取消';
 
   @override
-  String get ttsDownloadedModelsTitle => '已下载的 Echo Loop 模型';
+  String get ttsDownloadedModelsTitle => '已下载的 Study Loop 模型';
 
   @override
   String ttsDownloadedModelsDesc(String size) {
@@ -4970,7 +4970,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get asrDeleteAllModelsConfirm => '删除所有已下载的 Echo Loop 语音识别模型？可随时重新下载。';
+  String get asrDeleteAllModelsConfirm => '删除所有已下载的 Study Loop 语音识别模型？可随时重新下载。';
 
   @override
   String get asrDownloadedModelsTitle => '已下载的语音识别模型';
@@ -5343,7 +5343,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get aiSettingsIntro =>
-      'Echo Loop 使用你自己的 API Key 直接调用 AI 服务商。Key 只保存在本设备的系统安全存储中，绝不会发送到其他任何地方。';
+      'Study Loop 使用你自己的 API Key 直接调用 AI 服务商。Key 只保存在本设备的系统安全存储中，绝不会发送到其他任何地方。';
 
   @override
   String get aiSettingsApiKeyLabel => 'API Key';

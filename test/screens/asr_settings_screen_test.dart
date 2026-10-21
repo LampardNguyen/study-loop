@@ -145,7 +145,7 @@ void main() {
     expect(find.text('Cancel'), findsOneWidget);
   });
 
-  testWidgets('Echo Loop AI 模型列表单独成组并显示预估大小', (tester) async {
+  testWidgets('Study Loop AI 模型列表单独成组并显示预估大小', (tester) async {
     final notifier = _StaticOfflineAsrSettingsNotifier(
       OfflineAsrSettingsState(
         enabled: true,
@@ -160,7 +160,7 @@ void main() {
     expect(find.text('Speech Engine'), findsOneWidget);
     // iOS/macOS 额外显示后端选择器中的 Echo Loop AI；Linux CI 不显示平台后端选择器。
     final expectedEchoLoopLabels = Platform.isIOS || Platform.isMacOS ? 2 : 1;
-    expect(find.text('Echo Loop AI'), findsNWidgets(expectedEchoLoopLabels));
+    expect(find.text('Study Loop AI'), findsNWidgets(expectedEchoLoopLabels));
     expect(find.byType(Card), findsNWidgets(2));
     expect(find.textContaining('~100 MB'), findsOneWidget);
     expect(find.textContaining('~150 MB'), findsOneWidget);
@@ -211,7 +211,7 @@ void main() {
 
     expect(
       find.text(
-        'Delete all downloaded Echo Loop speech recognition models? You can re-download them anytime.',
+        'Delete all downloaded Study Loop speech recognition models? You can re-download them anytime.',
       ),
       findsOneWidget,
     );

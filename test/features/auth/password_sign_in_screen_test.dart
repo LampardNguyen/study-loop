@@ -84,7 +84,7 @@ Future<void> _tapVisible(WidgetTester tester, Finder finder) async {
 }
 
 Future<void> _tapLogo(WidgetTester tester, int times) async {
-  final logo = find.bySemanticsLabel('Echo Loop');
+  final logo = find.bySemanticsLabel('Study Loop');
   for (var i = 0; i < times; i++) {
     await tester.tap(logo);
     await tester.pump();

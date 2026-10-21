@@ -105,17 +105,17 @@ const defaultLegacyModelFileRegistry = <String, AsrModelManifest>{
 final List<AsrModelInfo> availableModels = [
   const AsrModelInfo(
     id: 'whisper-tiny-en-int8',
-    displayName: 'Echo Loop AI (Fast)',
+    displayName: 'Study Loop AI (Fast)',
     type: AsrModelType.whisper,
   ),
   const AsrModelInfo(
     id: 'whisper-base-en-int8',
-    displayName: 'Echo Loop AI (Balanced)',
+    displayName: 'Study Loop AI (Balanced)',
     type: AsrModelType.whisper,
   ),
   const AsrModelInfo(
     id: 'whisper-small-en-int8',
-    displayName: 'Echo Loop AI (Accurate)',
+    displayName: 'Study Loop AI (Accurate)',
     type: AsrModelType.whisper,
   ),
 ];

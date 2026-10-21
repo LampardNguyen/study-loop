@@ -128,7 +128,7 @@ void main() {
       expect(logs, contains(contains('模型预热完成：目标=platform/system')));
     });
 
-    test('Kokoro 实现日志不暴露 Echo Loop 产品名', () async {
+    test('Kokoro 实现日志不暴露 Study Loop 产品名', () async {
       final c = build();
       await c.configure(TtsEngineKind.kokoro, _config);
       await c.speak('hi');
@@ -547,7 +547,7 @@ void main() {
       verify(() => player.playFile('/tmp/out.wav')).called(1);
     });
 
-    test('当前为平台引擎时，speakWith Echo Loop 会切到 Echo Loop 引擎合成', () async {
+    test('当前为平台引擎时，speakWith Study Loop 会切到 Echo Loop 引擎合成', () async {
       final platformEngine = MockTtsEngine();
       final echoEngine = MockTtsEngine();
       _stubEngine(platformEngine, filePath: '/tmp/platform.wav');

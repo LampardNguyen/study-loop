@@ -144,7 +144,7 @@ class MediaKitPlayerBackend implements MediaPlayerBackend {
     return _player.setSubtitleTrack(
       srt == null || srt.isEmpty
           ? SubtitleTrack.no()
-          : SubtitleTrack.data(srt, title: 'Echo Loop'),
+          : SubtitleTrack.data(srt, title: 'Study Loop'),
     );
   }
 
