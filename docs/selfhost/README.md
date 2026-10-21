@@ -81,6 +81,27 @@ Chuyển giọng nói thành văn bản dùng model `whisper-1` trên cùng Base
 - **Mất keystore thì không thể cài bản cập nhật đè lên bản cũ** (phải gỡ app và mất dữ liệu). Hãy chép cả 2 file vào nơi an toàn, ví dụ password manager hoặc ổ mã hoá.
 - SHA-256 của chứng chỉ: `F5:1E:E8:E3:62:1D:39:DF:54:A0:B7:01:8B:C7:FC:23:B7:FA:1B:07:28:9F:C4:2F:5B:8E:25:9A:09:2A:8A:93`
 
+## 4b. Phát hành bản mới (GitHub Release + thông báo cập nhật trong app)
+
+App Android tự kiểm tra **Release mới nhất** của repo `LampardNguyen/study-loop` khi mở app (hoặc bấm
+**Cài đặt → Kiểm tra cập nhật**). Nếu tag mới hơn bản đang cài thì hiện hộp thoại "Có bản mới" kèm mô tả Release;
+bấm cập nhật thì trình duyệt tải APK, Android hỏi cài đè, dữ liệu giữ nguyên.
+
+Mỗi lần phát hành:
+
+1. Sửa `pubspec.yaml`, tăng **cả hai phần**: `version: 1.0.42+7` → `1.0.43+8`
+   (tên version để app so sánh, số build để Android cho cài đè). Commit rồi `git push`.
+2. Build: `flutter build apk --release --flavor prod`.
+3. Vào https://github.com/LampardNguyen/study-loop/releases/new:
+   - **Tag**: `v1.0.43` (đúng bằng tên version), chọn *Create new tag*, target `main`.
+   - **Title**: `Study Loop 1.0.43`; **Description**: ghi thay đổi (hiện trong hộp thoại cập nhật).
+   - Kéo file `build/app/outputs/flutter-apk/app-prod-release.apk` vào (nên đổi tên `study-loop-1.0.43.apk`, phải đuôi `.apk`).
+   - Không chọn *pre-release*, giữ *Set as the latest release* → **Publish release**.
+4. Gửi bạn bè link https://github.com/LampardNguyen/study-loop/releases/latest (lần đầu); những lần sau app tự báo.
+
+**Không thấy thông báo?** Kiểm tra: tag có lớn hơn bản đang cài không; Release có phải *latest* (không phải
+pre-release/draft) không; có đính file `.apk` không. Bản cài trước build 7 không có tính năng này.
+
 ## 5. Tự host CDN model (tuỳ chọn)
 
 1. Tải các file mà app cần từ `https://cdn.echo-loop.top/...`, giữ nguyên đường dẫn

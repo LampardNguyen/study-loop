@@ -208,6 +208,10 @@ For each release:
 
 Only public release info is fetched (`api.github.com`); no user data is sent. A failed check is silently ignored.
 
+**No update dialog?** Check that the tag is higher than the installed version name, that the release is marked
+**latest** (not a pre-release or draft), and that a `.apk` file is attached. You can also trigger it from
+**Settings → Check for updates**.
+
 ## 🧪 Tests
 
 ```bash
