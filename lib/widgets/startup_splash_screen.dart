@@ -5,10 +5,9 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 /// 原生与 Flutter 启动页共用的 Logo 源资源。
-const _startupLogoAsset = 'assets/icon/app-icon.svg';
+const _startupLogoAsset = 'assets/icon/app-icon-1024-alpha.png';
 
 /// 保持与 Android/iOS 原生启动页一致的视觉尺寸。
 const _startupLogoSize = 96.0;
@@ -30,12 +29,12 @@ class StartupSplashScreen extends StatelessWidget {
       key: const ValueKey('startup-splash-background'),
       color: backgroundColor,
       child: Center(
-        child: SvgPicture.asset(
+        child: Image.asset(
           _startupLogoAsset,
           key: const ValueKey('startup-splash-logo'),
           width: _startupLogoSize,
           height: _startupLogoSize,
-          semanticsLabel: 'Echo Loop',
+          semanticLabel: 'Study Loop',
         ),
       ),
     );

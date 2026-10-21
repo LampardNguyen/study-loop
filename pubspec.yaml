@@ -168,7 +168,6 @@ flutter:
     # ic_stat_logo 仅作 Android 通知图标源文件）不进包；订阅页透明底品牌图单独显式打包。
     - assets/icon/app-icon-1024.png
     - assets/icon/app-icon-1024-alpha.png
-    - assets/icon/app-icon.svg
     - assets/icon/apple-podcasts.svg
     - assets/icon/artist-palette.svg
     - assets/icon/baidu-netdisk.svg
@@ -247,6 +246,9 @@ flutter_launcher_icons:
   remove_alpha_ios: true
   # 主图标路径
   image_path: "assets/icon/app-icon-1024.png"
+  # Android 8+ 自适应图标（白底 + 安全区内前景）
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/icon/app-icon-adaptive-foreground.png"
   # 桌面平台配置
   macos:
     generate: true

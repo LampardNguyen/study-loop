@@ -3,7 +3,6 @@ library;
 
 import 'package:echo_loop/widgets/startup_splash_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -14,7 +13,7 @@ void main() {
       final background = tester.widget<ColoredBox>(
         find.byKey(const ValueKey('startup-splash-background')),
       );
-      final logo = tester.widget<SvgPicture>(
+      final logo = tester.widget<Image>(
         find.byKey(const ValueKey('startup-splash-logo')),
       );
 

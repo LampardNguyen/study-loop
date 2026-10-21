@@ -12,9 +12,7 @@ void main() {
 
     expect(icon, contains('android:width="288dp"'));
     expect(icon, contains('android:height="288dp"'));
-    expect(icon, contains('android:viewportWidth="1536"'));
-    expect(icon, contains('android:translateX="512"'));
-    expect(icon, contains('android:translateY="512"'));
+    expect(icon, contains('@drawable/startup_splash_logo'));
 
     for (final density in ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']) {
       expect(
