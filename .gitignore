@@ -63,3 +63,9 @@ test-results.json
 android/key.properties
 *.jks
 *.keystore
+
+# Gradle cache của plugin vendored
+**/android/.gradle/
+
+# Ghi chú riêng cho Claude Code (không public)
+CLAUDE.local.md

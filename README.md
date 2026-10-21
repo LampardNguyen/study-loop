@@ -1,425 +1,199 @@
-<div align="right">
-  <a href="./README.en.md">English</a> | <strong>简体中文</strong>
-</div>
-
 <div align="center">
   <img src="assets/icon/app-icon-1024-rounded.png" alt="Echo Loop" width="128" />
 
-  <h1>Echo Loop — 高效的英语听说训练 App</h1>
+  <h1>Echo Loop — Self-hosted Edition</h1>
 
-  <p><strong>从此不必自己摸索怎么练好英语。</strong></p>
+  <p><strong>An English listening &amp; speaking trainer that runs without anyone's backend.</strong></p>
 
-  <p>精听 · 跟读 · 盲听 · 复述 · 复习，Echo Loop 按科学节奏推你走完。</p>
-
-  <p><sub><em>本项目由中央民族大学外国语学院 <a href="https://sfs.muc.edu.cn/info/1063/3729.htm">杨艳老师</a> 指导设计。</em></sub></p>
+  <p>No analytics · No paywall · Bring your own OpenAI key · Vietnamese UI</p>
 
   <p>
     <a href="./LICENSE"><img src="https://img.shields.io/badge/License-AGPL--3.0-blue.svg" alt="License: AGPL-3.0" /></a>
-    <img src="https://img.shields.io/badge/Platform-iOS%20%C2%B7%20Android%20%C2%B7%20macOS%20%C2%B7%20Windows-brightgreen.svg" alt="Platform" />
-    <a href="https://github.com/echo-loop/Echo-Loop/releases/latest"><img src="https://img.shields.io/github/v/release/echo-loop/Echo-Loop?label=release&color=orange" alt="Latest release" /></a>
-    <a href="https://github.com/echo-loop/Echo-Loop/releases"><img src="https://img.shields.io/github/downloads/echo-loop/Echo-Loop/total?label=downloads" alt="Total release downloads" /></a>
-    <a href="https://github.com/echo-loop/Echo-Loop/commits/main"><img src="https://img.shields.io/github/last-commit/echo-loop/Echo-Loop" alt="Last commit" /></a>
-  </p>
-
-  <p>
-    <a href="https://trendshift.io/repositories/41519?utm_source=trendshift-badge&amp;utm_medium=badge&amp;utm_campaign=badge-trendshift-41519" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/41519/weekly?language=Dart" alt="echo-loop%2FEcho-Loop | Trendshift" width="250" height="55" /></a>
-  </p>
-
-  <p>
-    <a href="https://apps.apple.com/app/id6760324074"><img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store" height="48" /></a>
-    <a href="https://play.google.com/store/apps/details?id=app.echoloop"><img src="assets/badges/google-play-en.png" alt="Get it on Google Play" height="40" /></a>
+    <img src="https://img.shields.io/badge/Platform-Android-brightgreen.svg" alt="Platform: Android" />
+    <a href="https://github.com/echo-loop/Echo-Loop"><img src="https://img.shields.io/badge/forked%20from-echo--loop%2FEcho--Loop-lightgrey" alt="Forked from echo-loop/Echo-Loop" /></a>
   </p>
 </div>
 
-
 ---
 
-## 📖 Echo Loop 是什么
+This is a personal fork of **[echo-loop/Echo-Loop](https://github.com/echo-loop/Echo-Loop)**, an open-source Flutter app
+that drives you through a structured listen → shadow → retell → spaced-review loop.
 
-**若英语听说也有一卷无上内功心法，Echo Loop 便是一部现代学习者的 E筋经**。这个 E，既是 Echo，也是 English，更是 Ear 与 Expression。它不传花拳绣腿，不教临场取巧，而是带你:
+The upstream app depends on the original author's servers for sign-in, subscriptions, AI features and transcription.
+This fork removes all of that: every AI request goes **directly from your device to OpenAI (or any
+OpenAI-compatible endpoint) using an API key you enter in the app**, and nothing is sent to the original author.
 
-- 先精听通脉，打通语音、词义与句意经脉
-- 再跟读运功，校准发音、节奏和语感
-- 继而盲听入定，检验对原声的整体理解
-- 再以复述出招，把听进去的英语化为自己口中自然流出的表达
+> All learning features belong to the upstream project. Credit goes to the Echo Loop authors.
+> This fork only changes where data goes and who pays for AI.
 
-初练之后，八阶回环自成周天，间隔复习固本培元，难句与生词也在一次次回炉中融会贯通，化为己用。
-练到深处，听力不再靠猜，口语不再硬憋，真正生出一身可持续增长的英语听说内功。
-
-说得直白一点，Echo Loop 是一款科学高效的英语听说训练 App。它帮助你把一段音频从陌生练到真正听懂，再通过跟读和复述实现听说闭环，逐步练到脱口而出。系统会自动安排间隔复习和提醒，逐步推进训练节奏。你不用自己摸索方法，也不用手动控制流程，只需专注练习本身。
-
----
-
-## 📱 截图
+## 📱 Screenshots
 
 <table>
   <tr>
-    <td align="center"><img src="assets/screenshots/01-import.png" alt="导入音频" width="180" /><br/><sub>导入音频，开始练习</sub></td>
-    <td align="center"><img src="assets/screenshots/02-loop.png" alt="科学练习" width="180" /><br/><sub>科学练习，听说闭环</sub></td>
-    <td align="center"><img src="assets/screenshots/03-reminder.png" alt="自动提醒" width="180" /><br/><sub>自动提醒，进步可见</sub></td>
-    <td align="center"><img src="assets/screenshots/04-intensive.png" alt="逐句精听" width="180" /><br/><sub>逐句精听，难句标注</sub></td>
-    <td align="center"><img src="assets/screenshots/05-analysis.png" alt="意群划分" width="180" /><br/><sub>意群划分，难句解析</sub></td>
-  </tr>
-  <tr>
-    <td align="center"><img src="assets/screenshots/06-retell.png" alt="段落复述" width="180" /><br/><sub>段落复述，听懂变成会说</sub></td>
-    <td align="center"><img src="assets/screenshots/07-favorites.png" alt="难句收藏" width="180" /><br/><sub>难句收藏，熟中生巧</sub></td>
-    <td align="center"><img src="assets/screenshots/08-flashcard.png" alt="闪卡复习" width="180" /><br/><sub>闪卡复习，原句再现</sub></td>
-    <td align="center"><img src="assets/screenshots/09-freestyle.png" alt="自由练习" width="180" /><br/><sub>按你的节奏，自由练习</sub></td>
-    <td align="center"><img src="assets/icon/app-icon-1024-rounded.png" alt="Echo Loop" width="120" /></td>
+    <td align="center"><img src="assets/screenshots/01-import.png" alt="Import audio" width="160" /><br/><sub>Import audio</sub></td>
+    <td align="center"><img src="assets/screenshots/04-intensive.png" alt="Sentence-by-sentence" width="160" /><br/><sub>Intensive listening</sub></td>
+    <td align="center"><img src="assets/screenshots/05-analysis.png" alt="Sense groups" width="160" /><br/><sub>Sense groups &amp; AI analysis</sub></td>
+    <td align="center"><img src="assets/screenshots/06-retell.png" alt="Retelling" width="160" /><br/><sub>Retelling</sub></td>
+    <td align="center"><img src="assets/screenshots/08-flashcard.png" alt="Flashcards" width="160" /><br/><sub>Flashcard review</sub></td>
   </tr>
 </table>
 
----
+<sub>Screenshots are from the upstream app (Chinese UI).</sub>
 
-## ✨ 功能
+## ✨ Features (from upstream)
 
-- 🤖 **自动驱动学习节奏**：跟读次数、复习时机、难句标记自动推进，你只需要专注听和说。
-- 🎯 **听说闭环**：精听、跟读、复述一气呵成。从听懂内容，到模仿表达，再到用自己的话说出来。
-- 🧩 **长难句意群划分**：长句按意群切分，复杂句拆开理解，降低听懂难度。
-- ⭐ **难句收藏与专项复习**：难句自动归档，可集中跟读、反复重练，避免“标了就忘”。
-- 📚 **语境化闪卡复习**：收藏单词和意群，结合原句上下文复习，在语境中记忆，而不是孤立背词。
-- 💡 **AI 翻译、解析与词汇讲解**：支持双语翻译、句子解析、单词用法和搭配讲解，按需展开，不打断学习节奏。
-- 📍 **断点续学**：自动记录学习阶段和当前句子，下次打开直接继续，5 分钟碎片时间也能练。
-- 📊 **学习数据统计**：记录学习时长、输入输出比例、唯一词汇量，让练了多少、说了多少一目了然。
-- 🎙️ **跟读 AI 评测**：自动对齐识别结果与原文，高亮命中词，并给出跟读评级。
-- 🎧 **导入本地音频 + AI 字幕**：支持批量导入本地音频，可导入本地字幕，也可用 AI 自动转录生成字幕。
+- **Auto-driven learning loop**: intensive listening → shadowing → blind listening → retelling, then 7 spaced
+  reviews from 6 hours to 28 days.
+- **Sense-group splitting** of long sentences.
+- **Saved hard sentences** and **flashcards reviewed in their original context**.
+- **AI translation, sentence analysis, AI dictionary, AI tutor chat, AI retell evaluation**.
+- **Local audio import**, existing subtitle import (SRT, …), or AI transcription.
+- Podcasts via RSS, resume where you left off, learning statistics.
 
----
+## 🔧 What this fork changes
 
-## 🤔 我们为什么做这个
-
-很多人学英语时，最大的问题不是缺材料，而是不知道怎么把一段材料真正练透。
-
-常见情况是：今天收藏一个播客，明天听一段演讲，材料越来越多，但真正认真练熟的内容很少。听的时候好像懂了，过几天又忘了，更不用说把里面的表达说出来。
-
-这背后其实很符合人性：人天然喜欢新鲜、轻松、即时反馈强的东西，所以花哨的内容、游戏化激励和不断刷新的材料很容易让人上瘾。但对语言学习来说，真正有效的训练往往不是"不断换新材料"，而是对合适的材料进行重复、拆解、模仿和复述。过多的新鲜感反而会分散注意力，让学习停留在"看过、听过、收藏过"，而没有真正内化。
-
-另一个更隐蔽的问题是：即使知道正确的方法，也很难长期坚持。因为这些方法看起来简单，真正执行时却需要大量手动判断：今天练哪段、先听几遍、什么时候看字幕、哪些句子要反复跟读、什么时候开始复述、几天后再复习、复习时该练什么。每一步都要自己控制，最后学习本身还没开始，决策负担已经把心力耗尽了。
-
-**这些决策本身才是最消耗意志力的地方**：不是听不懂，是不知道下一步该做什么。
-
-Echo Loop 想做的，就是在不违背人性的前提下，用更科学的训练流程降低重复练习的执行成本。它把精听、跟读、盲听、复述和间隔复习串成一个自动推进的闭环：选一段你想听懂的音频，按下开始，从精听到通关，每一步它都会告诉你"现在做什么"。
-
-你只需要坚持打开 App，剩下交给 Echo Loop。把一段材料练透，强过泛听 100 个音频。
-
----
-
-## 🆚 和其他方案的差异
-
-挑了四款国内学习者最熟的 App 对比。单看每一项功能，其它 App 也或多或少有；但 Echo Loop 真正的不同在于：**它把每一步串起来自动驱动你走完，你不需要自己摸索方法、控制遍数、掌握复习节奏。**
-
-| 功能 | Echo Loop | 每日英语听力 | 可可英语 | 英语流利说 | Anki |
-|---|---|---|---|---|---|
-| **学习节奏由 App 驱动** | ✅ 全自动 | ❌ | ❌ | ❌ | ❌ |
-| 听 → 说闭环（精听 + 跟读 + **复述**） | ✅ | ⚠️ 部分支持 | ⚠️ 部分支持 | ⚠️ 部分支持 | ❌ |
-| **长难句意群划分** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **收藏句专项复习** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **语境化闪卡复习** | ✅ | ❌ | ❌ | ❌ | ⚠️ 需手动建卡 |
-| AI 翻译 / 句子解析 / 单词深度解析 | ✅ | ⚠️ 部分支持 | ⚠️ 部分支持 | ❌ | ❌ |
-| **断点续学**| ✅ | ⚠️ 部分支持 | ⚠️ 部分支持 | ⚠️ 部分支持 | ⚠️ 部分支持 |
-| 学习数据：时长 / 输入输出比 / 唯一词汇量 | ✅ | ⚠️ 部分支持 | ⚠️ 部分支持 | ⚠️ 部分支持 | ❌ |
-| 跟读 AI 评测 | ✅ | ✅ | ✅ | ✅ | ❌ |
-| 导入本地音频 | ✅ | ✅ | ❌ | ❌ | ⚠️ 需自制卡片 |
-| 离线可用 | ✅ | ✅ | ✅ | ⚠️ 部分支持 | ✅ |
-| 开源 | ✅ | ❌ | ❌ | ❌ | ✅ |
-
----
-
-## 🧠 学习方法论
-
-**精听 → 跟读 → 盲听 → 复述 → 科学间隔复习 → 通关。**
-
-```mermaid
-flowchart LR
-  A[精听<br/>逐句听懂，标记重点难句] --> B[跟读<br/>模仿语音语调，训练发音能力]
-  B --> C[盲听<br/>完整听一遍，检验整体理解]
-  C --> D[复述<br/>用自己的话表达，提升输出能力]
-  D --> E[间隔复习<br/>在遗忘前重练，巩固长期记忆]
-  E --> F[通关<br/>完成本轮学习任务]
-```
-
-**以上每一步，由 Echo Loop 自动驱动，不需要你判断。**
-
-你不需要管"现在该听几遍"、"上次那个素材该不该复习了"。打开 App，今天该做什么会直接呈现在你眼前。
-
-学习全过程量化：**学习时长 · 输入输出比 · 唯一词汇量**。
-
-<details>
-<summary><strong>间隔复习法是怎么安排的？</strong></summary>
-
-每段素材分成 1 次首次学习 + 7 轮间隔复习。间隔从 6 小时拉长到 28 天，让大脑在快要遗忘时重新触达记忆痕迹，符合艾宾浩斯遗忘曲线。
-
-| 阶段 | 距上次间隔 | 任务 |
+| Area | Upstream | This fork |
 |---|---|---|
-| 首次学习 | — | 精听 → 跟读 → 盲听 → 段落复述 |
-| 首轮复习 | 6 小时后 | 难句补练 + 段落复述 |
-| 第二轮复习 | 1 天后 | 盲听 + 难句补练 + 段落复述 |
-| 第三轮复习 | 2 天后 | 盲听 + 难句补练 + 段落复述 |
-| 第四轮复习 | 4 天后 | 盲听 + 难句补练 + 段落复述 |
-| 第五轮复习 | 7 天后 | 盲听 + 难句补练 + 段落复述 |
-| 第六轮复习 | 14 天后 | 盲听 + 难句补练 + 段落复述 |
-| 第七轮复习 | 28 天后 | 盲听 + 难句补练 + 段落复述 |
+| Analytics | PostHog (with iOS session replay), Firebase Analytics, Umeng | **Removed.** Events are only logged locally (`LogOnlyChannel`) |
+| Android permissions | `AD_ID`, `BILLING` | Removed |
+| Payments / Pro | RevenueCat, Paddle, StoreKit | Removed. **All Pro features unlocked** |
+| AI features (translate, analyze, dictionary, sense groups, chat, retell review) | Author's backend | **Direct `chat/completions` call with your own API key** |
+| Cloud transcription (AI subtitles) | Upload to the author's R2 + backend | **Direct `audio/transcriptions` (Whisper) call with your key** |
+| Sign-in | Author's Supabase | **Guest mode by default** (account UI hidden). Can be re-enabled with your own Supabase |
+| Remote config, featured podcasts, community collections, update check, region detection, Baidu Netdisk | Author's backend | Disabled (`API_BASE_URL` empty). Local defaults are used |
+| Podcast subscriptions | Required sign-in | No sign-in. Search via iTunes Search API, RSS read directly |
+| Languages | English, Chinese | **+ Vietnamese** (UI and native language for translations) |
+| Package / app name | `app.echoloop` / "Echo Loop" | `app.echoloop.selfhost` / "Echo Loop (SH)". Installs side by side with the official app |
+| Signing | Author's keystore | Your own release keystore (never committed) |
 
-</details>
+### Remaining outbound connections
 
----
+None of these carry personal data; they only see your IP address.
 
-## 📥 下载与试用
+- `cdn.echo-loop.top`: public static files (on-device ASR/TTS models, offline EN→ZH dictionary, pronunciation data).
+  You can mirror them yourself (see [Self-hosting the model CDN](#self-hosting-the-model-cdn)).
+- Web dictionaries (Cambridge, Oxford, …), opened in a WebView only when you pick them.
+- iTunes Search API, when searching podcasts.
+- The AI base URL you configure (default `api.openai.com`), only when you use an AI feature.
 
-<table>
-  <tr>
-    <td valign="middle">
-      <p>
-        <a href="https://apps.apple.com/app/id6760324074"><img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" height="48" /></a>
-        &nbsp;
-        <a href="https://play.google.com/store/apps/details?id=app.echoloop"><img src="assets/badges/google-play-en.png" alt="Get it on Google Play" height="40" /></a>
-        &nbsp;
-        <a href="https://github.com/echo-loop/Echo-Loop/releases"><img src="https://img.shields.io/badge/Android-下载%20APK-3DDC84?logo=android&logoColor=white&style=for-the-badge" alt="Android APK" height="48" /></a>
-      </p>
-      <p><sub>桌面端：macOS 开发中 · Windows 规划中 · Web 暂无计划</sub></p>
-    </td>
-    <td valign="middle" align="center" width="120">
-      <img src="assets/qr/app-store.png" alt="App Store 二维码" width="110" /><br/>
-      <sub>App Store</sub>
-    </td>
-    <td valign="middle" align="center" width="120">
-      <img src="assets/qr/google-play.png" alt="Google Play 二维码" width="110" /><br/>
-      <sub>Google Play</sub>
-    </td>
-  </tr>
-</table>
+## 🔑 Bring your own OpenAI key
 
----
+Open **Profile → Settings → AI Settings**:
 
-## 💬 加入社群
+1. **API key**: `sk-...`. Stored only in `flutter_secure_storage` (Android Keystore). It is never written to
+   SharedPreferences, logs, in-app backups, or build-time defines.
+2. **Base URL**: defaults to `https://api.openai.com/v1`. Any OpenAI-compatible service works (OpenRouter, a local
+   server, …). Plain `http://` is only allowed for localhost / LAN addresses.
+3. **Model**: defaults to `gpt-4.1-mini`. You can type any model name.
+4. Tap **Test connection**, then **Save**.
 
-和其他认真练英语的伙伴一起：交流学习方法、分享学习资源、反馈使用体验、第一时间收到新功能更新。
+Transcription uses `whisper-1` on the same base URL and key, so your provider must support `audio/transcriptions`.
 
-- [加入 QQ 群（665696118）](https://qm.qq.com/q/5STdrSJS36)：和其他认真练英语的伙伴交流学习方法、分享学习资源。
-- [微信联系我们](https://i.postimg.cc/P5tVpPTV/echo-loop-wecom.jpg)：扫描二维码联系 Echo Loop。
-- [关注 B 站](https://space.bilibili.com/509449049/upload/video)：获取英语学习内容和功能更新。
-- [关注小红书](https://xhslink.cn/m/4zOdGUcDH4N)：获取使用技巧、功能更新和英语学习内容。
+If an AI feature is used without a key, the app shows a dialog that links straight to AI Settings.
 
----
+> **Note on reasoning models:** the chat client always sends `temperature`. Some reasoning models (e.g. the
+> `gpt-5*` family) may reject it with HTTP 400. Non-reasoning models such as `gpt-4.1-mini` are recommended;
+> none of the app's features need reasoning.
 
-## 🗺️ Roadmap
+### Cost
 
-### ✅ 1 · 核心功能
+You pay OpenAI directly, at their standard per-token prices. With `gpt-4.1-mini`, sentence-level features
+(translation, analysis, dictionary lookups) cost a fraction of a cent each. Whisper is billed per minute of audio.
 
-- [x] 学习闭环：精听 / 跟读 / 盲听 / 段落复述
-- [x] 间隔复习调度（6h → 28d）
-- [x] 长难句意群划分
-- [x] 难句收藏 + 专项复习
-- [x] 语境化闪卡复习
-- [x] AI 翻译 / 句子解析
-- [x] iOS / macOS 原生 ASR 跟读评测
-- [x] 断点续学
-- [x] 学习数据统计
+## 🛠️ Build
 
-### 🚧 2 · AI 能力
-
-- [ ] AI 口语陪练
-- [x] AI 学习助手（随时答疑）
-- [x] AI 查词
-- [ ] 个性化素材推荐
-
-### 🔭 3 · 体验与平台
-
-- [ ] 自定义任务流
-- [ ] 连胜激励 / 学习勋章
-- [ ] macOS / Windows 桌面版正式发布
-
-### 🔭 4 · 内容生态
-
-- [ ] 官方精选合集（按主题 + 难度分级）
-- [ ] 用户合集分享 / UGC 学习材料
-
----
-
-## ⭐ Star History
-
-<a href="https://www.star-history.com/?repos=echo-loop%2FEcho-Loop&type=date&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=echo-loop/Echo-Loop&type=date&theme=dark&legend=top-left&sealed_token=Yn1CvBygp-TANTMrrjOoIPcBqfBW4dJBno9qMlDVPTRaqlNZEvy5k6QNjheAb8AxwJ3ygwow4Zszp0Z5XCtxf7OP4MOtE_fCjKTjyBALH5gvoX-6BOLIIQ" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=echo-loop/Echo-Loop&type=date&legend=top-left&sealed_token=Yn1CvBygp-TANTMrrjOoIPcBqfBW4dJBno9qMlDVPTRaqlNZEvy5k6QNjheAb8AxwJ3ygwow4Zszp0Z5XCtxf7OP4MOtE_fCjKTjyBALH5gvoX-6BOLIIQ" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=echo-loop/Echo-Loop&type=date&legend=top-left&sealed_token=Yn1CvBygp-TANTMrrjOoIPcBqfBW4dJBno9qMlDVPTRaqlNZEvy5k6QNjheAb8AxwJ3ygwow4Zszp0Z5XCtxf7OP4MOtE_fCjKTjyBALH5gvoX-6BOLIIQ" />
- </picture>
-</a>
-
----
-
-## 🎓 学术指导 & 致谢
-
-**学术指导**
-
-感谢 [杨艳老师](https://sfs.muc.edu.cn/info/1063/3729.htm)（中央民族大学外国语学院；北京大学英语语言文学博士）对本项目方法论的指导。
-
-**核心依赖**
-
-- 音频与语音：[just_audio](https://pub.dev/packages/just_audio) · [audio_session](https://pub.dev/packages/audio_session) · [flutter_tts](https://pub.dev/packages/flutter_tts) · [sherpa_onnx](https://pub.dev/packages/sherpa_onnx)
-- 数据与状态：[drift](https://pub.dev/packages/drift) · [flutter_riverpod](https://pub.dev/packages/flutter_riverpod)
-- 文本处理：[subtitle](https://pub.dev/packages/subtitle) · [lemmatizerx](https://pub.dev/packages/lemmatizerx)
-- 系统能力：[file_picker](https://pub.dev/packages/file_picker) · [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications)
-
----
-
-## 🧑‍💻 给开发者
-
-<details open>
-<summary><strong>🚀 快速开始</strong></summary>
+Requirements: Flutter 3.41+, Android SDK, JDK 17.
 
 ```bash
-git clone git@github.com:echo-loop/Echo-Loop.git
-cd Echo-Loop
-cp .dev.env.template .dev.env   # 填入 Supabase / Google 等编译期变量
 flutter pub get
-dart run build_runner build
-flutter run -d <ios|android|macos> --dart-define-from-file=.dev.env
+dart run build_runner build --delete-conflicting-outputs
+flutter build apk --release --flavor prod
 ```
 
-> Supabase 与 Google 等编译期配置放在 `.dev.env`（调试）/ `.prod.env`（发布），通过
-> `--dart-define-from-file` 注入。这两个文件已被 `.gitignore`，请勿提交。
-> 全球 API 默认地址与中国 API 地址可用编译期变量覆盖；全球和中国模型 CDN 地址配置在
-> `lib/config/regional_service_endpoints.dart`；
-> 全球 API 默认地址为 `https://www.echo-loop.top`，可通过 `API_BASE_URL` 编译期变量覆盖；
-> 中国 API 默认地址为 `https://www.echo-loop.cn`，可通过 `API_CHINA_BASE_URL` 编译期变量覆盖，
-> 本地构建可在 `.prod.env` 中覆盖；GitHub Actions CI/Release 会直接将对应 GitHub Variables 传给构建命令；
-> release 包通过统一的 `isChinaUser` 结论选择区域：中国 Apple Storefront、设备国家码或
-> `/api/v1/client/config` 的 `context.countryCode` 任一返回 `CN`/`CHN` 即选择中国，
-> 不需要按地区构建。同一个 release 包包含全球与中国 API 候选地址。首次没有中国地区证据时先使用全球 API；
-> 地区结论变化后先保留当前 API，并立即用配置请求探测新的首选区域；遇到网络错误或 5xx
-> 时尝试另一区域一次。探测成功后切换到首选区域；备用成功后当前会话 API 暂用可用地址，
-> 后续配置刷新会重新探测首选区域。模型 CDN 始终跟随 `isChinaUser`；未设置 API 覆盖变量时使用源码默认地址。
+The APK is written to `build/app/outputs/flutter-apk/app-prod-release.apk`.
 
-</details>
+- `--flavor prod`: package `app.echoloop.selfhost`, signed with your release keystore.
+- `--flavor dev`: package `app.echoloop.dev`, signed with the debug key.
+- To install an update over an existing build, `versionCode` must increase:
+  `flutter build apk --release --flavor prod --build-number=2` (then 3, 4, …).
 
-<details>
-<summary><strong>🤝 如何贡献</strong></summary>
+### Release signing
 
-欢迎提 Issue / PR。提交前请运行：
+Create your own keystore and `android/key.properties`:
+
+```bash
+keytool -genkey -v -keystore android/app/selfhost-release.jks -keyalg RSA -keysize 2048 -validity 10000 -alias selfhost
+```
+
+```properties
+# android/key.properties
+storePassword=...
+keyPassword=...
+keyAlias=selfhost
+storeFile=selfhost-release.jks
+```
+
+Both files are in `.gitignore`. **Back them up:** if you lose the keystore you cannot install updates over the
+existing app without uninstalling it and losing your data.
+
+### Optional build-time variables
+
+Pass with `--dart-define=...` or `--dart-define-from-file=.prod.env` (`.prod.env` is gitignored, see `.dev.env.template`).
+
+| Variable | Purpose |
+|---|---|
+| `MODEL_CDN_BASE_URL` | Your own mirror for models and dictionaries (default: upstream CDN) |
+| `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `GOOGLE_WEB_CLIENT_ID` | Re-enable sign-in with your own Supabase project |
+| `API_BASE_URL` | **Leave empty.** Only set it if you run a backend compatible with the upstream server |
+
+The OpenAI key is **never** a build variable. It is entered in the app only.
+
+### Optional: sign-in with your own Supabase
+
+1. Create a Supabase project and enable the providers you want (Email, Google, Apple).
+2. Put `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` (plus `GOOGLE_WEB_CLIENT_ID` for Google) into `.prod.env`.
+3. Rebuild. The **Account** section reappears. Sign-in is still **not** required for AI features.
+
+### Self-hosting the model CDN
+
+1. Download the files the app needs from `https://cdn.echo-loop.top/...`, keeping the same paths
+   (see `lib/services/dictionary/dictionary_catalog.dart`, `scripts/piper_tts_models.manifest.txt`,
+   `scripts/upload_asr_models_to_r2.sh`).
+2. Upload them to R2 / S3 / GitHub Pages with the same directory layout.
+3. Build with `--dart-define=MODEL_CDN_BASE_URL=https://your-cdn.example`.
+
+## 🧪 Tests
 
 ```bash
 flutter analyze
 flutter test
 ```
 
-Commit 标题遵循 `PREFIX: 内容` 格式（参考 `git log` 看常用前缀，如 FEAT / FIX / DOCS / MOD / OPT / CHORE / CI / RELEASE 等）。详细贡献流程见 [CONTRIBUTING.md](#)（待补）。本项目遵循 [Contributor Covenant](https://www.contributor-covenant.org/) 行为准则。
+Known baseline issues inherited from upstream: 3 analyzer errors in `integration_test/kokoro_tts_test.dart`
+(outdated API), and a few flaky retell timing tests.
 
-</details>
+## ⚠️ Known limitations
 
-<details>
-<summary><strong>🛠️ 技术栈</strong></summary>
+- Cloud transcription is limited by Whisper to 25 MB per file. Longer audio is compressed first; if it is still
+  too large, the app reports an error.
+- On-device speech recognition is still hidden by upstream (quality not yet stable).
+- No offline English→Vietnamese dictionary. With Vietnamese as native language, the app uses the AI dictionary
+  or Cambridge English–Vietnamese.
+- The Vietnamese translation was machine-assisted; some strings may read unnaturally.
+- Only Android has been built and tested for this fork. iOS / macOS / Windows code is unchanged from upstream
+  apart from the removals above.
 
-![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)
-![Dart](https://img.shields.io/badge/Dart-0175C2?logo=dart&logoColor=white)
-![Riverpod](https://img.shields.io/badge/Riverpod-1F2937?logo=flutter&logoColor=white)
-![Drift](https://img.shields.io/badge/Drift-SQLite-003B57?logo=sqlite&logoColor=white)
-![Material 3](https://img.shields.io/badge/Material-3-757575?logo=materialdesign&logoColor=white)
+## 📂 Project notes
 
-| 类别 | 技术 | 用途 |
-|------|------|------|
-| UI 框架 | Flutter + Material 3 | 跨平台 UI |
-| 状态管理 | Riverpod（代码生成） | 单向数据流 |
-| 音频播放 | just_audio + audio_session | 音频引擎层 |
-| 字幕解析 | subtitle | SRT/VTT |
-| 文件选择 | file_picker | 本地音频/字幕导入 |
-| 数据持久化 | Drift (SQLite) + shared_preferences | 学习进度、收藏、缓存 |
-| 国际化 | flutter_localizations + ARB | 简体中文 / English |
-| 测试 | flutter_test + mocktail | 单元 / Widget / 集成 |
-| 静态分析 | flutter_lints | 代码规范 |
+- [`SELFHOST_TASKS.md`](./SELFHOST_TASKS.md): task log of this fork's changes (Vietnamese).
+- [`docs/selfhost/`](./docs/selfhost/): design notes and the AI endpoint mapping for this fork.
+- `CLAUDE.md`, `AGENTS.md`, `PLAN.md`, `TASKS.md`, `docs/*`: upstream development docs (mostly Chinese), kept for
+  reference and to make merging upstream changes easier.
 
-</details>
+## 📜 License
 
-<details>
-<summary><strong>📁 项目结构</strong></summary>
+Licensed under **AGPL-3.0**, the same as upstream (see [`LICENSE`](./LICENSE)).
+If you distribute builds of this app to others, you must make your modified source available under the AGPL.
 
-```
-lib/
-├── l10n/              # 国际化翻译文件（ARB 格式）
-├── models/            # 数据模型（AudioItem, Sentence, Collection 等）
-├── providers/         # Riverpod 状态管理
-│   ├── audio_engine/  # 音频引擎层（底层播放控制）
-│   └── listening_practice/  # 听力练习层（业务逻辑）
-│       ├── sentence_tracker.dart   # 句子定位（二分查找）
-│       └── bookmark_manager.dart   # 书签管理
-├── screens/           # 页面
-├── services/          # 服务层（StorageService, SubtitleParser）
-└── widgets/           # 可复用组件
-
-integration_test/      # 端到端测试
-test/                  # 单元 / Widget 测试
-```
-
-</details>
-
-<details>
-<summary><strong>⌨️ 开发命令速查</strong></summary>
-
-**运行**
-
-```bash
-flutter run -d ios            # iOS
-flutter run -d android        # Android
-flutter run -d macos          # macOS（开发中，未发布）
-flutter run -d chrome         # Web（仅调试用，无发布计划）
-
-# iOS 模拟器
-xcrun simctl list devices available
-xcrun simctl boot <DEVICE_UDID>
-open -a Simulator
-```
-
-**测试 / 质量检查**
-
-```bash
-flutter analyze                          # 静态分析
-flutter test                             # 全部测试
-flutter test integration_test -d macos   # 集成测试
-# Maestro UI 烟测（先启动设备并安装开发包；Android 开发包示例）
-MAESTRO_APP_ID=app.echoloop.dev scripts/test_maestro.sh
-# Android 真机：自动构建、安装 dev 包并运行 Study 测试
-scripts/test_maestro_android.sh
-# 多台设备时，显式指定目标；也可一次性 export MAESTRO_ANDROID_DEVICE=<adb-serial>
-scripts/test_maestro_android.sh --device <adb-serial>
-dart format .                            # 格式化
-```
-
-> Maestro CLI 安装：`curl -fsSL https://get.maestro.mobile.dev | bash`。iOS 开发包请将
-> `MAESTRO_APP_ID` 改为 `top.echo-loop.dev`；测试流存放在 `maestro/`。
-
-**代码生成**（修改 Riverpod Provider 后）
-
-```bash
-dart run build_runner build
-```
-
-**构建**
-
-```bash
-# Supabase / Google 等编译期变量从 env 文件注入（发布用 .prod.env）
-flutter build macos --dart-define-from-file=.prod.env
-flutter build apk   --dart-define-from-file=.prod.env
-flutter build ios   --dart-define-from-file=.prod.env
-
-# 真机运行
-flutter run --release -d <DEVICE_ID> --dart-define-from-file=.dev.env
-```
-
-> 发布脚本 `scripts/run_simulator.sh`（读 `.dev.env`）、`scripts/release_{android,ios,macos}.sh`（读 `.prod.env`）
-> 已内置 `--dart-define-from-file`，无需手动传参。
-
-**环境要求**
-
-- Flutter SDK 3.9.2+
-- iOS 模拟器 / Android 模拟器 / 真机
-- 桌面端：macOS / Windows / Linux 开发环境
-
-</details>
-
----
-
-国内 AtomGit 托管：<a href="https://atomgit.com/echo-loop/Echo-Loop">Echo Loop AtomGit 项目主页</a>
-
-## 📄 License
-
-[AGPL-3.0](./LICENSE)
+Original project © the [Echo Loop](https://github.com/echo-loop/Echo-Loop) authors.
+"Echo Loop" and its icon belong to the upstream project. This fork is not affiliated with or endorsed by them.
