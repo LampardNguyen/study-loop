@@ -6,28 +6,19 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('Android 12+ splash icon is one density-independent 288dp canvas', () {
-    const path = 'android/app/src/main/res/drawable/startup_splash_icon.xml';
-    final icon = File(path).readAsStringSync();
-
-    expect(icon, contains('android:width="288dp"'));
-    expect(icon, contains('android:height="288dp"'));
-    expect(icon, contains('@drawable/startup_splash_logo'));
-
-    for (final density in ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']) {
-      expect(
-        File(
-          'android/app/src/main/res/drawable-$density/startup_splash_icon.png',
-        ).existsSync(),
-        isFalse,
-        reason: 'Do not reintroduce density-specific splash bitmaps',
-      );
-    }
-
+  test('Android 12+ splash icon uses the adaptive launcher icon', () {
     final styles = File(
       'android/app/src/main/res/values-v31/styles.xml',
     ).readAsStringSync();
-    expect(styles, contains('@drawable/startup_splash_icon'));
+    // 位图放进 layer-list 会被系统 SplashScreen 错误缩放（只剩一个色块），
+    // 因此直接复用自适应图标，由系统按标准规则缩放与裁剪。
+    expect(styles, contains('@mipmap/ic_launcher'));
     expect(styles, isNot(contains('@drawable/startup_logo')));
+    expect(
+      File(
+        'android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml',
+      ).existsSync(),
+      isTrue,
+    );
   });
 }
