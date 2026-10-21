@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 启动页专用自适应图标：前景同启动器图标，背景取启动页底色，看不出圆形底。 -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/startup_splash_background" />
+    <foreground>
+        <inset
+            android:drawable="@drawable/ic_launcher_foreground"
+            android:inset="16%" />
+    </foreground>
+</adaptive-icon>
