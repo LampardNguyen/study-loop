@@ -480,7 +480,7 @@ class _EchoLoopAppState extends ConsumerState<EchoLoopApp>
     }
 
     return MaterialApp.router(
-      title: 'Echo Loop',
+      title: 'Study Loop',
       debugShowCheckedModeBanner: false,
       scrollBehavior: const EchoLoopScrollBehavior(),
       theme: AppTheme.light(),

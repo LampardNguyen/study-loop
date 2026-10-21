@@ -63,7 +63,7 @@ OpenAI-compatible endpoint) using an API key you enter in the app**, and nothing
 | Remote config, featured podcasts, community collections, update check, region detection, Baidu Netdisk | Author's backend | Disabled (`API_BASE_URL` empty). Local defaults are used |
 | Podcast subscriptions | Required sign-in | No sign-in. Search via iTunes Search API, RSS read directly |
 | Languages | English, Chinese | **+ Vietnamese** (UI and native language for translations) |
-| Package / app name | `app.echoloop` / "Echo Loop" | `app.echoloop.selfhost` / "Echo Loop (SH)". Installs side by side with the official app |
+| Package / app name | `app.echoloop` / "Echo Loop" | `app.echoloop.selfhost` / "Study Loop". Installs side by side with the official app |
 | Signing | Author's keystore | Your own release keystore (never committed) |
 
 ### Remaining outbound connections
@@ -192,7 +192,7 @@ Known baseline issues inherited from upstream: 3 analyzer errors in `integration
 
 ## 📜 License
 
-Licensed under **AGPL-3.0**, the same as upstream (see [`LICENSE`](./LICENSE)).
+Licensed under **AGPL-3.0**, the same as upstream (see [`LICENSE`](./LICENSE)). Modifications are summarized in [`NOTICE`](./NOTICE).
 If you distribute builds of this app to others, you must make your modified source available under the AGPL.
 
 Original project © the [Echo Loop](https://github.com/echo-loop/Echo-Loop) authors.

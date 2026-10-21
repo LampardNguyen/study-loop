@@ -1,0 +1,23 @@
+Study Loop (self-hosted edition of Echo Loop)
+
+This program is a modified version of Echo Loop
+  https://github.com/echo-loop/Echo-Loop
+Copyright (C) the Echo Loop authors.
+Licensed under the GNU Affero General Public License v3.0 (see LICENSE).
+
+Modifications Copyright (C) 2026 Nguyen Duy Linh (https://github.com/LampardNguyen)
+Modified since 2026-10-20. Summary of changes:
+  - Removed analytics (Firebase, PostHog, Umeng) and the AD_ID / BILLING permissions.
+  - Removed payments (RevenueCat, Paddle, StoreKit); all Pro features unlocked.
+  - AI features and transcription call OpenAI (or a compatible endpoint) directly,
+    using an API key entered by the user in the app.
+  - Guest mode by default; all requests to the original author's backend disabled.
+  - Added Vietnamese UI and native-language support.
+  - New Android package (app.echoloop.selfhost), app name "Study Loop", own signing key.
+The full list of changes is in SELFHOST_TASKS.md and the git history.
+
+"Echo Loop" and its logo belong to the original authors. This project is not
+affiliated with or endorsed by them.
+
+This modified version is distributed under the same AGPL-3.0 license, without
+any warranty; see LICENSE for details.

@@ -16,11 +16,12 @@ AI dùng **API key OpenAI (hoặc dịch vụ tương thích) của chính bạn
 | Cấu hình từ xa, podcast nổi bật, bộ sưu tập cộng đồng, kiểm tra cập nhật, xác định vùng, Baidu Netdisk | Server tác giả | Tắt (`API_BASE_URL` để trống). Dùng giá trị mặc định trên máy |
 | Đăng ký Podcast | Bắt đăng nhập | Không cần đăng nhập. Tìm qua iTunes Search và đọc RSS trực tiếp |
 | Ngôn ngữ | en / zh | **Thêm tiếng Việt** (giao diện + ngôn ngữ mẹ đẻ) |
-| Package / tên app (prod) | `app.echoloop` / "Echo Loop" | `app.echoloop.selfhost` / "Echo Loop (SH)", cài song song được với bản gốc |
+| Package / tên app (prod) | `app.echoloop` / "Echo Loop" | `app.echoloop.selfhost` / "Study Loop", cài song song được với bản gốc |
 
 **Vẫn còn kết nối ra ngoài** (không mang dữ liệu cá nhân, chỉ lộ địa chỉ IP):
+
 - `cdn.echo-loop.top`: tải các file **tĩnh công khai** như model nhận dạng giọng nói / đọc văn bản, từ điển offline Anh→Trung, thư viện phát âm.
-  Bạn có thể tự host (xem mục 5).
+Bạn có thể tự host (xem mục 5).
 - Các từ điển web (Cambridge, Oxford, …): mở trong WebView khi bạn chọn.
 - iTunes Search API: khi tìm podcast.
 - Địa chỉ AI bạn nhập (mặc định `api.openai.com`): chỉ khi dùng tính năng AI.
@@ -32,6 +33,7 @@ export PATH="$HOME/development/flutter/bin:$PATH"
 flutter pub get
 flutter build apk --release --flavor prod
 ```
+
 File APK nằm ở `build/app/outputs/flutter-apk/app-prod-release.apk`, được ký bằng keystore riêng (xem mục 4).
 Bản `--flavor dev` ký bằng debug key, package `app.echoloop.dev`.
 
@@ -51,6 +53,7 @@ Ví dụ: `flutter build apk --release --flavor prod --dart-define-from-file=.pr
 ## 3. Nhập API key
 
 Mở **Cá nhân → Cài đặt → Cài đặt AI**:
+
 1. **API Key**: `sk-...` (lưu trong Android Keystore, không bao giờ ghi vào log hay bản sao lưu).
 2. **Base URL**: mặc định `https://api.openai.com/v1`. Có thể dùng dịch vụ tương thích OpenAI như OpenRouter, hay server trên máy hoặc trong mạng LAN (`http://` chỉ cho phép localhost / LAN).
 3. **Model**: mặc định `gpt-4.1-mini`.
@@ -60,16 +63,16 @@ Chuyển giọng nói thành văn bản dùng model `whisper-1` trên cùng Base
 
 ### Checklist tự thử với key thật (chưa được test tự động)
 
-- [ ] Cài đặt AI → Kiểm tra kết nối báo "Đã kết nối"
-- [ ] Mở một bài học → bấm **Dịch** một câu → bản dịch hiện dần, bằng ngôn ngữ mẹ đẻ
-- [ ] **Phân tích** câu → có mục ngữ pháp / từ vựng / nghe
-- [ ] **Cụm nghĩa** → câu được chia thành các cụm
-- [ ] Bôi đen một từ → **Từ điển AI** hiện phiên âm, nghĩa, ví dụ
-- [ ] Bôi đen nhiều từ (cụm) → từ điển AI cho cụm từ
-- [ ] **Chat AI** về câu đang học
-- [ ] **Kể lại** → ghi âm → chấm bằng AI (Whisper + chat)
-- [ ] Quản lý phụ đề → **Phiên âm đám mây** cho một file audio ngắn (dưới 30 phút / 25MB)
-- [ ] Nhập key sai → thông báo "Chưa cấu hình AI" và có nút mở Cài đặt AI
+- [x] Cài đặt AI → Kiểm tra kết nối báo "Đã kết nối"
+- [x] Mở một bài học → bấm **Dịch** một câu → bản dịch hiện dần, bằng ngôn ngữ mẹ đẻ
+- [x] **Phân tích** câu → có mục ngữ pháp / từ vựng / nghe
+- [x] **Cụm nghĩa** → câu được chia thành các cụm
+- [x] Bôi đen một từ → **Từ điển AI** hiện phiên âm, nghĩa, ví dụ
+- [x] Bôi đen nhiều từ (cụm) → từ điển AI cho cụm từ
+- [x] **Chat AI** về câu đang học
+- [x] **Kể lại** → ghi âm → chấm bằng AI (Whisper + chat)
+- [x] Quản lý phụ đề → **Phiên âm đám mây** cho một file audio ngắn (dưới 30 phút / 25MB)
+- [x] Nhập key sai → thông báo "Chưa cấu hình AI" và có nút mở Cài đặt AI
 
 ## 4. Keystore: **phải sao lưu**
 
@@ -80,6 +83,7 @@ Chuyển giọng nói thành văn bản dùng model `whisper-1` trên cùng Base
 ## 5. Tự host CDN model (tuỳ chọn)
 
 1. Tải các file mà app cần từ `https://cdn.echo-loop.top/...`, giữ nguyên đường dẫn
+
    (xem `lib/services/dictionary/dictionary_catalog.dart`, `scripts/piper_tts_models.manifest.txt`, `scripts/upload_asr_models_to_r2.sh`).
 2. Upload lên R2 / S3 / GitHub Pages với **cùng cấu trúc thư mục**.
 3. Build với `--dart-define=MODEL_CDN_BASE_URL=https://cdn.cua-ban.example`.

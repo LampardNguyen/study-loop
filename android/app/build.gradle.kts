@@ -83,7 +83,7 @@ android {
 
     // 与 iOS 的 dev / prod scheme 保持一致：
     // dev  -> app.echoloop.dev  / "Echo Loop Dev"
-    // prod -> app.echoloop.selfhost / "Echo Loop (SH)"（自托管版）
+    // prod -> app.echoloop.selfhost / "Study Loop"（自托管版）
     // 这里按 flavor 固定签名：dev 使用 debug 证书，prod 使用 release 证书。
     // 这样同一个 package 的 debug / release 会保持同一把签名，便于 Google 登录配置。
     flavorDimensions += "env"
@@ -97,7 +97,7 @@ android {
             dimension = "env"
             // 自托管版：独立包名，可与应用商店的原版 app.echoloop 并存安装。
             applicationIdSuffix = ".selfhost"
-            resValue("string", "app_name", "Echo Loop (SH)")
+            resValue("string", "app_name", "Study Loop")
         }
     }
 }
