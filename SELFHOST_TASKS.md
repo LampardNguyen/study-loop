@@ -203,6 +203,14 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
 
 ---
 
+## Phase 9 — Chọn model có danh sách + giá (yêu cầu thêm 2026-10-21) 🎨 UI
+
+- [-] **T9.1–T9.4** Bỏ (2026-10-21): người dùng quyết định giữ ô Model nhập tay, mặc định `gpt-4.1-mini`.
+  Lý do: các tính năng AI của app (dịch, phân tích, từ điển, cụm nghĩa, chat, chấm kể lại) không cần model reasoning;
+  mọi model từ gpt-5 trở đi đều là reasoning → chậm hơn, tốn token suy nghĩ, và cần sửa tham số
+  (bỏ `temperature`, thêm `reasoning_effort`) mới gọi được. Design tham khảo: `docs/selfhost/design-ai-model-picker.md`.
+  **Lưu ý nếu tự nhập model gpt-5*/gpt-6*:** có thể lỗi 400 vì app vẫn gửi `temperature`.
+
 ## Ghi chú / Quyết định
 
 - 2026-10-20: Chọn cách A (client gọi thẳng OpenAI). Key nhập trong app, lưu secure storage.
