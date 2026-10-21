@@ -18,12 +18,9 @@ class StartupSplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 启动页需与原生 Launch Screen 同步遵循系统主题；应用保存的主题偏好
-    // 在真实 MaterialApp 页面创建后继续按原有逻辑生效。
-    final brightness = MediaQuery.platformBrightnessOf(context);
-    final backgroundColor = brightness == Brightness.dark
-        ? const Color(0xFF000000)
-        : const Color(0xFFF5F6FA);
+    // 启动页需与原生 Launch Screen 一致；自托管版深浅色模式都用浅色背景
+    // （彩色猫图标在浅底上显示最佳）。应用主题在 MaterialApp 创建后照常生效。
+    const backgroundColor = Color(0xFFF5F6FA);
 
     return ColoredBox(
       key: const ValueKey('startup-splash-background'),

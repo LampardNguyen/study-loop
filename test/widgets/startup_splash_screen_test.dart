@@ -29,14 +29,14 @@ void main() {
       );
     });
 
-    testWidgets('暗色系统使用纯黑背景', (tester) async {
+    testWidgets('暗色系统同样使用浅色背景（与原生启动页一致）', (tester) async {
       await tester.pumpWidget(_host(Brightness.dark));
 
       final background = tester.widget<ColoredBox>(
         find.byKey(const ValueKey('startup-splash-background')),
       );
 
-      expect(background.color, const Color(0xFF000000));
+      expect(background.color, const Color(0xFFF5F6FA));
     });
   });
 }
