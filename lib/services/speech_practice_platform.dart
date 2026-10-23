@@ -8,9 +8,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/recording_settings.dart';
 import '../models/speech_practice_models.dart';
 import '../providers/asr_engine_provider.dart';
 import '../providers/offline_asr_settings_provider.dart';
+import '../providers/recording_settings_provider.dart';
 import 'app_logger.dart';
 import 'asr/offline_asr_backend.dart';
 
@@ -26,6 +28,10 @@ import 'asr/offline_asr_backend.dart';
 final speechPracticeBackendProvider = Provider<SpeechPracticeBackend>((ref) {
   final s = ref.watch(offlineAsrSettingsProvider);
   final platform = SpeechPracticePlatform.instance;
+  // 录音设置在每次 startSession 时读取（不 watch，避免改设置重建后端）；
+  // 先 read 一次触发异步加载，保证首次录音前大概率已读到持久化值。
+  ref.read(recordingSettingsNotifierProvider);
+  platform.recordingSettings = () => ref.read(recordingSettingsNotifierProvider);
 
   if (s.isOfflineReady) {
     final engine = ref.read(offlineAsrEngineProvider);
@@ -114,6 +120,11 @@ class SpeechPracticePlatform implements SpeechPracticeBackend {
 
   Stream<SpeechPracticeEvent>? _events;
 
+  /// 录音设置来源（音量档 + 采样率），由 [speechPracticeBackendProvider] 注入；
+  /// 未注入时用默认值（与原版行为一致）。
+  RecordingSettings Function() recordingSettings = () =>
+      const RecordingSettings();
+
   /// 全局单例。
   static SpeechPracticePlatform get instance => _instance;
 
@@ -197,13 +208,15 @@ class SpeechPracticePlatform implements SpeechPracticeBackend {
     String locale = 'en-US',
   }) async {
     _ensureSupported();
+    final recording = recordingSettings();
     AppLogger.log(
       'SpeechPlatform',
-      '┌ startSession promptId=$promptId locale=$locale',
+      '┌ startSession promptId=$promptId locale=$locale $recording',
     );
     final result = await _invokeMap('startSession', {
       'promptId': promptId,
       'locale': locale,
+      ...recording.toPlatformArgs(),
     });
     final filePath = result['filePath'] as String?;
     if (filePath == null || filePath.isEmpty) {

@@ -205,6 +205,11 @@ class AndroidSpeechPracticeHandler(
         }
         val locale = call.argument<String>("locale") ?: "en-US"
 
+        // 用户录音设置（音量档 + 采样率）；缺省保持原版 2.2x / 16kHz。
+        val gain = call.argument<Double>("gain")?.toFloat() ?: 2.2f
+        val sampleRate = call.argument<Int>("sampleRate") ?: 16000
+        wavRecorder.configure(gain, sampleRate)
+
         if (!isEngineReady) {
             warmup(object : MethodChannel.Result {
                 override fun success(r: Any?) {
@@ -311,7 +316,7 @@ class AndroidSpeechPracticeHandler(
         if (!isRecording) return
         val promptId = currentPromptId ?: return
 
-        val bufferDurationMs = (frameCount.toDouble() / 16000.0) * 1000.0
+        val bufferDurationMs = (frameCount.toDouble() / wavRecorder.sampleRate) * 1000.0
         val bufferStartMs = recordedDurationMs
         val bufferEndMs = bufferStartMs + bufferDurationMs
 

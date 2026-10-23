@@ -5460,4 +5460,81 @@ class AppLocalizationsZh extends AppLocalizations {
   String reviewReminderPerAudioBody(String audioName, int round) {
     return '$audioName · 第$round轮复习时间到了';
   }
+
+  @override
+  String get recordingSettings => '录音';
+
+  @override
+  String get recordingSettingsTitle => '录音设置';
+
+  @override
+  String get recordingVolume => '录音音量';
+
+  @override
+  String get recordingGainLow => '小';
+
+  @override
+  String get recordingGainLowDesc => '×1.5 · 离麦克风近或环境嘈杂时';
+
+  @override
+  String get recordingGainStandard => '标准';
+
+  @override
+  String get recordingGainStandardDesc => '×2.2 · 默认';
+
+  @override
+  String get recordingGainLoud => '大';
+
+  @override
+  String get recordingGainLoudDesc => '×3.5';
+
+  @override
+  String get recordingGainExtraLoud => '很大';
+
+  @override
+  String get recordingGainExtraLoudDesc => '×5';
+
+  @override
+  String get recordingVolumeHint => '音量越大越容易破音，已自动做柔和限幅。';
+
+  @override
+  String get recordingQuality => '录音音质';
+
+  @override
+  String get recordingQualityStandard => '标准';
+
+  @override
+  String get recordingQualityStandardDesc => '16 kHz · 文件最小';
+
+  @override
+  String get recordingQualityGood => '较好';
+
+  @override
+  String get recordingQualityGoodDesc => '24 kHz · 辅音更清晰，文件约 1.5 倍';
+
+  @override
+  String get recordingQualityHigh => '高';
+
+  @override
+  String get recordingQualityHighDesc => '44.1 kHz · 文件约 2.8 倍';
+
+  @override
+  String get recordingTrialButton => '试录 5 秒';
+
+  @override
+  String recordingTrialRecording(int seconds) {
+    return '录音中… $seconds 秒';
+  }
+
+  @override
+  String get recordingTrialPlaying => '回放中…';
+
+  @override
+  String get recordingTrialNoPermission => '未获得麦克风权限，请在系统设置中开启。';
+
+  @override
+  String get recordingTrialFailed => '录音失败，请重试。';
+
+  @override
+  String get recordingSettingsFootnote => '对之后的录音生效，已有录音不变。';
 }

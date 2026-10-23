@@ -51,13 +51,46 @@ class WavRecorder {
     /** 是否已初始化 AudioRecord。 */
     val isInitialized: Boolean get() = audioRecord != null
 
+    /** 用户设置的采样率（Hz）；设备不支持时 [initialize] 回退到 [DEFAULT_SAMPLE_RATE]。 */
+    private var requestedSampleRate: Int = DEFAULT_SAMPLE_RATE
+
+    /** 当前 AudioRecord 实际使用的采样率（Hz），VAD/裁剪/WAV 头均以此为准。 */
+    @Volatile var sampleRate: Int = DEFAULT_SAMPLE_RATE
+        private set
+
+    /** 用户设置的增益倍数。 */
+    @Volatile private var gain: Float = DEFAULT_GAIN
+
+    /**
+     * 应用录音设置（增益 + 采样率），需在 [initialize] 前调用。
+     * 采样率变化时释放已有 AudioRecord，下次 [initialize] 以新采样率重建。
+     * @return true 表示需要重新 initialize。
+     */
+    fun configure(gain: Float, sampleRate: Int): Boolean {
+        this.gain = gain.coerceIn(MIN_GAIN, MAX_GAIN)
+        if (sampleRate == requestedSampleRate) return false
+        requestedSampleRate = sampleRate
+        if (audioRecord != null) {
+            audioRecord?.release()
+            audioRecord = null
+            return true
+        }
+        return false
+    }
+
     companion object {
         private const val TAG = "WavRecorder"
-        private const val SAMPLE_RATE = 16000
+        private const val DEFAULT_SAMPLE_RATE = 16000
         private const val CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
         private const val AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
         private const val BUFFER_SIZE_FRAMES = 1024
-        private const val GAIN = 2.2f
+        /** 默认增益（与原版固定值一致）。 */
+        private const val DEFAULT_GAIN = 2.2f
+        private const val MIN_GAIN = 1.0f
+        private const val MAX_GAIN = 6.0f
+
+        /** 软限幅拐点（归一化幅度），超过后用 tanh 压缩，避免大增益下削波破音。 */
+        private const val LIMITER_KNEE = 0.8f
         private const val BYTES_PER_SAMPLE = 2
         private const val NUM_CHANNELS = 1
 
@@ -75,16 +108,24 @@ class WavRecorder {
      * @return true 表示初始化成功。
      */
     fun initialize(): Boolean {
-        val minBufferSize = AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT)
+        if (createRecorder(requestedSampleRate)) return true
+        if (requestedSampleRate == DEFAULT_SAMPLE_RATE) return false
+        Log.w(TAG, "sampleRate=$requestedSampleRate unsupported, fallback to $DEFAULT_SAMPLE_RATE")
+        return createRecorder(DEFAULT_SAMPLE_RATE)
+    }
+
+    /** 以指定采样率创建 AudioRecord；成功时更新 [sampleRate]。 */
+    private fun createRecorder(rate: Int): Boolean {
+        val minBufferSize = AudioRecord.getMinBufferSize(rate, CHANNEL_CONFIG, AUDIO_FORMAT)
         if (minBufferSize == AudioRecord.ERROR || minBufferSize == AudioRecord.ERROR_BAD_VALUE) {
-            Log.e(TAG, "AudioRecord.getMinBufferSize failed: $minBufferSize")
+            Log.e(TAG, "AudioRecord.getMinBufferSize failed: $minBufferSize rate=$rate")
             return false
         }
         val bufferSize = max(minBufferSize, BUFFER_SIZE_FRAMES * BYTES_PER_SAMPLE)
         return try {
             val recorder = AudioRecord(
                 MediaRecorder.AudioSource.VOICE_RECOGNITION,
-                SAMPLE_RATE,
+                rate,
                 CHANNEL_CONFIG,
                 AUDIO_FORMAT,
                 bufferSize,
@@ -95,6 +136,8 @@ class WavRecorder {
                 return false
             }
             audioRecord = recorder
+            sampleRate = rate
+            Log.i(TAG, "AudioRecord ready rate=$rate gain=$gain")
             true
         } catch (e: SecurityException) {
             Log.e(TAG, "RECORD_AUDIO permission not granted", e)
@@ -191,7 +234,7 @@ class WavRecorder {
             (SystemClock.elapsedRealtime() - it).coerceAtLeast(0L)
         }
         val writtenDurationMs =
-            (writtenBytes / BYTES_PER_SAMPLE * 1000L) / SAMPLE_RATE
+            (writtenBytes / BYTES_PER_SAMPLE * 1000L) / sampleRate
 
         return "audioRecordInitialized=${isInitialized} " +
             "startAttempted=$recordingStartAttempted " +
@@ -215,7 +258,7 @@ class WavRecorder {
         val fileBytes = file.length()
         val dataBytes = (fileBytes - WAV_HEADER_SIZE).coerceAtLeast(0L)
         val frames = dataBytes / BYTES_PER_SAMPLE
-        val durationMs = frames * 1000L / SAMPLE_RATE
+        val durationMs = frames * 1000L / sampleRate
         return WavFileMetrics(fileBytes = fileBytes, audioDurationMs = durationMs)
     }
 
@@ -271,8 +314,7 @@ class WavRecorder {
         val raf = wavFile ?: return
         val byteBuffer = ByteArray(length * BYTES_PER_SAMPLE)
         for (i in 0 until length) {
-            val amplified = (buffer[i] * GAIN).toInt()
-            val clamped = max(Short.MIN_VALUE.toInt(), min(Short.MAX_VALUE.toInt(), amplified))
+            val clamped = amplifySample(buffer[i], gain, LIMITER_KNEE)
             // WAV 使用 little-endian。
             byteBuffer[i * 2] = (clamped and 0xFF).toByte()
             byteBuffer[i * 2 + 1] = (clamped shr 8 and 0xFF).toByte()
@@ -287,7 +329,7 @@ class WavRecorder {
 
     /** 写 44 字节 RIFF/WAV 头（data size 用占位值）。 */
     private fun writeWavHeader(raf: RandomAccessFile) {
-        val byteRate = SAMPLE_RATE * NUM_CHANNELS * BYTES_PER_SAMPLE
+        val byteRate = sampleRate * NUM_CHANNELS * BYTES_PER_SAMPLE
         val blockAlign = NUM_CHANNELS * BYTES_PER_SAMPLE
 
         raf.writeBytes("RIFF")
@@ -299,7 +341,7 @@ class WavRecorder {
         raf.writeIntLE(16) // PCM fmt chunk size
         raf.writeShortLE(1) // PCM format
         raf.writeShortLE(NUM_CHANNELS)
-        raf.writeIntLE(SAMPLE_RATE)
+        raf.writeIntLE(sampleRate)
         raf.writeIntLE(byteRate)
         raf.writeShortLE(blockAlign)
         raf.writeShortLE(BYTES_PER_SAMPLE * 8)
@@ -337,14 +379,14 @@ class WavRecorder {
 
             val totalDataBytes = File(filePath).length() - WAV_HEADER_SIZE
             val totalFrames = totalDataBytes / BYTES_PER_SAMPLE
-            val totalDurationMs = (totalFrames.toDouble() / SAMPLE_RATE) * 1000.0
+            val totalDurationMs = (totalFrames.toDouble() / sampleRate) * 1000.0
 
             val startMs = max(0.0, range.first - TRIM_LEADING_PADDING_MS)
             val endMs = min(range.second + TRIM_TRAILING_PADDING_MS, totalDurationMs)
             if (endMs - startMs < MIN_TRIM_DURATION_MS) return
 
-            val startFrame = ((startMs / 1000.0) * SAMPLE_RATE).toLong()
-            val endFrame = ((endMs / 1000.0) * SAMPLE_RATE).toLong()
+            val startFrame = ((startMs / 1000.0) * sampleRate).toLong()
+            val endFrame = ((endMs / 1000.0) * sampleRate).toLong()
             val safeStart = max(0, min(startFrame, totalFrames))
             val safeEnd = max(safeStart, min(endFrame, totalFrames))
             val framesToCopy = (safeEnd - safeStart).toInt()
@@ -389,6 +431,8 @@ class WavRecorder {
      * @return (startMs, endMs) 或 null（全静音）。
      */
     private fun detectSpeechRange(filePath: String): Pair<Double, Double>? {
+        // 文件里是增益后的数据：阈值随增益等比缩放，保证不同音量档裁剪灵敏度一致。
+        val trimThreshold = TRIM_RMS_THRESHOLD * gain / DEFAULT_GAIN
         var firstSpeechFrame: Long? = null
         var lastSpeechFrame: Long? = null
 
@@ -420,7 +464,7 @@ class WavRecorder {
                 }
 
                 val rms = computeRms(buf, framesRead)
-                if (rms >= TRIM_RMS_THRESHOLD) {
+                if (rms >= trimThreshold) {
                     if (firstSpeechFrame == null) firstSpeechFrame = frameOffset
                     lastSpeechFrame = frameOffset + framesRead
                 }
@@ -434,8 +478,8 @@ class WavRecorder {
         if (last <= first) return null
 
         return Pair(
-            (first.toDouble() / SAMPLE_RATE) * 1000.0,
-            (last.toDouble() / SAMPLE_RATE) * 1000.0,
+            (first.toDouble() / sampleRate) * 1000.0,
+            (last.toDouble() / sampleRate) * 1000.0,
         )
     }
 
@@ -454,4 +498,23 @@ private fun RandomAccessFile.writeIntLE(value: Int) {
 private fun RandomAccessFile.writeShortLE(value: Int) {
     write(value and 0xFF)
     write(value shr 8 and 0xFF)
+}
+
+/**
+ * 对单个 16bit 采样应用增益 + 软限幅。
+ *
+ * 归一化幅度不超过 [kneeNormalized] 时线性放大；超过部分用 tanh 平滑压缩到
+ * [kneeNormalized, 1.0) 区间，避免大增益直接削波产生的破音。
+ */
+internal fun amplifySample(sample: Short, gain: Float, kneeNormalized: Float = 0.8f): Int {
+    val x = sample.toFloat() / Short.MAX_VALUE * gain
+    val magnitude = kotlin.math.abs(x)
+    val limited = if (magnitude <= kneeNormalized) {
+        magnitude
+    } else {
+        val headroom = 1f - kneeNormalized
+        kneeNormalized + headroom * kotlin.math.tanh((magnitude - kneeNormalized) / headroom)
+    }
+    val signed = if (x < 0) -limited else limited
+    return (signed * Short.MAX_VALUE).toInt().coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt())
 }

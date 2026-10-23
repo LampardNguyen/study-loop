@@ -25,6 +25,8 @@ import '../providers/offline_asr_settings_provider.dart';
 import '../providers/tts/tts_settings_provider.dart';
 import '../services/tts/tts_engine.dart';
 import '../providers/package_info_provider.dart';
+import '../models/recording_settings.dart';
+import '../providers/recording_settings_provider.dart';
 import '../providers/reminder_settings_provider.dart';
 import '../providers/sentence_ai_provider.dart';
 import '../providers/settings_provider.dart';
@@ -59,6 +61,7 @@ import '../providers/dictionary/dictionary_registry.dart';
 import '../providers/dictionary/visible_sources_provider.dart';
 import '../widgets/dictionary/dict_source_presentation.dart';
 import 'asr_settings_screen.dart';
+import 'recording_settings_screen.dart';
 import 'asr_test_screen.dart';
 import 'dictionary_settings_screen.dart';
 import 'tts_settings_screen.dart';
@@ -395,6 +398,40 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               ),
             ),
           ),
+        // self-host：录音音量 / 音质设置（仅 Android 原生录音支持）
+        if (!kIsWeb && Platform.isAndroid)
+          ListTile(
+            // 与其它行的 SVG 图标同尺寸占位，保证标题对齐
+            leading: SizedBox(
+              width: _settingsLeadingIconExtent,
+              height: _settingsLeadingIconExtent,
+              child: Icon(
+                Icons.graphic_eq,
+                size: _settingsSvgIconExtent,
+                color: colorScheme.onSurfaceVariant,
+              ),
+            ),
+            title: Text(l10n.recordingSettings),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  _recordingSummary(
+                    l10n,
+                    ref.watch(recordingSettingsNotifierProvider),
+                  ),
+                  style: TextStyle(color: colorScheme.onSurfaceVariant),
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                const Icon(Icons.chevron_right),
+              ],
+            ),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => const RecordingSettingsScreen(),
+              ),
+            ),
+          ),
         ListTile(
           leading: _settingsSvgIcon('assets/icon/speaker.svg'),
           title: Text(l10n.ttsSettings),
@@ -706,8 +743,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ),
           title: Text(l10n.viewSourceCode),
           trailing: const Icon(Icons.chevron_right),
-          onTap: () =>
-              launchUrl(selfHostSourceUri()),
+          onTap: () => launchUrl(selfHostSourceUri()),
         ),
       ],
     );
@@ -1958,3 +1994,8 @@ class _AiSettingsTile extends ConsumerWidget {
     );
   }
 }
+
+/// 设置页录音行右侧摘要：「音量 · 音质」
+String _recordingSummary(AppLocalizations l10n, RecordingSettings s) =>
+    '${recordingGainLabel(l10n, s.gainLevel)} · '
+    '${recordingQualityLabel(l10n, s.quality)}';

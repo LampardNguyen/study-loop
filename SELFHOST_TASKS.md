@@ -237,9 +237,16 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
   - Bổ sung 2026-10-23 (theo ảnh chụp của người dùng): con vẹt là **ảnh bìa** thẻ phát nhạc — file cache
     `now_playing_artwork.png` chỉ ghi lần đầu nên còn ảnh vẹt từ bản cũ. Sửa: ghi lại khi kích thước khác asset
     (`background_audio_handler.dart`, `echo_loop_media_handler.dart`). Test: `flutter analyze` → 0 issue; chưa có unit test (cần giả lập thư mục dữ liệu app)
-- [D] **T11.3** 🎨 Design: mục "Ghi âm" trong menu cá nhân (âm lượng ghi + chất lượng) → **chờ người dùng duyệt**
+- [P] **T11.3** 🎨 Design: mục "Ghi âm" trong menu cá nhân (âm lượng ghi + chất lượng) → **chờ người dùng duyệt**
   - Design: `docs/selfhost/design-recording-settings.md` (2026-10-23)
-- [ ] **T11.4** Code cài đặt ghi âm theo design đã duyệt (Android `WavRecorder`: hệ số khuếch đại + tần số mẫu)
+  - Design duyệt: 2026-10-23 — chất lượng 3 mức 16 / 24 / 44.1 kHz, giữ nút Ghi thử 5 giây
+- [P] **T11.4** Code cài đặt ghi âm theo design đã duyệt (Android `WavRecorder`: hệ số khuếch đại + tần số mẫu)
+  - Hoàn thành: 2026-10-23 — `RecordingSettings` + `recordingSettingsNotifierProvider` (SharedPreferences); gửi `gain`/`sampleRate`
+    trong `startSession`; `WavRecorder.configure` (24 kHz không hỗ trợ → 16 kHz), soft limiter `amplifySample`, ngưỡng cắt lặng theo gain;
+    màn `RecordingSettingsScreen` + `RecordingTrial` (Ghi thử 5 giây)
+  - Test: `recording_settings_provider_test` / `recording_trial_test` / `recording_settings_screen_test` + Kotlin `AmplifySampleTest` → pass;
+    emulator Pixel 9 Pro: log native `AudioRecord ready rate=24000 gain=5.0`, ghi thử + phát lại OK, cài đặt giữ sau khi cài lại.
+    Đã dừng `flutter test` toàn bộ theo yêu cầu người dùng (chưa chạy hết suite)
 
 ## Ghi chú / Quyết định
 

@@ -5717,4 +5717,85 @@ class AppLocalizationsVi extends AppLocalizations {
   String reviewReminderPerAudioBody(String audioName, int round) {
     return '$audioName · Đến giờ ôn tập vòng $round';
   }
+
+  @override
+  String get recordingSettings => 'Ghi âm';
+
+  @override
+  String get recordingSettingsTitle => 'Cài đặt ghi âm';
+
+  @override
+  String get recordingVolume => 'Âm lượng ghi âm';
+
+  @override
+  String get recordingGainLow => 'Nhỏ';
+
+  @override
+  String get recordingGainLowDesc => '×1.5 · nói gần mic hoặc nơi ồn';
+
+  @override
+  String get recordingGainStandard => 'Chuẩn';
+
+  @override
+  String get recordingGainStandardDesc => '×2.2 · mặc định';
+
+  @override
+  String get recordingGainLoud => 'To';
+
+  @override
+  String get recordingGainLoudDesc => '×3.5';
+
+  @override
+  String get recordingGainExtraLoud => 'Rất to';
+
+  @override
+  String get recordingGainExtraLoudDesc => '×5';
+
+  @override
+  String get recordingVolumeHint =>
+      'Mức to được giới hạn mềm để tiếng không bị rè.';
+
+  @override
+  String get recordingQuality => 'Chất lượng ghi âm';
+
+  @override
+  String get recordingQualityStandard => 'Tiêu chuẩn';
+
+  @override
+  String get recordingQualityStandardDesc => '16 kHz · file nhỏ nhất';
+
+  @override
+  String get recordingQualityGood => 'Tốt';
+
+  @override
+  String get recordingQualityGoodDesc =>
+      '24 kHz · âm gió rõ hơn, file khoảng 1.5 lần';
+
+  @override
+  String get recordingQualityHigh => 'Cao';
+
+  @override
+  String get recordingQualityHighDesc => '44.1 kHz · file khoảng 2.8 lần';
+
+  @override
+  String get recordingTrialButton => 'Ghi thử 5 giây';
+
+  @override
+  String recordingTrialRecording(int seconds) {
+    return 'Đang ghi… ${seconds}s';
+  }
+
+  @override
+  String get recordingTrialPlaying => 'Đang phát lại…';
+
+  @override
+  String get recordingTrialNoPermission =>
+      'Chưa cấp quyền micro. Hãy bật trong cài đặt hệ thống.';
+
+  @override
+  String get recordingTrialFailed => 'Không ghi âm được. Hãy thử lại.';
+
+  @override
+  String get recordingSettingsFootnote =>
+      'Áp dụng cho lần ghi âm tiếp theo. Bản ghi cũ không thay đổi.';
 }

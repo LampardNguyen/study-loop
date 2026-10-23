@@ -5722,4 +5722,86 @@ class AppLocalizationsEn extends AppLocalizations {
   String reviewReminderPerAudioBody(String audioName, int round) {
     return '$audioName · Review round $round is due';
   }
+
+  @override
+  String get recordingSettings => 'Recording';
+
+  @override
+  String get recordingSettingsTitle => 'Recording settings';
+
+  @override
+  String get recordingVolume => 'Recording volume';
+
+  @override
+  String get recordingGainLow => 'Low';
+
+  @override
+  String get recordingGainLowDesc =>
+      '×1.5 · close to the mic or in noisy places';
+
+  @override
+  String get recordingGainStandard => 'Standard';
+
+  @override
+  String get recordingGainStandardDesc => '×2.2 · default';
+
+  @override
+  String get recordingGainLoud => 'Loud';
+
+  @override
+  String get recordingGainLoudDesc => '×3.5';
+
+  @override
+  String get recordingGainExtraLoud => 'Extra loud';
+
+  @override
+  String get recordingGainExtraLoudDesc => '×5';
+
+  @override
+  String get recordingVolumeHint =>
+      'Louder levels are softly limited to avoid distortion.';
+
+  @override
+  String get recordingQuality => 'Recording quality';
+
+  @override
+  String get recordingQualityStandard => 'Standard';
+
+  @override
+  String get recordingQualityStandardDesc => '16 kHz · smallest files';
+
+  @override
+  String get recordingQualityGood => 'Good';
+
+  @override
+  String get recordingQualityGoodDesc =>
+      '24 kHz · clearer consonants, about 1.5× file size';
+
+  @override
+  String get recordingQualityHigh => 'High';
+
+  @override
+  String get recordingQualityHighDesc => '44.1 kHz · about 2.8× file size';
+
+  @override
+  String get recordingTrialButton => 'Test 5-second recording';
+
+  @override
+  String recordingTrialRecording(int seconds) {
+    return 'Recording… ${seconds}s';
+  }
+
+  @override
+  String get recordingTrialPlaying => 'Playing back…';
+
+  @override
+  String get recordingTrialNoPermission =>
+      'Microphone access is off. Allow it in system settings.';
+
+  @override
+  String get recordingTrialFailed => 'Couldn\'t record. Try again.';
+
+  @override
+  String get recordingSettingsFootnote =>
+      'Applies to your next recording. Existing recordings stay the same.';
 }

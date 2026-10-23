@@ -10065,6 +10065,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{audioName} · Review round {round} is due'**
   String reviewReminderPerAudioBody(String audioName, int round);
+
+  /// No description provided for @recordingSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording'**
+  String get recordingSettings;
+
+  /// No description provided for @recordingSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording settings'**
+  String get recordingSettingsTitle;
+
+  /// No description provided for @recordingVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording volume'**
+  String get recordingVolume;
+
+  /// No description provided for @recordingGainLow.
+  ///
+  /// In en, this message translates to:
+  /// **'Low'**
+  String get recordingGainLow;
+
+  /// No description provided for @recordingGainLowDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'×1.5 · close to the mic or in noisy places'**
+  String get recordingGainLowDesc;
+
+  /// No description provided for @recordingGainStandard.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get recordingGainStandard;
+
+  /// No description provided for @recordingGainStandardDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'×2.2 · default'**
+  String get recordingGainStandardDesc;
+
+  /// No description provided for @recordingGainLoud.
+  ///
+  /// In en, this message translates to:
+  /// **'Loud'**
+  String get recordingGainLoud;
+
+  /// No description provided for @recordingGainLoudDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'×3.5'**
+  String get recordingGainLoudDesc;
+
+  /// No description provided for @recordingGainExtraLoud.
+  ///
+  /// In en, this message translates to:
+  /// **'Extra loud'**
+  String get recordingGainExtraLoud;
+
+  /// No description provided for @recordingGainExtraLoudDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'×5'**
+  String get recordingGainExtraLoudDesc;
+
+  /// No description provided for @recordingVolumeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Louder levels are softly limited to avoid distortion.'**
+  String get recordingVolumeHint;
+
+  /// No description provided for @recordingQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording quality'**
+  String get recordingQuality;
+
+  /// No description provided for @recordingQualityStandard.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get recordingQualityStandard;
+
+  /// No description provided for @recordingQualityStandardDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'16 kHz · smallest files'**
+  String get recordingQualityStandardDesc;
+
+  /// No description provided for @recordingQualityGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Good'**
+  String get recordingQualityGood;
+
+  /// No description provided for @recordingQualityGoodDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'24 kHz · clearer consonants, about 1.5× file size'**
+  String get recordingQualityGoodDesc;
+
+  /// No description provided for @recordingQualityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get recordingQualityHigh;
+
+  /// No description provided for @recordingQualityHighDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'44.1 kHz · about 2.8× file size'**
+  String get recordingQualityHighDesc;
+
+  /// No description provided for @recordingTrialButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Test 5-second recording'**
+  String get recordingTrialButton;
+
+  /// No description provided for @recordingTrialRecording.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording… {seconds}s'**
+  String recordingTrialRecording(int seconds);
+
+  /// No description provided for @recordingTrialPlaying.
+  ///
+  /// In en, this message translates to:
+  /// **'Playing back…'**
+  String get recordingTrialPlaying;
+
+  /// No description provided for @recordingTrialNoPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone access is off. Allow it in system settings.'**
+  String get recordingTrialNoPermission;
+
+  /// No description provided for @recordingTrialFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t record. Try again.'**
+  String get recordingTrialFailed;
+
+  /// No description provided for @recordingSettingsFootnote.
+  ///
+  /// In en, this message translates to:
+  /// **'Applies to your next recording. Existing recordings stay the same.'**
+  String get recordingSettingsFootnote;
 }
 
 class _AppLocalizationsDelegate
