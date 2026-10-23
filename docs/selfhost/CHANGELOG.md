@@ -2,7 +2,7 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
-## Chưa phát hành
+## v1.0.43 (build 8) — 2026-10-23
 
 ### Tính năng mới
 - Cài đặt → Học tập → **Ghi âm** (Android): chỉnh **âm lượng ghi** (Nhỏ ×1.5 / Chuẩn ×2.2 / To ×3.5 / Rất to ×5, có giới hạn mềm chống rè) và **chất lượng ghi** (Tiêu chuẩn 16 kHz / Tốt 24 kHz / Cao 44.1 kHz). Có nút **Ghi thử 5 giây** để nghe lại ngay. Máy không hỗ trợ 24 kHz sẽ tự dùng 16 kHz.
