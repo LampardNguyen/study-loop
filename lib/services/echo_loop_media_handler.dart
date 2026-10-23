@@ -111,8 +111,9 @@ class EchoLoopMediaHandler extends BaseAudioHandler with SeekHandler {
     try {
       final dir = await getAppDataDirectory();
       final file = File('${dir.path}/now_playing_artwork.png');
-      if (!file.existsSync()) {
-        final bytes = await rootBundle.load('assets/icon/app-icon-1024.png');
+      final bytes = await rootBundle.load('assets/icon/app-icon-1024.png');
+      // 图标资源换过（如鹦鹉→猫）时旧缓存文件需覆盖：大小不同即重写
+      if (!file.existsSync() || file.lengthSync() != bytes.lengthInBytes) {
         await file.writeAsBytes(bytes.buffer.asUint8List());
       }
       _artworkUri = Uri.file(file.path);
