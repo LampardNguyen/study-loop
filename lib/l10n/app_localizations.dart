@@ -10029,6 +10029,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search by podcast name, or paste a podcast / RSS link to subscribe.'**
   String get podcastSearchToStart;
+
+  /// Body of the daily saved-content review notification (rotated)
+  ///
+  /// In en, this message translates to:
+  /// **'Time to review your saved sentences and words'**
+  String get reviewReminderSavedBody1;
+
+  /// Body of the daily saved-content review notification (rotated)
+  ///
+  /// In en, this message translates to:
+  /// **'Listen to your saved sentences once more to lock them in'**
+  String get reviewReminderSavedBody2;
+
+  /// Body of the daily saved-content review notification (rotated)
+  ///
+  /// In en, this message translates to:
+  /// **'A few sentences in spare moments add up'**
+  String get reviewReminderSavedBody3;
+
+  /// Body of the daily saved-content review notification (rotated)
+  ///
+  /// In en, this message translates to:
+  /// **'Your saved sentences are waiting — come review'**
+  String get reviewReminderSavedBody4;
+
+  /// Body of the daily saved-content review notification (rotated)
+  ///
+  /// In en, this message translates to:
+  /// **'Repetition is how listening sticks — let\'s review'**
+  String get reviewReminderSavedBody5;
+
+  /// Body of the per-audio review due notification
+  ///
+  /// In en, this message translates to:
+  /// **'{audioName} · Review round {round} is due'**
+  String reviewReminderPerAudioBody(String audioName, int round);
 }
 
 class _AppLocalizationsDelegate

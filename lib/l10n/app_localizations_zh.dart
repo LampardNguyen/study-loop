@@ -5440,4 +5440,24 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get podcastSearchToStart => '输入播客名称搜索，或粘贴播客 / RSS 链接进行订阅。';
+
+  @override
+  String get reviewReminderSavedBody1 => '复习一下收藏的句子和单词吧';
+
+  @override
+  String get reviewReminderSavedBody2 => '听一遍收藏的句子，巩固记忆';
+
+  @override
+  String get reviewReminderSavedBody3 => '碎片时间听几句，积少成多';
+
+  @override
+  String get reviewReminderSavedBody4 => '收藏的句子在等你，来复习一下';
+
+  @override
+  String get reviewReminderSavedBody5 => '反复听才能记住，来复习吧';
+
+  @override
+  String reviewReminderPerAudioBody(String audioName, int round) {
+    return '$audioName · 第$round轮复习时间到了';
+  }
 }

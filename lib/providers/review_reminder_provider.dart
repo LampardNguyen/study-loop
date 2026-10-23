@@ -1,10 +1,13 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../l10n/app_localizations.dart';
 import '../services/notification_tap_router_bridge.dart';
 import '../services/review_reminder_service.dart';
 import '../services/review_reminder_time_calculator.dart';
 import 'reminder_settings_provider.dart';
+import 'settings_provider.dart';
 
 /// 通知点击桥接 Provider
 final notificationTapRouterBridgeProvider =
@@ -36,6 +39,11 @@ final reviewReminderServiceProvider = Provider<ReviewReminderService>((ref) {
     plugin: FlutterLocalNotificationsPlugin(),
     bridge: ref.watch(notificationTapRouterBridgeProvider),
     timeCalculator: ref.read(reviewReminderTimeCalculatorProvider),
+    // 通知文案跟随界面语言；未显式设置时按系统 locale 匹配
+    localizations: () => lookupAppLocalizations(
+      ref.read(appSettingsProvider).locale ??
+          matchUiLocale(WidgetsBinding.instance.platformDispatcher.locale),
+    ),
   );
 
   // 监听 timeCalculator 变更，通过 setter 更新（不重建 service）

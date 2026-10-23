@@ -30,6 +30,7 @@ import '../providers/learning_progress_provider.dart';
 import '../providers/learning_session/favorite_review_due_count_provider.dart';
 import '../providers/notification_permission_provider.dart';
 import '../providers/reminder_settings_provider.dart';
+import '../providers/settings_provider.dart';
 import '../providers/review_reminder_provider.dart';
 import '../providers/startup_bootstrap_provider.dart';
 import '../providers/listening_practice/listening_practice_provider.dart';
@@ -71,6 +72,7 @@ class _MainShellState extends ConsumerState<MainShell> with RouteAware {
   ProviderSubscription<Map<String, LearningProgress>>? _progressMapSubscription;
   ProviderSubscription<AppUpdateState>? _appUpdateSubscription;
   ProviderSubscription<ReminderSettings>? _reminderSettingsSubscription;
+  ProviderSubscription<Locale?>? _uiLocaleSubscription;
   ProviderSubscription<int>? _notificationPromptSubscription;
   ProviderSubscription<GuideControllerState>? _guideWaitSubscription;
   ProviderSubscription<AsyncValue<StartupReport>>? _localStartupSubscription;
@@ -348,6 +350,18 @@ class _MainShellState extends ConsumerState<MainShell> with RouteAware {
         },
       );
 
+      // 界面语言变更：通知文案已按旧语言调度，需按新语言重排
+      _uiLocaleSubscription = ref.listenManual<Locale?>(
+        appSettingsProvider.select((s) => s.locale),
+        (prev, next) {
+          if (prev == next) return;
+          AppLogger.log('ReviewReminder', 'ui locale changed -> $next, resync');
+          _onReminderSettingsChanged(
+            ref.read(reminderSettingsNotifierProvider),
+          );
+        },
+      );
+
       // 监听通知权限 pre-prompt 触发器：价值锚点（首次完成 sub_stage / 收藏）
       // 调用 `maybeTriggerPrompt()` 通过判定后会把计数 +1，本监听弹出对话框。
       // 用根 navigator context 弹，保证覆盖所有子路由。
@@ -435,6 +449,7 @@ class _MainShellState extends ConsumerState<MainShell> with RouteAware {
     _progressMapSubscription?.close();
     _appUpdateSubscription?.close();
     _reminderSettingsSubscription?.close();
+    _uiLocaleSubscription?.close();
     _notificationPromptSubscription?.close();
     _guideWaitSubscription?.close();
     _localStartupSubscription?.close();

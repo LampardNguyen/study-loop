@@ -2265,5 +2265,11 @@
   "aiKeyRequiredTitle": "尚未配置 AI",
   "aiKeyRequiredMessage": "请在「AI 设置」中填写你自己的 OpenAI 兼容 API Key 后再使用 AI 功能。",
   "aiOpenSettings": "打开 AI 设置",
-  "podcastSearchToStart": "输入播客名称搜索，或粘贴播客 / RSS 链接进行订阅。"
+  "podcastSearchToStart": "输入播客名称搜索，或粘贴播客 / RSS 链接进行订阅。",
+  "reviewReminderSavedBody1": "复习一下收藏的句子和单词吧",
+  "reviewReminderSavedBody2": "听一遍收藏的句子，巩固记忆",
+  "reviewReminderSavedBody3": "碎片时间听几句，积少成多",
+  "reviewReminderSavedBody4": "收藏的句子在等你，来复习一下",
+  "reviewReminderSavedBody5": "反复听才能记住，来复习吧",
+  "reviewReminderPerAudioBody": "{audioName} · 第{round}轮复习时间到了"
 }

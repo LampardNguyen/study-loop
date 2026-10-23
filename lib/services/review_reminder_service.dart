@@ -6,6 +6,7 @@ import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:universal_io/io.dart' as io;
 
+import '../l10n/app_localizations.dart';
 import 'app_logger.dart';
 import 'notification_tap_router_bridge.dart';
 import 'review_reminder_time_calculator.dart';
@@ -20,18 +21,13 @@ const String _savedReviewChannelDescription =
 const String _openFavoritesPayload = 'open_favorites';
 const String _logTag = 'ReviewReminder';
 
-/// 建议性文案池，按天轮换，不对用户行为做判断
-const List<String> _savedReviewBodies = [
-  '复习一下收藏的句子和单词吧',
-  '听一遍收藏的句子，巩固记忆',
-  '碎片时间听几句，积少成多',
-  '收藏的句子在等你，来复习一下',
-  '反复听才能记住，来复习吧',
-  '收藏的好句子，多听几遍才是你的',
-  '间隔重复是记忆的关键，来听一轮',
-  '熟悉的句子再听一遍，会有新感觉',
-  '收藏了就要复习，不然会忘',
-  '听力靠积累，来复习收藏的句子',
+/// 建议性文案池（按界面语言本地化），按天轮换，不对用户行为做判断
+List<String> _savedReviewBodies(AppLocalizations l10n) => [
+  l10n.reviewReminderSavedBody1,
+  l10n.reviewReminderSavedBody2,
+  l10n.reviewReminderSavedBody3,
+  l10n.reviewReminderSavedBody4,
+  l10n.reviewReminderSavedBody5,
 ];
 
 /// 单条音频复习通知的 channel
@@ -77,9 +73,11 @@ class ReviewReminderService {
     required FlutterLocalNotificationsPlugin plugin,
     required NotificationTapRouterBridge bridge,
     required ReviewReminderTimeCalculator timeCalculator,
+    required AppLocalizations Function() localizations,
     bool? supportsSystemNotificationOverride,
     DateTime Function()? systemNow,
   }) : _plugin = plugin,
+       _localizations = localizations,
        _bridge = bridge,
        _timeCalculator = timeCalculator,
        _supportsSystemNotificationOverride = supportsSystemNotificationOverride,
@@ -88,6 +86,9 @@ class ReviewReminderService {
   final FlutterLocalNotificationsPlugin _plugin;
   final NotificationTapRouterBridge _bridge;
   ReviewReminderTimeCalculator _timeCalculator;
+
+  /// 按当前界面语言取通知文案（每次调度时读取，保证跟随语言切换）。
+  final AppLocalizations Function() _localizations;
 
   /// 测试覆盖：指定是否支持系统通知
   final bool? _supportsSystemNotificationOverride;
@@ -137,7 +138,7 @@ class ReviewReminderService {
       await _ensureTimezoneReady();
 
       const initSettings = InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        android: AndroidInitializationSettings('@drawable/ic_stat_logo'),
         iOS: DarwinInitializationSettings(
           requestAlertPermission: false,
           requestBadgePermission: false,
@@ -211,11 +212,12 @@ class ReviewReminderService {
         await _plugin.cancel(_savedReviewIdBase + i);
       }
 
+      final bodies = _savedReviewBodies(_localizations());
       // 调度未来 15 天
       for (var i = 0; i < _savedReviewDays; i++) {
         final triggerAt = firstTrigger.add(Duration(days: i));
         final triggerTz = tz.TZDateTime.from(triggerAt, tz.local);
-        final body = _savedReviewBodies[i % _savedReviewBodies.length];
+        final body = bodies[i % bodies.length];
 
         await _plugin.zonedSchedule(
           _savedReviewIdBase + i,
@@ -280,8 +282,10 @@ class ReviewReminderService {
         .toList(growable: false);
     var skippedExpiredCount = reminders.length - schedulableReminders.length;
 
-    // 构建快照
+    // 构建快照（含语言：切换界面语言后需按新语言重排）
+    final l10n = _localizations();
     final newSnapshot = <String>{
+      'locale|${l10n.localeName}',
       for (final r in schedulableReminders)
         '${r.audioId}|${r.triggerAt.millisecondsSinceEpoch}',
     };
@@ -313,7 +317,7 @@ class ReviewReminderService {
         await _plugin.zonedSchedule(
           nid,
           'Study Loop',
-          '${r.audioName} · 第${r.reviewRound}轮复习时间到了',
+          l10n.reviewReminderPerAudioBody(r.audioName, r.reviewRound),
           scheduledTz,
           const NotificationDetails(
             android: AndroidNotificationDetails(

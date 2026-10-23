@@ -5697,4 +5697,29 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get podcastSearchToStart =>
       'Search by podcast name, or paste a podcast / RSS link to subscribe.';
+
+  @override
+  String get reviewReminderSavedBody1 =>
+      'Time to review your saved sentences and words';
+
+  @override
+  String get reviewReminderSavedBody2 =>
+      'Listen to your saved sentences once more to lock them in';
+
+  @override
+  String get reviewReminderSavedBody3 =>
+      'A few sentences in spare moments add up';
+
+  @override
+  String get reviewReminderSavedBody4 =>
+      'Your saved sentences are waiting — come review';
+
+  @override
+  String get reviewReminderSavedBody5 =>
+      'Repetition is how listening sticks — let\'s review';
+
+  @override
+  String reviewReminderPerAudioBody(String audioName, int round) {
+    return '$audioName · Review round $round is due';
+  }
 }

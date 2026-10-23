@@ -1,10 +1,12 @@
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
+import 'package:echo_loop/l10n/app_localizations.dart';
 import 'package:echo_loop/services/notification_tap_router_bridge.dart';
 import 'package:echo_loop/services/review_reminder_service.dart';
 import 'package:echo_loop/services/review_reminder_time_calculator.dart';
@@ -45,6 +47,7 @@ void main() {
   ReviewReminderService createService({
     String? launchPayload,
     DateTime Function()? systemNow,
+    Locale Function()? locale,
   }) {
     mockPlugin = MockFlutterLocalNotificationsPlugin();
     bridge = NotificationTapRouterBridge();
@@ -125,6 +128,8 @@ void main() {
       plugin: mockPlugin,
       bridge: bridge,
       timeCalculator: mockTimeCalc,
+      localizations: () =>
+          lookupAppLocalizations(locale?.call() ?? const Locale('en')),
       supportsSystemNotificationOverride: true, // 强制启用通知支持（CI 在 Ubuntu 上运行）
       systemNow: systemNow,
     );
@@ -812,6 +817,53 @@ void main() {
       expect(macos?.requestAlertPermission, isFalse);
       expect(macos?.requestBadgePermission, isFalse);
       expect(macos?.requestSoundPermission, isFalse);
+      // Android 状态栏小图标用白色剪影（mèo），而非彩色启动图标
+      expect(settings.android?.defaultIcon, '@drawable/ic_stat_logo');
+    });
+  });
+
+  group('通知文案跟随界面语言', () {
+    PerAudioReminderInfo reminder() => PerAudioReminderInfo(
+      audioId: 'audio-1',
+      audioName: 'Podcast A',
+      triggerAt: DateTime.now().add(const Duration(hours: 6)),
+      reviewRound: 2,
+    );
+
+    /// 捕获 per-audio 通知的正文（zonedSchedule 第 3 个参数）
+    List<String?> capturedBodies() => verify(
+      () => mockPlugin.zonedSchedule(
+        any(),
+        any(),
+        captureAny(),
+        any(),
+        any(),
+        androidScheduleMode: any(named: 'androidScheduleMode'),
+        payload: any(named: 'payload'),
+      ),
+    ).captured.cast<String?>();
+
+    test('界面语言为越南语时文案为越南语', () async {
+      final service = createService(locale: () => const Locale('vi'));
+      await service.initPlugin();
+
+      await service.syncPerAudioReminders([reminder()]);
+
+      expect(capturedBodies(), ['Podcast A · Đến giờ ôn tập vòng 2']);
+    });
+
+    test('切换语言后快照失效，按新语言重新调度', () async {
+      var current = const Locale('zh');
+      final service = createService(locale: () => current);
+      await service.initPlugin();
+      final reminders = [reminder()];
+
+      await service.syncPerAudioReminders(reminders);
+      expect(capturedBodies(), ['Podcast A · 第2轮复习时间到了']);
+
+      current = const Locale('vi');
+      await service.syncPerAudioReminders(reminders);
+      expect(capturedBodies(), ['Podcast A · Đến giờ ôn tập vòng 2']);
     });
   });
 }

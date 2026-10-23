@@ -223,6 +223,20 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
   - Test: `test/services/github_release_update_test.dart` (5 test) + `app_update_checker_test.dart`, `test/providers` → pass;
     `flutter analyze` các file đã sửa → 0 issue
 
+## Phase 11 — Thông báo tiếng Việt, icon mèo, cài đặt ghi âm (yêu cầu thêm 2026-10-23)
+
+> Người dùng yêu cầu: task 🎨 UI phải chờ người dùng **duyệt thật** (không tự duyệt). Mỗi task xong ghi vào `docs/selfhost/CHANGELOG.md`.
+
+- [P] **T11.1** Thông báo nhắc ôn tập theo ngôn ngữ app (đang hardcode tiếng Trung trong `review_reminder_service.dart`):
+  thêm chuỗi l10n en/zh/vi, đổi ngôn ngữ app → lên lịch lại thông báo
+  - Hoàn thành: 2026-10-23 — 6 key mới `reviewReminder*`; service nhận `localizations` từ provider; `main_shell` nghe đổi locale → resync
+  - Test: `flutter test test/services/review_reminder_service_test.dart test/l10n test/router` → pass; `flutter analyze` file sửa → 0 issue
+- [P] **T11.2** Icon thanh thông báo: thông báo nhắc ôn tập đang dùng `@mipmap/ic_launcher` → dùng `ic_stat_logo` (mèo trắng)
+  - Hoàn thành: 2026-10-23 — đã kiểm tra APK 1.0.42: `ic_stat_logo` (thông báo phát nhạc) đã là mèo; chỉ thông báo nhắc ôn tập dùng icon launcher
+  - Test: assertion `defaultIcon == '@drawable/ic_stat_logo'` trong `review_reminder_service_test.dart` → pass
+- [ ] **T11.3** 🎨 Design: mục "Ghi âm" trong menu cá nhân (âm lượng ghi + chất lượng) → **chờ người dùng duyệt**
+- [ ] **T11.4** Code cài đặt ghi âm theo design đã duyệt (Android `WavRecorder`: hệ số khuếch đại + tần số mẫu)
+
 ## Ghi chú / Quyết định
 
 - 2026-10-20: Chọn cách A (client gọi thẳng OpenAI). Key nhập trong app, lưu secure storage.

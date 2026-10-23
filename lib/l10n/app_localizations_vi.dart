@@ -5693,4 +5693,28 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get podcastSearchToStart =>
       'Tìm theo tên podcast, hoặc dán link podcast / RSS để đăng ký.';
+
+  @override
+  String get reviewReminderSavedBody1 => 'Đến giờ ôn lại câu và từ đã lưu rồi';
+
+  @override
+  String get reviewReminderSavedBody2 =>
+      'Nghe lại các câu đã lưu một lượt để nhớ lâu hơn';
+
+  @override
+  String get reviewReminderSavedBody3 =>
+      'Tranh thủ nghe vài câu lúc rảnh, tích tiểu thành đại';
+
+  @override
+  String get reviewReminderSavedBody4 =>
+      'Các câu đã lưu đang chờ bạn — vào ôn nhé';
+
+  @override
+  String get reviewReminderSavedBody5 =>
+      'Nghe đi nghe lại mới nhớ được — cùng ôn nào';
+
+  @override
+  String reviewReminderPerAudioBody(String audioName, int round) {
+    return '$audioName · Đến giờ ôn tập vòng $round';
+  }
 }

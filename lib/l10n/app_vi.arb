@@ -1653,5 +1653,11 @@
   "aiKeyRequiredTitle": "Chưa cấu hình AI",
   "aiKeyRequiredMessage": "Thêm API key OpenAI (hoặc dịch vụ tương thích) của bạn trong Cài đặt AI để dùng các tính năng AI.",
   "aiOpenSettings": "Mở Cài đặt AI",
-  "podcastSearchToStart": "Tìm theo tên podcast, hoặc dán link podcast / RSS để đăng ký."
+  "podcastSearchToStart": "Tìm theo tên podcast, hoặc dán link podcast / RSS để đăng ký.",
+  "reviewReminderSavedBody1": "Đến giờ ôn lại câu và từ đã lưu rồi",
+  "reviewReminderSavedBody2": "Nghe lại các câu đã lưu một lượt để nhớ lâu hơn",
+  "reviewReminderSavedBody3": "Tranh thủ nghe vài câu lúc rảnh, tích tiểu thành đại",
+  "reviewReminderSavedBody4": "Các câu đã lưu đang chờ bạn — vào ôn nhé",
+  "reviewReminderSavedBody5": "Nghe đi nghe lại mới nhớ được — cùng ôn nào",
+  "reviewReminderPerAudioBody": "{audioName} · Đến giờ ôn tập vòng {round}"
 }
