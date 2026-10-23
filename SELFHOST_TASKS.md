@@ -234,7 +234,8 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
 - [P] **T11.2** Icon thanh thông báo: thông báo nhắc ôn tập đang dùng `@mipmap/ic_launcher` → dùng `ic_stat_logo` (mèo trắng)
   - Hoàn thành: 2026-10-23 — đã kiểm tra APK 1.0.42: `ic_stat_logo` (thông báo phát nhạc) đã là mèo; chỉ thông báo nhắc ôn tập dùng icon launcher
   - Test: assertion `defaultIcon == '@drawable/ic_stat_logo'` trong `review_reminder_service_test.dart` → pass
-- [ ] **T11.3** 🎨 Design: mục "Ghi âm" trong menu cá nhân (âm lượng ghi + chất lượng) → **chờ người dùng duyệt**
+- [D] **T11.3** 🎨 Design: mục "Ghi âm" trong menu cá nhân (âm lượng ghi + chất lượng) → **chờ người dùng duyệt**
+  - Design: `docs/selfhost/design-recording-settings.md` (2026-10-23)
 - [ ] **T11.4** Code cài đặt ghi âm theo design đã duyệt (Android `WavRecorder`: hệ số khuếch đại + tần số mẫu)
 
 ## Ghi chú / Quyết định
