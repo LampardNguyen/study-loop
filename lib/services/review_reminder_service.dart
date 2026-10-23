@@ -212,7 +212,13 @@ class ReviewReminderService {
         await _plugin.cancel(_savedReviewIdBase + i);
       }
 
-      final bodies = _savedReviewBodies(_localizations());
+      final l10n = _localizations();
+      final bodies = _savedReviewBodies(l10n);
+      AppLogger.log(
+        _logTag,
+        'syncSavedReviewReminder locale=${l10n.localeName} '
+        'firstBody=${bodies.first}',
+      );
       // 调度未来 15 天
       for (var i = 0; i < _savedReviewDays; i++) {
         final triggerAt = firstTrigger.add(Duration(days: i));

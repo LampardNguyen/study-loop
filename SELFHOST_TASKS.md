@@ -231,6 +231,8 @@ Mỗi task khi xong ghi: `Hoàn thành: YYYY-MM-DD` + `Test: <lệnh/kết quả
   thêm chuỗi l10n en/zh/vi, đổi ngôn ngữ app → lên lịch lại thông báo
   - Hoàn thành: 2026-10-23 — 6 key mới `reviewReminder*`; service nhận `localizations` từ provider; `main_shell` nghe đổi locale → resync
   - Test: `flutter test test/services/review_reminder_service_test.dart test/l10n test/router` → pass; `flutter analyze` file sửa → 0 issue
+  - Emulator (bản release `app.echoloop.selfhost`, 2026-10-23): log `syncSavedReviewReminder locale=vi firstBody=Đến giờ ôn lại câu và từ đã lưu rồi`.
+    Lưu ý: thông báo tiếng Trung **đã hiện trước đó** là do bản cũ lên lịch, phải mở bản mới một lần để lên lịch lại
 - [P] **T11.2** Icon thanh thông báo: thông báo nhắc ôn tập đang dùng `@mipmap/ic_launcher` → dùng `ic_stat_logo` (mèo trắng)
   - Hoàn thành: 2026-10-23 — đã kiểm tra APK 1.0.42: `ic_stat_logo` (thông báo phát nhạc) đã là mèo; chỉ thông báo nhắc ôn tập dùng icon launcher
   - Test: assertion `defaultIcon == '@drawable/ic_stat_logo'` trong `review_reminder_service_test.dart` → pass
