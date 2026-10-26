@@ -2,6 +2,11 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
+## v1.0.44 (build 9) — 2026-10-26
+
+### Sửa lỗi
+- Bảo mật: nâng `dio_http2_adapter` 2.7.1 → 2.8.0, vá lỗi lộ header nhạy cảm (vd API key) khi bị chuyển hướng sang domain khác.
+
 ## v1.0.43 (build 8) — 2026-10-23
 
 ### Tính năng mới
