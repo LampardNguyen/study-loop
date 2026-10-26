@@ -2,6 +2,11 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
+## v1.0.45 (build 10) — 2026-10-26
+
+### Sửa lỗi
+- Đổi tên hiển thị còn sót "Echo Loop" thành "Study Loop".
+
 ## v1.0.44 (build 9) — 2026-10-26
 
 ### Sửa lỗi
