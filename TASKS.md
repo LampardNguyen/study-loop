@@ -108,28 +108,28 @@
 - [x] 随心听精听与列表切换保留字幕列表状态（2026-09-29）：每种播放列表首次显示后保持挂载；隐藏期间暂停自动聚焦，焦点未变化时保留滚动位置，切句或显式恢复时直接定位最新句；补充往返切换回归。播放器页面 39 项与列表组件 16 项测试通过。**完成时间**: 2026-09-29 19:36
 - [x] 修复随心听退出时在 widget 生命周期内修改 provider 的异常（2026-09-29）：dispose 兜底延后到事件循环执行，保留页面代际校验，并记录、处理后台收尾失败；补充真实卸载与暂停失败回归，播放器页面 37 项测试通过。按用户要求不运行真机构建或 Maestro；本次局部修复不运行 `scripts/check.sh`。
 
-## 优先处理
+**## Ưu tiên xử lý**
 
-- [x] 在 iPhone 实机验证意群起播高亮（2026-10-18）：日志确认 seek 后短暂回退样本会导致上一组末词闪回；意群起点边界修复后用户确认问题解决。
-- [ ] 实测 WebView 移动内容模式与 User-Agent：macOS 完整重启 App 后确认有道等词典是否显示移动布局；如仍为桌面版，再收集页面实际 User-Agent 与 viewport 宽度。
-- [ ] 修复 macOS 网页词典首帧黑闪：继续隔离原生 WebView 创建与 Flutter 合成时序，保持内容尽早显示且不修改插件源码。
-- [ ] Android 离线 ASR 结束录音闪退：获取真机 `logcat` 与 `/data/tombstones`，定位并修复 Silero VAD native 崩溃。
-- [ ] 段落复述页面复用统一录音识别模块。
-- [ ] 意群操作栏切换收藏时其他按钮闪烁，继续定位根因。
-- [ ] 在发布包手动验证数据采集：核对 onboarding、页面访问、权限快照、生命周期事件及应用版本信息。
+- [x] Kiểm tra tính năng highlight khi bắt đầu phát cụm ý trên iPhone thật (2026-10-18): Log xác nhận rằng các sample bị lùi ngắn sau khi seek khiến từ cuối của cụm trước bị highlight trở lại trong chốc lát; sau khi sửa ranh giới điểm bắt đầu cụm ý, người dùng đã xác nhận vấn đề được giải quyết.
+- [ ] Kiểm tra thực tế chế độ hiển thị nội dung di động và User-Agent của WebView: Sau khi khởi động lại hoàn toàn App trên macOS, xác nhận các từ điển như Youdao có hiển thị giao diện mobile hay không; nếu vẫn hiển thị phiên bản desktop, tiếp tục thu thập User-Agent thực tế và chiều rộng viewport của trang.
+- [ ] Sửa lỗi WebView từ điển trên macOS bị nháy đen ở frame đầu tiên: Tiếp tục xác định riêng vấn đề về thời điểm khởi tạo native WebView và quá trình compositing của Flutter, đảm bảo nội dung hiển thị sớm nhất có thể mà không chỉnh sửa mã nguồn plugin.
+- [ ] Android bị crash khi kết thúc ghi âm ASR offline: Thu thập `logcat` và `/data/tombstones` trên thiết bị thật để xác định nguyên nhân và sửa lỗi crash native của Silero VAD.
+- [ ] Tái sử dụng module ghi âm và nhận dạng giọng nói thống nhất cho trang thuật lại đoạn văn.
+- [ ] Khi chuyển trạng thái yêu thích trên thanh thao tác cụm ý, các nút khác bị nhấp nháy; tiếp tục xác định nguyên nhân gốc rễ.
+- [ ] Kiểm tra thủ công tính năng thu thập dữ liệu trên bản build phát hành: Đối chiếu các sự kiện onboarding, truy cập trang, snapshot quyền truy cập, vòng đời ứng dụng và thông tin phiên bản ứng dụng.
 
-## 后续产品体验
+**## Cải thiện trải nghiệm sản phẩm trong giai đoạn tiếp theo**
 
-- [ ] 查词归一化 Unicode 化，并迁移已有收藏 key（需产品与数据决策）。
-- [ ] 计算并展示每个学习任务的预计/实际耗时。
-- [ ] 学习 Tab 点击学习/复习后直接进入学习页面，跳过学习计划页。
-- [ ] 学习 Tab 展示“今日完成任务”折叠区。
-- [ ] 句子增加复制能力：移动端长按、桌面端右键。
-- [ ] 支持自定义背景和背景音。
-- [ ] 增加播放完成音效、任务完成动画与音效。
-- [ ] 埋点能力按中国大陆 / 全球环境拆分落地。
+- [ ] Chuyển cơ chế chuẩn hóa từ tra cứu sang Unicode và migrate các key yêu thích hiện có (cần quyết định về sản phẩm và dữ liệu).
+- [ ] Tính toán và hiển thị thời gian dự kiến/thực tế của từng nhiệm vụ học tập.
+- [ ] Trong tab Học tập, khi nhấn Học/Ôn tập sẽ chuyển trực tiếp đến trang học, bỏ qua trang kế hoạch học tập.
+- [ ] Trong tab Học tập, hiển thị khu vực có thể thu gọn "Nhiệm vụ đã hoàn thành hôm nay".
+- [ ] Bổ sung tính năng sao chép câu: Nhấn giữ trên thiết bị di động, nhấp chuột phải trên desktop.
+- [ ] Hỗ trợ tùy chỉnh hình nền và âm thanh nền.
+- [ ] Bổ sung hiệu ứng âm thanh khi phát xong, animation và hiệu ứng âm thanh khi hoàn thành nhiệm vụ.
+- [ ] Triển khai tách biệt tính năng tracking sự kiện theo môi trường Trung Quốc đại lục / toàn cầu.
 
-## 后端与发布
+**## Backend và phát hành**
 
-- [ ] 后端账号登录会话能力。
-- [ ] 完成跨平台验证与发布准备。
+- [ ] Xây dựng tính năng quản lý phiên đăng nhập tài khoản ở backend.
+- [ ] Hoàn tất kiểm thử đa nền tảng và công tác chuẩn bị phát hành.

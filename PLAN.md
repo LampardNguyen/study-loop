@@ -1,107 +1,107 @@
-# Echo Loop 项目规划
+# Kế hoạch dự án Echo Loop
 
-> 最后更新：2026-09-21（本地数据启动失败降级到首页并保留日志入口）
-> 当前焦点：录音 + 识别功能；首要阻塞为 Android 离线 ASR 结束录音闪退
+> Cập nhật lần cuối: 2026-09-21 (khởi tạo dữ liệu cục bộ thất bại thì hạ cấp về trang chủ và giữ lối vào xem log)
+> Trọng tâm hiện tại: chức năng ghi âm + nhận dạng; vướng mắc lớn nhất là ASR offline trên Android crash khi kết thúc ghi âm
 
-## 产品目标
+## Mục tiêu sản phẩm
 
-Echo Loop 是一个围绕“音频输入 + 句子级学习 + 间隔复习 + AI 辅助”的英语学习应用。核心目标：
+Echo Loop là ứng dụng học tiếng Anh xoay quanh “đầu vào âm thanh + học theo câu + ôn tập ngắt quãng + hỗ trợ AI”. Mục tiêu cốt lõi:
 
-- 让用户围绕真实音频材料完成首次学习与后续复习。
-- 保持主学习闭环免费，AI 与订阅能力只增强体验，不阻断核心流程。
-- 优先保证播放器、学习流转、状态一致性和多平台稳定性。
+- Giúp người dùng hoàn thành lần học đầu và các lần ôn tập sau đó dựa trên tài liệu âm thanh thật.
+- Giữ vòng học chính miễn phí; AI và gói đăng ký chỉ nâng cao trải nghiệm, không chặn luồng cốt lõi.
+- Ưu tiên đảm bảo trình phát, luồng học, tính nhất quán trạng thái và độ ổn định đa nền tảng.
 
-## 当前状态
+## Trạng thái hiện tại
 
-已稳定上线的能力：
+Các năng lực đã ra mắt ổn định:
 
-- 音频导入、字幕管理、字幕编辑、自由播放器。
-- 首次学习主流程：全文盲听、逐句精听、难句跟读、段落复述。
-- 收藏体系：句子、单词、意群、收藏复习。
-- 词典体系：本地词典、AI 词典、网页词典、多源切换、非 modal 面板。
-- AI 能力：翻译、句子解析、单词深度解析、转录。
-- PDF 导出：学习材料导出为可打印 PDF。
-- 订阅体系：平台/渠道识别、native RevenueCat、direct Paddle 后端结账、AI 配额后端裁决。
+- Nhập âm thanh, quản lý phụ đề, chỉnh sửa phụ đề, trình phát tự do.
+- Luồng chính học lần đầu: nghe mù toàn bài, nghe kỹ từng câu, nhại theo câu khó, kể lại đoạn văn.
+- Hệ thống yêu thích: câu, từ, cụm ý, ôn tập mục yêu thích.
+- Hệ thống từ điển: từ điển cục bộ, từ điển AI, từ điển web, chuyển đổi nhiều nguồn, panel không modal.
+- Năng lực AI: dịch, phân tích câu, phân tích sâu từ vựng, chuyển văn bản (transcribe).
+- Xuất PDF: xuất tài liệu học thành PDF có thể in.
+- Hệ thống đăng ký: nhận diện nền tảng/kênh, RevenueCat native, thanh toán Paddle trực tiếp qua backend, backend phân xử hạn mức AI.
 
-当前主要风险：
+Rủi ro chính hiện tại:
 
-- Android 离线 ASR 在部分机型结束录音后触发 native 崩溃，仍未定位到最终 root cause。
-- 订阅链路主干已打通，但仍需要继续做渠道验证、回归和生产配置收尾。
-- 冷启动已将重型初始化移出首帧路径，并以 Riverpod `AsyncValue` 统一管理本地数据初始化状态；本地数据失败时不再阻断导航壳，首页提供重试与日志入口。仍需在受影响 iOS 真机上用启动日志核验迁移失败原因和首帧实际耗时。
+- ASR offline trên Android gây crash native trên một số dòng máy sau khi kết thúc ghi âm, vẫn chưa xác định được root cause cuối cùng.
+- Luồng chính của đăng ký đã thông, nhưng vẫn cần tiếp tục xác minh theo kênh, hồi quy và hoàn thiện cấu hình production.
+- Khởi động nguội đã đưa các khởi tạo nặng ra khỏi đường đi của frame đầu tiên, và dùng Riverpod `AsyncValue` để quản lý thống nhất trạng thái khởi tạo dữ liệu cục bộ; khi dữ liệu cục bộ lỗi sẽ không còn chặn khung điều hướng, trang chủ cung cấp lối thử lại và xem log. Vẫn cần dùng log khởi động trên máy iOS thật bị ảnh hưởng để xác minh nguyên nhân migration thất bại và thời gian thực tế của frame đầu.
 
-## 当前里程碑
+## Milestone hiện tại
 
-### ✅ Milestone 1：基础播放器
+### ✅ Milestone 1: Trình phát cơ bản
 
-已完成。覆盖音频导入、全文/单句/收藏三种播放模式、字幕同步、收藏与基础播放控制。
+Đã hoàn thành. Bao gồm nhập âm thanh, ba chế độ phát toàn bài/từng câu/yêu thích, đồng bộ phụ đề, yêu thích và điều khiển phát cơ bản.
 
-### 🚧 Milestone 2：学习流程引擎
+### 🚧 Milestone 2: Engine luồng học
 
-主体已完成，剩余收尾集中在录音识别稳定性：
+Phần chính đã xong, phần hoàn thiện còn lại tập trung vào độ ổn định của ghi âm nhận dạng:
 
-- 已完成：首次学习流程、阶段状态流转、断点续学、难度驱动的训练编排。
-- 已完成：难句补练、收藏复习、盲听与复述共享骨架。
-- 未完成：Android 离线 ASR 闪退根因定位与修复；段落复述继续复用统一录音识别模块。
+- Đã xong: luồng học lần đầu, chuyển đổi trạng thái giai đoạn, học tiếp từ điểm dừng, sắp xếp bài luyện theo độ khó.
+- Đã xong: luyện bổ sung câu khó, ôn tập yêu thích, khung dùng chung cho nghe mù và kể lại.
+- Chưa xong: xác định root cause và sửa lỗi crash ASR offline trên Android; kể lại đoạn văn tiếp tục dùng lại module ghi âm nhận dạng thống nhất.
 
-### ✅ Milestone 3：收藏与标注体系
+### ✅ Milestone 3: Hệ thống yêu thích và chú thích
 
-已完成。覆盖 Favorites、句子/单词/意群收藏、收藏复习、词典联动与标注内容展示。
+Đã hoàn thành. Bao gồm Favorites, yêu thích câu/từ/cụm ý, ôn tập yêu thích, liên kết từ điển và hiển thị nội dung chú thích.
 
-### 🚧 Milestone 4：体验优化与生产就绪
+### 🚧 Milestone 4: Tối ưu trải nghiệm và sẵn sàng production
 
-持续推进中：
+Đang tiếp tục:
 
-- 性能与稳定性优化。
-- 多平台体验对齐（iOS / Android / macOS）。
-- 播放、词典、PDF、字幕编辑等高频链路体验打磨。
-- CI / Release / 更新链路稳定性完善。
-- AI 对话助手（通用 chatbot 组件）：多轮对话式 AI 助手，一套可插拔组件接入不同位置（首接入点为句子讲解页；2026-07-23 起逐句精听 / 难句跟读 / 难句复习 / 收藏复习 4 个句子级任务页 AppBar 也接入，共享 `SentenceChatButton` 单一入口来源），复用现有 NDJSON 流式与 402 额度门链路。发布由 `kChatbotEnabled` + remote config 双开关控制。规格见 [docs/chatbot-implementation-plan.md](./docs/chatbot-implementation-plan.md)。
+- Tối ưu hiệu năng và độ ổn định.
+- Đồng bộ trải nghiệm đa nền tảng (iOS / Android / macOS).
+- Mài giũa trải nghiệm các luồng dùng thường xuyên như phát, từ điển, PDF, chỉnh sửa phụ đề.
+- Hoàn thiện độ ổn định của luồng CI / Release / cập nhật.
+- Trợ lý hội thoại AI (component chatbot dùng chung): trợ lý AI hội thoại nhiều lượt, một bộ component có thể cắm vào nhiều vị trí khác nhau (điểm tích hợp đầu tiên là trang giải thích câu; từ 2026-07-23 AppBar của 4 trang tác vụ cấp câu là nghe kỹ từng câu / nhại theo câu khó / ôn câu khó / ôn yêu thích cũng được tích hợp, dùng chung `SentenceChatButton` làm nguồn lối vào duy nhất), tái sử dụng luồng streaming NDJSON và cổng hạn mức 402 hiện có. Việc phát hành được điều khiển bởi hai công tắc `kChatbotEnabled` + remote config. Đặc tả xem [docs/chatbot-implementation-plan.md](./docs/chatbot-implementation-plan.md).
 
-### 🚧 Milestone 5：支付订阅（Echo Loop Premium）
+### 🚧 Milestone 5: Thanh toán đăng ký (Echo Loop Premium)
 
-当前状态：
+Trạng thái hiện tại:
 
-- 已完成：客户端 RevenueCat 接入、订阅页、平台/渠道识别、direct Paddle Checkout 与 Customer Portal、AI 配额后端裁决、release 渠道注入、权益单一来源重构 P0（后端 `/api/entitlements` 唯一权威 + forceReconcile 成交收敛，见 [docs/subscription-single-source-plan.md](./docs/subscription-single-source-plan.md)）。
-- 待继续：真实生产环境验证（Paddle 会员在商店包手动回归，见 plan §11；P0+P1 需后端同步部署）、退款/撤销回退、多设备/换机验证、更多渠道回归。P1 智能刷新（E7/E6/E8）已全部完成（2026-07-23）；E9 Realtime 推送为可选项未实现。
+- Đã xong: tích hợp RevenueCat phía client, trang đăng ký, nhận diện nền tảng/kênh, direct Paddle Checkout và Customer Portal, backend phân xử hạn mức AI, inject kênh khi release, refactor P0 nguồn quyền lợi duy nhất (backend `/api/entitlements` là nguồn có thẩm quyền duy nhất + forceReconcile hội tụ khi giao dịch thành công, xem [docs/subscription-single-source-plan.md](./docs/subscription-single-source-plan.md)).
+- Cần tiếp tục: xác minh trên môi trường production thật (hồi quy thủ công hội viên Paddle trên bản phát hành qua store, xem plan §11; P0+P1 cần backend deploy đồng bộ), xử lý hoàn tiền/thu hồi, xác minh nhiều thiết bị/đổi máy, hồi quy thêm kênh. Làm mới thông minh P1 (E7/E6/E8) đã hoàn thành toàn bộ (2026-07-23); push Realtime E9 là tùy chọn, chưa triển khai.
 
-参考文档：
+Tài liệu tham khảo:
 
-- [订阅配置与发布说明](./docs/subscription-setup.md)
+- [Cấu hình đăng ký và hướng dẫn phát hành](./docs/subscription-setup.md)
 
-## 近阶段工作重点
+## Trọng tâm giai đoạn gần
 
-1. 解决 Android 离线 ASR 闪退。
-2. 完成启动埋点权限快照的手动验证。
-3. 继续收敛录音识别模块复用边界。
-4. 维持 release / 渠道 / 订阅链路的一致性。
+1. Giải quyết crash ASR offline trên Android.
+2. Hoàn tất xác minh thủ công snapshot quyền khi khởi động (tracking).
+3. Tiếp tục thu hẹp ranh giới tái sử dụng của module ghi âm nhận dạng.
+4. Duy trì tính nhất quán của luồng release / kênh / đăng ký.
 
-## 架构约束（精简版）
+## Ràng buộc kiến trúc (bản rút gọn)
 
-- 单向数据流：UI 触发动作，provider / controller 改状态，UI 被动渲染。
-- 页面负责组装，组件负责展示，复杂流程下沉到可测试的纯 Dart 编排层。
-- 副作用通过 service / repository 注入，不把网络、文件、平台调用散落到 UI。
-- 异步流程必须带 session / token / generation guard，防止旧回调污染新状态。
-- 学习统计新写入链路用于全部学习任务（随心听、收藏复习、逐句精听、难句跟读、全文盲听、段落复述和难句补练）：
-  页面 → Provider → StudySessionTimer → StudyTimeService FIFO 队列 → StudyStatisticsDao 单事务；
-  计时器按页面生命周期创建/销毁，播放完成事件写入输入统计，录音完成事件写入输出统计，用户无活动超过
-  2 分钟才暂停总学习时长。学习任务不再保留独立的 StudyEventRecorder、StudyStatisticsRecorder 或旧式 add* 增量写入链路。
-- 新链路使用的日统计、阶段统计和词形事务能力保持集中实现，避免新增调用方绕过
-  统一写入口。
-- 新增能力优先补状态流转测试与关键回归测试。
+- Luồng dữ liệu một chiều: UI kích hoạt hành động, provider / controller đổi trạng thái, UI render thụ động.
+- Trang chịu trách nhiệm lắp ghép, component chịu trách nhiệm hiển thị, luồng phức tạp đưa xuống tầng điều phối Dart thuần có thể test.
+- Side effect được inject qua service / repository, không rải lời gọi mạng, file, nền tảng vào UI.
+- Luồng bất đồng bộ phải có guard session / token / generation, tránh callback cũ làm bẩn trạng thái mới.
+- Luồng ghi thống kê học tập mới được dùng cho mọi tác vụ học (nghe tự do, ôn yêu thích, nghe kỹ từng câu, nhại theo câu khó, nghe mù toàn bài, kể lại đoạn văn và luyện bổ sung câu khó):
+  Trang → Provider → StudySessionTimer → hàng đợi FIFO StudyTimeService → StudyStatisticsDao trong một transaction;
+  bộ đếm giờ được tạo/hủy theo vòng đời trang, sự kiện phát xong ghi vào thống kê đầu vào, sự kiện ghi âm xong ghi vào thống kê đầu ra, người dùng không hoạt động quá
+  2 phút mới tạm dừng tổng thời gian học. Các tác vụ học không còn giữ luồng ghi riêng StudyEventRecorder, StudyStatisticsRecorder hay kiểu ghi tăng dần add* cũ.
+- Các năng lực thống kê theo ngày, thống kê theo giai đoạn và transaction dạng từ mà luồng mới sử dụng được giữ triển khai tập trung, tránh bên gọi mới đi vòng qua
+  lối ghi thống nhất.
+- Năng lực mới ưu tiên bổ sung test chuyển đổi trạng thái và test hồi quy quan trọng.
 
-## 关键 ADR 索引
+## Chỉ mục ADR chính
 
-- 媒体引擎与前台引擎分离：避免锁屏媒体会话与前台试听互相污染。
-- 统一 TTS 架构：合成 → 文件 → 缓存 → 播放，支持平台 TTS 与 Kokoro 本地 TTS。
-- 离线转录与本地模型：复用统一音频处理与模型下载能力。
-- 平台 + 渠道统一识别：`platform + distribution` 决定支付实现和后端配额策略。
-- 通用记忆调度基础设施：以独立调度快照与只追加复习事件建模；上层依赖应用自有接口，FSRS 仅限 adapter 内部，按逐项固定 Profile 保障可迁移与可审计性（见 [memory-scheduler-infrastructure-plan.md](./docs/memory-scheduler-infrastructure-plan.md)）。
+- Tách media engine và foreground engine: tránh phiên media màn hình khóa và nghe thử foreground làm bẩn lẫn nhau.
+- Kiến trúc TTS thống nhất: tổng hợp → file → cache → phát, hỗ trợ TTS nền tảng và TTS cục bộ Kokoro.
+- Chuyển văn bản offline và model cục bộ: tái sử dụng năng lực xử lý âm thanh và tải model thống nhất.
+- Nhận diện thống nhất nền tảng + kênh: `platform + distribution` quyết định cách triển khai thanh toán và chính sách hạn mức backend.
+- Hạ tầng lập lịch ghi nhớ dùng chung: mô hình hóa bằng snapshot lập lịch độc lập và sự kiện ôn tập chỉ ghi nối thêm; tầng trên phụ thuộc vào interface riêng của app, FSRS chỉ nằm trong adapter, cố định Profile theo từng mục để đảm bảo khả năng di chuyển và kiểm toán (xem [memory-scheduler-infrastructure-plan.md](./docs/memory-scheduler-infrastructure-plan.md)).
 
-详细历史与旧版长文档已归档：
+Lịch sử chi tiết và tài liệu dài bản cũ đã được lưu trữ:
 
-- [2026-07-12 全量规划快照](./docs/plan-archive/plan-2026-07-12-full.md)
+- [Snapshot toàn bộ kế hoạch 2026-07-12](./docs/plan-archive/plan-2026-07-12-full.md)
 
-日常执行请结合：
+Khi làm việc hằng ngày hãy kết hợp với:
 
 - [TASKS.md](./TASKS.md)
 - [AGENTS.md](./AGENTS.md)

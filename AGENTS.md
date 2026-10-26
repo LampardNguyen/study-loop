@@ -1,110 +1,126 @@
-# AGENTS.md - Codex 工作规范
+# AGENTS.md - Quy chuẩn làm việc của Codex
 
-## 1. 目标与边界
+## 1. Mục tiêu và phạm vi
 
-你是 Codex，在本仓库协助完成开发任务。目标是稳定推进任务并保持改动可验证。
+Bạn là Codex, hỗ trợ thực hiện các tác vụ phát triển phần mềm trong repository này. Mục tiêu là triển khai công việc một cách ổn định và đảm bảo mọi thay đổi đều có thể kiểm chứng.
 
-硬性边界：
-- 不修改 Claude Code 体系文件：`CLAUDE.md`、`.claude/settings.json`、`.claude/settings.local.json`
-- 一次只做一个任务，避免顺手重构
-- 仅修改当前任务直接相关文件，保持最小改动
+**Các quy định bắt buộc:**
 
-## 2. 会话启动流程（必须执行）
+- Không chỉnh sửa các file thuộc hệ thống Claude Code: `CLAUDE.md`, `.claude/settings.json`, `.claude/settings.local.json`.
+- Mỗi lần chỉ thực hiện một tác vụ, tránh tiện tay refactor những phần không liên quan.
+- Chỉ chỉnh sửa các file liên quan trực tiếp đến tác vụ hiện tại, đảm bảo phạm vi thay đổi nhỏ nhất có thể.
 
-开始任何编码工作前，按顺序执行：
-1. 阅读 `PLAN.md`，确认当前里程碑和阶段
-2. 阅读 `TASKS.md`，确认待办与优先级
-3. 用简单的语言说清楚要完成的任务是啥
+## 2. Quy trình bắt đầu phiên làm việc (bắt buộc)
 
-## 3. 开发执行约束
+Trước khi bắt đầu bất kỳ công việc lập trình nào, phải thực hiện lần lượt:
 
-- 测试优先：关键流程和功能必须补充对应测试
-- 类型安全：避免 `dynamic`、`as` 强转、`!` 非空断言
-- 小步提交：每次改动保持可运行、可检查
-- 注释规范：新增/修改的核心逻辑应有清晰中文注释（Dart doc comment）
-- 权限与命令：遵循“最小必要命令”原则；禁止执行破坏性命令（如未授权的删除/重置）
+1. Đọc `PLAN.md` để xác định milestone và giai đoạn hiện tại.
+2. Đọc `TASKS.md` để xác định các công việc cần thực hiện và mức độ ưu tiên.
+3. Giải thích ngắn gọn, dễ hiểu về tác vụ sẽ thực hiện.
 
-## 4. 任务收尾流程（必须执行）
+## 3. Các ràng buộc khi phát triển
 
-完成当前任务后，按顺序执行：
-1. 检查测试完整性（unit / widget / integration）
-2. 清理死代码（含未使用测试代码）
-3. 检查新增或修改代码的注释质量
-4. 默认只运行与本次改动直接相关的检查：
-   - `flutter analyze <改动相关文件>`
-   - `flutter test <改动相关测试文件>`
-   - 如改动影响 integration 边界，再运行对应 integration 测试
-   - 如改动影响 UI、路由或首启流程，且已有可用模拟器/真机，运行
-     Android 真机优先使用 `scripts/test_maestro_android.sh` 自动构建、安装和测试（多设备时通过 `--device <adb-serial>` 选择）；
-     已安装包或 iOS 使用 `MAESTRO_APP_ID=<目标包名> scripts/test_maestro.sh`；未运行时说明设备或 CLI 阻塞原因
-5. 仅在发版、大范围重构、跨核心模块改动，或用户明确要求时运行 `scripts/check.sh`
-6. 更新 `TASKS.md`（勾选任务并记录完成时间）
-7. 如里程碑状态变化，更新 `PLAN.md`
-8. 输出完成摘要（任务、改动文件、测试、下一步建议）
+- **Ưu tiên kiểm thử:** Các chức năng và luồng xử lý quan trọng phải có test tương ứng.
+- **An toàn kiểu dữ liệu:** Tránh sử dụng `dynamic`, ép kiểu bằng `as` và toán tử khẳng định không null `!`.
+- **Thay đổi từng bước nhỏ:** Mỗi lần thay đổi phải đảm bảo code vẫn có thể chạy và kiểm tra được.
+- **Quy chuẩn comment:** Logic cốt lõi được thêm mới hoặc chỉnh sửa phải có comment tiếng Trung rõ ràng, sử dụng Dart doc comment.
+- **Quyền hạn và câu lệnh:** Tuân thủ nguyên tắc chỉ thực thi những câu lệnh tối thiểu cần thiết. Nghiêm cấm thực thi các câu lệnh có tính phá hủy (ví dụ: xóa hoặc reset khi chưa được cấp quyền).
 
-## 5. 输出要求
+## 4. Quy trình hoàn tất tác vụ (bắt buộc)
 
-每次任务完成时，输出至少包含：
-- 实现的任务标题
-- 修改文件列表
-- 执行的测试与结果
-- 是否执行 `scripts/check.sh`；若未执行，说明原因
-- 用户可直接执行的下一步验证方式
+Sau khi hoàn thành tác vụ hiện tại, phải thực hiện lần lượt:
 
-## 6 Flutter 开发原则
+1. Kiểm tra tính đầy đủ của các bài test (unit / widget / integration).
+2. Dọn dẹp dead code, bao gồm cả code test không còn được sử dụng.
+3. Kiểm tra chất lượng comment của code mới thêm hoặc đã chỉnh sửa.
+4. Mặc định chỉ chạy các bước kiểm tra liên quan trực tiếp đến thay đổi lần này:
+   - `flutter analyze <các file liên quan đến thay đổi>`
+   - `flutter test <các file test liên quan đến thay đổi>`
+   - Nếu thay đổi ảnh hưởng đến ranh giới tích hợp giữa các thành phần, chạy thêm các integration test tương ứng.
+   - Nếu thay đổi ảnh hưởng đến UI, routing hoặc luồng khởi động lần đầu, đồng thời có sẵn emulator hoặc thiết bị thật có thể sử dụng, cần chạy kiểm thử:
+     - **Ưu tiên Android trên thiết bị thật:** Sử dụng `scripts/test_maestro_android.sh` để tự động build, cài đặt và chạy test. Nếu có nhiều thiết bị, sử dụng `--device <adb-serial>` để chọn thiết bị.
+     - **Ứng dụng đã được cài đặt hoặc iOS:** Sử dụng `MAESTRO_APP_ID=<tên package mục tiêu> scripts/test_maestro.sh`.
+     - Nếu không chạy được, phải nêu rõ nguyên nhân bị chặn do thiết bị hoặc công cụ CLI.
+5. Chỉ chạy `scripts/check.sh` trong các trường hợp:
+   - Chuẩn bị phát hành phiên bản.
+   - Refactor trên phạm vi lớn.
+   - Thay đổi ảnh hưởng đến nhiều module cốt lõi.
+   - Người dùng yêu cầu rõ ràng.
+6. Cập nhật `TASKS.md` (đánh dấu tác vụ đã hoàn thành và ghi lại thời gian hoàn thành).
+7. Nếu trạng thái milestone thay đổi, cập nhật `PLAN.md`.
+8. Xuất báo cáo tổng kết hoàn thành, bao gồm: tác vụ, các file đã thay đổi, kết quả kiểm thử và đề xuất bước tiếp theo.
 
-### 6.1 核心原则
-1. 优先保证结构清晰，不要过度设计。
-2. 按职责拆分，不按页面外观拆分。
-3. 保持单向数据流：UI 触发动作，controller 更新 state，UI 根据 state 渲染。
-4. UI 和业务逻辑分离，widget 不承载复杂业务逻辑。
-5. 优先简单、直接、稳定的方案。
-6. 函数设计要保持单一职能原则。
-7. 遵循 DRY 原则，优先复用项目中已有的代码、组件和工具函数。不要重复实现已有能力，避免产生多个逻辑来源，确保行为一致并降低维护成本。
+## 5. Yêu cầu về báo cáo kết quả
 
-### 6.2 分层职责
-1. Screen/Page 负责页面组装、路由参数、读取 provider、分发回调。
-2. Widget 负责展示和局部交互，尽量保持纯。
-3. Provider/Notifier 负责状态和业务逻辑。
-4. Repository 负责数据获取和持久化，不负责业务流程编排。
-5. Model 表示业务数据，State 表示界面运行状态。Model 不依赖 State，State 可以包含 Model。
+Sau mỗi tác vụ hoàn thành, báo cáo phải bao gồm tối thiểu:
 
-### 6.3 状态管理
-1. Provider 按功能域拆分，不按组件个数拆分，也不按页面外观拆分。
-2. 状态只在一个 widget 树内使用且不需要跨组件共享时，用局部 state；否则用 provider。
-3. 一份真实状态只能有一个单一来源，避免多处维护同一状态。
-4. 状态变更入口要集中，只能通过明确的方法修改状态。
-5. 复杂流程提取为纯 Dart 类编排（可测试、可复用），Provider 负责连接编排层和 UI。
+- Tiêu đề tác vụ đã triển khai.
+- Danh sách các file đã chỉnh sửa.
+- Các bài test đã thực hiện và kết quả tương ứng.
+- Có chạy `scripts/check.sh` hay không. Nếu không chạy, phải giải thích lý do.
+- Cách kiểm chứng tiếp theo mà người dùng có thể trực tiếp thực hiện.
 
-### 6.4 Widget 设计
-1. 页面负责组装，组件负责展示。
-2. 不要做万能组件，避免大量 if 和模式开关。参数超过 10 个说明职责太广，应该拆分。
-3. build 方法只描述 UI，不做请求、不改状态、不启动副作用。
-4. 子组件只读取自己关心的状态，避免整页无意义刷新。
+## 6. Nguyên tắc phát triển Flutter
 
-### 6.5 可靠性
-1. 异步操作必须防竞态：启动时记录标识（token/sessionId），回调时校验标识是否仍有效，过期则丢弃。
-2. 谁创建谁销毁。资源的生命周期必须和它的所有者绑定，不能由外部隐式管理。
-3. 副作用（网络请求、文件 IO、平台调用）通过接口或回调注入，不在业务逻辑类中直接调用。
-4. 每个异步调用点都要考虑失败情况。沉默吞掉异常是 bug，应该明确处理或向上传播。
-5. 错误、加载、空状态必须显式设计，不要只写成功态。
-6. 关键环节打印出日志，方便排查、发现问题。
+### 6.1. Nguyên tắc cốt lõi
 
-### 6.6 可维护性
-1. 命名优先于技巧，名称必须直接表达职责。
-2. 目录结构优先按 feature 组织，再在 feature 内部分层。
-3. 先允许少量重复，确认模式稳定后再抽象。过早抽象比重复更有害。
-4. 优先测试状态流转和业务逻辑，不需要添加低价值的测试，比如文案。
+1. Ưu tiên cấu trúc code rõ ràng, tránh thiết kế quá mức (over-engineering).
+2. Phân chia thành phần dựa trên trách nhiệm, không dựa trên hình thức giao diện.
+3. Duy trì luồng dữ liệu một chiều: UI kích hoạt action, controller cập nhật state, UI render dựa trên state.
+4. Tách biệt UI và business logic. Widget không được chứa business logic phức tạp.
+5. Ưu tiên các giải pháp đơn giản, trực tiếp và ổn định.
+6. Thiết kế function phải tuân thủ nguyên tắc đơn trách nhiệm (Single Responsibility Principle).
+7. Tuân thủ nguyên tắc DRY (Don't Repeat Yourself), ưu tiên tái sử dụng code, component và utility function đã có trong dự án. Không triển khai lại những chức năng đã tồn tại, tránh tạo ra nhiều nguồn xử lý logic cho cùng một chức năng, đảm bảo hành vi nhất quán và giảm chi phí bảo trì.
 
-### 6.7 测试要求
-1. 为新增或修改的行为编写真正有价值的测试。
-2. 测试行为，不测试实现细节。
-3. 不测试无关紧要的 UI 细节，例如精确字号、颜色、间距或其他样式常量，除非它们属于明确的产品要求或回归问题。
-4. 覆盖重要的边界情况和失败路径，不要只测试正常流程。
-5. 在可行的情况下优先使用真实组件，避免过度 Mock。
-6. 修复 Bug 时应增加回归测试，该测试应在修复前失败，在修复后通过。
-7. 测试必须稳定且可重复。不要为了让异步测试通过而加入任意延时。
-8. 不要仅为了让测试通过而削弱、跳过或删除现有测试。
-9. 宁可写少量高价值测试，也不要写大量浅层测试。
-10. 不要仅为了提高覆盖率而增加测试。每个测试都应该保护重要行为，或能够发现真实可能发生的回归问题。
-11. 完成任务前，运行相关测试并确保全部通过。
+### 6.2. Trách nhiệm của từng tầng kiến trúc
+
+1. **Screen/Page:** Chịu trách nhiệm tổ chức và kết hợp các thành phần của trang, xử lý tham số routing, đọc provider và phân phối callback.
+2. **Widget:** Chịu trách nhiệm hiển thị và xử lý tương tác cục bộ, cố gắng giữ widget thuần (pure).
+3. **Provider/Notifier:** Chịu trách nhiệm quản lý state và business logic.
+4. **Repository:** Chịu trách nhiệm truy xuất và lưu trữ dữ liệu, không chịu trách nhiệm điều phối các quy trình nghiệp vụ.
+5. **Model và State:** Model biểu diễn dữ liệu nghiệp vụ, State biểu diễn trạng thái hoạt động của giao diện. Model không phụ thuộc vào State, nhưng State có thể chứa Model.
+
+### 6.3. Quản lý trạng thái (State Management)
+
+1. Chia Provider theo từng miền chức năng (functional domain), không chia theo số lượng component hoặc hình thức giao diện.
+2. Nếu state chỉ được sử dụng trong một widget tree và không cần chia sẻ giữa các component, hãy sử dụng local state. Ngược lại, sử dụng provider.
+3. Mỗi trạng thái thực tế chỉ được có một nguồn dữ liệu duy nhất (Single Source of Truth), tránh duy trì cùng một state ở nhiều nơi.
+4. Tập trung các điểm thay đổi state. State chỉ được thay đổi thông qua những method được định nghĩa rõ ràng.
+5. Với các quy trình phức tạp, tách logic điều phối thành các class Dart thuần để dễ kiểm thử và tái sử dụng. Provider chịu trách nhiệm kết nối tầng điều phối với UI.
+
+### 6.4. Thiết kế Widget
+
+1. Page chịu trách nhiệm tổ chức các thành phần, Widget chịu trách nhiệm hiển thị.
+2. Không tạo các component đa năng xử lý quá nhiều trường hợp bằng hàng loạt câu lệnh `if` hoặc các cờ chuyển đổi chế độ. Nếu một component có hơn 10 tham số, đó là dấu hiệu phạm vi trách nhiệm quá rộng và nên được tách nhỏ.
+3. Method `build` chỉ được dùng để mô tả UI, không thực hiện request, thay đổi state hoặc kích hoạt side effect.
+4. Widget con chỉ nên đọc những phần state mà nó thực sự quan tâm, tránh khiến toàn bộ trang rebuild không cần thiết.
+
+### 6.5. Độ tin cậy (Reliability)
+
+1. **Chống race condition:** Các thao tác bất đồng bộ phải có cơ chế phòng tránh race condition. Khi bắt đầu, ghi nhận định danh (`token/sessionId`); khi callback được gọi, kiểm tra định danh còn hợp lệ hay không. Nếu đã hết hiệu lực, bỏ qua kết quả.
+2. **Quản lý vòng đời tài nguyên:** Thành phần nào tạo ra tài nguyên thì thành phần đó chịu trách nhiệm giải phóng. Vòng đời của tài nguyên phải gắn với đối tượng sở hữu, không được phụ thuộc vào việc quản lý ngầm từ bên ngoài.
+3. **Quản lý side effect:** Các tác vụ có side effect như network request, file I/O hoặc platform call phải được inject thông qua interface hoặc callback, không gọi trực tiếp trong class xử lý business logic.
+4. **Xử lý lỗi bất đồng bộ:** Mỗi điểm gọi async đều phải xem xét trường hợp thất bại. Việc âm thầm bỏ qua exception được xem là bug. Exception phải được xử lý rõ ràng hoặc truyền lên tầng phía trên.
+5. **Thiết kế đầy đủ trạng thái:** Phải thiết kế rõ ràng các trạng thái error, loading và empty, không chỉ xử lý trường hợp thành công.
+6. **Logging:** Ghi log tại các bước xử lý quan trọng để thuận tiện cho việc theo dõi, phát hiện và điều tra lỗi.
+
+### 6.6. Khả năng bảo trì (Maintainability)
+
+1. **Ưu tiên tên gọi rõ ràng hơn kỹ thuật phức tạp:** Tên biến, function và class phải thể hiện trực tiếp trách nhiệm của chúng.
+2. **Tổ chức thư mục:** Ưu tiên tổ chức thư mục theo feature, sau đó phân tầng kiến trúc bên trong từng feature.
+3. **Tránh trừu tượng hóa quá sớm:** Chấp nhận một lượng nhỏ code trùng lặp ban đầu. Chỉ tiến hành abstraction khi đã xác định được pattern ổn định. Abstraction quá sớm có thể gây hại nhiều hơn việc lặp code.
+4. **Ưu tiên kiểm thử có giá trị:** Tập trung kiểm thử quá trình chuyển đổi state và business logic. Không cần bổ sung những test có giá trị thấp, chẳng hạn kiểm tra nội dung văn bản hiển thị.
+
+### 6.7. Yêu cầu kiểm thử (Testing)
+
+1. Viết những bài test thực sự có giá trị cho các hành vi được thêm mới hoặc chỉnh sửa.
+2. Kiểm thử hành vi (behavior), không kiểm thử chi tiết triển khai (implementation details).
+3. Không kiểm thử những chi tiết UI không quan trọng như kích thước font chính xác, màu sắc, khoảng cách hoặc các hằng số style khác, trừ khi chúng là yêu cầu sản phẩm rõ ràng hoặc liên quan đến lỗi hồi quy.
+4. Bao phủ các trường hợp biên quan trọng (edge cases) và các luồng thất bại (failure paths), không chỉ kiểm thử happy path.
+5. Ưu tiên sử dụng component thật khi khả thi, tránh lạm dụng Mock.
+6. Khi sửa bug, phải bổ sung regression test. Bài test này phải thất bại trước khi sửa và chạy thành công sau khi sửa.
+7. Test phải ổn định và có thể chạy lặp lại với kết quả nhất quán. Không thêm các khoảng delay tùy ý chỉ để khiến async test chạy thành công.
+8. Không làm suy yếu, bỏ qua hoặc xóa các test hiện có chỉ nhằm mục đích khiến bộ test chạy thành công.
+9. Ưu tiên một số lượng nhỏ các bài test có giá trị cao thay vì viết quá nhiều test hời hợt.
+10. Không thêm test chỉ để tăng tỷ lệ code coverage. Mỗi bài test phải bảo vệ một hành vi quan trọng hoặc có khả năng phát hiện những lỗi hồi quy thực tế có thể xảy ra.
+11. Trước khi hoàn thành tác vụ, hãy được cho tôi lệnh chạy test case khi tôi chạy xong sẽ báo lại kết quả
