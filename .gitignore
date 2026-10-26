@@ -68,4 +68,4 @@ android/key.properties
 **/android/.gradle/
 
 # Ghi chú riêng cho Claude Code (không public)
-CLAUDE.local.md
+# CLAUDE.local.md
