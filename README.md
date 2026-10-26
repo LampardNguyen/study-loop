@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="assets/icon/app-icon-1024-rounded.png" alt="Echo Loop" width="128" />
+  <img src="assets/icon/app-icon-1024-rounded.png" alt="Study Loop" width="128" />
 
-  <h1>Echo Loop — Self-hosted Edition</h1>
+  <h1>Study Loop — Self-hosted Edition</h1>
 
   <p><strong>An English listening &amp; speaking trainer that runs without anyone's backend.</strong></p>
 

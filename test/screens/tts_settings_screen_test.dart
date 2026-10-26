@@ -108,7 +108,7 @@ void main() {
 
     // 平台引擎显示名随宿主而变（Apple → Apple AI，其余 → System Speech）。
     expect(find.text(_platformEngineLabel), findsOneWidget);
-    // Echo Loop 现拆为两档可选：Balanced(Piper) / Advanced(Kokoro)。
+    // Study Loop 现拆为两档可选：Balanced(Piper) / Advanced(Kokoro)。
     expect(find.text('Study Loop AI (Balanced)'), findsOneWidget);
     expect(find.text('Study Loop AI (Advanced)'), findsNWidgets(2));
     expect(find.textContaining('Best sound quality'), findsOneWidget);
@@ -279,7 +279,7 @@ void main() {
     expect(find.text('American · Sarah · Female'), findsOneWidget);
     // 使用中（fp32 选中）不显删除（不删正在用的语音）；int8 未下载也无删除。
     expect(find.byTooltip('Delete model'), findsNothing);
-    // Echo Loop 下无独立口音卡，弹层未开时音色列表与口音标题都不在屏上。
+    // Study Loop 下无独立口音卡，弹层未开时音色列表与口音标题都不在屏上。
     expect(find.byType(Radio<String>), findsNothing);
     expect(find.text('American'), findsNothing);
     expect(find.text('British'), findsNothing);

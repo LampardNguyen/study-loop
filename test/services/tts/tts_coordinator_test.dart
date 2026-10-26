@@ -547,7 +547,7 @@ void main() {
       verify(() => player.playFile('/tmp/out.wav')).called(1);
     });
 
-    test('当前为平台引擎时，speakWith Study Loop 会切到 Echo Loop 引擎合成', () async {
+    test('当前为平台引擎时，speakWith Study Loop 会切到 Study Loop 引擎合成', () async {
       final platformEngine = MockTtsEngine();
       final echoEngine = MockTtsEngine();
       _stubEngine(platformEngine, filePath: '/tmp/platform.wav');

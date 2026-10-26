@@ -48,7 +48,7 @@ class PurchaseException implements Exception {
 /// 恢复购买结果。
 ///
 /// [originalAppUserId] 来自 RevenueCat CustomerInfo，用于恢复购买后校验订阅是否
-/// 归属于当前 Echo Loop 账号；非 RevenueCat 渠道无法提供时为 null。
+/// 归属于当前 Study Loop 账号；非 RevenueCat 渠道无法提供时为 null。
 class RestorePurchaseResult {
   const RestorePurchaseResult({
     required this.entitlement,

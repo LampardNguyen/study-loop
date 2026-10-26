@@ -54,7 +54,7 @@ import 'daos/favorite_review_dao.dart';
 
 part 'app_database.g.dart';
 
-/// Echo Loop 应用数据库
+/// Study Loop 应用数据库
 /// 包含 14 张表：audio_items, collections, collection_audio_items, bookmarks,
 /// playback_states, learning_progresses, stage_completions, tags, audio_item_tags,
 /// sentence_ai_cache, saved_words, learned_word_forms, daily_study_records,

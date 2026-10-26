@@ -27,7 +27,7 @@ class PaddleDeepLinkHandler {
     onMatch: handleUri,
   );
 
-  /// 判断 URI 是否是 Echo Loop 的 Paddle 支付回跳。
+  /// 判断 URI 是否是 Study Loop 的 Paddle 支付回跳。
   static bool isPaddleSuccessUri(Uri uri) {
     return uri.scheme == scheme &&
         uri.host == host &&
