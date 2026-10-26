@@ -1,7 +1,7 @@
 /// 语音识别设置页。
 ///
-/// iOS/macOS：后端选择（Apple Speech / Echo Loop AI）+ 离线模型状态。
-/// Android：离线模型状态（固定 Echo Loop AI）。
+/// iOS/macOS：后端选择（Apple Speech / Study Loop AI）+ 离线模型状态。
+/// Android：离线模型状态（固定 Study Loop AI）。
 library;
 
 import 'dart:io' show Platform;

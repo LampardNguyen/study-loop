@@ -1,6 +1,6 @@
 /// 语音合成（TTS）设置 Provider
 ///
-/// 全局控制 TTS 发音偏好：合成引擎（平台 TTS / 未来 Echo Loop）与口音（美/英）。
+/// 全局控制 TTS 发音偏好：合成引擎（平台 TTS / 未来 Study Loop）与口音（美/英）。
 /// 口音全局生效于所有发音场景（闪卡 / 收藏 / 词典单词 / 词典例句）。
 ///
 /// 采用手动 Notifier 模式（对齐 [LearningSettings]）：`build()` 从
@@ -18,7 +18,7 @@ import '../../services/tts/tts_engine.dart';
 
 /// 同步从 SP 预读的 TTS 设置初值，由 main() 通过 override 注入。
 ///
-/// 默认返回 [TtsSettings] 默认值（Echo Loop AI Advanced + 美音）：发音是辅助功能，未注入时
+/// 默认返回 [TtsSettings] 默认值（Study Loop AI Advanced + 美音）：发音是辅助功能，未注入时
 /// 用默认值优雅降级，不让宿主页面（含发音按钮）因缺 override 而崩溃。
 final initialTtsSettingsProvider = Provider<TtsSettings>((ref) {
   return const TtsSettings();
@@ -28,7 +28,7 @@ final initialTtsSettingsProvider = Provider<TtsSettings>((ref) {
 abstract final class TtsSettingsKeys {
   static const engine = 'tts_engine';
 
-  /// 历史版本写入的 Echo Loop 产品名值，读取时保留兼容。
+  /// 历史版本写入的 Study Loop 产品名值，读取时保留兼容。
   static const legacyEchoLoopEngineValue = 'echoLoop';
   static const accent = 'tts_accent';
   static const kokoroVoiceUs = 'tts_kokoro_voice_us';
@@ -38,7 +38,7 @@ abstract final class TtsSettingsKeys {
   static const piperVoiceUk = 'tts_piper_voice_uk';
 }
 
-/// 将所有平台历史写入的 Echo Loop 产品名值迁移为 Kokoro 实现名。
+/// 将所有平台历史写入的 Study Loop 产品名值迁移为 Kokoro 实现名。
 Future<void> migrateLegacyEchoLoopTtsPreference(SharedPreferences prefs) async {
   if (prefs.getString(TtsSettingsKeys.engine) !=
       TtsSettingsKeys.legacyEchoLoopEngineValue) {
@@ -47,7 +47,7 @@ Future<void> migrateLegacyEchoLoopTtsPreference(SharedPreferences prefs) async {
   await prefs.setString(TtsSettingsKeys.engine, TtsEngineKind.kokoro.name);
 }
 
-/// 将 Android 历史系统 TTS 偏好迁移为 Echo Loop AI Advanced。
+/// 将 Android 历史系统 TTS 偏好迁移为 Study Loop AI Advanced。
 ///
 /// 仅 Android 执行：iOS/macOS 仍可能合法使用平台 TTS，不能全平台迁移
 /// [TtsEngineKind.platform]。
@@ -62,19 +62,19 @@ Future<void> migrateAndroidPlatformTtsPreference(
 
 /// TTS 设置不可变值对象。
 class TtsSettings {
-  /// 合成引擎（默认 Echo Loop AI Advanced）。
+  /// 合成引擎（默认 Study Loop AI Advanced）。
   final TtsEngineKind engine;
 
   /// 发音口音（默认美音）。
   final TtsAccent accent;
 
-  /// Echo Loop（Kokoro）美音音色 id（默认 [kokoroDefaultVoiceUs]）。
+  /// Study Loop（Kokoro）美音音色 id（默认 [kokoroDefaultVoiceUs]）。
   final String kokoroVoiceUs;
 
-  /// Echo Loop（Kokoro）英音音色 id（默认 [kokoroDefaultVoiceUk]）。
+  /// Study Loop（Kokoro）英音音色 id（默认 [kokoroDefaultVoiceUk]）。
   final String kokoroVoiceUk;
 
-  /// Echo Loop（Kokoro）选用的模型变体（默认 fp32，速度/效果最佳）。
+  /// Study Loop（Kokoro）选用的模型变体（默认 fp32，速度/效果最佳）。
   final KokoroModelVariant kokoroVariant;
 
   /// Piper（平衡档）美音音色 id（默认 [piperDefaultVoiceUs]）。
@@ -106,7 +106,7 @@ class TtsSettings {
 
   /// 派生引擎无关的发音配置。
   ///
-  /// Echo Loop（Kokoro）带音色（voiceName）+ 变体标签（modelTag，fp32/int8 分桶）；
+  /// Study Loop（Kokoro）带音色（voiceName）+ 变体标签（modelTag，fp32/int8 分桶）；
   /// Piper 带音色（voiceName，即独立模型 id，缓存键据此分桶），无 modelTag；
   /// 平台引擎不带 voiceName/modelTag（用语言标签选系统音色）。语速本期固定 0.45。
   TtsSpeechConfig toSpeechConfig() => TtsSpeechConfig(

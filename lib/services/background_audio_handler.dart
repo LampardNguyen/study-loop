@@ -11,7 +11,7 @@ import '../utils/app_data_dir.dart';
 import 'app_logger.dart';
 import 'media_session_router.dart';
 
-/// Echo Loop 全局后台播放控制器。
+/// Study Loop 全局后台播放控制器。
 ///
 /// 它负责把播放器状态和系统媒体控制连接起来，本身不是音频解码器，也不限定只能服务音频；
 /// 真正的播放由注入的播放器负责。锁屏、通知栏和耳机控制统一通过这里映射。
@@ -288,7 +288,7 @@ class EchoLoopAudioHandler extends BaseAudioHandler with SeekHandler {
         id: id,
         title: title,
         // 系统播放控制面板副标题展示所属合集名（subtitle）；不再附加 album「Echo
-        // Loop」造成「合集 – Echo Loop」。无合集时回退显示 app 名「Echo Loop」。
+        // Loop」造成「合集 – Study Loop」。无合集时回退显示 app 名「Study Loop」。
         artist: subtitle ?? 'Study Loop',
         artUri: _artworkUri,
       ),

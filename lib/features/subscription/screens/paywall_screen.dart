@@ -934,7 +934,7 @@ class _Header extends StatelessWidget {
     final theme = Theme.of(context);
     return Column(
       children: [
-        // 顶部使用 Echo Loop 品牌 logo，较皇冠图标更贴近应用识别。
+        // 顶部使用 Study Loop 品牌 logo，较皇冠图标更贴近应用识别。
         Container(
           width: 80,
           height: 80,

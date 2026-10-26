@@ -358,7 +358,7 @@ List<Override> learningSettingsTestOverrides({bool autoSkipRetell = false}) {
 // ========== App 工厂 ==========
 
 final _testPackageInfo = PackageInfo(
-  appName: 'Echo Loop',
+  appName: 'Study Loop',
   packageName: 'top.echo-loop',
   version: '1.0.0',
   buildNumber: '1',

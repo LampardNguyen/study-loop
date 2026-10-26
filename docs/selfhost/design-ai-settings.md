@@ -24,7 +24,7 @@ Learning
 ```
 ←  AI Settings
 ────────────────────────────────────────────────────────
-  Echo Loop gọi thẳng tới nhà cung cấp AI bằng key của bạn.
+  Study Loop gọi thẳng tới nhà cung cấp AI bằng key của bạn.
   Key chỉ lưu trên thiết bị này (bộ nhớ an toàn của hệ điều hành)
   và không bao giờ được gửi đi nơi nào khác.
 

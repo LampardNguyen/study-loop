@@ -1,4 +1,4 @@
-/// Kokoro（Echo Loop TTS）模型下载、校验、缓存管理。
+/// Kokoro（Study Loop TTS）模型下载、校验、缓存管理。
 ///
 /// 与 Whisper 不同，Kokoro 含 `espeak-ng-data` 目录树，故托管为单个 `tar.gz`
 /// 归档：下载归档 → 校验整包 SHA-256 → staging 解包校验 → 原子替换模型目录。

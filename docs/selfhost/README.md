@@ -1,4 +1,4 @@
-# Echo Loop — bản tự host
+# Study Loop — bản tự host
 
 Bản này được sửa từ mã nguồn gốc Echo Loop (AGPL-3.0). Mục tiêu là **không phụ thuộc server của tác giả** và **không có analytics**.
 AI dùng **API key OpenAI (hoặc dịch vụ tương thích) của chính bạn**, nhập trong app.

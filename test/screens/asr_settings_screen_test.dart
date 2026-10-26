@@ -158,7 +158,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Speech Engine'), findsOneWidget);
-    // iOS/macOS 额外显示后端选择器中的 Echo Loop AI；Linux CI 不显示平台后端选择器。
+    // iOS/macOS 额外显示后端选择器中的 Study Loop AI；Linux CI 不显示平台后端选择器。
     final expectedEchoLoopLabels = Platform.isIOS || Platform.isMacOS ? 2 : 1;
     expect(find.text('Study Loop AI'), findsNWidgets(expectedEchoLoopLabels));
     expect(find.byType(Card), findsNWidgets(2));
