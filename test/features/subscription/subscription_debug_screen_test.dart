@@ -4,6 +4,7 @@ import 'package:echo_loop/features/subscription/providers/self_hosted_unlock.dar
 import 'package:echo_loop/features/subscription/models/entitlement.dart';
 import 'package:echo_loop/features/subscription/models/subscription_plan.dart';
 import 'package:echo_loop/features/subscription/providers/subscription_identity.dart';
+import 'package:echo_loop/l10n/app_localizations.dart';
 import 'package:echo_loop/features/subscription/screens/subscription_debug_screen.dart';
 import 'package:echo_loop/features/subscription/services/entitlement_cache.dart';
 import 'package:echo_loop/features/subscription/services/entitlement_repository.dart';
@@ -87,7 +88,12 @@ Widget _wrap(PurchaseService purchases, {Entitlement? backendEntitlement}) {
             : const SubscriptionIdentity(userId: 'u1', accessToken: 't1'),
       ),
     ],
-    child: const MaterialApp(home: SubscriptionDebugScreen()),
+    child: const MaterialApp(
+      locale: Locale('zh'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: SubscriptionDebugScreen(),
+    ),
   );
 }
 

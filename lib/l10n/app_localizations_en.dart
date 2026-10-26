@@ -5814,4 +5814,303 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get recordingSettingsFootnote =>
       'Applies to your next recording. Existing recordings stay the same.';
+
+  @override
+  String get devVersionOverride => 'Version override';
+
+  @override
+  String get devVersionOverrideSubtitle =>
+      'Simulate an older version to test the update dialog; resets on restart';
+
+  @override
+  String get devRealVersion => 'Real version';
+
+  @override
+  String devRealVersionLabel(String version) {
+    return 'Real version: $version';
+  }
+
+  @override
+  String get devSimulatedVersion => 'Simulated version';
+
+  @override
+  String get devVersionHint => 'e.g. 1.0.0';
+
+  @override
+  String get devVersionOverrideHelp =>
+      'Lower than remote minimumVersion triggers a forced update; lower than latestVersion triggers an optional update.';
+
+  @override
+  String get devClearOverride => 'Clear override';
+
+  @override
+  String devVersionOverrideCleared(String version) {
+    return 'Override cleared, back to real version $version';
+  }
+
+  @override
+  String devVersionOverrideSet(String version) {
+    return 'Version overridden to $version; tap \"Check for updates\" to test';
+  }
+
+  @override
+  String get devAsrTest => 'ASR engine test';
+
+  @override
+  String get devLogs => 'Logs';
+
+  @override
+  String get devSubscriptionDebug => 'Subscription debug';
+
+  @override
+  String get devSubscriptionDebugSubtitle =>
+      'Diagnose entitlements, clear cache & refresh, override Pro/Free';
+
+  @override
+  String devAnalyticsChannel(String channel) {
+    return 'Current channel: $channel';
+  }
+
+  @override
+  String get devSubtitleAutoAlign => 'Subtitle auto-alignment';
+
+  @override
+  String get devSubtitleAutoAlignSubtitle =>
+      'After AI transcription, fine-tune sentence boundaries using local audio silence';
+
+  @override
+  String get devDictionaryLookup => 'Dictionary lookup';
+
+  @override
+  String get devEnterWord => 'Enter a word...';
+
+  @override
+  String get devNotFound => 'Not found';
+
+  @override
+  String get devCollins => 'Collins';
+
+  @override
+  String get devPreferences => 'Preferences';
+
+  @override
+  String get devInternalStorage => 'Internal storage';
+
+  @override
+  String get devClose => 'Close';
+
+  @override
+  String get devMicPermissionRequired => 'Microphone permission required';
+
+  @override
+  String get devEngineConfig => 'Engine config';
+
+  @override
+  String get devAsrMode => 'ASR mode';
+
+  @override
+  String get devOffline => 'On-device';
+
+  @override
+  String get devModel => 'Model';
+
+  @override
+  String get devModelStatus => 'Model status';
+
+  @override
+  String get devNotDownloaded => 'Not downloaded';
+
+  @override
+  String get devDownloaded => 'Downloaded';
+
+  @override
+  String devDownloadFailed(String error) {
+    return 'Download failed: $error';
+  }
+
+  @override
+  String get devTranscribing => 'Transcribing...';
+
+  @override
+  String devRecording(String duration) {
+    return 'Recording... $duration';
+  }
+
+  @override
+  String get devTapToRecord => 'Tap to start recording';
+
+  @override
+  String get devDownloadModelFirst => 'Please download the model first';
+
+  @override
+  String get devTranscriptionResult => 'Transcription result';
+
+  @override
+  String get devMetrics => 'Performance metrics';
+
+  @override
+  String get devRecordingDuration => 'Recording duration';
+
+  @override
+  String get devInferenceTime => 'Inference time';
+
+  @override
+  String get devEngine => 'Engine';
+
+  @override
+  String get devEventLog => 'Event log';
+
+  @override
+  String devActionDone(String label) {
+    return '$label done';
+  }
+
+  @override
+  String devActionFailed(String label, String error) {
+    return '$label failed: $error';
+  }
+
+  @override
+  String get devCurrentEntitlement =>
+      'Current entitlement (app source of truth)';
+
+  @override
+  String get devIsStale => 'isStale (from stale cache)';
+
+  @override
+  String get devAnonymous => 'Anonymous';
+
+  @override
+  String get devNoExpiry => 'Permanent / none';
+
+  @override
+  String get devRcCustomerInfo => 'RevenueCat raw CustomerInfo';
+
+  @override
+  String devReadFailed(String error) {
+    return 'Read failed: $error';
+  }
+
+  @override
+  String get devNoRcData =>
+      'No data (RevenueCat not configured or stub implementation).';
+
+  @override
+  String get devRcHint =>
+      'Empty activeEntitlements but has subscriptions → product not attached to an entitlement;\nkey differs from lookForEntitlementId → entitlement ID mismatch;\nactiveSubscriptions still set → may be a local StoreKit Configuration transaction,\ndelete it in Xcode \"Debug ▸ StoreKit ▸ Manage Transactions\".';
+
+  @override
+  String get devActions => 'Actions';
+
+  @override
+  String get devClearCacheRefreshTitle =>
+      'Clear local cache + invalidate RC cache + force refresh';
+
+  @override
+  String get devClearCacheRefreshSubtitle =>
+      'Fixes \"still subscribed after deleting in dashboard\"';
+
+  @override
+  String get devClearCacheRefresh => 'Clear cache & refresh';
+
+  @override
+  String get devRestorePurchases => 'Restore purchases';
+
+  @override
+  String get devSignOutTitle => 'Sign out (clears entitlement)';
+
+  @override
+  String get devSignedIn => 'Signed in';
+
+  @override
+  String get devNotSignedIn => 'Not signed in, unavailable';
+
+  @override
+  String get devSignOut => 'Sign out';
+
+  @override
+  String get devOverrideEntitlement =>
+      'Manual entitlement override (debug only)';
+
+  @override
+  String get devOverrideEntitlementHelp =>
+      'Test premium UI / paywall without real purchases. Choose \"Real\" to remove the override.';
+
+  @override
+  String get devReal => 'Real';
+
+  @override
+  String get devForcePremium => 'Force premium';
+
+  @override
+  String get devForceFree => 'Force Free';
+
+  @override
+  String get devPrefsCopiedAll => 'Copied all preferences to clipboard';
+
+  @override
+  String get devDeletePrefTitle => 'Delete preference?';
+
+  @override
+  String devDeletePrefContent(String key) {
+    return 'key: $key\nThis cannot be undone; for testing only.';
+  }
+
+  @override
+  String devDeleted(String key) {
+    return 'Deleted $key';
+  }
+
+  @override
+  String get devRefresh => 'Refresh';
+
+  @override
+  String get devCopyAll => 'Copy all';
+
+  @override
+  String get devSearchKeyValue => 'Search key or value';
+
+  @override
+  String devPrefsCount(int count) {
+    return '$count entries';
+  }
+
+  @override
+  String devPrefsMatched(int count) {
+    return ' · $count matched';
+  }
+
+  @override
+  String get devNoPrefs => 'No preferences';
+
+  @override
+  String get devNoMatches => 'No matches';
+
+  @override
+  String devCopied(String key) {
+    return 'Copied $key';
+  }
+
+  @override
+  String devShareLogFailed(String error) {
+    return 'Failed to share logs: $error';
+  }
+
+  @override
+  String devLogsTitle(int count) {
+    return 'Logs (last $count)';
+  }
+
+  @override
+  String get devShareLogs => 'Share logs';
+
+  @override
+  String get devNoLogs => 'No logs yet';
+
+  @override
+  String get devLogsLimitHint =>
+      'Only the latest 500 are shown; share logs to export the full record';
+
+  @override
+  String get devEmptyDir => '(empty directory)';
 }

@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../l10n/app_localizations.dart';
 import '../providers/learning_settings_provider.dart';
 
 /// 偏好设置查看页面。
@@ -58,9 +59,9 @@ class _PreferencesViewerScreenState
     final text = _entries.map((e) => '${e.key}: ${e.display}').join('\n');
     await Clipboard.setData(ClipboardData(text: text));
     if (!mounted) return;
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('已复制全部偏好设置到剪贴板')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppLocalizations.of(context)!.devPrefsCopiedAll)),
+    );
   }
 
   /// 过滤当前快照，忽略大小写匹配 key 或 value。
@@ -85,19 +86,21 @@ class _PreferencesViewerScreenState
       builder: (dialogContext) {
         final theme = Theme.of(dialogContext);
         return AlertDialog(
-          title: const Text('删除偏好设置？'),
-          content: Text('key: $key\n此操作不可撤销，仅用于测试。'),
+          title: Text(AppLocalizations.of(context)!.devDeletePrefTitle),
+          content: Text(
+            AppLocalizations.of(context)!.devDeletePrefContent(key),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(false),
-              child: const Text('取消'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             TextButton(
               onPressed: () => Navigator.of(dialogContext).pop(true),
               style: TextButton.styleFrom(
                 foregroundColor: theme.colorScheme.error,
               ),
-              child: const Text('删除'),
+              child: Text(AppLocalizations.of(context)!.delete),
             ),
           ],
         );
@@ -119,9 +122,9 @@ class _PreferencesViewerScreenState
     setState(() {
       _entries = _entries.where((e) => e.key != key).toList();
     });
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text('已删除 $key')));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppLocalizations.of(context)!.devDeleted(key))),
+    );
   }
 
   @override
@@ -129,15 +132,15 @@ class _PreferencesViewerScreenState
     final filtered = _filtered;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('偏好设置'),
+        title: Text(AppLocalizations.of(context)!.devPreferences),
         actions: [
           IconButton(
-            tooltip: '刷新',
+            tooltip: AppLocalizations.of(context)!.devRefresh,
             icon: const Icon(Icons.refresh),
             onPressed: _loading ? null : _load,
           ),
           IconButton(
-            tooltip: '复制全部',
+            tooltip: AppLocalizations.of(context)!.devCopyAll,
             icon: const Icon(Icons.copy_all),
             onPressed: _entries.isEmpty ? null : _copyAll,
           ),
@@ -148,10 +151,10 @@ class _PreferencesViewerScreenState
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
             child: TextField(
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: '搜索 key 或 value',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search),
+                hintText: AppLocalizations.of(context)!.devSearchKeyValue,
+                border: const OutlineInputBorder(),
                 isDense: true,
               ),
               onChanged: (v) => setState(() => _query = v.trim()),
@@ -162,7 +165,8 @@ class _PreferencesViewerScreenState
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                '共 ${_entries.length} 条${_query.isEmpty ? '' : ' · 命中 ${filtered.length} 条'}',
+                '${AppLocalizations.of(context)!.devPrefsCount(_entries.length)}'
+                '${_query.isEmpty ? '' : AppLocalizations.of(context)!.devPrefsMatched(filtered.length)}',
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
@@ -174,7 +178,9 @@ class _PreferencesViewerScreenState
                 : filtered.isEmpty
                 ? Center(
                     child: Text(
-                      _entries.isEmpty ? '无偏好设置' : '无匹配项',
+                      _entries.isEmpty
+                          ? AppLocalizations.of(context)!.devNoPrefs
+                          : AppLocalizations.of(context)!.devNoMatches,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   )
@@ -241,9 +247,11 @@ class _PrefTile extends StatelessWidget {
           ClipboardData(text: '${entry.key}: ${entry.display}'),
         );
         if (!context.mounted) return;
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('已复制 ${entry.key}')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.devCopied(entry.key)),
+          ),
+        );
       },
     );
   }

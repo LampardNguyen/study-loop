@@ -5809,4 +5809,302 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get recordingSettingsFootnote =>
       'Áp dụng cho lần ghi âm tiếp theo. Bản ghi cũ không thay đổi.';
+
+  @override
+  String get devVersionOverride => 'Ghi đè phiên bản';
+
+  @override
+  String get devVersionOverrideSubtitle =>
+      'Giả lập phiên bản cũ để thử hộp thoại cập nhật, tự đặt lại khi khởi động lại';
+
+  @override
+  String get devRealVersion => 'Phiên bản thật';
+
+  @override
+  String devRealVersionLabel(String version) {
+    return 'Phiên bản thật: $version';
+  }
+
+  @override
+  String get devSimulatedVersion => 'Phiên bản giả lập';
+
+  @override
+  String get devVersionHint => 'vd 1.0.0';
+
+  @override
+  String get devVersionOverrideHelp =>
+      'Thấp hơn minimumVersion trên server sẽ bắt buộc cập nhật; thấp hơn latestVersion sẽ gợi ý cập nhật.';
+
+  @override
+  String get devClearOverride => 'Xoá ghi đè';
+
+  @override
+  String devVersionOverrideCleared(String version) {
+    return 'Đã xoá ghi đè, trở về phiên bản thật $version';
+  }
+
+  @override
+  String devVersionOverrideSet(String version) {
+    return 'Đã ghi đè phiên bản thành $version, bấm \"Kiểm tra cập nhật\" để thử';
+  }
+
+  @override
+  String get devAsrTest => 'Thử engine ASR';
+
+  @override
+  String get devLogs => 'Nhật ký';
+
+  @override
+  String get devSubscriptionDebug => 'Gỡ lỗi gói đăng ký';
+
+  @override
+  String get devSubscriptionDebugSubtitle =>
+      'Chẩn đoán quyền lợi, xoá cache & làm mới, ghi đè Pro/Free';
+
+  @override
+  String devAnalyticsChannel(String channel) {
+    return 'Kênh hiện tại: $channel';
+  }
+
+  @override
+  String get devSubtitleAutoAlign => 'Tự căn chỉnh phụ đề';
+
+  @override
+  String get devSubtitleAutoAlignSubtitle =>
+      'Sau khi AI chép lời, tinh chỉnh ranh giới câu theo khoảng lặng của audio';
+
+  @override
+  String get devDictionaryLookup => 'Tra từ điển';
+
+  @override
+  String get devEnterWord => 'Nhập từ...';
+
+  @override
+  String get devNotFound => 'Không có trong từ điển';
+
+  @override
+  String get devCollins => 'Collins';
+
+  @override
+  String get devPreferences => 'Tuỳ chọn (SharedPreferences)';
+
+  @override
+  String get devInternalStorage => 'Bộ nhớ trong';
+
+  @override
+  String get devClose => 'Đóng';
+
+  @override
+  String get devMicPermissionRequired => 'Cần quyền ghi âm';
+
+  @override
+  String get devEngineConfig => 'Cấu hình engine';
+
+  @override
+  String get devAsrMode => 'Chế độ ASR';
+
+  @override
+  String get devOffline => 'Offline trên máy';
+
+  @override
+  String get devModel => 'Model';
+
+  @override
+  String get devModelStatus => 'Trạng thái model';
+
+  @override
+  String get devNotDownloaded => 'Chưa tải';
+
+  @override
+  String get devDownloaded => 'Đã tải';
+
+  @override
+  String devDownloadFailed(String error) {
+    return 'Tải thất bại: $error';
+  }
+
+  @override
+  String get devTranscribing => 'Đang chép lời...';
+
+  @override
+  String devRecording(String duration) {
+    return 'Đang ghi âm... $duration';
+  }
+
+  @override
+  String get devTapToRecord => 'Bấm để bắt đầu ghi âm';
+
+  @override
+  String get devDownloadModelFirst => 'Hãy tải model trước';
+
+  @override
+  String get devTranscriptionResult => 'Kết quả chép lời';
+
+  @override
+  String get devMetrics => 'Chỉ số hiệu năng';
+
+  @override
+  String get devRecordingDuration => 'Thời lượng ghi âm';
+
+  @override
+  String get devInferenceTime => 'Thời gian suy luận';
+
+  @override
+  String get devEngine => 'Engine';
+
+  @override
+  String get devEventLog => 'Nhật ký sự kiện';
+
+  @override
+  String devActionDone(String label) {
+    return '$label xong';
+  }
+
+  @override
+  String devActionFailed(String label, String error) {
+    return '$label thất bại: $error';
+  }
+
+  @override
+  String get devCurrentEntitlement =>
+      'Quyền lợi hiện tại (nguồn chuẩn của app)';
+
+  @override
+  String get devIsStale => 'isStale (từ cache cũ)';
+
+  @override
+  String get devAnonymous => 'Ẩn danh';
+
+  @override
+  String get devNoExpiry => 'Vĩnh viễn / không có';
+
+  @override
+  String get devRcCustomerInfo => 'CustomerInfo gốc của RevenueCat';
+
+  @override
+  String devReadFailed(String error) {
+    return 'Đọc thất bại: $error';
+  }
+
+  @override
+  String get devNoRcData =>
+      'Không có dữ liệu (chưa cấu hình RevenueCat hoặc đang dùng bản stub).';
+
+  @override
+  String get devRcHint =>
+      'activeEntitlements rỗng nhưng có gói → sản phẩm chưa gắn vào entitlement;\nkey khác lookForEntitlementId → định danh entitlement không khớp;\nactiveSubscriptions vẫn có giá trị → có thể là giao dịch StoreKit Configuration cục bộ,\nxoá trong Xcode \"Debug ▸ StoreKit ▸ Manage Transactions\".';
+
+  @override
+  String get devActions => 'Thao tác';
+
+  @override
+  String get devClearCacheRefreshTitle =>
+      'Xoá cache cục bộ + huỷ cache RC + làm mới';
+
+  @override
+  String get devClearCacheRefreshSubtitle =>
+      'Sửa lỗi \"đã xoá trên dashboard nhưng vẫn hiện đã đăng ký\"';
+
+  @override
+  String get devClearCacheRefresh => 'Xoá cache & làm mới';
+
+  @override
+  String get devRestorePurchases => 'Khôi phục giao dịch';
+
+  @override
+  String get devSignOutTitle => 'Đăng xuất (xoá quyền lợi)';
+
+  @override
+  String get devSignedIn => 'Đang đăng nhập';
+
+  @override
+  String get devNotSignedIn => 'Chưa đăng nhập, không dùng được';
+
+  @override
+  String get devSignOut => 'Đăng xuất';
+
+  @override
+  String get devOverrideEntitlement => 'Ghi đè quyền lợi thủ công (chỉ Debug)';
+
+  @override
+  String get devOverrideEntitlementHelp =>
+      'Thử UI hội viên / paywall mà không mua thật. Chọn \"Thật\" để bỏ ghi đè.';
+
+  @override
+  String get devReal => 'Thật';
+
+  @override
+  String get devForcePremium => 'Ép hội viên';
+
+  @override
+  String get devForceFree => 'Ép Free';
+
+  @override
+  String get devPrefsCopiedAll => 'Đã sao chép toàn bộ tuỳ chọn vào clipboard';
+
+  @override
+  String get devDeletePrefTitle => 'Xoá tuỳ chọn?';
+
+  @override
+  String devDeletePrefContent(String key) {
+    return 'key: $key\nKhông thể hoàn tác, chỉ dùng để thử.';
+  }
+
+  @override
+  String devDeleted(String key) {
+    return 'Đã xoá $key';
+  }
+
+  @override
+  String get devRefresh => 'Làm mới';
+
+  @override
+  String get devCopyAll => 'Sao chép tất cả';
+
+  @override
+  String get devSearchKeyValue => 'Tìm key hoặc value';
+
+  @override
+  String devPrefsCount(int count) {
+    return '$count mục';
+  }
+
+  @override
+  String devPrefsMatched(int count) {
+    return ' · khớp $count';
+  }
+
+  @override
+  String get devNoPrefs => 'Không có tuỳ chọn';
+
+  @override
+  String get devNoMatches => 'Không có kết quả khớp';
+
+  @override
+  String devCopied(String key) {
+    return 'Đã sao chép $key';
+  }
+
+  @override
+  String devShareLogFailed(String error) {
+    return 'Chia sẻ nhật ký thất bại: $error';
+  }
+
+  @override
+  String devLogsTitle(int count) {
+    return 'Nhật ký ($count mục gần nhất)';
+  }
+
+  @override
+  String get devShareLogs => 'Chia sẻ nhật ký';
+
+  @override
+  String get devNoLogs => 'Chưa có nhật ký';
+
+  @override
+  String get devLogsLimitHint =>
+      'Chỉ hiện 500 mục gần nhất; chia sẻ nhật ký để xuất toàn bộ';
+
+  @override
+  String get devEmptyDir => '(thư mục trống)';
 }

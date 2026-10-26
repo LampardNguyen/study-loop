@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:archive/archive.dart';
+import 'package:echo_loop/l10n/app_localizations.dart';
 import 'package:echo_loop/screens/log_viewer_screen.dart';
 import 'package:echo_loop/services/app_logger.dart';
 import 'package:echo_loop/services/device_diagnostics_service.dart';
@@ -102,7 +103,14 @@ void main() {
   }
 
   testWidgets('进入页面追加设备信息日志并显示分享按钮', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: LogViewerScreen()));
+    await tester.pumpWidget(
+      const MaterialApp(
+        locale: Locale('zh'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: LogViewerScreen(),
+      ),
+    );
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));
 
@@ -123,7 +131,14 @@ void main() {
     for (var index = 0; index < AppLogger.maxRetainedEntries + 20; index++) {
       AppLogger.log('Live', 'line-$index');
     }
-    await tester.pumpWidget(const MaterialApp(home: LogViewerScreen()));
+    await tester.pumpWidget(
+      const MaterialApp(
+        locale: Locale('zh'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: LogViewerScreen(),
+      ),
+    );
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));
 
@@ -140,7 +155,14 @@ void main() {
   });
 
   testWidgets('实时追加日志后展示数量仍限制为 500 条', (tester) async {
-    await tester.pumpWidget(const MaterialApp(home: LogViewerScreen()));
+    await tester.pumpWidget(
+      const MaterialApp(
+        locale: Locale('zh'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: LogViewerScreen(),
+      ),
+    );
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));
 
@@ -156,6 +178,9 @@ void main() {
   testWidgets('其他路由构建期间追加日志不会同步刷新本页', (tester) async {
     await tester.pumpWidget(
       const MaterialApp(
+        locale: Locale('zh'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Stack(
           children: [
             Positioned.fill(child: LogViewerScreen()),
@@ -181,7 +206,12 @@ void main() {
       '${logDirectory.path}/asr_inference-20260828-150946-000.pending',
     ).writeAsStringSync('active inference');
     await tester.pumpWidget(
-      MaterialApp(home: LogViewerScreen(shareLauncher: captureShare)),
+      MaterialApp(
+        locale: Locale('zh'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: LogViewerScreen(shareLauncher: captureShare),
+      ),
     );
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));
@@ -231,7 +261,12 @@ void main() {
     AppLogger.log('Manual', 'fast tap');
 
     await tester.pumpWidget(
-      MaterialApp(home: LogViewerScreen(shareLauncher: captureShare)),
+      MaterialApp(
+        locale: Locale('zh'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: LogViewerScreen(shareLauncher: captureShare),
+      ),
     );
     await tester.pump();
     final shareButton = tester.widget<IconButton>(find.byKey(_shareButtonKey));

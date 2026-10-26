@@ -5546,4 +5546,294 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get recordingSettingsFootnote => '对之后的录音生效，已有录音不变。';
+
+  @override
+  String get devVersionOverride => '版本号覆盖';
+
+  @override
+  String get devVersionOverrideSubtitle => '模拟旧版本以测试更新弹窗，重启后自动重置';
+
+  @override
+  String get devRealVersion => '真实版本';
+
+  @override
+  String devRealVersionLabel(String version) {
+    return '真实版本号：$version';
+  }
+
+  @override
+  String get devSimulatedVersion => '模拟版本号';
+
+  @override
+  String get devVersionHint => '如 1.0.0';
+
+  @override
+  String get devVersionOverrideHelp =>
+      '设为低于远程 minimumVersion 触发强制更新，低于 latestVersion 触发可选更新。';
+
+  @override
+  String get devClearOverride => '清除覆盖';
+
+  @override
+  String devVersionOverrideCleared(String version) {
+    return '已清除版本号覆盖，恢复真实版本 $version';
+  }
+
+  @override
+  String devVersionOverrideSet(String version) {
+    return '已覆盖版本号为 $version，可点\"检查更新\"测试';
+  }
+
+  @override
+  String get devAsrTest => 'ASR 引擎测试';
+
+  @override
+  String get devLogs => '日志';
+
+  @override
+  String get devSubscriptionDebug => '订阅调试';
+
+  @override
+  String get devSubscriptionDebugSubtitle => '诊断权益、清缓存强刷、覆盖 Pro/Free';
+
+  @override
+  String devAnalyticsChannel(String channel) {
+    return '当前通道: $channel';
+  }
+
+  @override
+  String get devSubtitleAutoAlign => '字幕自动校准';
+
+  @override
+  String get devSubtitleAutoAlignSubtitle => 'AI 转录完成后按本地音频静音微调句边界';
+
+  @override
+  String get devDictionaryLookup => '词典查询';
+
+  @override
+  String get devEnterWord => '输入单词...';
+
+  @override
+  String get devNotFound => '未收录';
+
+  @override
+  String get devCollins => '柯林斯';
+
+  @override
+  String get devPreferences => '偏好设置';
+
+  @override
+  String get devInternalStorage => '内部存储';
+
+  @override
+  String get devClose => '关闭';
+
+  @override
+  String get devMicPermissionRequired => '需要录音权限';
+
+  @override
+  String get devEngineConfig => '引擎配置';
+
+  @override
+  String get devAsrMode => 'ASR 方式';
+
+  @override
+  String get devOffline => '本地离线';
+
+  @override
+  String get devModel => '模型';
+
+  @override
+  String get devModelStatus => '模型状态';
+
+  @override
+  String get devNotDownloaded => '未下载';
+
+  @override
+  String get devDownloaded => '已下载';
+
+  @override
+  String devDownloadFailed(String error) {
+    return '下载失败: $error';
+  }
+
+  @override
+  String get devTranscribing => '转录中...';
+
+  @override
+  String devRecording(String duration) {
+    return '录音中... $duration';
+  }
+
+  @override
+  String get devTapToRecord => '点击开始录音';
+
+  @override
+  String get devDownloadModelFirst => '请先下载模型';
+
+  @override
+  String get devTranscriptionResult => '转录结果';
+
+  @override
+  String get devMetrics => '性能指标';
+
+  @override
+  String get devRecordingDuration => '录音时长';
+
+  @override
+  String get devInferenceTime => '推理耗时';
+
+  @override
+  String get devEngine => '引擎';
+
+  @override
+  String get devEventLog => '事件日志';
+
+  @override
+  String devActionDone(String label) {
+    return '$label 完成';
+  }
+
+  @override
+  String devActionFailed(String label, String error) {
+    return '$label 失败：$error';
+  }
+
+  @override
+  String get devCurrentEntitlement => '当前权益（App 真相源）';
+
+  @override
+  String get devIsStale => 'isStale（来自陈旧缓存）';
+
+  @override
+  String get devAnonymous => '匿名';
+
+  @override
+  String get devNoExpiry => '永久 / 无';
+
+  @override
+  String get devRcCustomerInfo => 'RevenueCat 原始 CustomerInfo';
+
+  @override
+  String devReadFailed(String error) {
+    return '读取失败：$error';
+  }
+
+  @override
+  String get devNoRcData => '无数据（未配置 RevenueCat 或 Stub 实现）。';
+
+  @override
+  String get devRcHint =>
+      'activeEntitlements 为空但有订阅 → 商品没挂到 entitlement；\nkey 与 lookForEntitlementId 不一致 → entitlement 标识没对上；\nactiveSubscriptions 仍有值 → 可能是 StoreKit Configuration 本地交易，\n需在 Xcode「Debug ▸ StoreKit ▸ Manage Transactions」删除。';
+
+  @override
+  String get devActions => '操作';
+
+  @override
+  String get devClearCacheRefreshTitle => '清本地缓存 + 失效 RC 缓存 + 强刷';
+
+  @override
+  String get devClearCacheRefreshSubtitle => '解决「删了后台仍显示已订阅」';
+
+  @override
+  String get devClearCacheRefresh => '清缓存并强刷';
+
+  @override
+  String get devRestorePurchases => '恢复购买';
+
+  @override
+  String get devSignOutTitle => '登出（触发清权益）';
+
+  @override
+  String get devSignedIn => '当前已登录';
+
+  @override
+  String get devNotSignedIn => '未登录，不可用';
+
+  @override
+  String get devSignOut => '登出';
+
+  @override
+  String get devOverrideEntitlement => '手动覆盖权益（仅 Debug）';
+
+  @override
+  String get devOverrideEntitlementHelp =>
+      '不发起真实购买即测试会员 UI / Paywall。选「真实」解除覆盖回到在线对账。';
+
+  @override
+  String get devReal => '真实';
+
+  @override
+  String get devForcePremium => '强制会员';
+
+  @override
+  String get devForceFree => '强制 Free';
+
+  @override
+  String get devPrefsCopiedAll => '已复制全部偏好设置到剪贴板';
+
+  @override
+  String get devDeletePrefTitle => '删除偏好设置？';
+
+  @override
+  String devDeletePrefContent(String key) {
+    return 'key: $key\n此操作不可撤销，仅用于测试。';
+  }
+
+  @override
+  String devDeleted(String key) {
+    return '已删除 $key';
+  }
+
+  @override
+  String get devRefresh => '刷新';
+
+  @override
+  String get devCopyAll => '复制全部';
+
+  @override
+  String get devSearchKeyValue => '搜索 key 或 value';
+
+  @override
+  String devPrefsCount(int count) {
+    return '共 $count 条';
+  }
+
+  @override
+  String devPrefsMatched(int count) {
+    return ' · 命中 $count 条';
+  }
+
+  @override
+  String get devNoPrefs => '无偏好设置';
+
+  @override
+  String get devNoMatches => '无匹配项';
+
+  @override
+  String devCopied(String key) {
+    return '已复制 $key';
+  }
+
+  @override
+  String devShareLogFailed(String error) {
+    return '分享日志失败：$error';
+  }
+
+  @override
+  String devLogsTitle(int count) {
+    return '日志（最近 $count 条）';
+  }
+
+  @override
+  String get devShareLogs => '分享日志';
+
+  @override
+  String get devNoLogs => '暂无日志';
+
+  @override
+  String get devLogsLimitHint => '仅显示最近 500 条；分享日志可导出完整记录';
+
+  @override
+  String get devEmptyDir => '(空目录)';
 }

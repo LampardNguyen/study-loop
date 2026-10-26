@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import '../l10n/app_localizations.dart';
 import '../services/app_logger.dart';
 import '../services/device_diagnostics_service.dart';
 import '../theme/app_theme.dart';
@@ -186,9 +187,11 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
     } catch (e) {
       AppLogger.log('LogViewer', 'share logs failed: $e');
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('分享日志失败：$e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.devShareLogFailed('$e')),
+        ),
+      );
     }
   }
 
@@ -226,12 +229,12 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('日志（最近 ${entries.length} 条）'),
+        title: Text(AppLocalizations.of(context)!.devLogsTitle(entries.length)),
         centerTitle: true,
         actions: [
           IconButton(
             key: const ValueKey('log_viewer_share_button'),
-            tooltip: '分享日志',
+            tooltip: AppLocalizations.of(context)!.devShareLogs,
             icon: const Icon(Icons.ios_share),
             onPressed: entries.isEmpty ? null : () => unawaited(_shareAll()),
           ),
@@ -244,7 +247,7 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
       body: entries.isEmpty
           ? Center(
               child: Text(
-                '暂无日志',
+                AppLocalizations.of(context)!.devNoLogs,
                 style: theme.textTheme.bodyLarge?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
@@ -252,8 +255,8 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
             )
           : Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.fromLTRB(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
                     AppSpacing.s,
                     AppSpacing.s,
                     AppSpacing.s,
@@ -261,7 +264,7 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
                   ),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('仅显示最近 500 条；分享日志可导出完整记录'),
+                    child: Text(AppLocalizations.of(context)!.devLogsLimitHint),
                   ),
                 ),
                 Expanded(

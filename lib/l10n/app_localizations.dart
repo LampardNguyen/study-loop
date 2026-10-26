@@ -10233,6 +10233,516 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Applies to your next recording. Existing recordings stay the same.'**
   String get recordingSettingsFootnote;
+
+  /// No description provided for @devVersionOverride.
+  ///
+  /// In en, this message translates to:
+  /// **'Version override'**
+  String get devVersionOverride;
+
+  /// No description provided for @devVersionOverrideSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulate an older version to test the update dialog; resets on restart'**
+  String get devVersionOverrideSubtitle;
+
+  /// No description provided for @devRealVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Real version'**
+  String get devRealVersion;
+
+  /// No description provided for @devRealVersionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Real version: {version}'**
+  String devRealVersionLabel(String version);
+
+  /// No description provided for @devSimulatedVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Simulated version'**
+  String get devSimulatedVersion;
+
+  /// No description provided for @devVersionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 1.0.0'**
+  String get devVersionHint;
+
+  /// No description provided for @devVersionOverrideHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower than remote minimumVersion triggers a forced update; lower than latestVersion triggers an optional update.'**
+  String get devVersionOverrideHelp;
+
+  /// No description provided for @devClearOverride.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear override'**
+  String get devClearOverride;
+
+  /// No description provided for @devVersionOverrideCleared.
+  ///
+  /// In en, this message translates to:
+  /// **'Override cleared, back to real version {version}'**
+  String devVersionOverrideCleared(String version);
+
+  /// No description provided for @devVersionOverrideSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Version overridden to {version}; tap \"Check for updates\" to test'**
+  String devVersionOverrideSet(String version);
+
+  /// No description provided for @devAsrTest.
+  ///
+  /// In en, this message translates to:
+  /// **'ASR engine test'**
+  String get devAsrTest;
+
+  /// No description provided for @devLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Logs'**
+  String get devLogs;
+
+  /// No description provided for @devSubscriptionDebug.
+  ///
+  /// In en, this message translates to:
+  /// **'Subscription debug'**
+  String get devSubscriptionDebug;
+
+  /// No description provided for @devSubscriptionDebugSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnose entitlements, clear cache & refresh, override Pro/Free'**
+  String get devSubscriptionDebugSubtitle;
+
+  /// No description provided for @devAnalyticsChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Current channel: {channel}'**
+  String devAnalyticsChannel(String channel);
+
+  /// No description provided for @devSubtitleAutoAlign.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtitle auto-alignment'**
+  String get devSubtitleAutoAlign;
+
+  /// No description provided for @devSubtitleAutoAlignSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'After AI transcription, fine-tune sentence boundaries using local audio silence'**
+  String get devSubtitleAutoAlignSubtitle;
+
+  /// No description provided for @devDictionaryLookup.
+  ///
+  /// In en, this message translates to:
+  /// **'Dictionary lookup'**
+  String get devDictionaryLookup;
+
+  /// No description provided for @devEnterWord.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a word...'**
+  String get devEnterWord;
+
+  /// No description provided for @devNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Not found'**
+  String get devNotFound;
+
+  /// No description provided for @devCollins.
+  ///
+  /// In en, this message translates to:
+  /// **'Collins'**
+  String get devCollins;
+
+  /// No description provided for @devPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get devPreferences;
+
+  /// No description provided for @devInternalStorage.
+  ///
+  /// In en, this message translates to:
+  /// **'Internal storage'**
+  String get devInternalStorage;
+
+  /// No description provided for @devClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get devClose;
+
+  /// No description provided for @devMicPermissionRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone permission required'**
+  String get devMicPermissionRequired;
+
+  /// No description provided for @devEngineConfig.
+  ///
+  /// In en, this message translates to:
+  /// **'Engine config'**
+  String get devEngineConfig;
+
+  /// No description provided for @devAsrMode.
+  ///
+  /// In en, this message translates to:
+  /// **'ASR mode'**
+  String get devAsrMode;
+
+  /// No description provided for @devOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'On-device'**
+  String get devOffline;
+
+  /// No description provided for @devModel.
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get devModel;
+
+  /// No description provided for @devModelStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Model status'**
+  String get devModelStatus;
+
+  /// No description provided for @devNotDownloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Not downloaded'**
+  String get devNotDownloaded;
+
+  /// No description provided for @devDownloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloaded'**
+  String get devDownloaded;
+
+  /// No description provided for @devDownloadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Download failed: {error}'**
+  String devDownloadFailed(String error);
+
+  /// No description provided for @devTranscribing.
+  ///
+  /// In en, this message translates to:
+  /// **'Transcribing...'**
+  String get devTranscribing;
+
+  /// No description provided for @devRecording.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording... {duration}'**
+  String devRecording(String duration);
+
+  /// No description provided for @devTapToRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to start recording'**
+  String get devTapToRecord;
+
+  /// No description provided for @devDownloadModelFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please download the model first'**
+  String get devDownloadModelFirst;
+
+  /// No description provided for @devTranscriptionResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Transcription result'**
+  String get devTranscriptionResult;
+
+  /// No description provided for @devMetrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance metrics'**
+  String get devMetrics;
+
+  /// No description provided for @devRecordingDuration.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording duration'**
+  String get devRecordingDuration;
+
+  /// No description provided for @devInferenceTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Inference time'**
+  String get devInferenceTime;
+
+  /// No description provided for @devEngine.
+  ///
+  /// In en, this message translates to:
+  /// **'Engine'**
+  String get devEngine;
+
+  /// No description provided for @devEventLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Event log'**
+  String get devEventLog;
+
+  /// No description provided for @devActionDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} done'**
+  String devActionDone(String label);
+
+  /// No description provided for @devActionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} failed: {error}'**
+  String devActionFailed(String label, String error);
+
+  /// No description provided for @devCurrentEntitlement.
+  ///
+  /// In en, this message translates to:
+  /// **'Current entitlement (app source of truth)'**
+  String get devCurrentEntitlement;
+
+  /// No description provided for @devIsStale.
+  ///
+  /// In en, this message translates to:
+  /// **'isStale (from stale cache)'**
+  String get devIsStale;
+
+  /// No description provided for @devAnonymous.
+  ///
+  /// In en, this message translates to:
+  /// **'Anonymous'**
+  String get devAnonymous;
+
+  /// No description provided for @devNoExpiry.
+  ///
+  /// In en, this message translates to:
+  /// **'Permanent / none'**
+  String get devNoExpiry;
+
+  /// No description provided for @devRcCustomerInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'RevenueCat raw CustomerInfo'**
+  String get devRcCustomerInfo;
+
+  /// No description provided for @devReadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Read failed: {error}'**
+  String devReadFailed(String error);
+
+  /// No description provided for @devNoRcData.
+  ///
+  /// In en, this message translates to:
+  /// **'No data (RevenueCat not configured or stub implementation).'**
+  String get devNoRcData;
+
+  /// No description provided for @devRcHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty activeEntitlements but has subscriptions → product not attached to an entitlement;\nkey differs from lookForEntitlementId → entitlement ID mismatch;\nactiveSubscriptions still set → may be a local StoreKit Configuration transaction,\ndelete it in Xcode \"Debug ▸ StoreKit ▸ Manage Transactions\".'**
+  String get devRcHint;
+
+  /// No description provided for @devActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get devActions;
+
+  /// No description provided for @devClearCacheRefreshTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear local cache + invalidate RC cache + force refresh'**
+  String get devClearCacheRefreshTitle;
+
+  /// No description provided for @devClearCacheRefreshSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixes \"still subscribed after deleting in dashboard\"'**
+  String get devClearCacheRefreshSubtitle;
+
+  /// No description provided for @devClearCacheRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear cache & refresh'**
+  String get devClearCacheRefresh;
+
+  /// No description provided for @devRestorePurchases.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore purchases'**
+  String get devRestorePurchases;
+
+  /// No description provided for @devSignOutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out (clears entitlement)'**
+  String get devSignOutTitle;
+
+  /// No description provided for @devSignedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in'**
+  String get devSignedIn;
+
+  /// No description provided for @devNotSignedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Not signed in, unavailable'**
+  String get devNotSignedIn;
+
+  /// No description provided for @devSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get devSignOut;
+
+  /// No description provided for @devOverrideEntitlement.
+  ///
+  /// In en, this message translates to:
+  /// **'Manual entitlement override (debug only)'**
+  String get devOverrideEntitlement;
+
+  /// No description provided for @devOverrideEntitlementHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Test premium UI / paywall without real purchases. Choose \"Real\" to remove the override.'**
+  String get devOverrideEntitlementHelp;
+
+  /// No description provided for @devReal.
+  ///
+  /// In en, this message translates to:
+  /// **'Real'**
+  String get devReal;
+
+  /// No description provided for @devForcePremium.
+  ///
+  /// In en, this message translates to:
+  /// **'Force premium'**
+  String get devForcePremium;
+
+  /// No description provided for @devForceFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Force Free'**
+  String get devForceFree;
+
+  /// No description provided for @devPrefsCopiedAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied all preferences to clipboard'**
+  String get devPrefsCopiedAll;
+
+  /// No description provided for @devDeletePrefTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete preference?'**
+  String get devDeletePrefTitle;
+
+  /// No description provided for @devDeletePrefContent.
+  ///
+  /// In en, this message translates to:
+  /// **'key: {key}\nThis cannot be undone; for testing only.'**
+  String devDeletePrefContent(String key);
+
+  /// No description provided for @devDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted {key}'**
+  String devDeleted(String key);
+
+  /// No description provided for @devRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get devRefresh;
+
+  /// No description provided for @devCopyAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy all'**
+  String get devCopyAll;
+
+  /// No description provided for @devSearchKeyValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Search key or value'**
+  String get devSearchKeyValue;
+
+  /// No description provided for @devPrefsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} entries'**
+  String devPrefsCount(int count);
+
+  /// No description provided for @devPrefsMatched.
+  ///
+  /// In en, this message translates to:
+  /// **' · {count} matched'**
+  String devPrefsMatched(int count);
+
+  /// No description provided for @devNoPrefs.
+  ///
+  /// In en, this message translates to:
+  /// **'No preferences'**
+  String get devNoPrefs;
+
+  /// No description provided for @devNoMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No matches'**
+  String get devNoMatches;
+
+  /// No description provided for @devCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Copied {key}'**
+  String devCopied(String key);
+
+  /// No description provided for @devShareLogFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to share logs: {error}'**
+  String devShareLogFailed(String error);
+
+  /// No description provided for @devLogsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Logs (last {count})'**
+  String devLogsTitle(int count);
+
+  /// No description provided for @devShareLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Share logs'**
+  String get devShareLogs;
+
+  /// No description provided for @devNoLogs.
+  ///
+  /// In en, this message translates to:
+  /// **'No logs yet'**
+  String get devNoLogs;
+
+  /// No description provided for @devLogsLimitHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the latest 500 are shown; share logs to export the full record'**
+  String get devLogsLimitHint;
+
+  /// No description provided for @devEmptyDir.
+  ///
+  /// In en, this message translates to:
+  /// **'(empty directory)'**
+  String get devEmptyDir;
 }
 
 class _AppLocalizationsDelegate

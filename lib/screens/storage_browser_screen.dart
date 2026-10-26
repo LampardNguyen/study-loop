@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
+import '../l10n/app_localizations.dart';
 import '../utils/file_size.dart';
 
 /// 应用内部存储浏览页面。
@@ -53,7 +54,9 @@ class _StorageBrowserScreenState extends State<StorageBrowserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('内部存储')),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.devInternalStorage),
+      ),
       body: FutureBuilder<List<_StorageRoot>>(
         future: _rootsFuture,
         builder: (context, snapshot) {
@@ -162,7 +165,9 @@ class _DirectoryScreenState extends State<_DirectoryScreen> {
           }
           final entries = snapshot.data ?? [];
           if (entries.isEmpty) {
-            return const Center(child: Text('(空目录)'));
+            return Center(
+              child: Text(AppLocalizations.of(context)!.devEmptyDir),
+            );
           }
           return ListView.separated(
             itemCount: entries.length,
