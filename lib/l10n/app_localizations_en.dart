@@ -3029,6 +3029,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checkUpdateFailed => 'Check failed, please check your network';
 
   @override
+  String get updateDownloading => 'Downloading update…';
+
+  @override
+  String get updateInstallPermissionHint =>
+      'Allow installing apps from this source, then return to the app';
+
+  @override
+  String get updateDownloadFailed => 'Download failed, opening in browser…';
+
+  @override
   String get demoMode => 'Demo Mode';
 
   @override

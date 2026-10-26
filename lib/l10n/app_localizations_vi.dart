@@ -3026,6 +3026,17 @@ class AppLocalizationsVi extends AppLocalizations {
   String get checkUpdateFailed => 'Kiểm tra thất bại, vui lòng kiểm tra mạng';
 
   @override
+  String get updateDownloading => 'Đang tải bản cập nhật…';
+
+  @override
+  String get updateInstallPermissionHint =>
+      'Hãy cho phép cài ứng dụng từ nguồn này, rồi quay lại app';
+
+  @override
+  String get updateDownloadFailed =>
+      'Tải bản cập nhật thất bại, đang mở trình duyệt…';
+
+  @override
   String get demoMode => 'Chế độ demo';
 
   @override

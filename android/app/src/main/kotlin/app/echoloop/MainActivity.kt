@@ -1,13 +1,17 @@
 package app.echoloop
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
+import androidx.core.content.FileProvider
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import android.util.Log
 import com.ryanheise.audioservice.AudioServiceActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import java.io.File
 
 class MainActivity : AudioServiceActivity() {
     private var googleServicesChannel: MethodChannel? = null
@@ -38,6 +42,25 @@ class MainActivity : AudioServiceActivity() {
             channel.setMethodCallHandler { call, result ->
                 when (call.method) {
                     "getInstallerPackageName" -> result.success(installerPackageName())
+                    "canInstallPackages" -> result.success(canInstallPackages())
+                    "openInstallPermissionSettings" -> {
+                        openInstallPermissionSettings()
+                        result.success(null)
+                    }
+                    "installApk" -> {
+                        val path = call.argument<String>("path")
+                        if (path == null) {
+                            result.error("INVALID_ARGUMENT", "path is required", null)
+                        } else {
+                            try {
+                                installApk(File(path))
+                                result.success(null)
+                            } catch (e: Exception) {
+                                Log.w("AppUpdate", "install apk failed", e)
+                                result.error("INSTALL_FAILED", e.message, null)
+                            }
+                        }
+                    }
                     else -> result.notImplemented()
                 }
             }
@@ -126,6 +149,30 @@ class MainActivity : AudioServiceActivity() {
             Log.w("AppUpdate", "installer source failed", e)
             null
         }
+    }
+
+    /** APK 直装更新：是否已允许「安装未知应用」（Android 8.0 以下无需授权）。 */
+    private fun canInstallPackages(): Boolean =
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.O ||
+            packageManager.canRequestPackageInstalls()
+
+    /** 打开本应用的「安装未知应用」授权页。 */
+    private fun openInstallPermissionSettings() {
+        startActivity(
+            Intent(
+                Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+                Uri.parse("package:$packageName"),
+            ),
+        )
+    }
+
+    /** 通过 FileProvider 把下载好的 APK 交给系统安装器。 */
+    private fun installApk(apk: File) {
+        val uri = FileProvider.getUriForFile(this, "$packageName.update_fileprovider", apk)
+        val intent = Intent(Intent.ACTION_VIEW)
+            .setDataAndType(uri, "application/vnd.android.package-archive")
+            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
     private fun deviceInfo(): Map<String, Any?> {

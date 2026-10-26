@@ -80,7 +80,12 @@
 flutter pub get && dart run build_runner build --delete-conflicting-outputs
 flutter analyze
 flutter test
-flutter build apk --release --flavor dev
+flutter build apk --release --flavor dev --target-platform android-arm64
+# Bản phát hành (selfhost):
+flutter build apk --release --flavor prod --target-platform android-arm64
+# Luôn kèm --target-platform android-arm64: app chỉ đóng gói arm64 (abiFilters), thiếu cờ này
+# Flutter biên dịch Dart cho cả arm/arm64/x64 → build ~9.5 phút thay vì ~4.8 phút (đo 2026-10-26).
+# Nếu build treo ở bước font-subset (0% CPU nhiều phút): thêm --no-tree-shake-icons.
 ```
 
 ## 6. Ngôn ngữ

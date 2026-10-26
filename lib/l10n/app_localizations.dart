@@ -5320,6 +5320,24 @@ abstract class AppLocalizations {
   /// **'Check failed, please check your network'**
   String get checkUpdateFailed;
 
+  /// No description provided for @updateDownloading.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading update…'**
+  String get updateDownloading;
+
+  /// No description provided for @updateInstallPermissionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow installing apps from this source, then return to the app'**
+  String get updateInstallPermissionHint;
+
+  /// No description provided for @updateDownloadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Download failed, opening in browser…'**
+  String get updateDownloadFailed;
+
   /// No description provided for @demoMode.
   ///
   /// In en, this message translates to:

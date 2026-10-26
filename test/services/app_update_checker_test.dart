@@ -16,6 +16,15 @@ class FakeAndroidUpdateBridge implements AndroidUpdateBridge {
 
   @override
   Future<String?> installerPackageName() async => installer;
+
+  @override
+  Future<bool> canInstallPackages() async => true;
+
+  @override
+  Future<void> openInstallPermissionSettings() async {}
+
+  @override
+  Future<void> installApk(String path) async {}
 }
 
 void main() {

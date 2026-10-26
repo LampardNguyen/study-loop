@@ -14,6 +14,15 @@ class MockDio extends Mock implements Dio {}
 class _FakeBridge implements AndroidUpdateBridge {
   @override
   Future<String?> installerPackageName() async => null;
+
+  @override
+  Future<bool> canInstallPackages() async => true;
+
+  @override
+  Future<void> openInstallPermissionSettings() async {}
+
+  @override
+  Future<void> installApk(String path) async {}
 }
 
 const _releaseUrl =

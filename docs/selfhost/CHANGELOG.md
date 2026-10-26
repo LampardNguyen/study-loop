@@ -2,6 +2,11 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
+## Chưa phát hành
+
+### Tính năng mới
+- Cập nhật ứng dụng ngay trong app: bấm "Cập nhật ngay" sẽ tải APK với thanh tiến độ (%, MB, nút Hủy) rồi mở màn cài đặt Android. Lần đầu app xin quyền "Cài ứng dụng không rõ nguồn" và tự tải tiếp khi bạn quay lại. Nếu tải lỗi, app tự mở link APK bằng trình duyệt như trước.
+
 ## v1.0.45 (build 10) — 2026-10-26
 
 ### Sửa lỗi

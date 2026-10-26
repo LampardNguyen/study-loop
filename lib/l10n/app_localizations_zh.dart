@@ -2907,6 +2907,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get checkUpdateFailed => '检查失败，请检查网络';
 
   @override
+  String get updateDownloading => '正在下载更新…';
+
+  @override
+  String get updateInstallPermissionHint => '请允许安装此来源的应用，然后返回应用';
+
+  @override
+  String get updateDownloadFailed => '下载失败，正在用浏览器打开…';
+
+  @override
   String get demoMode => '演示模式';
 
   @override

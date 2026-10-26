@@ -519,8 +519,11 @@ class _MainShellState extends ConsumerState<MainShell> with RouteAware {
       info: result.info!,
       isForceUpdate: isForce,
       downloadUrl: downloadUrl,
-      onUpdate: () =>
-          launcher.launch(info: result.info!, primaryUrl: downloadUrl),
+      onUpdate: () => launcher.launch(
+        info: result.info!,
+        primaryUrl: downloadUrl,
+        context: context,
+      ),
       onDismiss: () => ref.read(appUpdateProvider.notifier).dismiss(),
     );
   }
