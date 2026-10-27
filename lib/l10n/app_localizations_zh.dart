@@ -5836,4 +5836,70 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get devEmptyDir => '(空目录)';
+
+  @override
+  String get audioTrimEntryTitle => '裁剪音频';
+
+  @override
+  String audioTrimEntrySubtitle(String duration) {
+    return '生成字幕前剪掉片头/片尾广告 · $duration';
+  }
+
+  @override
+  String get audioTrimTitle => '裁剪音频';
+
+  @override
+  String get audioTrimStart => '起点';
+
+  @override
+  String get audioTrimEnd => '终点';
+
+  @override
+  String get audioTrimSetHere => '设为当前位置';
+
+  @override
+  String get audioTrimPlayFromStart => '从这里试听';
+
+  @override
+  String get audioTrimPlayToEnd => '试听到这里';
+
+  @override
+  String get audioTrimPlayResult => '试听裁剪结果';
+
+  @override
+  String audioTrimNewLength(String length) {
+    return '新时长：$length';
+  }
+
+  @override
+  String audioTrimRemoved(String removed) {
+    return '（剪掉 $removed）';
+  }
+
+  @override
+  String get audioTrimWaveformFailed => '无法显示波形';
+
+  @override
+  String get audioTrimSaving => '正在裁剪音频…';
+
+  @override
+  String get audioTrimFailed => '裁剪失败，原文件未改动';
+
+  @override
+  String audioTrimDone(String length) {
+    return '已裁剪 · 新时长 $length';
+  }
+
+  @override
+  String get audioTrimDeleteSubtitleTitle => '裁剪将删除字幕';
+
+  @override
+  String get audioTrimDeleteSubtitleBody =>
+      '裁剪后字幕时间将不再对齐。保存时会删除本音频的字幕、收藏句子和学习进度，之后可重新生成字幕。';
+
+  @override
+  String get audioTrimContinue => '继续';
+
+  @override
+  String get audioTrimDiscardTitle => '放弃修改？';
 }

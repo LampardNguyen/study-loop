@@ -6107,4 +6107,70 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get devEmptyDir => '(thư mục trống)';
+
+  @override
+  String get audioTrimEntryTitle => 'Cắt đoạn audio';
+
+  @override
+  String audioTrimEntrySubtitle(String duration) {
+    return 'Bỏ quảng cáo đầu/cuối trước khi tạo phụ đề · $duration';
+  }
+
+  @override
+  String get audioTrimTitle => 'Cắt audio';
+
+  @override
+  String get audioTrimStart => 'Điểm đầu';
+
+  @override
+  String get audioTrimEnd => 'Điểm cuối';
+
+  @override
+  String get audioTrimSetHere => 'Đặt tại đây';
+
+  @override
+  String get audioTrimPlayFromStart => 'Nghe từ đây';
+
+  @override
+  String get audioTrimPlayToEnd => 'Nghe đến đây';
+
+  @override
+  String get audioTrimPlayResult => 'Nghe bản đã cắt';
+
+  @override
+  String audioTrimNewLength(String length) {
+    return 'Độ dài mới: $length';
+  }
+
+  @override
+  String audioTrimRemoved(String removed) {
+    return '(bỏ $removed)';
+  }
+
+  @override
+  String get audioTrimWaveformFailed => 'Không hiển thị được dạng sóng';
+
+  @override
+  String get audioTrimSaving => 'Đang cắt audio…';
+
+  @override
+  String get audioTrimFailed => 'Cắt audio thất bại, file gốc vẫn giữ nguyên';
+
+  @override
+  String audioTrimDone(String length) {
+    return 'Đã cắt audio · độ dài mới $length';
+  }
+
+  @override
+  String get audioTrimDeleteSubtitleTitle => 'Cắt audio sẽ xóa phụ đề';
+
+  @override
+  String get audioTrimDeleteSubtitleBody =>
+      'Thời gian trong phụ đề sẽ bị lệch sau khi cắt. Phụ đề, câu yêu thích và tiến độ học của bài này sẽ bị xóa khi bấm Lưu. Bạn có thể tạo lại phụ đề sau khi cắt.';
+
+  @override
+  String get audioTrimContinue => 'Tiếp tục';
+
+  @override
+  String get audioTrimDiscardTitle => 'Bỏ thay đổi?';
 }

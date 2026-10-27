@@ -136,6 +136,72 @@ class AudioTranscodeService {
     }
   }
 
+  /// 截取 [source] 的 [start, end) 区间写入 [output]（用于剪掉片头/片尾广告）。
+  ///
+  /// 先用 `-c copy` 直接复制音频流（快、无损）；容器不支持流复制或 ffmpeg 失败时
+  /// 回退为 AAC 重编码，此时 [output] 应为 m4a。失败删除半成品、返回 `false`，
+  /// **不改动 [source]**。
+  Future<bool> trimToFile({
+    required File source,
+    required File output,
+    required Duration start,
+    required Duration end,
+    bool reencode = false,
+  }) async {
+    if (!await source.exists()) {
+      AppLogger.log(_logTag, 'skip trim: source missing');
+      return false;
+    }
+    await output.parent.create(recursive: true);
+    String seconds(Duration d) => (d.inMilliseconds / 1000).toStringAsFixed(3);
+
+    try {
+      final session = await FFmpegKit.executeWithArguments([
+        '-nostdin',
+        '-y',
+        '-loglevel',
+        'error',
+        '-ss',
+        seconds(start),
+        '-i',
+        source.path,
+        // 用时长 -t 而非 -to：输入端 -ss 会把时间戳归零，-t 语义最稳定。
+        '-t',
+        seconds(end - start),
+        '-map',
+        '0:a:0',
+        '-map_metadata',
+        '-1',
+        '-map_chapters',
+        '-1',
+        if (reencode) ...['-c:a', 'aac', '-b:a', '128k'] else ...['-c', 'copy'],
+        output.path,
+      ]);
+      final returnCode = await session.getReturnCode();
+      if (!ReturnCode.isSuccess(returnCode) ||
+          !await output.exists() ||
+          await output.length() == 0) {
+        final logs = await session.getOutput();
+        AppLogger.log(
+          _logTag,
+          'trim failed: returnCode=$returnCode reencode=$reencode '
+          'source=${p.basename(source.path)} logs=${logs ?? ''}',
+        );
+        await _deleteIfExists(output);
+        return false;
+      }
+      return true;
+    } catch (error, stackTrace) {
+      AppLogger.log(
+        _logTag,
+        'trim exception: source=${p.basename(source.path)} '
+        'error=$error stack=$stackTrace',
+      );
+      await _deleteIfExists(output);
+      return false;
+    }
+  }
+
   /// 把短时语音压缩为复述 AI 评估的临时上传文件。
   ///
   /// 评估端硬限制为 2 MiB。手动复述最长可达 5 分钟，故使用 16kHz、单声道、

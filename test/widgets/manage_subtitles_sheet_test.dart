@@ -157,6 +157,37 @@ void main() {
         expect(find.byTooltip('Delete Subtitles'), findsNothing);
       });
 
+      testWidgets('已下载音频显示「Trim audio」入口', (tester) async {
+        final item = createTestAudioItem(transcriptPath: null);
+        await tester.pumpWidget(buildSheet(item));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Open'));
+        await tester.pumpAndSettle();
+
+        expect(find.text('Trim audio'), findsOneWidget);
+      });
+
+      testWidgets('有字幕时点「Trim audio」先弹删除字幕提示，取消不进入裁剪页', (
+        tester,
+      ) async {
+        final item = createTestAudioItem().copyWith(
+          transcriptSource: TranscriptSource.local,
+        );
+        await tester.pumpWidget(buildSheet(item));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Open'));
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('Trim audio'));
+        await tester.pumpAndSettle();
+        expect(find.text('Trimming will delete subtitles'), findsOneWidget);
+
+        await tester.tap(find.text('Cancel'));
+        await tester.pumpAndSettle();
+        expect(find.text('Trimming will delete subtitles'), findsNothing);
+        expect(find.text('Trim audio'), findsOneWidget);
+      });
+
       testWidgets('有本地字幕音频：显示编辑和红色删除按钮', (tester) async {
         final item = createTestAudioItem().copyWith(
           transcriptSource: TranscriptSource.local,

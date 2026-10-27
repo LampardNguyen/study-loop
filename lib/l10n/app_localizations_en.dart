@@ -6113,4 +6113,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get devEmptyDir => '(empty directory)';
+
+  @override
+  String get audioTrimEntryTitle => 'Trim audio';
+
+  @override
+  String audioTrimEntrySubtitle(String duration) {
+    return 'Remove intro/outro ads before generating subtitles · $duration';
+  }
+
+  @override
+  String get audioTrimTitle => 'Trim audio';
+
+  @override
+  String get audioTrimStart => 'Start';
+
+  @override
+  String get audioTrimEnd => 'End';
+
+  @override
+  String get audioTrimSetHere => 'Set here';
+
+  @override
+  String get audioTrimPlayFromStart => 'Play from here';
+
+  @override
+  String get audioTrimPlayToEnd => 'Play up to here';
+
+  @override
+  String get audioTrimPlayResult => 'Play trimmed audio';
+
+  @override
+  String audioTrimNewLength(String length) {
+    return 'New length: $length';
+  }
+
+  @override
+  String audioTrimRemoved(String removed) {
+    return '(removed $removed)';
+  }
+
+  @override
+  String get audioTrimWaveformFailed => 'Couldn\'t display the waveform';
+
+  @override
+  String get audioTrimSaving => 'Trimming audio…';
+
+  @override
+  String get audioTrimFailed => 'Trimming failed, the original file was kept';
+
+  @override
+  String audioTrimDone(String length) {
+    return 'Audio trimmed · new length $length';
+  }
+
+  @override
+  String get audioTrimDeleteSubtitleTitle => 'Trimming will delete subtitles';
+
+  @override
+  String get audioTrimDeleteSubtitleBody =>
+      'Subtitle timings will no longer match after trimming. Subtitles, favorite sentences and learning progress of this audio will be deleted when you save. You can generate subtitles again afterwards.';
+
+  @override
+  String get audioTrimContinue => 'Continue';
+
+  @override
+  String get audioTrimDiscardTitle => 'Discard changes?';
 }

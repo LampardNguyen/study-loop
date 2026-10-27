@@ -10743,6 +10743,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'(empty directory)'**
   String get devEmptyDir;
+
+  /// No description provided for @audioTrimEntryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trim audio'**
+  String get audioTrimEntryTitle;
+
+  /// No description provided for @audioTrimEntrySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove intro/outro ads before generating subtitles · {duration}'**
+  String audioTrimEntrySubtitle(String duration);
+
+  /// No description provided for @audioTrimTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trim audio'**
+  String get audioTrimTitle;
+
+  /// No description provided for @audioTrimStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get audioTrimStart;
+
+  /// No description provided for @audioTrimEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get audioTrimEnd;
+
+  /// No description provided for @audioTrimSetHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Set here'**
+  String get audioTrimSetHere;
+
+  /// No description provided for @audioTrimPlayFromStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Play from here'**
+  String get audioTrimPlayFromStart;
+
+  /// No description provided for @audioTrimPlayToEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Play up to here'**
+  String get audioTrimPlayToEnd;
+
+  /// No description provided for @audioTrimPlayResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Play trimmed audio'**
+  String get audioTrimPlayResult;
+
+  /// No description provided for @audioTrimNewLength.
+  ///
+  /// In en, this message translates to:
+  /// **'New length: {length}'**
+  String audioTrimNewLength(String length);
+
+  /// No description provided for @audioTrimRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'(removed {removed})'**
+  String audioTrimRemoved(String removed);
+
+  /// No description provided for @audioTrimWaveformFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t display the waveform'**
+  String get audioTrimWaveformFailed;
+
+  /// No description provided for @audioTrimSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Trimming audio…'**
+  String get audioTrimSaving;
+
+  /// No description provided for @audioTrimFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Trimming failed, the original file was kept'**
+  String get audioTrimFailed;
+
+  /// No description provided for @audioTrimDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Audio trimmed · new length {length}'**
+  String audioTrimDone(String length);
+
+  /// No description provided for @audioTrimDeleteSubtitleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Trimming will delete subtitles'**
+  String get audioTrimDeleteSubtitleTitle;
+
+  /// No description provided for @audioTrimDeleteSubtitleBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtitle timings will no longer match after trimming. Subtitles, favorite sentences and learning progress of this audio will be deleted when you save. You can generate subtitles again afterwards.'**
+  String get audioTrimDeleteSubtitleBody;
+
+  /// No description provided for @audioTrimContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get audioTrimContinue;
+
+  /// No description provided for @audioTrimDiscardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard changes?'**
+  String get audioTrimDiscardTitle;
 }
 
 class _AppLocalizationsDelegate

@@ -3,6 +3,7 @@
 // 提供本地上传、AI 转录和删除字幕三种操作。
 // AI 转录在后台运行，弹窗关闭后任务继续。
 import '../features/ai_settings/ai_key_required_dialog.dart';
+import '../features/audio_trim/audio_trim_screen.dart';
 import '../features/ai_settings/providers/ai_settings_provider.dart';
 import 'dart:async';
 
@@ -21,12 +22,8 @@ import '../features/remote_config/remote_config_providers.dart';
 import '../features/usage/usage_event.dart';
 import '../features/usage/usage_providers.dart';
 import '../models/audio_item.dart';
-import '../database/providers.dart';
 import '../providers/audio_library_provider.dart';
-import '../providers/favorite_sentence_lifecycle_provider.dart';
-import '../providers/audio_sentences_provider.dart';
-import '../providers/learning_progress_provider.dart';
-import '../providers/listening_practice/listening_practice_provider.dart';
+import '../providers/clear_audio_subtitles.dart';
 import '../providers/settings_provider.dart';
 import '../providers/transcription_task_provider.dart';
 import '../providers/local_transcription_task_provider.dart';
@@ -382,6 +379,35 @@ class _ManageSubtitlesSheetState extends ConsumerState<ManageSubtitlesSheet> {
                         ),
                 ),
               ),
+              // 裁剪音频入口（仅选择模式、已下载的非视频音频）
+              if (!hasLocalTask &&
+                  !isTaskActive &&
+                  taskState is! TranscriptionCompleted &&
+                  taskState is! TranscriptionFailed &&
+                  taskState is! TranscriptionEmptyResult &&
+                  audioItem.audioPath != null &&
+                  !audioItem.isVideo)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.m,
+                    0,
+                    AppSpacing.m,
+                    AppSpacing.s,
+                  ),
+                  child: _buildOptionTile(
+                    theme: theme,
+                    icon: Icons.content_cut,
+                    title: l10n.audioTrimEntryTitle,
+                    subtitle: l10n.audioTrimEntrySubtitle(
+                      formatTrimTime(
+                        Duration(seconds: audioItem.totalDuration),
+                      ),
+                    ),
+                    selected: false,
+                    isAction: true,
+                    onTap: () => _openAudioTrim(context, audioItem),
+                  ),
+                ),
               // 进度模式 或 选择模式
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
@@ -421,6 +447,40 @@ class _ManageSubtitlesSheetState extends ConsumerState<ManageSubtitlesSheet> {
     final router = GoRouter.of(context);
     Navigator.pop(context);
     router.push(AppRoutes.subtitleEditor(audioItem.id), extra: audioItem);
+  }
+
+  /// 打开音频裁剪页；已有字幕时先提示裁剪会删除字幕（保存时才真正删除）。
+  Future<void> _openAudioTrim(BuildContext context, AudioItem audioItem) async {
+    final l10n = AppLocalizations.of(context)!;
+    if (audioItem.hasTranscript) {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          icon: Icon(
+            Icons.warning_amber_rounded,
+            color: Theme.of(ctx).colorScheme.error,
+          ),
+          title: Text(l10n.audioTrimDeleteSubtitleTitle),
+          content: Text(l10n.audioTrimDeleteSubtitleBody),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: Text(l10n.audioTrimContinue),
+            ),
+          ],
+        ),
+      );
+      if (confirmed != true || !context.mounted) return;
+    }
+    await Navigator.of(context, rootNavigator: true).push(
+      MaterialPageRoute<bool>(
+        builder: (_) => AudioTrimScreen(audioItem: audioItem),
+      ),
+    );
   }
 
   /// 构建进度视图（带圆角背景卡片 + 圆形图标容器）
@@ -1440,6 +1500,7 @@ class _ManageSubtitlesSheetState extends ConsumerState<ManageSubtitlesSheet> {
     String? subtitle,
     required bool selected,
     required VoidCallback onTap,
+    bool isAction = false,
   }) {
     final colorScheme = theme.colorScheme;
     return Material(
@@ -1512,9 +1573,11 @@ class _ManageSubtitlesSheetState extends ConsumerState<ManageSubtitlesSheet> {
                   ],
                 ),
               ),
-              // Radio 指示器
+              // Radio 指示器；动作入口（非单选项）显示箭头
               Icon(
-                selected
+                isAction
+                    ? Icons.chevron_right
+                    : selected
                     ? Icons.radio_button_checked
                     : Icons.radio_button_unchecked,
                 color: selected
@@ -2008,77 +2071,7 @@ class _ManageSubtitlesSheetState extends ConsumerState<ManageSubtitlesSheet> {
 
     if (confirmed != true || !context.mounted) return;
 
-    // 1. 删除本地字幕文件
-    if (audioItem.transcriptPath != null) {
-      try {
-        final fullPath = await audioItem.getFullTranscriptPath();
-        if (fullPath != null) {
-          final file = File(fullPath);
-          if (await file.exists()) {
-            await file.delete();
-          }
-        }
-      } catch (_) {
-        // 文件不存在不报错
-      }
-    }
-
-    // 注意：不删除后端转录记录。
-    // userAudios 表按 SHA256 去重，多个用户共享同一条记录，
-    // 删除后端 transcript 会影响所有共用同一音频的用户。
-    // 用户重新转录时，后端 upsert 会覆盖旧记录，无需手动删除。
-
-    // 3. 清除字幕内容列与词级时间戳
-    final audioDao = ref.read(audioItemDaoProvider);
-    await audioDao.updateTranscriptSrt(audioItem.id, null);
-    await audioDao.updateWordTimestamps(audioItem.id, null);
-    // 字幕已变更（清空）→ 失效共享字幕投影，令其按新真相源（空）重解析。
-    // autoDispose 通常已在离开本页时释放该 provider，此处为显式兜底保证同步。
-    ref.invalidate(audioSentencesProvider(audioItem.id));
-
-    // 4. 更新本地数据库：清除字幕相关字段
-    ref
-        .read(audioLibraryProvider.notifier)
-        .updateAudioItem(
-          audioItem.copyWith(
-            transcriptPath: null,
-            transcriptSource: null,
-            transcriptLanguage: null,
-            sentenceCount: 0,
-            wordCount: 0,
-          ),
-        );
-
-    // 5. 删除该音频的所有收藏句子
-    await ref
-        .read(favoriteSentenceLifecycleProvider)
-        .removeAllForAudio(audioItem.id);
-
-    // 6. 重置该音频的学习进度
-    // 学习进度基于句子索引/段落索引，字幕删除后这些索引失去参照；
-    // 若不重置，重新导入字幕时旧断点会指向错位的句子。
-    await ref
-        .read(learningProgressNotifierProvider.notifier)
-        .resetProgress(audioItem.id);
-
-    // 7. 清除 listeningPracticeProvider 中缓存的句子数据
-    // 字幕内容入库后 transcriptPath 恒为 null，loadAudio 去重守卫（比较 id +
-    // transcriptPath）无法察觉变化，必须强制重载才能让 keepAlive 的 LP 丢弃旧句子。
-    final practiceState = ref.read(listeningPracticeProvider);
-    if (practiceState.currentAudioItem?.id == audioItem.id) {
-      ref
-          .read(listeningPracticeProvider.notifier)
-          .loadAudio(
-            audioItem.copyWith(
-              transcriptPath: null,
-              transcriptSource: null,
-              transcriptLanguage: null,
-              sentenceCount: 0,
-              wordCount: 0,
-            ),
-            forceTranscriptReload: true,
-          );
-    }
+    await clearAudioSubtitles(ref, audioItem);
   }
 }
 
