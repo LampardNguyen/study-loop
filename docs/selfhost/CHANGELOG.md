@@ -2,7 +2,7 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
-## Chưa phát hành
+## v1.0.47 (build 12) — 2026-10-27
 
 ### Tính năng mới
 - **Cắt đoạn audio** (trong Quản lý phụ đề): chọn điểm đầu/cuối trên dạng sóng để bỏ quảng cáo ở đầu/cuối tập podcast trước khi tạo phụ đề. Có nghe thử (từ điểm đầu, đến điểm cuối, cả bản đã cắt) để kiểm tra vị trí cắt. Bài đã có phụ đề vẫn cắt được: phụ đề, câu yêu thích và tiến độ học sẽ bị xóa để tạo lại.
