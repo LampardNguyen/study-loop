@@ -13,6 +13,7 @@ import 'drive_api.dart';
 import 'drive_sync_actions.dart';
 import 'drive_sync_service.dart';
 import 'google_drive_auth.dart';
+import 'google_sign_in_button.dart';
 
 /// Google Drive 同步页：登录、手动备份与恢复。
 class DriveSyncScreen extends ConsumerStatefulWidget {
@@ -24,6 +25,7 @@ class DriveSyncScreen extends ConsumerStatefulWidget {
 
 class _DriveSyncScreenState extends ConsumerState<DriveSyncScreen> {
   bool _restoring = false;
+  bool _signingIn = false;
   BackupProgress? _progress;
   CancelToken? _cancelToken;
   Object? _error;
@@ -73,10 +75,10 @@ class _DriveSyncScreenState extends ConsumerState<DriveSyncScreen> {
         ),
         if (_error != null) _buildError(l10n),
         const SizedBox(height: 16),
-        FilledButton.icon(
+        GoogleSignInButton(
+          label: l10n.driveSyncSignIn,
+          loading: _signingIn,
           onPressed: () => _signIn(l10n),
-          icon: const Icon(Icons.login),
-          label: Text(l10n.driveSyncSignIn),
         ),
       ],
     );
@@ -210,9 +212,10 @@ class _DriveSyncScreenState extends ConsumerState<DriveSyncScreen> {
             ),
             if (authExpired) ...[
               const SizedBox(height: 8),
-              FilledButton(
+              GoogleSignInButton(
+                label: l10n.driveSyncSignInAgain,
+                loading: _signingIn,
                 onPressed: () => _signIn(l10n),
-                child: Text(l10n.driveSyncSignInAgain),
               ),
             ],
           ],
@@ -265,7 +268,10 @@ class _DriveSyncScreenState extends ConsumerState<DriveSyncScreen> {
   }
 
   Future<void> _signIn(AppLocalizations l10n) async {
-    setState(() => _error = null);
+    setState(() {
+      _error = null;
+      _signingIn = true;
+    });
     try {
       await ref.read(googleDriveAccountProvider.notifier).signIn();
     } on GoogleSignInException catch (error) {
@@ -273,6 +279,8 @@ class _DriveSyncScreenState extends ConsumerState<DriveSyncScreen> {
       if (mounted) setState(() => _error = error);
     } catch (error) {
       if (mounted) setState(() => _error = error);
+    } finally {
+      if (mounted) setState(() => _signingIn = false);
     }
   }
 
