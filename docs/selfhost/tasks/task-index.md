@@ -11,7 +11,7 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - [P] T13.3 — Sao lưu/Khôi phục Drive (dữ liệu + audio, không OpenAI key) → [task-2026-10-28.md](task-2026-10-28.md#t133)
 - [P] T13.4 — Đổi package thành com.studyloop.app → [task-2026-10-28.md](task-2026-10-28.md#t134)
 - [P] T13.5 — Nút "Sign in with Google" đúng hướng dẫn thương hiệu → [task-2026-10-28.md](task-2026-10-28.md#t135)
-- [~] T13.6 — Publish OAuth Production: GitHub Pages + xác minh domain → [task-2026-10-28.md](task-2026-10-28.md#t136)
+- [x] T13.6 — Publish OAuth Production: GitHub Pages + xác minh domain → [task-2026-10-28.md](task-2026-10-28.md#t136)
 
 ## Quyết định
 - 2026-10-26: Cập nhật APK tải trong app (Dio) + cài qua FileProvider; lỗi tải → mở trình duyệt như cũ.
