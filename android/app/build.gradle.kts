@@ -31,7 +31,8 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "app.echoloop"
+        // 自托管版独立包名；namespace（Kotlin 包）保持 app.echoloop 不变。
+        applicationId = "com.studyloop.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         // ffmpeg_kit_flutter_new_audio requires Android API 24+.
@@ -82,8 +83,8 @@ android {
     }
 
     // 与 iOS 的 dev / prod scheme 保持一致：
-    // dev  -> app.echoloop.dev  / "Study Loop Dev"
-    // prod -> app.echoloop.selfhost / "Study Loop"（自托管版）
+    // dev  -> com.studyloop.app.dev / "Study Loop Dev"
+    // prod -> com.studyloop.app     / "Study Loop"（自托管版）
     // 这里按 flavor 固定签名：dev 使用 debug 证书，prod 使用 release 证书。
     // 这样同一个 package 的 debug / release 会保持同一把签名，便于 Google 登录配置。
     flavorDimensions += "env"
@@ -95,8 +96,6 @@ android {
         }
         create("prod") {
             dimension = "env"
-            // 自托管版：独立包名，可与应用商店的原版 app.echoloop 并存安装。
-            applicationIdSuffix = ".selfhost"
             resValue("string", "app_name", "Study Loop")
         }
     }
