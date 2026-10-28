@@ -39,6 +39,7 @@ import '../analytics/analytics_providers.dart';
 import '../analytics/models/event_names.dart';
 import '../config/app_store_config.dart';
 import '../features/auth/providers/auth_providers.dart';
+import '../features/drive_sync/google_drive_auth.dart';
 import '../features/auth/screens/account_screen.dart';
 import '../features/user_region/user_region_providers.dart';
 import '../features/subscription/providers/subscription_availability.dart';
@@ -513,6 +514,16 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           title: Text(l10n.backupAndRestore),
           trailing: const Icon(Icons.chevron_right),
           onTap: () => context.push(AppRoutes.backupRestore),
+        ),
+        ListTile(
+          leading: const Icon(Icons.cloud_sync_outlined),
+          title: Text(l10n.driveSync),
+          subtitle: Text(
+            ref.watch(googleDriveAccountProvider).valueOrNull?.email ??
+                l10n.driveSyncNotSignedIn,
+          ),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => context.push(AppRoutes.driveSync),
         ),
         ListTile(
           leading: _settingsThemedSvgIcon(context, 'assets/icon/trash-bin.svg'),

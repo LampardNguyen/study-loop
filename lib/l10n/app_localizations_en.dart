@@ -6179,4 +6179,123 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get audioTrimDiscardTitle => 'Discard changes?';
+
+  @override
+  String get driveSync => 'Google Drive sync';
+
+  @override
+  String get driveSyncNotSignedIn => 'Not signed in';
+
+  @override
+  String get driveSyncIntro =>
+      'Back up settings, learning progress, podcasts, subtitles and audio to this app\'s private folder in your Google Drive.';
+
+  @override
+  String get driveSyncKeyNotice => '🔒 Your OpenAI API key is never backed up.';
+
+  @override
+  String get driveSyncSignIn => 'Sign in with Google';
+
+  @override
+  String get driveSyncSignOut => 'Sign out';
+
+  @override
+  String get driveSyncLastBackup => 'Last backup';
+
+  @override
+  String get driveSyncNoBackup => 'No backup on Drive yet';
+
+  @override
+  String get driveSyncBackupNow => 'Back up now';
+
+  @override
+  String get driveSyncRestore => 'Restore from Drive';
+
+  @override
+  String get driveSyncBackingUp => 'Backing up…';
+
+  @override
+  String get driveSyncRestoring => 'Restoring…';
+
+  @override
+  String get driveSyncStepPreparing => 'Preparing data…';
+
+  @override
+  String get driveSyncStepHashing => 'Checking audio files…';
+
+  @override
+  String get driveSyncStepUploadingBackup => 'Uploading backup…';
+
+  @override
+  String get driveSyncStepDownloadingBackup => 'Downloading backup…';
+
+  @override
+  String get driveSyncStepApplying => 'Applying data…';
+
+  @override
+  String get driveSyncRestoreTitle => 'Restore data?';
+
+  @override
+  String get driveSyncRestoreAction => 'Restore';
+
+  @override
+  String get driveSyncBackupDone => 'Backed up to Google Drive';
+
+  @override
+  String get driveSyncRestoreDone => 'Restored from Google Drive';
+
+  @override
+  String get driveSyncCancelConfirm => 'Cancel the current operation?';
+
+  @override
+  String get driveSyncDataUnchanged => 'Data on this device was not changed.';
+
+  @override
+  String get driveSyncSignInAgain => 'Sign in again';
+
+  @override
+  String get driveSyncErrorAuth => 'Google session expired';
+
+  @override
+  String get driveSyncErrorNetwork => 'No network connection';
+
+  @override
+  String get driveSyncErrorQuota => 'Google Drive is full';
+
+  @override
+  String get driveSyncErrorVersion =>
+      'This backup was made by a newer app version. Update the app first.';
+
+  @override
+  String get driveSyncErrorMismatch =>
+      'The backup on Drive is incomplete. Please back up again.';
+
+  @override
+  String get driveSyncErrorNotConfigured =>
+      'Google sign-in is not configured in this build (GOOGLE_WEB_CLIENT_ID).';
+
+  @override
+  String driveSyncBackupSummary(int count, String size) {
+    return '$count files · $size audio';
+  }
+
+  @override
+  String driveSyncStepUploadingMedia(String progress) {
+    return 'Uploading audio $progress…';
+  }
+
+  @override
+  String driveSyncStepDownloadingMedia(String progress) {
+    return 'Downloading audio $progress…';
+  }
+
+  @override
+  String driveSyncRestoreConfirm(String date, int count) {
+    return 'Your current learning data and settings will be replaced by the backup from $date ($count files). Your current OpenAI key is kept.';
+  }
+
+  @override
+  String driveSyncErrorGeneric(String error) {
+    return 'Sync failed: $error';
+  }
 }

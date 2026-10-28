@@ -2,6 +2,12 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
+## Chưa phát hành
+
+### Tính năng mới
+- **Đồng bộ Google Drive** (Cài đặt → Lưu trữ): đăng nhập Google rồi bấm "Sao lưu ngay" / "Khôi phục từ Drive". Cài đặt, tiến độ học, podcast, phụ đề và audio được lưu vào thư mục riêng (ẩn) của app trên Drive của bạn; audio đã tải lên sẽ không tải lại. OpenAI API key **không bao giờ** được sao lưu và được giữ nguyên khi khôi phục.
+- **Đổi package thành `com.studyloop.app`** (bản dev: `com.studyloop.app.dev`). Android coi đây là app mới: hãy sao lưu ở app cũ, cài bản này, khôi phục rồi nhập lại OpenAI key; sau đó gỡ app cũ.
+
 ## v1.0.47 (build 12) — 2026-10-27
 
 ### Tính năng mới

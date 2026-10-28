@@ -16,7 +16,7 @@ AI dùng **API key OpenAI (hoặc dịch vụ tương thích) của chính bạn
 | Cấu hình từ xa, podcast nổi bật, bộ sưu tập cộng đồng, kiểm tra cập nhật, xác định vùng, Baidu Netdisk | Server tác giả | Tắt (`API_BASE_URL` để trống). Dùng giá trị mặc định trên máy |
 | Đăng ký Podcast | Bắt đăng nhập | Không cần đăng nhập. Tìm qua iTunes Search và đọc RSS trực tiếp |
 | Ngôn ngữ | en / zh | **Thêm tiếng Việt** (giao diện + ngôn ngữ mẹ đẻ) |
-| Package / tên app (prod) | `app.echoloop` / "Echo Loop" | `app.echoloop.selfhost` / "Study Loop", cài song song được với bản gốc |
+| Package / tên app (prod) | `app.echoloop` / "Echo Loop" | `com.studyloop.app` / "Study Loop", cài song song được với bản gốc |
 
 **Vẫn còn kết nối ra ngoài** (không mang dữ liệu cá nhân, chỉ lộ địa chỉ IP):
 
@@ -35,7 +35,7 @@ flutter build apk --release --flavor prod
 ```
 
 File APK nằm ở `build/app/outputs/flutter-apk/app-prod-release.apk`, được ký bằng keystore riêng (xem mục 4).
-Bản `--flavor dev` ký bằng debug key, package `app.echoloop.dev`.
+Bản `--flavor dev` ký bằng debug key, package `com.studyloop.app.dev`.
 
 **Cập nhật bản mới**: số build nằm trong `pubspec.yaml`, dòng `version: 1.0.42+7` (phần sau dấu `+`).
 Android chỉ cho cài đè khi số build lớn hơn bản đang cài, nên **trước mỗi lần phát hành, tăng `+N` lên 1 rồi commit**

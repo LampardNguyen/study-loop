@@ -34,6 +34,10 @@ const _spPrefixBlacklist = [
   'sb-',
   // GoTrue PKCE code verifier 等临时认证状态。
   'supabase.auth.',
+  // Google Drive 同步状态只属于本机。
+  'drive_sync_',
+  // AI 密钥只存于安全存储；此处兜底，任何情况下都不进入备份。
+  'selfhost.ai_',
 ];
 
 const _dbFileName = 'echo_loop.db';
@@ -79,6 +83,7 @@ class BackupService {
     required String outputDir,
     required String appVersion,
     required String platform,
+    bool includeMedia = true,
     void Function(BackupProgress)? onProgress,
   }) async {
     final stopwatch = Stopwatch()..start();
@@ -120,7 +125,9 @@ class BackupService {
       _log('export_settings_done bytes=${await settingsFile.length()}');
 
       onProgress?.call(const BackupProgress(stage: 'exportingMedia'));
-      final mediaSources = await _collectMediaSources(dataDir);
+      final mediaSources = includeMedia
+          ? await _collectMediaSources(dataDir)
+          : <_ArchiveSource>[];
       _log('export_media_collected count=${mediaSources.length}');
 
       final dbSha256 = await sha256.bind(snapshot.openRead()).first;
@@ -169,6 +176,16 @@ class BackupService {
     } finally {
       await _deleteDirectoryIfExists(scratchDir);
     }
+  }
+
+  /// 列出数据库引用且存在于数据目录内的媒体文件：相对路径 → 绝对路径。
+  Future<Map<String, String>> listMediaFiles() async {
+    final dataDir = await getAppDataDirectory();
+    final sources = await _collectMediaSources(dataDir);
+    return {
+      for (final source in sources)
+        source.archivePath.substring('media/'.length): source.filePath,
+    };
   }
 
   /// 只读取受限大小的 manifest，供恢复确认弹窗预览。
@@ -239,14 +256,22 @@ class BackupService {
   }
 
   /// 数据库关闭后应用已校验的备份，并返回延迟提交的恢复会话。
+  ///
+  /// [stagedMedia]：备份外预先下载好的媒体（相对路径 → 临时文件），在解压后
+  /// 移入数据目录。[keptMediaPaths]：本地已有且内容与备份一致的媒体，原地保留。
   Future<AppliedBackupImport> applyPreparedImport(
     PreparedBackupImport prepared, {
+    Map<String, String> stagedMedia = const {},
+    Set<String> keptMediaPaths = const {},
     void Function(BackupProgress)? onProgress,
   }) async {
     final dataDir = await getAppDataDirectory();
     final session = AppliedBackupImport._(
       prepared: prepared,
       dataDirectory: dataDir,
+      keptMediaPaths: keptMediaPaths
+          .where(prepared.importedMediaPaths.contains)
+          .toSet(),
     );
     _log(
       'apply_import_start zipPath=${prepared.zipPath} '
@@ -269,8 +294,16 @@ class BackupService {
           archiveMediaPaths,
         ),
       );
+      for (final entry in stagedMedia.entries) {
+        if (!prepared.importedMediaPaths.contains(entry.key)) continue;
+        await _ensureNoSymlinkAncestors(dataDir.path, entry.key);
+        final target = File(_joinRelative(dataDir.path, entry.key));
+        await target.parent.create(recursive: true);
+        await _moveFile(File(entry.value), target);
+      }
       _log(
-        'apply_import_payload_done media=${prepared.archiveMediaPaths.length} '
+        'apply_import_payload_done staged=${stagedMedia.length} '
+        'kept=${keptMediaPaths.length} media=${prepared.archiveMediaPaths.length} '
         'resources=ignored',
       );
 
@@ -376,17 +409,21 @@ class PreparedBackupImport {
 
 /// 已写入新数据但尚未最终提交的恢复会话。
 class AppliedBackupImport {
-  AppliedBackupImport._({required this.prepared, required this.dataDirectory})
-    : _token = DateTime.now().microsecondsSinceEpoch.toString(),
-      _rollbackDirectory = Directory(
-        p.join(
-          dataDirectory.path,
-          '.backup_restore_rollback_${DateTime.now().microsecondsSinceEpoch}',
-        ),
-      );
+  AppliedBackupImport._({
+    required this.prepared,
+    required this.dataDirectory,
+    this.keptMediaPaths = const {},
+  }) : _token = DateTime.now().microsecondsSinceEpoch.toString(),
+       _rollbackDirectory = Directory(
+         p.join(
+           dataDirectory.path,
+           '.backup_restore_rollback_${DateTime.now().microsecondsSinceEpoch}',
+         ),
+       );
 
   final PreparedBackupImport prepared;
   final Directory dataDirectory;
+  final Set<String> keptMediaPaths;
   final String _token;
   final Directory _rollbackDirectory;
   final List<String> _protectedMediaPaths = [];
@@ -402,7 +439,7 @@ class AppliedBackupImport {
     final allMediaPaths = <String>{
       ...prepared.currentMediaPaths,
       ...prepared.importedMediaPaths,
-    }.toList()..sort();
+    }.difference(keptMediaPaths).toList()..sort();
 
     for (final relativePath in allMediaPaths) {
       final source = File(_joinRelative(dataDirectory.path, relativePath));
@@ -469,7 +506,9 @@ class AppliedBackupImport {
     _finalized = true;
 
     if (_payloadExtractionStarted) {
-      for (final relativePath in prepared.importedMediaPaths) {
+      for (final relativePath in prepared.importedMediaPaths.difference(
+        keptMediaPaths,
+      )) {
         await _deleteFileIfExists(
           File(_joinRelative(dataDirectory.path, relativePath)),
         );
@@ -1189,6 +1228,16 @@ Future<void> _ensureNoSymlinkAncestors(String root, String relativePath) async {
         code: BackupFailureCode.unsafeArchive,
       );
     }
+  }
+}
+
+/// 跨文件系统时 rename 失败，退回复制后删除。
+Future<void> _moveFile(File source, File target) async {
+  try {
+    await source.rename(target.path);
+  } on FileSystemException {
+    await source.copy(target.path);
+    await source.delete();
   }
 }
 

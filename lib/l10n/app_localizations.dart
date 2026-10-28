@@ -10857,6 +10857,216 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Discard changes?'**
   String get audioTrimDiscardTitle;
+
+  /// No description provided for @driveSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Drive sync'**
+  String get driveSync;
+
+  /// No description provided for @driveSyncNotSignedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Not signed in'**
+  String get driveSyncNotSignedIn;
+
+  /// No description provided for @driveSyncIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up settings, learning progress, podcasts, subtitles and audio to this app\'s private folder in your Google Drive.'**
+  String get driveSyncIntro;
+
+  /// No description provided for @driveSyncKeyNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'🔒 Your OpenAI API key is never backed up.'**
+  String get driveSyncKeyNotice;
+
+  /// No description provided for @driveSyncSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Google'**
+  String get driveSyncSignIn;
+
+  /// No description provided for @driveSyncSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get driveSyncSignOut;
+
+  /// No description provided for @driveSyncLastBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup'**
+  String get driveSyncLastBackup;
+
+  /// No description provided for @driveSyncNoBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'No backup on Drive yet'**
+  String get driveSyncNoBackup;
+
+  /// No description provided for @driveSyncBackupNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Back up now'**
+  String get driveSyncBackupNow;
+
+  /// No description provided for @driveSyncRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore from Drive'**
+  String get driveSyncRestore;
+
+  /// No description provided for @driveSyncBackingUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Backing up…'**
+  String get driveSyncBackingUp;
+
+  /// No description provided for @driveSyncRestoring.
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring…'**
+  String get driveSyncRestoring;
+
+  /// No description provided for @driveSyncStepPreparing.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparing data…'**
+  String get driveSyncStepPreparing;
+
+  /// No description provided for @driveSyncStepHashing.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking audio files…'**
+  String get driveSyncStepHashing;
+
+  /// No description provided for @driveSyncStepUploadingBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading backup…'**
+  String get driveSyncStepUploadingBackup;
+
+  /// No description provided for @driveSyncStepDownloadingBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading backup…'**
+  String get driveSyncStepDownloadingBackup;
+
+  /// No description provided for @driveSyncStepApplying.
+  ///
+  /// In en, this message translates to:
+  /// **'Applying data…'**
+  String get driveSyncStepApplying;
+
+  /// No description provided for @driveSyncRestoreTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore data?'**
+  String get driveSyncRestoreTitle;
+
+  /// No description provided for @driveSyncRestoreAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get driveSyncRestoreAction;
+
+  /// No description provided for @driveSyncBackupDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Backed up to Google Drive'**
+  String get driveSyncBackupDone;
+
+  /// No description provided for @driveSyncRestoreDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Restored from Google Drive'**
+  String get driveSyncRestoreDone;
+
+  /// No description provided for @driveSyncCancelConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel the current operation?'**
+  String get driveSyncCancelConfirm;
+
+  /// No description provided for @driveSyncDataUnchanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Data on this device was not changed.'**
+  String get driveSyncDataUnchanged;
+
+  /// No description provided for @driveSyncSignInAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again'**
+  String get driveSyncSignInAgain;
+
+  /// No description provided for @driveSyncErrorAuth.
+  ///
+  /// In en, this message translates to:
+  /// **'Google session expired'**
+  String get driveSyncErrorAuth;
+
+  /// No description provided for @driveSyncErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No network connection'**
+  String get driveSyncErrorNetwork;
+
+  /// No description provided for @driveSyncErrorQuota.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Drive is full'**
+  String get driveSyncErrorQuota;
+
+  /// No description provided for @driveSyncErrorVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'This backup was made by a newer app version. Update the app first.'**
+  String get driveSyncErrorVersion;
+
+  /// No description provided for @driveSyncErrorMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The backup on Drive is incomplete. Please back up again.'**
+  String get driveSyncErrorMismatch;
+
+  /// No description provided for @driveSyncErrorNotConfigured.
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in is not configured in this build (GOOGLE_WEB_CLIENT_ID).'**
+  String get driveSyncErrorNotConfigured;
+
+  /// No description provided for @driveSyncBackupSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} files · {size} audio'**
+  String driveSyncBackupSummary(int count, String size);
+
+  /// No description provided for @driveSyncStepUploadingMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Uploading audio {progress}…'**
+  String driveSyncStepUploadingMedia(String progress);
+
+  /// No description provided for @driveSyncStepDownloadingMedia.
+  ///
+  /// In en, this message translates to:
+  /// **'Downloading audio {progress}…'**
+  String driveSyncStepDownloadingMedia(String progress);
+
+  /// No description provided for @driveSyncRestoreConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Your current learning data and settings will be replaced by the backup from {date} ({count} files). Your current OpenAI key is kept.'**
+  String driveSyncRestoreConfirm(String date, int count);
+
+  /// No description provided for @driveSyncErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync failed: {error}'**
+  String driveSyncErrorGeneric(String error);
 }
 
 class _AppLocalizationsDelegate

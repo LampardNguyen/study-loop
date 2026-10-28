@@ -6173,4 +6173,124 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get audioTrimDiscardTitle => 'Bỏ thay đổi?';
+
+  @override
+  String get driveSync => 'Đồng bộ Google Drive';
+
+  @override
+  String get driveSyncNotSignedIn => 'Chưa đăng nhập';
+
+  @override
+  String get driveSyncIntro =>
+      'Sao lưu cài đặt, tiến độ học, podcast, phụ đề và audio vào thư mục riêng của ứng dụng trên Google Drive của bạn.';
+
+  @override
+  String get driveSyncKeyNotice =>
+      '🔒 OpenAI API key không bao giờ được sao lưu.';
+
+  @override
+  String get driveSyncSignIn => 'Đăng nhập bằng Google';
+
+  @override
+  String get driveSyncSignOut => 'Đăng xuất';
+
+  @override
+  String get driveSyncLastBackup => 'Lần sao lưu gần nhất';
+
+  @override
+  String get driveSyncNoBackup => 'Chưa có bản sao lưu trên Drive';
+
+  @override
+  String get driveSyncBackupNow => 'Sao lưu ngay';
+
+  @override
+  String get driveSyncRestore => 'Khôi phục từ Drive';
+
+  @override
+  String get driveSyncBackingUp => 'Đang sao lưu…';
+
+  @override
+  String get driveSyncRestoring => 'Đang khôi phục…';
+
+  @override
+  String get driveSyncStepPreparing => 'Đang chuẩn bị dữ liệu…';
+
+  @override
+  String get driveSyncStepHashing => 'Đang kiểm tra file audio…';
+
+  @override
+  String get driveSyncStepUploadingBackup => 'Đang tải bản sao lưu lên…';
+
+  @override
+  String get driveSyncStepDownloadingBackup => 'Đang tải bản sao lưu về…';
+
+  @override
+  String get driveSyncStepApplying => 'Đang áp dụng dữ liệu…';
+
+  @override
+  String get driveSyncRestoreTitle => 'Khôi phục dữ liệu?';
+
+  @override
+  String get driveSyncRestoreAction => 'Khôi phục';
+
+  @override
+  String get driveSyncBackupDone => 'Đã sao lưu lên Google Drive';
+
+  @override
+  String get driveSyncRestoreDone => 'Đã khôi phục từ Google Drive';
+
+  @override
+  String get driveSyncCancelConfirm => 'Huỷ thao tác đang chạy?';
+
+  @override
+  String get driveSyncDataUnchanged => 'Dữ liệu trên máy không bị thay đổi.';
+
+  @override
+  String get driveSyncSignInAgain => 'Đăng nhập lại';
+
+  @override
+  String get driveSyncErrorAuth => 'Phiên Google đã hết hạn';
+
+  @override
+  String get driveSyncErrorNetwork => 'Không có kết nối mạng';
+
+  @override
+  String get driveSyncErrorQuota => 'Google Drive đã hết dung lượng';
+
+  @override
+  String get driveSyncErrorVersion =>
+      'Bản sao lưu được tạo từ phiên bản app mới hơn. Hãy cập nhật app trước.';
+
+  @override
+  String get driveSyncErrorMismatch =>
+      'Bản sao lưu trên Drive chưa hoàn chỉnh. Hãy sao lưu lại.';
+
+  @override
+  String get driveSyncErrorNotConfigured =>
+      'Bản build này chưa cấu hình đăng nhập Google (GOOGLE_WEB_CLIENT_ID).';
+
+  @override
+  String driveSyncBackupSummary(int count, String size) {
+    return '$count file · $size audio';
+  }
+
+  @override
+  String driveSyncStepUploadingMedia(String progress) {
+    return 'Đang tải audio lên $progress…';
+  }
+
+  @override
+  String driveSyncStepDownloadingMedia(String progress) {
+    return 'Đang tải audio về $progress…';
+  }
+
+  @override
+  String driveSyncRestoreConfirm(String date, int count) {
+    return 'Dữ liệu học tập và cài đặt hiện tại sẽ được thay bằng bản sao lưu ngày $date ($count file). OpenAI key hiện tại được giữ nguyên.';
+  }
+
+  @override
+  String driveSyncErrorGeneric(String error) {
+    return 'Đồng bộ thất bại: $error';
+  }
 }

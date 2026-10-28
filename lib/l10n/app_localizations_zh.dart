@@ -5902,4 +5902,120 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get audioTrimDiscardTitle => '放弃修改？';
+
+  @override
+  String get driveSync => 'Google Drive 同步';
+
+  @override
+  String get driveSyncNotSignedIn => '未登录';
+
+  @override
+  String get driveSyncIntro => '将设置、学习进度、播客、字幕和音频备份到你 Google Drive 中本应用的专属文件夹。';
+
+  @override
+  String get driveSyncKeyNotice => '🔒 OpenAI API key 永远不会被备份。';
+
+  @override
+  String get driveSyncSignIn => '使用 Google 登录';
+
+  @override
+  String get driveSyncSignOut => '退出登录';
+
+  @override
+  String get driveSyncLastBackup => '最近一次备份';
+
+  @override
+  String get driveSyncNoBackup => 'Drive 上还没有备份';
+
+  @override
+  String get driveSyncBackupNow => '立即备份';
+
+  @override
+  String get driveSyncRestore => '从 Drive 恢复';
+
+  @override
+  String get driveSyncBackingUp => '正在备份…';
+
+  @override
+  String get driveSyncRestoring => '正在恢复…';
+
+  @override
+  String get driveSyncStepPreparing => '正在准备数据…';
+
+  @override
+  String get driveSyncStepHashing => '正在检查音频文件…';
+
+  @override
+  String get driveSyncStepUploadingBackup => '正在上传备份…';
+
+  @override
+  String get driveSyncStepDownloadingBackup => '正在下载备份…';
+
+  @override
+  String get driveSyncStepApplying => '正在应用数据…';
+
+  @override
+  String get driveSyncRestoreTitle => '恢复数据？';
+
+  @override
+  String get driveSyncRestoreAction => '恢复';
+
+  @override
+  String get driveSyncBackupDone => '已备份到 Google Drive';
+
+  @override
+  String get driveSyncRestoreDone => '已从 Google Drive 恢复';
+
+  @override
+  String get driveSyncCancelConfirm => '取消当前操作？';
+
+  @override
+  String get driveSyncDataUnchanged => '本机数据未被修改。';
+
+  @override
+  String get driveSyncSignInAgain => '重新登录';
+
+  @override
+  String get driveSyncErrorAuth => 'Google 登录已过期';
+
+  @override
+  String get driveSyncErrorNetwork => '无网络连接';
+
+  @override
+  String get driveSyncErrorQuota => 'Google Drive 空间已满';
+
+  @override
+  String get driveSyncErrorVersion => '该备份由更新版本的应用创建，请先更新应用。';
+
+  @override
+  String get driveSyncErrorMismatch => 'Drive 上的备份不完整，请重新备份。';
+
+  @override
+  String get driveSyncErrorNotConfigured =>
+      '此构建未配置 Google 登录（GOOGLE_WEB_CLIENT_ID）。';
+
+  @override
+  String driveSyncBackupSummary(int count, String size) {
+    return '$count 个文件 · 音频 $size';
+  }
+
+  @override
+  String driveSyncStepUploadingMedia(String progress) {
+    return '正在上传音频 $progress…';
+  }
+
+  @override
+  String driveSyncStepDownloadingMedia(String progress) {
+    return '正在下载音频 $progress…';
+  }
+
+  @override
+  String driveSyncRestoreConfirm(String date, int count) {
+    return '当前的学习数据和设置将被 $date 的备份（$count 个文件）替换。当前的 OpenAI key 保持不变。';
+  }
+
+  @override
+  String driveSyncErrorGeneric(String error) {
+    return '同步失败：$error';
+  }
 }

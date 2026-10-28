@@ -39,9 +39,11 @@
    Chỉ code sau khi người dùng nói rõ là duyệt; ghi `Design duyệt: YYYY-MM-DD` dưới task.
 3. Code (thay đổi tối thiểu, theo style hiện có) → đổi sang `[x]`.
 4. Test: `flutter analyze`, test liên quan (`flutter test <file>`), viết test mới cho hành vi mới;
-   build APK khi task đụng tới dependency/gradle/manifest.
+   kiểm tra trên emulator bằng `flutter run` (debug, hot reload/restart) — **không build APK release
+   khi đang phát triển/test tính năng** (người dùng chốt 2026-10-28, tốn ~5 phút mỗi lần).
+   Chỉ build APK khi phát hành bản mới / tạo tag release (§3b.4).
 5. Test OK → `[P]` + ghi `Hoàn thành: YYYY-MM-DD` và `Test: <lệnh — kết quả>`.
-   Test fail → giữ `[x]`, ghi lỗi, sửa tiếp; **không sửa assertion cho xanh** nếu chưa rõ nguyên nhân (CLAUDE.md §7.29).
+   Test fail → giữ `[x]`, ghi lỗi, sửa tiếp; **không sửa assertion cho xanh** nếu chưa rõ nguyên nhân.
 6. Quyết định quan trọng → ghi theo §2b.
 7. Mỗi task PASS → 1 git commit: `selfhost(T<x.y>): <mô tả>`.
 
@@ -80,9 +82,11 @@
 flutter pub get && dart run build_runner build --delete-conflicting-outputs
 flutter analyze
 flutter test
-flutter build apk --release --flavor dev --target-platform android-arm64
+# Test nhanh trên emulator khi phát triển (r = hot reload, R = hot restart, q = thoát):
+flutter run --flavor dev --dart-define-from-file=.dev.env -d emulator-5554
+# Build APK: CHỈ khi phát hành / tạo tag release.
 # Bản phát hành (selfhost):
-flutter build apk --release --flavor prod --target-platform android-arm64
+flutter build apk --release --flavor prod --target-platform android-arm64 --dart-define-from-file=.prod.env
 # Luôn kèm --target-platform android-arm64: app chỉ đóng gói arm64 (abiFilters), thiếu cờ này
 # Flutter biên dịch Dart cho cả arm/arm64/x64 → build ~9.5 phút thay vì ~4.8 phút (đo 2026-10-26).
 # Nếu build treo ở bước font-subset (0% CPU nhiều phút): thêm --no-tree-shake-icons.

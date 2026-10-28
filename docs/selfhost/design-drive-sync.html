@@ -1,0 +1,38 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Drive Sync Mockup</title>
+<style>
+:root{--bg:#f2f2f5;--card:#fff;--fg:#1c1c1e;--mut:#6b6b70;--pri:#3b6ef5;--err:#d93636}
+body{background:var(--bg);font-family:system-ui,sans-serif;color:var(--fg);margin:0;padding:16px;display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
+.ph{width:300px;background:#fafafa;border:8px solid #222;border-radius:28px;overflow:hidden}
+.bar{padding:14px;font-weight:600;border-bottom:1px solid #ddd;background:#fff}
+.b{padding:14px;display:flex;flex-direction:column;gap:12px;min-height:420px}
+.c{background:var(--card);border-radius:12px;padding:12px;font-size:14px}
+.btn{border:0;border-radius:22px;padding:11px;font-size:14px;background:var(--pri);color:#fff;width:100%}
+.o{background:none;color:var(--pri);border:1px solid var(--pri)}
+.m{color:var(--mut);font-size:12px}.t{text-align:center;font-size:12px;color:var(--mut);margin-top:-12px}
+.pb{height:6px;background:#ddd;border-radius:3px}.pb i{display:block;height:100%;width:40%;background:var(--pri);border-radius:3px}
+.e{background:#fde8e8;color:var(--err)}h4{margin:0 0 6px}
+</style></head><body>
+<div><div class="t">A. Chưa đăng nhập</div><div class="ph"><div class="bar">← Đồng bộ Google Drive</div><div class="b">
+<div style="font-size:48px;text-align:center">☁️</div>
+<div class="c">Sao lưu cài đặt, tiến độ học, podcast, phụ đề và audio vào thư mục riêng của ứng dụng trên Google Drive của bạn.<p class="m">🔒 OpenAI API key không bao giờ được sao lưu.</p></div>
+<button class="btn">G&nbsp; Đăng nhập bằng Google</button></div></div></div>
+
+<div><div class="t">B. Đã đăng nhập</div><div class="ph"><div class="bar">← Đồng bộ Google Drive</div><div class="b">
+<div class="c">👤 <b>Nguyễn Linh</b><div class="m">linh@gmail.com</div><div style="text-align:right;color:var(--pri)">Đăng xuất</div></div>
+<div class="c"><h4>Lần sao lưu gần nhất</h4>28/10/2026 21:05<div class="m">42 bài · 1,2 GB audio</div></div>
+<button class="btn">Sao lưu ngay</button><button class="btn o">Khôi phục từ Drive</button>
+<div class="m">🔒 OpenAI API key không được sao lưu.</div></div></div></div>
+
+<div><div class="t">C. Đang chạy</div><div class="ph"><div class="bar">← Đồng bộ Google Drive</div><div class="b">
+<div class="c">👤 <b>Nguyễn Linh</b><div class="m">linh@gmail.com</div></div>
+<div class="c"><h4>Đang sao lưu…</h4><div class="pb"><i></i></div><p class="m">Đang tải audio 12/42…</p></div>
+<button class="btn o">Huỷ</button></div></div></div>
+
+<div><div class="t">D. Xác nhận khôi phục</div><div class="ph"><div class="bar">← Đồng bộ Google Drive</div><div class="b" style="background:#0005;justify-content:center">
+<div class="c"><h4>Khôi phục dữ liệu?</h4>Dữ liệu học tập và cài đặt hiện tại sẽ được thay bằng bản sao lưu ngày 28/10/2026 (42 bài). OpenAI key hiện tại được giữ nguyên.<p style="text-align:right;color:var(--pri)">Huỷ &nbsp;&nbsp; <b>Khôi phục</b></p></div></div></div></div>
+
+<div><div class="t">E. Lỗi</div><div class="ph"><div class="bar">← Đồng bộ Google Drive</div><div class="b">
+<div class="c">👤 <b>Nguyễn Linh</b><div class="m">linh@gmail.com</div></div>
+<div class="c e"><h4>Phiên Google đã hết hạn</h4>Dữ liệu trên máy không bị thay đổi.<p><button class="btn">Đăng nhập lại</button></p></div>
+<div class="m">Lỗi khác: không có mạng · Drive hết dung lượng · bản sao lưu từ phiên bản app mới hơn.</div></div></div></div>
+</body></html>

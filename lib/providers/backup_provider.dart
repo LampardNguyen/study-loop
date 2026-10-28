@@ -28,6 +28,7 @@ final backupServiceProvider = Provider<BackupService>((ref) {
 /// [onProgress] 回调报告进度。
 Future<String> performExport(
   WidgetRef ref, {
+  bool includeMedia = true,
   void Function(BackupProgress)? onProgress,
 }) async {
   final service = ref.read(backupServiceProvider);
@@ -38,9 +39,13 @@ Future<String> performExport(
     outputDir: tempDir.path,
     appVersion: packageInfo.version,
     platform: _currentPlatform,
+    includeMedia: includeMedia,
     onProgress: onProgress,
   );
 }
+
+/// 备份外媒体的准备结果，见 [BackupService.applyPreparedImport]。
+typedef StagedBackupMedia = ({Map<String, String> staged, Set<String> kept});
 
 /// 读取备份文件 manifest（导入前预览用）
 Future<BackupManifest> readBackupManifest(WidgetRef ref, String path) {
@@ -54,6 +59,7 @@ Future<BackupManifest> readBackupManifest(WidgetRef ref, String path) {
 Future<BackupManifest> performImport(
   WidgetRef ref,
   String zipPath, {
+  Future<StagedBackupMedia> Function(PreparedBackupImport prepared)? stageMedia,
   void Function(BackupProgress)? onProgress,
 }) async {
   final service = ref.read(backupServiceProvider);
@@ -68,6 +74,8 @@ Future<BackupManifest> performImport(
       zipPath: zipPath,
       onProgress: onProgress,
     );
+    // 关闭数据库前准备备份外的媒体（如从云端下载），失败时当前数据不受影响。
+    final media = await stageMedia?.call(prepared);
 
     await closeCurrentDatabase(
       studyTimeService: ref.read(studyTimeServiceProvider),
@@ -76,6 +84,8 @@ Future<BackupManifest> performImport(
     AppLogger.log('Backup', 'database_closed_for_restore');
     applied = await service.applyPreparedImport(
       prepared,
+      stagedMedia: media?.staged ?? const {},
+      keptMediaPaths: media?.kept ?? const {},
       onProgress: onProgress,
     );
 

@@ -49,6 +49,7 @@ import '../screens/bookmark_review_screen.dart';
 import '../screens/sentence_detail_screen.dart';
 import '../screens/pdf_preview_screen.dart';
 import '../screens/backup_restore_screen.dart';
+import '../features/drive_sync/drive_sync_screen.dart';
 import '../screens/favorite_vocabulary_review_screen.dart';
 import '../screens/activity_calendar_screen.dart';
 import '../screens/review_statistics_screen.dart';
@@ -165,6 +166,7 @@ abstract class AppRoutes {
   /// 学习材料 PDF 导出预览页路径段（挂在计划页 / 合集页之下的相对子路由）
   static const pdfPreviewSegment = 'pdf-preview';
   static const backupRestore = '/backup-restore';
+  static const driveSync = '/drive-sync';
 
   /// 收藏词汇（单词+意群）调度式复习页路径
   static const favoriteVocabularyReview = '/favorite-vocabulary-review';
@@ -531,6 +533,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.backupRestore,
         builder: (context, state) => const BackupRestoreScreen(),
+      ),
+      GoRoute(
+        path: AppRoutes.driveSync,
+        builder: (context, state) => const DriveSyncScreen(),
       ),
       GoRoute(
         path: AppRoutes.onboardingSurvey,

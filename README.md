@@ -66,7 +66,8 @@ OpenAI-compatible endpoint) using an API key you enter in the app**, and nothing
 | Remote config, featured podcasts, community collections, update check, region detection, Baidu Netdisk | Author's backend | Disabled (`API_BASE_URL` empty). Local defaults are used |
 | Podcast subscriptions | Required sign-in | No sign-in. Search via iTunes Search API, RSS read directly |
 | Languages | English, Chinese | **+ Vietnamese** (UI and native language for translations) |
-| Package / app name | `app.echoloop` / "Echo Loop" | `app.echoloop.selfhost` / "Study Loop". Installs side by side with the official app |
+| Package / app name | `app.echoloop` / "Echo Loop" | `com.studyloop.app` (dev: `com.studyloop.app.dev`) / "Study Loop". Installs side by side with the official app |
+| Cloud backup | Author's server | **Optional Google Drive sync** into the app's hidden `appDataFolder` in *your own* Drive. Manual backup/restore; the OpenAI key is never uploaded |
 | Signing | Author's keystore | Your own release keystore (never committed) |
 
 ### Remaining outbound connections
@@ -78,6 +79,7 @@ None of these carry personal data; they only see your IP address.
 - Web dictionaries (Cambridge, Oxford, …), opened in a WebView only when you pick them.
 - iTunes Search API, when searching podcasts.
 - The AI base URL you configure (default `api.openai.com`), only when you use an AI feature.
+- Google (`accounts.google.com`, `www.googleapis.com`), only after you sign in to **Google Drive sync**. Backups go straight from your device to your Drive.
 
 ## 🔑 Bring your own OpenAI key
 
@@ -172,10 +174,27 @@ Pass with `--dart-define=...` or `--dart-define-from-file=.prod.env` (`.prod.env
 | Variable | Purpose |
 |---|---|
 | `MODEL_CDN_BASE_URL` | Your own mirror for models and dictionaries (default: upstream CDN) |
-| `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `GOOGLE_WEB_CLIENT_ID` | Re-enable sign-in with your own Supabase project |
+| `GOOGLE_WEB_CLIENT_ID` | OAuth **Web** client ID of your Google Cloud project, required for Google Drive sync (see below). Not a secret |
+| `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` | Re-enable sign-in with your own Supabase project |
 | `API_BASE_URL` | **Leave empty.** Only set it if you run a backend compatible with the upstream server |
 
 The OpenAI key is **never** a build variable. It is entered in the app only.
+
+### Optional: Google Drive sync
+
+Settings → Storage → **Google Drive sync** lets you back up and restore settings, learning progress,
+podcasts, subtitles and audio to the hidden app-data folder of your own Google Drive
+(scope `drive.appdata` only — the app cannot see any other file). Your OpenAI key is never backed up.
+
+Builds do **not** share an OAuth client. To use it in your own build you need your own Google Cloud
+project: enable the Drive API, configure the consent screen, create an Android client
+(your package + the SHA-1 of the key that signs the APK) and a Web client, then put the Web client ID
+in `.prod.env` as `GOOGLE_WEB_CLIENT_ID`. Step-by-step guide (Vietnamese):
+[docs/selfhost/google-drive-setup.md](docs/selfhost/google-drive-setup.md).
+Without it the app still works; only the sync screen reports that sign-in is not configured.
+
+Privacy policy: [docs/privacy-policy.md](docs/privacy-policy.md).
+Study Loop is not affiliated with or endorsed by Google. Google Drive is a trademark of Google LLC.
 
 ### Optional: sign-in with your own Supabase
 
