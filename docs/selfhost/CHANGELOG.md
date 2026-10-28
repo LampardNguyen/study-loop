@@ -2,7 +2,7 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
-## Chưa phát hành
+## v1.0.48 (build 13) — 2026-10-28
 
 ### Tính năng mới
 - **Đồng bộ Google Drive** (Cài đặt → Lưu trữ): đăng nhập Google rồi bấm "Sao lưu ngay" / "Khôi phục từ Drive". Cài đặt, tiến độ học, podcast, phụ đề và audio được lưu vào thư mục riêng (ẩn) của app trên Drive của bạn; audio đã tải lên sẽ không tải lại. OpenAI API key **không bao giờ** được sao lưu và được giữ nguyên khi khôi phục.
