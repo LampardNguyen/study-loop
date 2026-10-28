@@ -193,7 +193,7 @@ in `.prod.env` as `GOOGLE_WEB_CLIENT_ID`. Step-by-step guide (Vietnamese):
 [docs/selfhost/google-drive-setup.md](docs/selfhost/google-drive-setup.md).
 Without it the app still works; only the sync screen reports that sign-in is not configured.
 
-Privacy policy: [docs/privacy-policy.md](docs/privacy-policy.md).
+Privacy policy: <https://lampardnguyen.github.io/study-loop/privacy-policy.html> (source: [docs/privacy-policy.md](docs/privacy-policy.md), HTML in `docs/privacy-policy.html` — keep both in sync).
 Study Loop is not affiliated with or endorsed by Google. Google Drive is a trademark of Google LLC.
 
 ### Optional: sign-in with your own Supabase

@@ -80,13 +80,22 @@ App ở trạng thái **Testing**: chỉ test user mới đăng nhập được.
 
 ### (Tuỳ chọn) Publish sang Production
 Làm khi muốn người ngoài danh sách test user cũng đăng nhập được:
-1. Commit và push file [docs/privacy-policy.md](../privacy-policy.md). URL công khai sẽ là
-   `https://github.com/LampardNguyen/study-loop/blob/main/docs/privacy-policy.md`.
-2. Vào **Google Auth Platform → Branding** và điền:
-   - **Application home page**: `https://github.com/LampardNguyen/study-loop`
-   - **Application privacy policy link**: URL ở bước 1
+1. Bật **GitHub Pages** cho repo: Settings → Pages → Source *Deploy from a branch*, branch `main`, thư mục `/docs`.
+   Trang đã có sẵn trong repo: `docs/index.html` (trang chủ), `docs/privacy-policy.html`, `docs/.nojekyll`.
+   - Trang chủ: `https://lampardnguyen.github.io/study-loop/`
+   - Chính sách: `https://lampardnguyen.github.io/study-loop/privacy-policy.html`
+   - Sửa chính sách thì sửa `docs/privacy-policy.md` rồi cập nhật `docs/privacy-policy.html` cho khớp.
+2. Xác minh tên miền bằng **Google Search Console** (https://search.google.com/search-console), dùng cùng tài khoản Google với project Cloud:
+   - Add property → **URL prefix** `https://lampardnguyen.github.io/study-loop/`.
+   - Chọn cách xác minh **HTML file**, tải file `googleXXXX.html` về, đặt vào `docs/`, commit và push, đợi Pages cập nhật rồi bấm **Verify**.
+   - Bước này dùng để thêm `lampardnguyen.github.io` vào *Authorized domains*.
+3. Vào **Google Auth Platform → Branding** và điền:
+   - **Application home page**: `https://lampardnguyen.github.io/study-loop/`
+   - **Application privacy policy link**: `https://lampardnguyen.github.io/study-loop/privacy-policy.html`
+   - **Authorized domains**: `lampardnguyen.github.io`
+   - **Không** tải logo lên: có logo thì phải chờ Google xác minh thương hiệu (vài ngày).
    - Bấm **Save**.
-3. Vào **Audience** và bấm **Publish app**. Scope `drive.appdata` là non-sensitive nên không cần Google xác minh.
+4. Vào **Audience** và bấm **Publish app** → **Confirm**. Scope `drive.appdata` là non-sensitive nên không cần Google xác minh.
    Nếu sau này đổi logo hoặc thêm scope khác, Google có thể yêu cầu xác minh thương hiệu.
 
 ## Bước 4 — Khai báo scope Drive
