@@ -2,7 +2,7 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
-## Chưa phát hành
+## v1.0.49 (build 14) — 2026-10-29
 
 ### Tính năng mới
 - **Tạo bài học từ hội thoại** (Thêm audio → *Hội thoại → giọng nói*): dán đoạn hội thoại dạng `Tên: câu nói`, chọn giọng cho từng người và chất lượng (gpt-4o-mini-tts / tts-1 / tts-1-hd). App dùng OpenAI key của bạn để đọc từng câu, ghép thành một bài nghe và tạo phụ đề khớp chính xác từng câu (phụ đề chỉ có câu thoại, không kèm tên). Có ước tính chi phí trước khi tạo (đoạn 50 câu ≈ $0.04), tiến độ từng câu và nút Huỷ.
