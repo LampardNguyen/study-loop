@@ -13,7 +13,7 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - [P] T13.5 — Nút "Sign in with Google" đúng hướng dẫn thương hiệu → [task-2026-10-28.md](task-2026-10-28.md#t135)
 - [x] T13.6 — Publish OAuth Production: GitHub Pages + xác minh domain → [task-2026-10-28.md](task-2026-10-28.md#t136)
 - [P] T14.1 — OpenAI speech client (synthesizeSpeech) → [task-2026-10-29.md](task-2026-10-29.md#t141)
-- [ ] T14.2 — Dialogue lesson builder (TTS từng câu → ghép → SRT) → [task-2026-10-29.md](task-2026-10-29.md#t142)
+- [P] T14.2 — Dialogue lesson builder (TTS từng câu → ghép → SRT) → [task-2026-10-29.md](task-2026-10-29.md#t142)
 - [ ] T14.3 — 🎨 UI tạo bài học từ hội thoại → [task-2026-10-29.md](task-2026-10-29.md#t143)
 - [ ] T14.4 — CHANGELOG + chạy thử end-to-end → [task-2026-10-29.md](task-2026-10-29.md#t144)
 
@@ -22,3 +22,4 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - 2026-10-27: Cắt audio = cắt file vật lý bằng ffmpeg; bài đã có phụ đề thì xóa phụ đề khi cắt.
 - 2026-10-28: Đồng bộ = chỉ Google, Drive appDataFolder, thủ công; không đồng bộ OpenAI key.
 - 2026-10-28: Package mới com.studyloop.app (dev: com.studyloop.app.dev), giữ namespace Kotlin.
+- 2026-10-29: Bài học từ hội thoại: OpenAI TTS dạng PCM từng câu, thời gian phụ đề tính theo byte.

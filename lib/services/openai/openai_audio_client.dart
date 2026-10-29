@@ -137,15 +137,17 @@ class OpenAiAudioClient {
     return data;
   }
 
-  /// 文本转语音（`POST {baseUrl}/audio/speech`），返回 mp3 字节。
+  /// 文本转语音（`POST {baseUrl}/audio/speech`），返回 [responseFormat] 格式的字节。
   ///
   /// [instructions] 仅 `gpt-4o-mini-tts` 等新模型支持，用于描述语气。
+  /// [responseFormat] 为 `pcm` 时返回 24kHz / 单声道 / PCM16 小端裸数据。
   Future<List<int>> synthesizeSpeech(
     AiProviderConfig config, {
     required String input,
     required String voice,
     String model = defaultSpeechModel,
     String? instructions,
+    String responseFormat = 'mp3',
     CancelToken? cancelToken,
   }) async {
     final url = '${normalizeAiBaseUrl(config.baseUrl)}/audio/speech';
@@ -160,7 +162,7 @@ class OpenAiAudioClient {
         'model': model,
         'input': input,
         'voice': voice,
-        'response_format': 'mp3',
+        'response_format': responseFormat,
         'instructions': ?instructions,
       },
       options: Options(

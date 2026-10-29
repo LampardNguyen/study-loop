@@ -80,13 +80,17 @@ enum AudioImportSourceType {
   directUrl,
 
   /// 从网盘来源导入。当前预留，后续接入网盘解析时使用。
-  cloudDrive;
+  cloudDrive,
+
+  /// 由对话文本经 TTS 合成。
+  tts;
 
   String get storageValue {
     return switch (this) {
       AudioImportSourceType.local => 'local',
       AudioImportSourceType.directUrl => 'direct_url',
       AudioImportSourceType.cloudDrive => 'cloud_drive',
+      AudioImportSourceType.tts => 'tts',
     };
   }
 
@@ -95,6 +99,7 @@ enum AudioImportSourceType {
       'local' => AudioImportSourceType.local,
       'direct_url' => AudioImportSourceType.directUrl,
       'cloud_drive' => AudioImportSourceType.cloudDrive,
+      'tts' => AudioImportSourceType.tts,
       _ => null,
     };
   }
