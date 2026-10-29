@@ -2963,6 +2963,7 @@
   "audioTrimDiscardTitle": "Discard changes?",
   "driveSync": "Google Drive sync",
   "driveSyncNotSignedIn": "Not signed in",
+  "driveSyncSignedIn": "Signed in",
   "driveSyncIntro": "Back up settings, learning progress, podcasts, subtitles and audio to this app's private folder in your Google Drive.",
   "driveSyncKeyNotice": "🔒 Your OpenAI API key is never backed up.",
   "driveSyncSignIn": "Sign in with Google",

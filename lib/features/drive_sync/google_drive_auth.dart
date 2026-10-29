@@ -104,6 +104,24 @@ final googleDriveAuthProvider = Provider<GoogleDriveAuth>(
 /// 是否曾登录：未登录时不尝试静默恢复，避免打开设置页就弹出账号选择界面。
 const _signedInKey = 'drive_sync_signed_in';
 
+/// 上次登录账号的邮箱，供设置页展示，避免为显示邮箱而触发 Google 静默登录界面。
+const _signedInEmailKey = 'drive_sync_signed_in_email';
+
+/// 设置页展示用的登录状态：未登录为 null；已登录但未缓存邮箱（旧版本登录）为空串。
+final driveSyncSignedInEmailProvider = FutureProvider<String?>((ref) async {
+  final preferences = await SharedPreferences.getInstance();
+  if (preferences.getBool(_signedInKey) != true) return null;
+  return preferences.getString(_signedInEmailKey) ?? '';
+});
+
+Future<void> _cacheEmail(Ref ref, String email) async {
+  await (await SharedPreferences.getInstance()).setString(
+    _signedInEmailKey,
+    email,
+  );
+  ref.invalidate(driveSyncSignedInEmailProvider);
+}
+
 /// 当前登录的 Google 账号（null 表示未登录）。
 class GoogleDriveAccountNotifier extends AsyncNotifier<GoogleSignInAccount?> {
   @override
@@ -111,7 +129,9 @@ class GoogleDriveAccountNotifier extends AsyncNotifier<GoogleSignInAccount?> {
     final preferences = await SharedPreferences.getInstance();
     if (preferences.getBool(_signedInKey) != true) return null;
     try {
-      return await ref.read(googleDriveAuthProvider).restore();
+      final account = await ref.read(googleDriveAuthProvider).restore();
+      if (account != null) await _cacheEmail(ref, account.email);
+      return account;
     } catch (error) {
       AppLogger.log('DriveSync', 'restore_failed error=$error');
       return null;
@@ -121,12 +141,16 @@ class GoogleDriveAccountNotifier extends AsyncNotifier<GoogleSignInAccount?> {
   Future<void> signIn() async {
     final account = await ref.read(googleDriveAuthProvider).signIn();
     await (await SharedPreferences.getInstance()).setBool(_signedInKey, true);
+    await _cacheEmail(ref, account.email);
     state = AsyncData(account);
   }
 
   Future<void> signOut() async {
     await ref.read(googleDriveAuthProvider).signOut();
-    await (await SharedPreferences.getInstance()).remove(_signedInKey);
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.remove(_signedInKey);
+    await preferences.remove(_signedInEmailKey);
+    ref.invalidate(driveSyncSignedInEmailProvider);
     state = const AsyncData(null);
   }
 }

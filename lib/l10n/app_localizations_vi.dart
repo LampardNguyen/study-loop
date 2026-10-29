@@ -6276,6 +6276,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get driveSyncNotSignedIn => 'Chưa đăng nhập';
 
   @override
+  String get driveSyncSignedIn => 'Đã đăng nhập';
+
+  @override
   String get driveSyncIntro =>
       'Sao lưu cài đặt, tiến độ học, podcast, phụ đề và audio vào thư mục riêng của ứng dụng trên Google Drive của bạn.';
 

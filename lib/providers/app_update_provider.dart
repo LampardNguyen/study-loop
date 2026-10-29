@@ -60,7 +60,8 @@ class AppUpdate extends _$AppUpdate {
     ref.onDispose(() => _checker?.dispose());
     // build() 返回前 state 未初始化，checkInBackground 第一行就读 state 会抛
     // "Tried to read the state of an uninitialized provider"。延迟到下一个 microtask 执行。
-    Future<void>.microtask(checkInBackground);
+    // 冷启动必查（不受节流限制），否则 1 小时内重开 App 永远看不到更新弹窗。
+    Future<void>.microtask(() => checkInBackground(force: true));
     return const AppUpdateInitial();
   }
 
@@ -69,7 +70,8 @@ class AppUpdate extends _$AppUpdate {
   /// 冷启动、回到前台都调用。不触发 [AppUpdateChecking] 过渡态，
   /// 避免设置页 spinner 闪烁；所有异常静默回退为 [AppUpdateResult.none]。
   /// 手动检查进行中时让位，结果不覆盖手动检查的 state。
-  Future<void> checkInBackground() async {
+  /// [force] 为 true（冷启动）时跳过 1 小时节流；回到前台仍受节流。
+  Future<void> checkInBackground({bool force = false}) async {
     if (_backgroundChecking) {
       AppLogger.log(_logTag, 'checkInBackground skipped: already running');
       return;
@@ -87,7 +89,7 @@ class AppUpdate extends _$AppUpdate {
       final prefs = await SharedPreferences.getInstance();
       final run = await _refresh.run(
         key: 'app-update',
-        force: false,
+        force: force,
         lastRefreshedAt: _readLastCheckedAt(prefs),
         throttleWindow: _appUpdateThrottleWindow,
         refresh: () => _fetchAndRecord(prefs),

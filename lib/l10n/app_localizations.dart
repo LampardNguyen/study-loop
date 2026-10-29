@@ -11032,6 +11032,12 @@ abstract class AppLocalizations {
   /// **'Not signed in'**
   String get driveSyncNotSignedIn;
 
+  /// No description provided for @driveSyncSignedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed in'**
+  String get driveSyncSignedIn;
+
   /// No description provided for @driveSyncIntro.
   ///
   /// In en, this message translates to:

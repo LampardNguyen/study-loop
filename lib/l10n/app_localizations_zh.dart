@@ -6002,6 +6002,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get driveSyncNotSignedIn => '未登录';
 
   @override
+  String get driveSyncSignedIn => '已登录';
+
+  @override
   String get driveSyncIntro => '将设置、学习进度、播客、字幕和音频备份到你 Google Drive 中本应用的专属文件夹。';
 
   @override

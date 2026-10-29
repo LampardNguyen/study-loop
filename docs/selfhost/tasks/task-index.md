@@ -16,6 +16,8 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - [P] T14.2 — Dialogue lesson builder (TTS từng câu → ghép → SRT) → [task-2026-10-29.md](task-2026-10-29.md#t142)
 - [P] T14.3 — 🎨 UI tạo bài học từ hội thoại → [task-2026-10-29.md](task-2026-10-29.md#t143)
 - [P] T14.4 — CHANGELOG + chạy thử end-to-end → [task-2026-10-29.md](task-2026-10-29.md#t144)
+- [P] T14.5 — Tự hiện thông báo cập nhật khi khởi động lại app → [task-2026-10-29.md](task-2026-10-29.md#t145)
+- [P] T14.6 — Bỏ sheet Google "Đang đăng nhập" khi vào tab Cá nhân → [task-2026-10-29.md](task-2026-10-29.md#t146)
 
 ## Quyết định
 - 2026-10-26: Cập nhật APK tải trong app (Dio) + cài qua FileProvider; lỗi tải → mở trình duyệt như cũ.

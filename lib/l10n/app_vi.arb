@@ -1821,6 +1821,7 @@
   "audioTrimDiscardTitle": "Bỏ thay đổi?",
   "driveSync": "Đồng bộ Google Drive",
   "driveSyncNotSignedIn": "Chưa đăng nhập",
+  "driveSyncSignedIn": "Đã đăng nhập",
   "driveSyncIntro": "Sao lưu cài đặt, tiến độ học, podcast, phụ đề và audio vào thư mục riêng của ứng dụng trên Google Drive của bạn.",
   "driveSyncKeyNotice": "🔒 OpenAI API key không bao giờ được sao lưu.",
   "driveSyncSignIn": "Đăng nhập bằng Google",

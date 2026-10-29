@@ -2,6 +2,12 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
+## Chưa phát hành
+
+### Sửa lỗi
+- Mở lại app giờ luôn tự kiểm tra và hiện thông báo khi có bản mới (trước đây mở lại trong vòng 1 giờ thì không hiện, phải vào Cá nhân → Kiểm tra cập nhật).
+- Vào tab **Cá nhân** không còn bật lên khung Google "Đang đăng nhập" mỗi lần mở lại app; email tài khoản Drive được hiển thị từ bộ nhớ đệm.
+
 ## v1.0.49 (build 14) — 2026-10-29
 
 ### Tính năng mới

@@ -518,10 +518,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         ListTile(
           leading: const Icon(Icons.cloud_sync_outlined),
           title: Text(l10n.driveSync),
-          subtitle: Text(
-            ref.watch(googleDriveAccountProvider).valueOrNull?.email ??
-                l10n.driveSyncNotSignedIn,
-          ),
+          // 只读缓存的邮箱；watch googleDriveAccountProvider 会触发 Google
+          // 静默登录，Android 上每次进入本页都会弹出「正在登录」面板。
+          subtitle: Text(switch (ref
+              .watch(driveSyncSignedInEmailProvider)
+              .valueOrNull) {
+            null => l10n.driveSyncNotSignedIn,
+            '' => l10n.driveSyncSignedIn,
+            final email => email,
+          }),
           trailing: const Icon(Icons.chevron_right),
           onTap: () => context.push(AppRoutes.driveSync),
         ),

@@ -6284,6 +6284,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get driveSyncNotSignedIn => 'Not signed in';
 
   @override
+  String get driveSyncSignedIn => 'Signed in';
+
+  @override
   String get driveSyncIntro =>
       'Back up settings, learning progress, podcasts, subtitles and audio to this app\'s private folder in your Google Drive.';
 

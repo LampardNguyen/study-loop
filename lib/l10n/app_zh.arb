@@ -2433,6 +2433,7 @@
   "audioTrimDiscardTitle": "放弃修改？",
   "driveSync": "Google Drive 同步",
   "driveSyncNotSignedIn": "未登录",
+  "driveSyncSignedIn": "已登录",
   "driveSyncIntro": "将设置、学习进度、播客、字幕和音频备份到你 Google Drive 中本应用的专属文件夹。",
   "driveSyncKeyNotice": "🔒 OpenAI API key 永远不会被备份。",
   "driveSyncSignIn": "使用 Google 登录",
