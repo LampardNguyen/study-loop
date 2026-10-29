@@ -2,7 +2,7 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
-## Chưa phát hành
+## v1.0.50 (build 15) — 2026-10-29
 
 ### Sửa lỗi
 - Mở lại app giờ luôn tự kiểm tra và hiện thông báo khi có bản mới (trước đây mở lại trong vòng 1 giờ thì không hiện, phải vào Cá nhân → Kiểm tra cập nhật).
