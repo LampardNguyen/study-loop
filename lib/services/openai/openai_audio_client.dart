@@ -13,6 +13,9 @@ import '../app_logger.dart';
 /// 默认转写模型。
 const defaultTranscriptionModel = 'whisper-1';
 
+/// 默认语音合成模型。
+const defaultSpeechModel = 'gpt-4o-mini-tts';
+
 /// 语音转写客户端。
 class OpenAiAudioClient {
   /// 构造客户端；[dio] 可注入以便测试。
@@ -132,6 +135,53 @@ class OpenAiAudioClient {
           'words=${words is List ? words.length : 0}',
     );
     return data;
+  }
+
+  /// 文本转语音（`POST {baseUrl}/audio/speech`），返回 mp3 字节。
+  ///
+  /// [instructions] 仅 `gpt-4o-mini-tts` 等新模型支持，用于描述语气。
+  Future<List<int>> synthesizeSpeech(
+    AiProviderConfig config, {
+    required String input,
+    required String voice,
+    String model = defaultSpeechModel,
+    String? instructions,
+    CancelToken? cancelToken,
+  }) async {
+    final url = '${normalizeAiBaseUrl(config.baseUrl)}/audio/speech';
+    AppLogger.log(
+      'OpenAI',
+      'speech start ${config.logSummary} model=$model voice=$voice '
+          'chars=${input.length}',
+    );
+    final response = await _dio.post<List<int>>(
+      url,
+      data: {
+        'model': model,
+        'input': input,
+        'voice': voice,
+        'response_format': 'mp3',
+        'instructions': ?instructions,
+      },
+      options: Options(
+        validateStatus: (_) => true,
+        responseType: ResponseType.bytes,
+        headers: {'Authorization': 'Bearer ${config.apiKey}'},
+      ),
+      cancelToken: cancelToken,
+    );
+    final status = response.statusCode ?? 0;
+    final bytes = response.data;
+    if (status != 200 || bytes == null || bytes.isEmpty) {
+      AppLogger.log('OpenAI', 'speech failed status=$status');
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        type: DioExceptionType.badResponse,
+      );
+    }
+    AppLogger.log('OpenAI', 'speech done bytes=${bytes.length}');
+    return bytes;
   }
 
   /// 释放资源。

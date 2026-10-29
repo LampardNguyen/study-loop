@@ -12,6 +12,10 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - [P] T13.4 — Đổi package thành com.studyloop.app → [task-2026-10-28.md](task-2026-10-28.md#t134)
 - [P] T13.5 — Nút "Sign in with Google" đúng hướng dẫn thương hiệu → [task-2026-10-28.md](task-2026-10-28.md#t135)
 - [x] T13.6 — Publish OAuth Production: GitHub Pages + xác minh domain → [task-2026-10-28.md](task-2026-10-28.md#t136)
+- [P] T14.1 — OpenAI speech client (synthesizeSpeech) → [task-2026-10-29.md](task-2026-10-29.md#t141)
+- [ ] T14.2 — Dialogue lesson builder (TTS từng câu → ghép → SRT) → [task-2026-10-29.md](task-2026-10-29.md#t142)
+- [ ] T14.3 — 🎨 UI tạo bài học từ hội thoại → [task-2026-10-29.md](task-2026-10-29.md#t143)
+- [ ] T14.4 — CHANGELOG + chạy thử end-to-end → [task-2026-10-29.md](task-2026-10-29.md#t144)
 
 ## Quyết định
 - 2026-10-26: Cập nhật APK tải trong app (Dio) + cài qua FileProvider; lỗi tải → mở trình duyệt như cũ.
