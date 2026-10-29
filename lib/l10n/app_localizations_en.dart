@@ -4795,6 +4795,103 @@ class AppLocalizationsEn extends AppLocalizations {
       'Paste a direct audio link and download it';
 
   @override
+  String get dialogueTtsSourceTitle => 'Dialogue to speech';
+
+  @override
+  String get dialogueTtsSourceDescription =>
+      'Paste a dialogue and let AI read it as a listening lesson';
+
+  @override
+  String get dialogueTtsTitle => 'Create from dialogue';
+
+  @override
+  String get dialogueTtsNameLabel => 'Lesson name';
+
+  @override
+  String get dialogueTtsNameHint => 'e.g. At the doctor\'s';
+
+  @override
+  String get dialogueTtsDialogueLabel => 'Dialogue';
+
+  @override
+  String get dialogueTtsDialogueHint =>
+      'Mark: Hi Anna, come in.\nAnna: Hi, Doctor.\n…\nOne line each: Name: sentence';
+
+  @override
+  String get dialogueTtsPaste => 'Paste';
+
+  @override
+  String get dialogueTtsEmptyHint =>
+      'Needs at least one line like “Name: sentence”.';
+
+  @override
+  String get dialogueTtsVoices => 'Voices';
+
+  @override
+  String get dialogueTtsQuality => 'Quality';
+
+  @override
+  String get dialogueTtsQualityNatural => 'Natural';
+
+  @override
+  String get dialogueTtsQualityStandard => 'Standard';
+
+  @override
+  String get dialogueTtsQualityHigh => 'High';
+
+  @override
+  String get dialogueTtsCreate => 'Create lesson';
+
+  @override
+  String get dialogueTtsMerging => 'Merging audio and adding subtitles…';
+
+  @override
+  String get dialogueTtsErrorAuth =>
+      'OpenAI rejected the API key. Check it in AI Settings.';
+
+  @override
+  String get dialogueTtsErrorRateLimit =>
+      'Quota exceeded or too many requests. Try again later.';
+
+  @override
+  String get dialogueTtsErrorNetwork => 'No network connection.';
+
+  @override
+  String get dialogueTtsErrorEncode => 'Could not merge the audio.';
+
+  @override
+  String get dialogueTtsErrorDuplicate =>
+      'A lesson with this content already exists.';
+
+  @override
+  String get dialogueTtsRetry => 'Try again';
+
+  @override
+  String dialogueTtsStats(int lines, int speakers, int chars) {
+    return '$lines lines · $speakers speakers · $chars characters';
+  }
+
+  @override
+  String dialogueTtsEstimate(String cost, int minutes) {
+    return 'Estimated ≈ $cost · ~$minutes min audio · uses your OpenAI key';
+  }
+
+  @override
+  String dialogueTtsProgress(int done, int total) {
+    return 'Generating voice $done/$total…';
+  }
+
+  @override
+  String dialogueTtsLineTooLong(int index) {
+    return 'Line $index is too long (max 4,000 characters).';
+  }
+
+  @override
+  String dialogueTtsErrorGeneric(String message) {
+    return 'Could not create the lesson: $message';
+  }
+
+  @override
   String get importAudioFromCloudDrive => 'Import from Cloud Storage';
 
   @override

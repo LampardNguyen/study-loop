@@ -4572,6 +4572,98 @@ class AppLocalizationsZh extends AppLocalizations {
   String get importAudioFromUrlDescription => '粘贴音频直链，下载后加入资源库';
 
   @override
+  String get dialogueTtsSourceTitle => '对话转语音';
+
+  @override
+  String get dialogueTtsSourceDescription => '粘贴对话，由 AI 朗读成听力课程';
+
+  @override
+  String get dialogueTtsTitle => '从对话创建';
+
+  @override
+  String get dialogueTtsNameLabel => '课程名称';
+
+  @override
+  String get dialogueTtsNameHint => '例如：看医生';
+
+  @override
+  String get dialogueTtsDialogueLabel => '对话';
+
+  @override
+  String get dialogueTtsDialogueHint =>
+      'Mark: Hi Anna, come in.\nAnna: Hi, Doctor.\n…\n每行：名字: 台词';
+
+  @override
+  String get dialogueTtsPaste => '粘贴';
+
+  @override
+  String get dialogueTtsEmptyHint => '至少需要一行“名字: 台词”。';
+
+  @override
+  String get dialogueTtsVoices => '声音';
+
+  @override
+  String get dialogueTtsQuality => '音质';
+
+  @override
+  String get dialogueTtsQualityNatural => '自然';
+
+  @override
+  String get dialogueTtsQualityStandard => '标准';
+
+  @override
+  String get dialogueTtsQualityHigh => '高';
+
+  @override
+  String get dialogueTtsCreate => '创建课程';
+
+  @override
+  String get dialogueTtsMerging => '正在拼接音频并添加字幕…';
+
+  @override
+  String get dialogueTtsErrorAuth => 'OpenAI 拒绝了 API Key，请在 AI 设置中检查。';
+
+  @override
+  String get dialogueTtsErrorRateLimit => '额度不足或请求过快，请稍后重试。';
+
+  @override
+  String get dialogueTtsErrorNetwork => '网络连接失败。';
+
+  @override
+  String get dialogueTtsErrorEncode => '音频拼接失败。';
+
+  @override
+  String get dialogueTtsErrorDuplicate => '已存在相同内容的课程。';
+
+  @override
+  String get dialogueTtsRetry => '重试';
+
+  @override
+  String dialogueTtsStats(int lines, int speakers, int chars) {
+    return '$lines 句 · $speakers 位说话人 · $chars 字符';
+  }
+
+  @override
+  String dialogueTtsEstimate(String cost, int minutes) {
+    return '预计 ≈ $cost · 约 $minutes 分钟音频 · 使用你的 OpenAI Key';
+  }
+
+  @override
+  String dialogueTtsProgress(int done, int total) {
+    return '正在生成语音 $done/$total…';
+  }
+
+  @override
+  String dialogueTtsLineTooLong(int index) {
+    return '第 $index 句过长（最多 4000 字符）。';
+  }
+
+  @override
+  String dialogueTtsErrorGeneric(String message) {
+    return '创建课程失败：$message';
+  }
+
+  @override
   String get importAudioFromCloudDrive => '从网盘导入';
 
   @override

@@ -1,0 +1,63 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dialogue TTS Mockup</title>
+<style>
+:root{--bg:#f2f2f5;--card:#fff;--fg:#1c1c1e;--mut:#6b6b70;--pri:#3b6ef5;--err:#d93636}
+body{background:var(--bg);font-family:system-ui,sans-serif;color:var(--fg);margin:0;padding:16px;display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
+.ph{width:300px;background:#fafafa;border:8px solid #222;border-radius:28px;overflow:hidden}
+.bar{padding:14px;font-weight:600;border-bottom:1px solid #ddd;background:#fff}
+.b{padding:14px;display:flex;flex-direction:column;gap:10px;min-height:460px}
+.c{background:var(--card);border-radius:12px;padding:12px;font-size:14px}
+.btn{border:0;border-radius:22px;padding:11px;font-size:14px;background:var(--pri);color:#fff;width:100%}
+.o{background:none;color:var(--pri);border:1px solid var(--pri)}.dis{opacity:.4}
+.m{color:var(--mut);font-size:12px}.t{text-align:center;font-size:12px;color:var(--mut);margin-bottom:6px}
+.in{border:1px solid #ccc;border-radius:8px;padding:8px;font-size:13px;background:#fff}
+.ta{min-height:120px;font-family:ui-monospace,monospace;font-size:11px;white-space:pre-line}
+.ph2{color:#aaa}.row{display:flex;justify-content:space-between;align-items:center;padding:4px 0}
+.dd{border:1px solid #ccc;border-radius:6px;padding:3px 8px;font-size:12px}
+.pb{height:6px;background:#ddd;border-radius:3px}.pb i{display:block;height:100%;width:24%;background:var(--pri);border-radius:3px}
+.e{background:#fde8e8;color:var(--err)}h4{margin:0 0 6px}.lbl{font-size:12px;font-weight:600}
+.tile{display:flex;gap:10px;align-items:center}.ic{font-size:22px}.new{border:2px solid var(--pri)}
+</style></head><body>
+
+<div><div class="t">0. Chọn nguồn (thêm ô mới)</div><div class="ph"><div class="bar">Thêm audio</div><div class="b">
+<div class="c tile"><span class="ic">📁</span><div><b>Tệp trên máy</b><div class="m">Audio / video trong điện thoại</div></div></div>
+<div class="c tile"><span class="ic">🔗</span><div><b>Liên kết</b><div class="m">Dán đường dẫn audio</div></div></div>
+<div class="c tile new"><span class="ic">💬</span><div><b>Hội thoại → giọng nói</b><div class="m">Dán hội thoại, AI đọc thành bài nghe</div></div></div>
+</div></div></div>
+
+<div><div class="t">A. Rỗng</div><div class="ph"><div class="bar">← Tạo từ hội thoại</div><div class="b">
+<div class="lbl">Tên bài học</div><div class="in ph2">Ví dụ: Đi khám bác sĩ</div>
+<div class="lbl">Hội thoại <span style="float:right;color:var(--pri)">📋 Dán</span></div>
+<div class="in ta ph2">Mark: Hi Anna, come in.
+Anna: Hi, Doctor. My head hurts.
+…
+Mỗi dòng: Tên: câu nói</div>
+<div class="m">Cần ít nhất 1 câu dạng “Tên: câu nói”.</div>
+<button class="btn dis">Tạo bài học</button></div></div></div>
+
+<div><div class="t">B. Sẵn sàng</div><div class="ph"><div class="bar">← Tạo từ hội thoại</div><div class="b">
+<div class="lbl">Tên bài học</div><div class="in">Doctor visit</div>
+<div class="lbl">Hội thoại <span style="float:right;color:var(--pri)">📋 Dán</span></div>
+<div class="in ta">Mark: Hi Anna, come in. What's the problem today?
+Anna: Hi, Doctor. My head hurts, and my neck too.
+Mark: I'm sorry to hear that…</div>
+<div class="m">50 câu · 2 người nói · 2.300 ký tự</div>
+<div class="c"><div class="lbl">Giọng đọc</div>
+<div class="row">Mark <span class="dd">ash ▾</span></div>
+<div class="row">Anna <span class="dd">nova ▾</span></div>
+<div class="row"><span class="lbl">Chất lượng</span><span class="dd">Tự nhiên (gpt-4o-mini-tts) ▾</span></div></div>
+<div class="m">Ước tính ≈ $0.04 · ~3 phút audio · dùng OpenAI key của bạn</div>
+<button class="btn">Tạo bài học</button></div></div></div>
+
+<div><div class="t">C. Đang tạo</div><div class="ph"><div class="bar">Tạo từ hội thoại</div><div class="b">
+<div class="c"><h4>Doctor visit</h4><div class="pb"><i></i></div><p class="m">Đang tạo giọng 12/50…</p><p class="m">Sau đó: ghép audio → thêm phụ đề</p></div>
+<button class="btn o">Huỷ</button></div></div></div>
+
+<div><div class="t">D. Lỗi</div><div class="ph"><div class="bar">← Tạo từ hội thoại</div><div class="b">
+<div class="c e"><h4>OpenAI từ chối API key</h4>Kiểm tra lại key trong Cài đặt AI. Nội dung bạn nhập vẫn được giữ.<p><button class="btn">Thử lại</button></p></div>
+<div class="m">Lỗi khác: hết hạn mức / gọi quá nhanh · mất mạng · ghép audio thất bại · bài đã tồn tại.<br>Chưa có key → hiện hộp thoại “Cần OpenAI API key” như các tính năng AI khác.</div>
+<div class="in ta">Mark: Hi Anna, come in…</div></div></div></div>
+
+<div><div class="t">E. Thành công (panel có sẵn)</div><div class="ph"><div class="bar">Hoàn tất</div><div class="b" style="justify-content:center;text-align:center">
+<div style="font-size:48px">✅</div><div class="c"><b>Đã thêm “Doctor visit”</b><div class="m">3:02 · 50 câu phụ đề</div></div>
+<button class="btn">Xong</button></div></div></div>
+</body></html>

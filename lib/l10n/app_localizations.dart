@@ -8422,6 +8422,168 @@ abstract class AppLocalizations {
   /// **'Paste a direct audio link and download it'**
   String get importAudioFromUrlDescription;
 
+  /// No description provided for @dialogueTtsSourceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dialogue to speech'**
+  String get dialogueTtsSourceTitle;
+
+  /// No description provided for @dialogueTtsSourceDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste a dialogue and let AI read it as a listening lesson'**
+  String get dialogueTtsSourceDescription;
+
+  /// No description provided for @dialogueTtsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create from dialogue'**
+  String get dialogueTtsTitle;
+
+  /// No description provided for @dialogueTtsNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Lesson name'**
+  String get dialogueTtsNameLabel;
+
+  /// No description provided for @dialogueTtsNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. At the doctor\'s'**
+  String get dialogueTtsNameHint;
+
+  /// No description provided for @dialogueTtsDialogueLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Dialogue'**
+  String get dialogueTtsDialogueLabel;
+
+  /// No description provided for @dialogueTtsDialogueHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark: Hi Anna, come in.\nAnna: Hi, Doctor.\n…\nOne line each: Name: sentence'**
+  String get dialogueTtsDialogueHint;
+
+  /// No description provided for @dialogueTtsPaste.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste'**
+  String get dialogueTtsPaste;
+
+  /// No description provided for @dialogueTtsEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs at least one line like “Name: sentence”.'**
+  String get dialogueTtsEmptyHint;
+
+  /// No description provided for @dialogueTtsVoices.
+  ///
+  /// In en, this message translates to:
+  /// **'Voices'**
+  String get dialogueTtsVoices;
+
+  /// No description provided for @dialogueTtsQuality.
+  ///
+  /// In en, this message translates to:
+  /// **'Quality'**
+  String get dialogueTtsQuality;
+
+  /// No description provided for @dialogueTtsQualityNatural.
+  ///
+  /// In en, this message translates to:
+  /// **'Natural'**
+  String get dialogueTtsQualityNatural;
+
+  /// No description provided for @dialogueTtsQualityStandard.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get dialogueTtsQualityStandard;
+
+  /// No description provided for @dialogueTtsQualityHigh.
+  ///
+  /// In en, this message translates to:
+  /// **'High'**
+  String get dialogueTtsQualityHigh;
+
+  /// No description provided for @dialogueTtsCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create lesson'**
+  String get dialogueTtsCreate;
+
+  /// No description provided for @dialogueTtsMerging.
+  ///
+  /// In en, this message translates to:
+  /// **'Merging audio and adding subtitles…'**
+  String get dialogueTtsMerging;
+
+  /// No description provided for @dialogueTtsErrorAuth.
+  ///
+  /// In en, this message translates to:
+  /// **'OpenAI rejected the API key. Check it in AI Settings.'**
+  String get dialogueTtsErrorAuth;
+
+  /// No description provided for @dialogueTtsErrorRateLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Quota exceeded or too many requests. Try again later.'**
+  String get dialogueTtsErrorRateLimit;
+
+  /// No description provided for @dialogueTtsErrorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No network connection.'**
+  String get dialogueTtsErrorNetwork;
+
+  /// No description provided for @dialogueTtsErrorEncode.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not merge the audio.'**
+  String get dialogueTtsErrorEncode;
+
+  /// No description provided for @dialogueTtsErrorDuplicate.
+  ///
+  /// In en, this message translates to:
+  /// **'A lesson with this content already exists.'**
+  String get dialogueTtsErrorDuplicate;
+
+  /// No description provided for @dialogueTtsRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get dialogueTtsRetry;
+
+  /// No description provided for @dialogueTtsStats.
+  ///
+  /// In en, this message translates to:
+  /// **'{lines} lines · {speakers} speakers · {chars} characters'**
+  String dialogueTtsStats(int lines, int speakers, int chars);
+
+  /// No description provided for @dialogueTtsEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated ≈ {cost} · ~{minutes} min audio · uses your OpenAI key'**
+  String dialogueTtsEstimate(String cost, int minutes);
+
+  /// No description provided for @dialogueTtsProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating voice {done}/{total}…'**
+  String dialogueTtsProgress(int done, int total);
+
+  /// No description provided for @dialogueTtsLineTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Line {index} is too long (max 4,000 characters).'**
+  String dialogueTtsLineTooLong(int index);
+
+  /// No description provided for @dialogueTtsErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not create the lesson: {message}'**
+  String dialogueTtsErrorGeneric(String message);
+
   /// No description provided for @importAudioFromCloudDrive.
   ///
   /// In en, this message translates to:

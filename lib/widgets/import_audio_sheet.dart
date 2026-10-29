@@ -7,6 +7,7 @@ import '../features/audio_import/audio_import_models.dart';
 import '../features/audio_import/audio_import_provider.dart';
 import '../features/audio_import/subtitle_pairing.dart';
 import '../features/baidu_netdisk/models/cloud_drive_models.dart';
+import '../features/dialogue_lesson/dialogue_tts_panel.dart';
 import '../features/baidu_netdisk/models/baidu_account_profile.dart';
 import '../features/baidu_netdisk/providers/baidu_netdisk_import_controller.dart';
 import '../features/baidu_netdisk/providers/baidu_netdisk_providers.dart';
@@ -40,6 +41,7 @@ enum _ImportStep {
   directUrl,
   cloudDrive,
   baiduNetdisk,
+  dialogueTts,
   completed,
 }
 
@@ -60,6 +62,7 @@ class _ImportAudioFlowSheetState extends ConsumerState<ImportAudioFlowSheet> {
   AudioImportOutcome _outcome = (added: const [], duplicates: const []);
   bool _baiduConfirming = false;
   bool _localImporting = false;
+  bool _dialogueBusy = false;
 
   @override
   void dispose() {
@@ -79,11 +82,13 @@ class _ImportAudioFlowSheetState extends ConsumerState<ImportAudioFlowSheet> {
     final cloudDriveImportEnabled = ref.watch(
       remoteFeatureEnabledProvider(RemoteFeature.cloudDriveImport),
     );
-    final busy = _isBusy(state) || baiduState.isBusy || _localImporting;
+    final busy =
+        _isBusy(state) || baiduState.isBusy || _localImporting || _dialogueBusy;
     final importing =
         _isBusy(state) ||
         baiduState.phase == BaiduNetdiskImportPhase.importing ||
-        _localImporting;
+        _localImporting ||
+        _dialogueBusy;
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
     return PopScope(
@@ -197,6 +202,7 @@ class _ImportAudioFlowSheetState extends ConsumerState<ImportAudioFlowSheet> {
       _ImportStep.chooseSource => l10n.importAudio,
       _ImportStep.localFile => l10n.importAudioFromFile,
       _ImportStep.directUrl => l10n.importAudioFromUrl,
+      _ImportStep.dialogueTts => l10n.dialogueTtsTitle,
       _ImportStep.cloudDrive => l10n.importAudioFromCloudDrive,
       _ImportStep.baiduNetdisk =>
         _baiduConfirming
@@ -222,6 +228,7 @@ class _ImportAudioFlowSheetState extends ConsumerState<ImportAudioFlowSheet> {
           onLocalFile: () => setState(() => _step = _ImportStep.localFile),
           onDirectUrl: () => setState(() => _step = _ImportStep.directUrl),
           onCloudDrive: () => setState(() => _step = _ImportStep.cloudDrive),
+          onDialogueTts: () => setState(() => _step = _ImportStep.dialogueTts),
         ),
         _ImportStep.localFile => AddAudioDialog(
           key: const ValueKey('local-file'),
@@ -254,6 +261,17 @@ class _ImportAudioFlowSheetState extends ConsumerState<ImportAudioFlowSheet> {
           onShowConfirm: () => setState(() => _baiduConfirming = true),
           onHideConfirm: () => setState(() => _baiduConfirming = false),
           onBack: _goBackFromBaiduNetdisk,
+        ),
+        _ImportStep.dialogueTts => DialogueTtsPanel(
+          key: const ValueKey('dialogue-tts'),
+          collectionId: widget.collectionId,
+          onBusyChanged: (busy) {
+            if (_dialogueBusy == busy || !mounted) return;
+            setState(() => _dialogueBusy = busy);
+          },
+          onCompleted: (item) =>
+              _handleImported((added: [item], duplicates: const [])),
+          onBack: _goBackToSource,
         ),
         _ImportStep.completed => _CompletedPanel(
           key: const ValueKey('completed'),
@@ -656,12 +674,14 @@ class _ChooseSourcePanel extends StatelessWidget {
     required this.onLocalFile,
     required this.onDirectUrl,
     required this.onCloudDrive,
+    required this.onDialogueTts,
   });
 
   final bool showCloudDrive;
   final VoidCallback onLocalFile;
   final VoidCallback onDirectUrl;
   final VoidCallback onCloudDrive;
+  final VoidCallback onDialogueTts;
 
   @override
   Widget build(BuildContext context) {
@@ -692,6 +712,14 @@ class _ChooseSourcePanel extends StatelessWidget {
           title: l10n.importAudioFromUrl,
           description: l10n.importAudioFromUrlDescription,
           onTap: onDirectUrl,
+        ),
+        const SizedBox(height: 8),
+        _ImportOptionTile(
+          key: const ValueKey('import-option-dialogue-tts'),
+          icon: Icons.forum_outlined,
+          title: l10n.dialogueTtsSourceTitle,
+          description: l10n.dialogueTtsSourceDescription,
+          onTap: onDialogueTts,
         ),
       ],
     );

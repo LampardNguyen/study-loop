@@ -56,10 +56,14 @@ class DialogueAudio {
   final String srt;
 }
 
+/// 对话课程生成失败原因。
+enum DialogueLessonFailure { empty, encode, duplicate }
+
 /// 对话课程生成失败。
 class DialogueLessonException implements Exception {
-  const DialogueLessonException(this.message);
+  const DialogueLessonException(this.failure, this.message);
 
+  final DialogueLessonFailure failure;
   final String message;
 
   @override
@@ -168,7 +172,7 @@ class DialogueLessonService {
     void Function(int done, int total)? onProgress,
   }) async {
     if (lines.isEmpty) {
-      throw const DialogueLessonException('对话为空');
+      throw const DialogueLessonException(DialogueLessonFailure.empty, '对话为空');
     }
     final speakers = dialogueSpeakers(lines);
     String voiceOf(String speaker) =>
@@ -278,7 +282,12 @@ class DialogueLessonService {
         source: audio.wavFile,
         output: m4a,
       );
-      if (!ok) throw const DialogueLessonException('音频编码失败');
+      if (!ok) {
+        throw const DialogueLessonException(
+          DialogueLessonFailure.encode,
+          '音频编码失败',
+        );
+      }
 
       final finalized =
           await AudioFinalizationService(
@@ -311,7 +320,10 @@ class DialogueLessonService {
           await attachSubtitle(item, audio.srt);
           return item;
         case AudioRegistrationDuplicate(:final existingName):
-          throw DialogueLessonException('已存在相同内容：$existingName');
+          throw DialogueLessonException(
+            DialogueLessonFailure.duplicate,
+            '已存在相同内容：$existingName',
+          );
       }
     } finally {
       if (await tmpDir.exists()) {

@@ -4794,6 +4794,101 @@ class AppLocalizationsVi extends AppLocalizations {
       'Dán liên kết âm thanh trực tiếp và tải về';
 
   @override
+  String get dialogueTtsSourceTitle => 'Hội thoại → giọng nói';
+
+  @override
+  String get dialogueTtsSourceDescription =>
+      'Dán hội thoại, AI đọc thành bài nghe';
+
+  @override
+  String get dialogueTtsTitle => 'Tạo từ hội thoại';
+
+  @override
+  String get dialogueTtsNameLabel => 'Tên bài học';
+
+  @override
+  String get dialogueTtsNameHint => 'Ví dụ: Đi khám bác sĩ';
+
+  @override
+  String get dialogueTtsDialogueLabel => 'Hội thoại';
+
+  @override
+  String get dialogueTtsDialogueHint =>
+      'Mark: Hi Anna, come in.\nAnna: Hi, Doctor.\n…\nMỗi dòng: Tên: câu nói';
+
+  @override
+  String get dialogueTtsPaste => 'Dán';
+
+  @override
+  String get dialogueTtsEmptyHint => 'Cần ít nhất 1 câu dạng “Tên: câu nói”.';
+
+  @override
+  String get dialogueTtsVoices => 'Giọng đọc';
+
+  @override
+  String get dialogueTtsQuality => 'Chất lượng';
+
+  @override
+  String get dialogueTtsQualityNatural => 'Tự nhiên';
+
+  @override
+  String get dialogueTtsQualityStandard => 'Tiêu chuẩn';
+
+  @override
+  String get dialogueTtsQualityHigh => 'Cao';
+
+  @override
+  String get dialogueTtsCreate => 'Tạo bài học';
+
+  @override
+  String get dialogueTtsMerging => 'Đang ghép audio và thêm phụ đề…';
+
+  @override
+  String get dialogueTtsErrorAuth =>
+      'OpenAI từ chối API key. Kiểm tra lại key trong Cài đặt AI.';
+
+  @override
+  String get dialogueTtsErrorRateLimit =>
+      'Hết hạn mức hoặc gọi quá nhanh. Thử lại sau.';
+
+  @override
+  String get dialogueTtsErrorNetwork => 'Mất kết nối mạng.';
+
+  @override
+  String get dialogueTtsErrorEncode => 'Ghép audio thất bại.';
+
+  @override
+  String get dialogueTtsErrorDuplicate => 'Bài học có nội dung này đã tồn tại.';
+
+  @override
+  String get dialogueTtsRetry => 'Thử lại';
+
+  @override
+  String dialogueTtsStats(int lines, int speakers, int chars) {
+    return '$lines câu · $speakers người nói · $chars ký tự';
+  }
+
+  @override
+  String dialogueTtsEstimate(String cost, int minutes) {
+    return 'Ước tính ≈ $cost · ~$minutes phút audio · dùng OpenAI key của bạn';
+  }
+
+  @override
+  String dialogueTtsProgress(int done, int total) {
+    return 'Đang tạo giọng $done/$total…';
+  }
+
+  @override
+  String dialogueTtsLineTooLong(int index) {
+    return 'Câu $index quá dài (tối đa 4.000 ký tự).';
+  }
+
+  @override
+  String dialogueTtsErrorGeneric(String message) {
+    return 'Tạo bài học thất bại: $message';
+  }
+
+  @override
   String get importAudioFromCloudDrive => 'Nhập từ lưu trữ đám mây';
 
   @override
