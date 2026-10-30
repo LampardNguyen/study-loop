@@ -20,6 +20,7 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - [P] T14.6 — Bỏ sheet Google "Đang đăng nhập" khi vào tab Cá nhân → [task-2026-10-29.md](task-2026-10-29.md#t146)
 - [P] T14.7 — 🎨 Nhãn nam/nữ cho giọng đọc → [task-2026-10-30.md](task-2026-10-30.md#t147)
 - [P] T14.8 — 🎨 Nghe thử 2 câu đầu → [task-2026-10-30.md](task-2026-10-30.md#t148)
+- [P] T14.9 — 🎨 Làm đẹp bố cục phần Giọng đọc → [task-2026-10-30.md](task-2026-10-30.md#t149)
 
 ## Quyết định
 - 2026-10-26: Cập nhật APK tải trong app (Dio) + cài qua FileProvider; lỗi tải → mở trình duyệt như cũ.

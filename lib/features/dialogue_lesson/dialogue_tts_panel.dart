@@ -390,35 +390,60 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
         if (_lines.isNotEmpty) ...[
           const SizedBox(height: 8),
           Text(l10n.dialogueTtsVoices, style: theme.textTheme.titleSmall),
-          for (final speaker in _speakers)
-            _DropdownRow<String>(
-              label: speaker,
-              value: _voices[speaker]!,
-              items: {
-                for (final e in dialogueVoiceOptions.entries)
-                  e.key:
-                      '${e.key} · ${e.value ? l10n.dialogueTtsVoiceMale : l10n.dialogueTtsVoiceFemale}',
-              },
-              onChanged: (v) => setState(() => _voices[speaker] = v),
+          const SizedBox(height: 8),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surfaceContainerLowest,
+              borderRadius: BorderRadius.circular(14),
             ),
-          _DropdownRow<_Quality>(
-            label: l10n.dialogueTtsQuality,
-            value: _quality,
-            items: {
-              _Quality.natural:
-                  '${l10n.dialogueTtsQualityNatural} (gpt-4o-mini-tts)',
-              _Quality.standard: '${l10n.dialogueTtsQualityStandard} (tts-1)',
-              _Quality.high: '${l10n.dialogueTtsQualityHigh} (tts-1-hd)',
-            },
-            onChanged: (v) => setState(() => _quality = v),
+            child: Column(
+              children: [
+                for (final (i, speaker) in _speakers.indexed) ...[
+                  if (i > 0)
+                    Divider(height: 1, color: theme.colorScheme.outlineVariant),
+                  _SpeakerVoiceRow(
+                    speaker: speaker,
+                    voice: _voices[speaker]!,
+                    onChanged: (v) => setState(() => _voices[speaker] = v),
+                  ),
+                ],
+              ],
+            ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 12),
+          Text(l10n.dialogueTtsQuality, style: theme.textTheme.titleSmall),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: double.infinity,
+            child: SegmentedButton<_Quality>(
+              key: const ValueKey('dialogue-tts-quality'),
+              showSelectedIcon: false,
+              segments: [
+                ButtonSegment(
+                  value: _Quality.natural,
+                  label: Text(l10n.dialogueTtsQualityNatural),
+                ),
+                ButtonSegment(
+                  value: _Quality.standard,
+                  label: Text(l10n.dialogueTtsQualityStandard),
+                ),
+                ButtonSegment(
+                  value: _Quality.high,
+                  label: Text(l10n.dialogueTtsQualityHigh),
+                ),
+              ],
+              selected: {_quality},
+              onSelectionChanged: (v) => setState(() => _quality = v.first),
+            ),
+          ),
+          const SizedBox(height: 6),
           Text(
-            l10n.dialogueTtsEstimate(
+            '${_quality.model} · ${l10n.dialogueTtsEstimate(
               _costLabel(chars * _quality.usdPerMillionChars / 1e6),
               // 约 900 字符/分钟朗读。
               (chars / 900).ceil(),
-            ),
+            )}',
             style: small,
           ),
           const SizedBox(height: 8),
@@ -492,37 +517,90 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
 String _costLabel(double usd) =>
     usd < 0.01 ? '\$0.01' : '\$${usd.toStringAsFixed(2)}';
 
-class _DropdownRow<T> extends StatelessWidget {
-  const _DropdownRow({
-    required this.label,
-    required this.value,
-    required this.items,
+/// 说话人一行：首字母头像（按声音性别着色）+ 名字 + 声音选择 chip。
+class _SpeakerVoiceRow extends StatelessWidget {
+  const _SpeakerVoiceRow({
+    required this.speaker,
+    required this.voice,
     required this.onChanged,
   });
 
-  final String label;
-  final T value;
-  final Map<T, String> items;
-  final ValueChanged<T> onChanged;
+  final String speaker;
+  final String voice;
+  final ValueChanged<String> onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(child: Text(label, overflow: TextOverflow.ellipsis)),
-        DropdownButton<T>(
-          value: value,
-          isDense: true,
-          underline: const SizedBox.shrink(),
-          items: [
-            for (final e in items.entries)
-              DropdownMenuItem(value: e.key, child: Text(e.value)),
-          ],
-          onChanged: (v) {
-            if (v != null) onChanged(v);
-          },
-        ),
-      ],
+    final l10n = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
+    final male = dialogueVoiceOptions[voice] ?? true;
+    final bg = male ? scheme.primaryContainer : scheme.tertiaryContainer;
+    final fg = male ? scheme.onPrimaryContainer : scheme.onTertiaryContainer;
+    String genderOf(bool m) =>
+        m ? l10n.dialogueTtsVoiceMale : l10n.dialogueTtsVoiceFemale;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 17,
+            backgroundColor: bg,
+            child: Text(
+              speaker.characters.first.toUpperCase(),
+              style: TextStyle(color: fg, fontWeight: FontWeight.w700),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              speaker,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ),
+          PopupMenuButton<String>(
+            initialValue: voice,
+            onSelected: onChanged,
+            itemBuilder: (_) => [
+              for (final e in dialogueVoiceOptions.entries)
+                PopupMenuItem(
+                  value: e.key,
+                  child: Text('${e.key} · ${genderOf(e.value)}'),
+                ),
+            ],
+            child: Container(
+              padding: const EdgeInsets.fromLTRB(12, 6, 6, 6),
+              decoration: BoxDecoration(
+                border: Border.all(color: scheme.outlineVariant),
+                borderRadius: BorderRadius.circular(18),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(voice),
+                  const SizedBox(width: 6),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 1,
+                    ),
+                    decoration: BoxDecoration(
+                      color: bg,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      genderOf(male),
+                      style: TextStyle(color: fg, fontSize: 11),
+                    ),
+                  ),
+                  const Icon(Icons.arrow_drop_down, size: 20),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

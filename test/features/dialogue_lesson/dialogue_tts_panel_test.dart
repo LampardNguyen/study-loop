@@ -49,8 +49,19 @@ void main() {
     expect(find.text('3 lines · 2 speakers · 27 characters'), findsOneWidget);
     expect(find.text('Mark'), findsOneWidget);
     expect(find.text('Anna'), findsOneWidget);
-    expect(find.text('ballad · Male'), findsOneWidget);
-    expect(find.text('sage · Female'), findsOneWidget);
+    expect(find.text('ballad'), findsOneWidget);
+    expect(find.text('Male'), findsOneWidget);
+    expect(find.text('sage'), findsOneWidget);
+    expect(find.text('Female'), findsOneWidget);
+
+    // 声音菜单显示性别。
+    await tester.tap(find.text('ballad'));
+    await tester.pumpAndSettle();
+    expect(find.text('echo · Male'), findsOneWidget);
+    expect(find.text('nova · Female'), findsOneWidget);
+    await tester.tap(find.text('echo · Male'));
+    await tester.pumpAndSettle();
+    expect(find.text('echo'), findsOneWidget);
     expect(
       tester
           .widget<OutlinedButton>(

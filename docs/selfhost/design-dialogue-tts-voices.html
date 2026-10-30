@@ -1,0 +1,58 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Voice Layout Options</title>
+<style>
+:root{--bg:#f2f2f5;--card:#fff;--fg:#1c1c1e;--mut:#6b6b70;--pri:#3b6ef5;--line:#e3e3e8;--m:#e6eefc;--mf:#2f5bd3;--f:#fde8f1;--ff:#c2336e}
+body{background:var(--bg);font-family:system-ui,sans-serif;color:var(--fg);margin:0;padding:16px;display:flex;flex-wrap:wrap;gap:24px;justify-content:center}
+.t{text-align:center;font-size:13px;font-weight:600;margin-bottom:4px}.s{text-align:center;font-size:12px;color:var(--mut);margin-bottom:8px;max-width:300px}
+.ph{width:320px;background:#f4f5f8;border:8px solid #222;border-radius:28px;overflow:hidden}.b{padding:14px;display:flex;flex-direction:column;gap:10px}
+.h{font-size:15px;font-weight:600;margin:4px 0 0}.m{color:var(--mut);font-size:12px}
+.card{background:var(--card);border-radius:14px;padding:4px 12px}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.row:last-child{border:0}
+.av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex:none}
+.am{background:var(--m);color:var(--mf)}.af{background:var(--f);color:var(--ff)}
+.nm{flex:1;font-size:15px}.chip{border:1px solid #cfd0d6;border-radius:18px;padding:6px 10px;font-size:13px;display:flex;gap:6px;align-items:center;background:#fff}
+.g{font-size:11px;padding:1px 6px;border-radius:8px}.gm{background:var(--m);color:var(--mf)}.gf{background:var(--f);color:var(--ff)}
+.seg{display:flex;border:1px solid #cfd0d6;border-radius:20px;overflow:hidden}.seg div{flex:1;text-align:center;padding:8px 2px;font-size:13px;border-right:1px solid #cfd0d6}.seg div:last-child{border:0}.seg .on{background:var(--m);color:var(--mf);font-weight:600}
+.btn{border:1px solid var(--pri);color:var(--pri);border-radius:22px;padding:10px;text-align:center;font-size:14px;background:none}
+.tile{flex:1;background:#fff;border-radius:14px;padding:12px;text-align:center;border:1px solid var(--line)}.tile .av{margin:0 auto 6px;width:44px;height:44px;font-size:18px}
+.cost{display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:12px;padding:10px 12px;font-size:13px}
+.big{font-size:18px;font-weight:700}
+</style></head><body>
+
+<div><div class="t">A. Thẻ người nói + chip giọng</div><div class="s">Mỗi người 1 dòng có avatar chữ cái (màu theo giới tính giọng), chip giọng bên phải. Chất lượng dạng nút chia đoạn.</div>
+<div class="ph"><div class="b">
+<div class="h">Giọng đọc</div>
+<div class="card">
+<div class="row"><div class="av am">K</div><div class="nm">Ken</div><div class="chip">echo <span class="g gm">Nam</span> ▾</div></div>
+<div class="row"><div class="av af">L</div><div class="nm">Lisa</div><div class="chip">sage <span class="g gf">Nữ</span> ▾</div></div>
+</div>
+<div class="h">Chất lượng</div>
+<div class="seg"><div class="on">Tự nhiên</div><div>Chuẩn</div><div>Cao</div></div>
+<div class="m">gpt-4o-mini-tts · ≈ $0.01 · ~1 phút audio · dùng OpenAI key của bạn</div>
+<div class="btn">▶ Nghe thử 2 câu đầu</div>
+</div></div></div>
+
+<div><div class="t">B. Ô vuông người nói</div><div class="s">Hai người nói thành 2 ô cạnh nhau (≥3 người thì xuống dòng). Chạm ô để đổi giọng.</div>
+<div class="ph"><div class="b">
+<div class="h">Giọng đọc</div>
+<div style="display:flex;gap:10px">
+<div class="tile"><div class="av am">K</div><b>Ken</b><div class="m" style="margin-top:4px">echo · Nam ▾</div></div>
+<div class="tile"><div class="av af">L</div><b>Lisa</b><div class="m" style="margin-top:4px">sage · Nữ ▾</div></div>
+</div>
+<div class="h">Chất lượng</div>
+<div class="seg"><div class="on">Tự nhiên</div><div>Chuẩn</div><div>Cao</div></div>
+<div class="cost"><span class="m">Ước tính · ~1 phút</span><span class="big">≈ $0.01</span></div>
+<div class="btn">▶ Nghe thử 2 câu đầu</div>
+</div></div></div>
+
+<div><div class="t">C. Gọn trong 1 thẻ, có tiêu đề nhóm</div><div class="s">Giữ dạng danh sách nhưng gom vào thẻ trắng, có icon giới tính, chất lượng là 1 dòng trong thẻ.</div>
+<div class="ph"><div class="b">
+<div class="card">
+<div class="row"><span class="m" style="flex:1">GIỌNG ĐỌC</span></div>
+<div class="row"><div class="nm">Ken</div><span style="color:var(--mf)">♂</span><b>echo</b> ▾</div>
+<div class="row"><div class="nm">Lisa</div><span style="color:var(--ff)">♀</span><b>sage</b> ▾</div>
+<div class="row"><div class="nm">Chất lượng</div><b>Tự nhiên</b> ▾</div>
+</div>
+<div class="m">≈ $0.01 · ~1 phút audio · dùng OpenAI key của bạn</div>
+<div class="btn">▶ Nghe thử 2 câu đầu</div>
+</div></div></div>
+</body></html>
