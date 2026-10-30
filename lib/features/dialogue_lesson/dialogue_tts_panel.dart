@@ -394,8 +394,17 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerLowest,
+              color: theme.brightness == Brightness.light
+                  ? Colors.white
+                  : theme.colorScheme.surfaceContainerHigh,
               borderRadius: BorderRadius.circular(14),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.06),
+                  blurRadius: 10,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: Column(
               children: [
@@ -572,6 +581,7 @@ class _SpeakerVoiceRow extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.fromLTRB(12, 6, 6, 6),
               decoration: BoxDecoration(
+                color: scheme.surface,
                 border: Border.all(color: scheme.outlineVariant),
                 borderRadius: BorderRadius.circular(18),
               ),
