@@ -6391,4 +6391,19 @@ class AppLocalizationsVi extends AppLocalizations {
   String driveSyncErrorGeneric(String error) {
     return 'Đồng bộ thất bại: $error';
   }
+
+  @override
+  String get dialogueTtsVoiceMale => 'Nam';
+
+  @override
+  String get dialogueTtsVoiceFemale => 'Nữ';
+
+  @override
+  String get dialogueTtsPreview => 'Nghe thử 2 câu đầu';
+
+  @override
+  String get dialogueTtsPreviewStop => 'Dừng';
+
+  @override
+  String get dialogueTtsPreviewing => 'Đang tạo bản nghe thử…';
 }

@@ -2466,5 +2466,10 @@
   "driveSyncStepUploadingMedia": "正在上传音频 {progress}…",
   "driveSyncStepDownloadingMedia": "正在下载音频 {progress}…",
   "driveSyncRestoreConfirm": "当前的学习数据和设置将被 {date} 的备份（{count} 个文件）替换。当前的 OpenAI key 保持不变。",
-  "driveSyncErrorGeneric": "同步失败：{error}"
+  "driveSyncErrorGeneric": "同步失败：{error}",
+  "dialogueTtsVoiceMale": "男",
+  "dialogueTtsVoiceFemale": "女",
+  "dialogueTtsPreview": "试听前 2 句",
+  "dialogueTtsPreviewStop": "停止",
+  "dialogueTtsPreviewing": "正在生成试听…"
 }

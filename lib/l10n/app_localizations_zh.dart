@@ -6113,4 +6113,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String driveSyncErrorGeneric(String error) {
     return '同步失败：$error';
   }
+
+  @override
+  String get dialogueTtsVoiceMale => '男';
+
+  @override
+  String get dialogueTtsVoiceFemale => '女';
+
+  @override
+  String get dialogueTtsPreview => '试听前 2 句';
+
+  @override
+  String get dialogueTtsPreviewStop => '停止';
+
+  @override
+  String get dialogueTtsPreviewing => '正在生成试听…';
 }

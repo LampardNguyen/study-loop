@@ -31,7 +31,10 @@ const dialoguePcmSampleRate = 24000;
 const dialogueGap = Duration(milliseconds: 300);
 
 /// 默认给说话人分配的声音（按出场顺序循环）。
-const defaultDialogueVoices = ['ash', 'nova', 'onyx', 'shimmer'];
+const defaultDialogueVoices = ['ballad', 'sage', 'onyx', 'shimmer'];
+
+/// 试听句数。
+const dialoguePreviewLines = 2;
 
 const _bytesPerMs = dialoguePcmSampleRate * 2 ~/ 1000;
 
@@ -210,6 +213,28 @@ class DialogueLessonService {
       'synthesized lines=${lines.length} speakers=${speakers.length}',
     );
     return DialogueAudio(wavFile: outputWav, srt: srt);
+  }
+
+  /// 试听：合成前 [dialoguePreviewLines] 句到 `tmp/dialogue_tts/preview.wav`（每次覆盖）。
+  Future<File> preview({
+    required AiProviderConfig config,
+    required List<DialogueLine> lines,
+    Map<String, String> voices = const {},
+    String model = defaultSpeechModel,
+    CancelToken? cancelToken,
+  }) async {
+    final dataDir = await _resolveDataDir();
+    final audio = await synthesizeToWav(
+      config: config,
+      lines: lines.take(dialoguePreviewLines).toList(),
+      outputWav: File(
+        p.join(dataDir.path, 'tmp', 'dialogue_tts', 'preview.wav'),
+      ),
+      voices: voices,
+      model: model,
+      cancelToken: cancelToken,
+    );
+    return audio.wavFile;
   }
 
   /// 429 / 5xx / 网络错误重试一次；取消与其它错误直接抛出。

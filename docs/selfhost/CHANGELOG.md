@@ -2,6 +2,12 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
+## Chưa phát hành
+
+### Tính năng mới
+- Hội thoại → giọng nói: danh sách giọng hiện rõ **Nam / Nữ** (vd `ballad · Nam`, `sage · Nữ`); giọng mặc định người nói 1 là ballad (nam), người nói 2 là sage (nữ).
+- Nút **Nghe thử 2 câu đầu** để nghe giọng trước khi tạo bài; bấm nghe lại nhiều lần không tốn phí, chỉ tạo lại khi đổi giọng, chất lượng hoặc nội dung 2 câu đầu. Có nút Dừng.
+
 ## v1.0.50 (build 15) — 2026-10-29
 
 ### Sửa lỗi

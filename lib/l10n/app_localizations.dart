@@ -11235,6 +11235,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sync failed: {error}'**
   String driveSyncErrorGeneric(String error);
+
+  /// No description provided for @dialogueTtsVoiceMale.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get dialogueTtsVoiceMale;
+
+  /// No description provided for @dialogueTtsVoiceFemale.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get dialogueTtsVoiceFemale;
+
+  /// No description provided for @dialogueTtsPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'Preview first 2 lines'**
+  String get dialogueTtsPreview;
+
+  /// No description provided for @dialogueTtsPreviewStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get dialogueTtsPreviewStop;
+
+  /// No description provided for @dialogueTtsPreviewing.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating preview…'**
+  String get dialogueTtsPreviewing;
 }
 
 class _AppLocalizationsDelegate

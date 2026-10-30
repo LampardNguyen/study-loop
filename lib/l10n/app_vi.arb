@@ -1854,5 +1854,10 @@
   "driveSyncStepUploadingMedia": "Đang tải audio lên {progress}…",
   "driveSyncStepDownloadingMedia": "Đang tải audio về {progress}…",
   "driveSyncRestoreConfirm": "Dữ liệu học tập và cài đặt hiện tại sẽ được thay bằng bản sao lưu ngày {date} ({count} file). OpenAI key hiện tại được giữ nguyên.",
-  "driveSyncErrorGeneric": "Đồng bộ thất bại: {error}"
+  "driveSyncErrorGeneric": "Đồng bộ thất bại: {error}",
+  "dialogueTtsVoiceMale": "Nam",
+  "dialogueTtsVoiceFemale": "Nữ",
+  "dialogueTtsPreview": "Nghe thử 2 câu đầu",
+  "dialogueTtsPreviewStop": "Dừng",
+  "dialogueTtsPreviewing": "Đang tạo bản nghe thử…"
 }

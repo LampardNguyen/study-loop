@@ -49,8 +49,16 @@ void main() {
     expect(find.text('3 lines · 2 speakers · 27 characters'), findsOneWidget);
     expect(find.text('Mark'), findsOneWidget);
     expect(find.text('Anna'), findsOneWidget);
-    expect(find.text('ash'), findsOneWidget);
-    expect(find.text('nova'), findsOneWidget);
+    expect(find.text('ballad · Male'), findsOneWidget);
+    expect(find.text('sage · Female'), findsOneWidget);
+    expect(
+      tester
+          .widget<OutlinedButton>(
+            find.byKey(const ValueKey('dialogue-tts-preview')),
+          )
+          .onPressed,
+      isNotNull,
+    );
     expect(createButton(tester).onPressed, isNotNull);
   });
 
@@ -68,5 +76,13 @@ void main() {
       findsOneWidget,
     );
     expect(createButton(tester).onPressed, isNull);
+    expect(
+      tester
+          .widget<OutlinedButton>(
+            find.byKey(const ValueKey('dialogue-tts-preview')),
+          )
+          .onPressed,
+      isNull,
+    );
   });
 }

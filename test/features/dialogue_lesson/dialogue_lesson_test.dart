@@ -119,7 +119,7 @@ Mark：Okay.
         onProgress: (done, _) => progress.add(done),
       );
 
-      expect(fake.calls.map((c) => c.voice), ['ash', 'coral', 'ash']);
+      expect(fake.calls.map((c) => c.voice), ['ballad', 'coral', 'ballad']);
       expect(fake.calls.every((c) => c.format == 'pcm'), isTrue);
       expect(progress, [0, 1, 2, 3]);
       // 3 句 × 4800 字节 + 2 段静音 × 14400 字节 + 44 字节头。

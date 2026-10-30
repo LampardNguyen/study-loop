@@ -6398,4 +6398,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String driveSyncErrorGeneric(String error) {
     return 'Sync failed: $error';
   }
+
+  @override
+  String get dialogueTtsVoiceMale => 'Male';
+
+  @override
+  String get dialogueTtsVoiceFemale => 'Female';
+
+  @override
+  String get dialogueTtsPreview => 'Preview first 2 lines';
+
+  @override
+  String get dialogueTtsPreviewStop => 'Stop';
+
+  @override
+  String get dialogueTtsPreviewing => 'Creating preview…';
 }

@@ -3,10 +3,14 @@
 /// 设计稿见 `docs/selfhost/design-dialogue-tts.md`。
 library;
 
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:universal_io/io.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../models/audio_item.dart';
@@ -21,19 +25,19 @@ import '../ai_settings/providers/ai_settings_provider.dart';
 import 'dialogue_lesson_service.dart';
 import 'dialogue_parser.dart';
 
-/// OpenAI 可选声音。
-const dialogueVoiceOptions = [
-  'alloy',
-  'ash',
-  'ballad',
-  'coral',
-  'echo',
-  'fable',
-  'nova',
-  'onyx',
-  'sage',
-  'shimmer',
-];
+/// OpenAI 可选声音 → 是否男声（fable 偏中性，归入男声）。男声在前。
+const dialogueVoiceOptions = {
+  'ash': true,
+  'ballad': true,
+  'echo': true,
+  'fable': true,
+  'onyx': true,
+  'alloy': false,
+  'coral': false,
+  'nova': false,
+  'sage': false,
+  'shimmer': false,
+};
 
 /// 单句最大字符数（OpenAI speech 接口上限 4096）。
 const dialogueMaxLineChars = 4000;
@@ -78,9 +82,20 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
   int _done = 0;
   String? _error;
 
+  AudioPlayer? _player;
+  CancelToken? _previewCancel;
+  bool _previewLoading = false;
+  bool _previewPlaying = false;
+  File? _previewFile;
+  String? _previewKey;
+
   @override
   void dispose() {
     _cancelToken?.cancel();
+    _previewCancel?.cancel();
+    _player?.dispose();
+    final file = _previewFile;
+    if (file != null) unawaited(file.delete().catchError((_) => file));
     _nameController.dispose();
     _dialogueController.dispose();
     super.dispose();
@@ -184,6 +199,80 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
     }
   }
 
+  /// 试听缓存键：前几句内容 + 声音 + 模型，不变则直接重播。
+  String get _currentPreviewKey {
+    final lines = _lines.take(dialoguePreviewLines);
+    return [
+      _quality.model,
+      for (final l in lines) '${_voices[l.speaker]}|${l.speaker}|${l.text}',
+    ].join('\n');
+  }
+
+  Future<void> _togglePreview() async {
+    if (_previewPlaying) {
+      await _player?.stop();
+      return;
+    }
+    final key = _currentPreviewKey;
+    var file = _previewFile;
+    if (file == null || _previewKey != key) {
+      await ref.read(aiSettingsProvider.future);
+      if (!mounted) return;
+      final ok = await ensureAiConfiguredForAction(context: context, ref: ref);
+      if (!ok || !mounted) return;
+      final config = await ref.read(aiSettingsProvider.future);
+      if (!mounted) return;
+      _previewCancel = CancelToken();
+      setState(() => _previewLoading = true);
+      try {
+        file = await ref
+            .read(dialogueLessonServiceProvider)
+            .preview(
+              config: config,
+              lines: _lines,
+              voices: Map.of(_voices),
+              model: _quality.model,
+              cancelToken: _previewCancel,
+            );
+        _previewFile = file;
+        _previewKey = key;
+      } catch (e) {
+        if (!mounted) return;
+        setState(() => _previewLoading = false);
+        final canceled = e is DioException && e.type == DioExceptionType.cancel;
+        if (!canceled) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(_errorText(e))));
+        }
+        return;
+      }
+      if (!mounted) return;
+    }
+    final player = _player ??= _createPlayer();
+    setState(() {
+      _previewLoading = false;
+      _previewPlaying = true;
+    });
+    await player.setFilePath(file.path);
+    unawaited(player.play());
+  }
+
+  /// 按播放器真实状态刷新「停止」按钮：播完或停止即恢复为试听。
+  AudioPlayer _createPlayer() {
+    final player = AudioPlayer();
+    player.playerStateStream.listen((s) {
+      final playing =
+          s.playing &&
+          s.processingState != ProcessingState.completed &&
+          s.processingState != ProcessingState.idle;
+      if (mounted && _previewPlaying != playing && !_previewLoading) {
+        setState(() => _previewPlaying = playing);
+      }
+    });
+    return player;
+  }
+
   String _errorText(Object e) {
     final l10n = AppLocalizations.of(context)!;
     if (e is DialogueLessonException) {
@@ -210,7 +299,12 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
     final small = theme.textTheme.bodySmall;
     final chars = _lines.fold<int>(0, (sum, l) => sum + l.text.length);
     final tooLong = _tooLongIndex;
-    final canCreate = _lines.isNotEmpty && tooLong == null && !_busy;
+    final canCreate =
+        _lines.isNotEmpty &&
+        tooLong == null &&
+        !_busy &&
+        !_previewLoading &&
+        !_previewPlaying;
 
     if (_busy) {
       final total = _lines.length;
@@ -300,7 +394,11 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
             _DropdownRow<String>(
               label: speaker,
               value: _voices[speaker]!,
-              items: {for (final v in dialogueVoiceOptions) v: v},
+              items: {
+                for (final e in dialogueVoiceOptions.entries)
+                  e.key:
+                      '${e.key} · ${e.value ? l10n.dialogueTtsVoiceMale : l10n.dialogueTtsVoiceFemale}',
+              },
               onChanged: (v) => setState(() => _voices[speaker] = v),
             ),
           _DropdownRow<_Quality>(
@@ -322,6 +420,29 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
               (chars / 900).ceil(),
             ),
             style: small,
+          ),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              key: const ValueKey('dialogue-tts-preview'),
+              onPressed: _previewLoading || tooLong != null
+                  ? null
+                  : _togglePreview,
+              icon: _previewLoading
+                  ? const SizedBox.square(
+                      dimension: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Icon(_previewPlaying ? Icons.stop : Icons.play_arrow),
+              label: Text(
+                _previewLoading
+                    ? l10n.dialogueTtsPreviewing
+                    : _previewPlaying
+                    ? l10n.dialogueTtsPreviewStop
+                    : l10n.dialogueTtsPreview,
+              ),
+            ),
           ),
         ],
         if (_error != null) ...[

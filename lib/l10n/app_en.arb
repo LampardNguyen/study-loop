@@ -3001,5 +3001,10 @@
   "driveSyncRestoreConfirm": "Your current learning data and settings will be replaced by the backup from {date} ({count} files). Your current OpenAI key is kept.",
   "@driveSyncRestoreConfirm": {"placeholders": {"date": {"type": "String"}, "count": {"type": "int"}}},
   "driveSyncErrorGeneric": "Sync failed: {error}",
-  "@driveSyncErrorGeneric": {"placeholders": {"error": {"type": "String"}}}
+  "@driveSyncErrorGeneric": {"placeholders": {"error": {"type": "String"}}},
+  "dialogueTtsVoiceMale": "Male",
+  "dialogueTtsVoiceFemale": "Female",
+  "dialogueTtsPreview": "Preview first 2 lines",
+  "dialogueTtsPreviewStop": "Stop",
+  "dialogueTtsPreviewing": "Creating preview…"
 }
