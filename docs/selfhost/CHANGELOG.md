@@ -2,7 +2,7 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
-## Chưa phát hành
+## v1.0.51 (build 16) — 2026-10-30
 
 ### Tính năng mới
 - Hội thoại → giọng nói: danh sách giọng hiện rõ **Nam / Nữ** (vd `ballad · Nam`, `sage · Nữ`); giọng mặc định người nói 1 là ballad (nam), người nói 2 là sage (nữ).
