@@ -47,7 +47,6 @@ import '../screens/retell_player_screen.dart';
 import '../screens/review_difficult_practice_screen.dart';
 import '../screens/bookmark_review_screen.dart';
 import '../screens/sentence_detail_screen.dart';
-import '../screens/pdf_preview_screen.dart';
 import '../screens/backup_restore_screen.dart';
 import '../features/drive_sync/drive_sync_screen.dart';
 import '../features/drive_sync/newer_backup_check.dart';
@@ -165,7 +164,6 @@ abstract class AppRoutes {
   static const sentenceDetailSegment = 'sentence-detail';
 
   /// 学习材料 PDF 导出预览页路径段（挂在计划页 / 合集页之下的相对子路由）
-  static const pdfPreviewSegment = 'pdf-preview';
   static const backupRestore = '/backup-restore';
   static const driveSync = '/drive-sync';
 
@@ -276,17 +274,6 @@ GoRoute _mediaPlayerRoute(String path) => GoRoute(
   routes: [_sentenceDetailRoute()],
 );
 
-/// PDF 导出预览页子路由工厂。挂在计划页 / 合集页 / 资源库之下，同上说明。
-GoRoute _pdfPreviewRoute() => GoRoute(
-  path: AppRoutes.pdfPreviewSegment,
-  parentNavigatorKey: rootNavigatorKey,
-  builder: (context, state) {
-    final item = state.extra;
-    if (item is! AudioItem) return const _RestoredRoutePopper();
-    return PdfPreviewScreen(audioItem: item);
-  },
-);
-
 /// GoRouter Provider（keepAlive，不可 invalidate）
 final appRouterProvider = Provider<GoRouter>((ref) {
   final analyticsService = ref.read(analyticsServiceProvider);
@@ -331,7 +318,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: '/collections',
                 builder: (context, state) => const LibraryScreen(),
                 routes: [
-                  _pdfPreviewRoute(),
                   // 发现页属于资源库入口流程，留在 branch-0 内以持续显示主导航。
                   GoRoute(
                     path: CommunityCollectionRoutes.discoverSegment,
@@ -388,7 +374,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                     // 自动多退一层。嵌套后该层级由 URI 自身表达，重解析不再丢失。
                     // 详见 CLAUDE.md §7.17。
                     routes: [
-                      _pdfPreviewRoute(),
                       GoRoute(
                         path: ':audioId/plan',
                         parentNavigatorKey: rootNavigatorKey,
@@ -404,7 +389,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                             autoStart: autoStart,
                           );
                         },
-                        routes: [_pdfPreviewRoute()],
                       ),
                       _audioPlayerRoute(':audioId/player'),
                       _mediaPlayerRoute(
@@ -537,9 +521,8 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.driveSync,
-        builder: (context, state) => DriveSyncScreen(
-          autoRestore: state.extra == driveSyncAutoRestore,
-        ),
+        builder: (context, state) =>
+            DriveSyncScreen(autoRestore: state.extra == driveSyncAutoRestore),
       ),
       GoRoute(
         path: AppRoutes.onboardingSurvey,
@@ -592,7 +575,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const BookmarkReviewScreen(),
       ),
       // 句子详情 / PDF 预览已下沉为各入口页的嵌套子路由（§7.17），
-      // 见 _sentenceDetailRoute() / _pdfPreviewRoute() 的挂载点。
+      // 见 _sentenceDetailRoute() 的挂载点。
       // 收藏词汇（单词+意群）调度式复习（全屏）
       GoRoute(
         path: AppRoutes.favoriteVocabularyReview,
@@ -657,7 +640,6 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             autoStart: autoStart,
           );
         },
-        routes: [_pdfPreviewRoute()],
       ),
       _audioPlayerRoute('/audio/:audioId/player'),
       _mediaPlayerRoute('/audio/:audioId/${AppRoutes.mediaPlayerSegment}'),

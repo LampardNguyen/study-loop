@@ -860,13 +860,6 @@ class AudioListTile extends ConsumerWidget {
               label: audioItem.isVideo ? l10n.exportVideo : l10n.exportAudio,
             ),
           // 学习材料导出 PDF：只读派生内容（字幕+笔记），社区音频也可用，仅要求有字幕
-          if (audioItem.hasTranscript)
-            appPopupMenuItem(
-              context,
-              value: 'exportPdf',
-              icon: const Icon(Icons.picture_as_pdf_outlined, size: 20),
-              label: l10n.exportPdf,
-            ),
           // 仅在已开始学习时显示「暂停 / 恢复」与「重置」
           if (hasProgress)
             appPopupMenuItem(
@@ -959,12 +952,6 @@ class AudioListTile extends ConsumerWidget {
             onManageTags?.call();
           } else if (value == 'export') {
             exportAudioItem(context, ref, audioItem);
-          } else if (value == 'exportPdf') {
-            AppRoutes.pushNested(
-              context,
-              AppRoutes.pdfPreviewSegment,
-              extra: _latestAudioItem(ref),
-            );
           } else if (value == 'togglePause') {
             _handleTogglePause(context, ref, isPausedForMenu);
           } else if (value == 'resetProgress') {

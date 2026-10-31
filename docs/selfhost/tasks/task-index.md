@@ -26,6 +26,7 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - [x] T14.12 — Việt hoá "第 x/y 句" ở màn chi tiết câu → [task-2026-10-31.md](task-2026-10-31.md#t1412)
 - [x] T14.13 — 🎨 Khôi phục Drive xong → khởi động lại app → [task-2026-10-31.md](task-2026-10-31.md#t1413)
 - [x] T14.14 — 🎨 Báo có bản sao lưu Drive mới hơn từ máy khác → [task-2026-10-31.md](task-2026-10-31.md#t1414)
+- [x] T14.15 — Xoá tính năng xuất PDF và font PDF → [task-2026-10-31.md](task-2026-10-31.md#t1415)
 
 ## Quyết định
 - 2026-10-26: Cập nhật APK tải trong app (Dio) + cài qua FileProvider; lỗi tải → mở trình duyệt như cũ.

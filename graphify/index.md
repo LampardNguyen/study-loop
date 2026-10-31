@@ -4,6 +4,7 @@
 
 ## Âm thanh
 - [[recording]] — Ghi âm: cài đặt → provider → platform channel → `WavRecorder` (Android)
+- [[offline-asr]] — Nhận dạng giọng nói offline (sherpa-onnx/Whisper): model Fast/Balance/Accurate, nơi dùng, mục phụ đề offline đang bị ẩn
 
 ## Giao diện
 - [[settings-screen]] — Tab Cá nhân: các mục, mục đã ẩn trong bản self-host, test icon
@@ -11,3 +12,6 @@
 
 ## Dữ liệu
 - [[drive-sync]] — Sao lưu/Khôi phục Drive: sao lưu gì, bỏ gì, bẫy cài đặt không nạp lại sau khôi phục
+
+## Build
+- [[build-size]] — APK ~107 MB: thành phần nào chiếm dung lượng, hướng giảm
