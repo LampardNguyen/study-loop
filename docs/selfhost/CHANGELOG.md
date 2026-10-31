@@ -11,7 +11,7 @@ Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Releas
 ### Sửa lỗi
 - Màn chi tiết câu hiện "Câu x/y" theo ngôn ngữ app thay vì chữ Trung "第 x/y 句".
 - Bỏ mục FAQ (dẫn tới tài liệu của tác giả gốc) trong tab Cá nhân.
-- Bỏ tính năng Xuất PDF và các font đi kèm (APK nhỏ đi khoảng 12 MB).
+- Bỏ tính năng Xuất PDF và các font đi kèm (APK nhỏ đi khoảng 4 MB).
 - Khôi phục từ Google Drive xong app tự khởi động lại, để mọi cài đặt (học tập, giọng đọc, nghe chép…) có hiệu lực ngay, thay vì vẫn giữ giá trị cũ cho tới khi mở lại app.
 
 ## v1.0.51 (build 16) — 2026-10-30
