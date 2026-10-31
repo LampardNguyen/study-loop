@@ -86,11 +86,20 @@ flutter test
 flutter run --flavor dev --dart-define-from-file=.dev.env -d emulator-5554
 # Build APK: CHỈ khi phát hành / tạo tag release.
 # Bản phát hành (selfhost):
-flutter build apk --release --flavor prod --target-platform android-arm64 --dart-define-from-file=.prod.env
+flutter build apk --release --flavor prod --target-platform android-arm64 --no-tree-shake-icons --dart-define-from-file=.prod.env
 # Luôn kèm --target-platform android-arm64: app chỉ đóng gói arm64 (abiFilters), thiếu cờ này
 # Flutter biên dịch Dart cho cả arm/arm64/x64 → build ~9.5 phút thay vì ~4.8 phút (đo 2026-10-26).
 # Nếu build treo ở bước font-subset (0% CPU nhiều phút): thêm --no-tree-shake-icons.
 ```
+
+**Theo dõi build APK release (người dùng chốt 2026-10-31):** chạy build ở chế độ nền, ghi log ra file
+(không `| tail`, để thấy log liên tục) và kiểm tra log thường xuyên, khoảng 1 phút một lần.
+Nếu log **không có dòng mới quá 5 phút** và tiến trình gần như không dùng CPU → coi là treo:
+dừng build (kill tiến trình flutter/gradle của lần build đó, `./gradlew --stop`), báo người dùng. Không để build chạy mãi.
+**Không tự build lại liên tục** (người dùng chốt 2026-10-31): trước khi build lại phải tìm nguyên nhân
+(log flutter, log Gradle daemon `~/.gradle/daemon/*/daemon-*.out.log`, bước cuối cùng in ra, tiến trình
+còn sống/khoá Gradle, CPU) và xử lý nguyên nhân đó, rồi mới build lại. Tối đa **1 lần** build lại tự động;
+nếu vẫn lỗi → dừng, báo người dùng nguyên nhân đã tìm được và hỏi cách xử lý.
 
 ## 6. Ngôn ngữ
 
