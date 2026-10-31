@@ -325,7 +325,7 @@ void main() {
         expect(findSvgAsset('assets/icon/documents.svg'), findsNothing);
         expect(findSvgAsset('assets/icon/lock.svg'), findsNothing);
         expect(findSvgAsset('assets/icon/feedback.svg'), findsOneWidget);
-        expect(findSvgAsset('assets/icon/help.svg'), findsOneWidget);
+        expect(findSvgAsset('assets/icon/help.svg'), findsNothing);
         expect(findSvgAsset('assets/icon/group.svg'), findsNothing);
 
         await tester.scrollUntilVisible(find.text('Backup & Restore'), 200);
@@ -425,7 +425,6 @@ void main() {
           'assets/icon/microphone.svg',
           'assets/icon/play-pause.svg',
           'assets/icon/feedback.svg',
-          'assets/icon/help.svg',
           'assets/icon/trash-bin.svg',
         ];
 
@@ -486,7 +485,8 @@ void main() {
         // 自托管版：原作者的条款/隐私/社群入口隐藏。
         expect(find.text('Terms of Service'), findsNothing);
         expect(find.text('Privacy Policy'), findsNothing);
-        expect(find.text('FAQ'), findsOneWidget);
+        // 自托管版：FAQ（原作者文档）已移除。
+        expect(find.text('FAQ'), findsNothing);
         expect(find.text('Write Feedback'), findsOneWidget);
         expect(find.text('Join Community'), findsNothing);
         expect(find.text('Open Source Project'), findsOneWidget);
@@ -903,26 +903,6 @@ void main() {
     });
 
     group('交互', () {
-      testWidgets('点击 FAQ 后使用系统外部浏览器打开帮助文档', (tester) async {
-        await tester.pumpWidget(
-          createTestScreen(const SettingsScreen(), overrides: buildOverrides()),
-        );
-        await tester.pumpAndSettle();
-
-        await tester.drag(find.byType(ListView), const Offset(0, -600));
-        await tester.pumpAndSettle();
-        await tester.tap(find.text('FAQ'));
-        await tester.pump();
-
-        expect(urlLauncher.urls, [
-          'https://my.feishu.cn/docx/OPZRdXkRvoAW5Bx78LocBUdqn80',
-        ]);
-        expect(
-          urlLauncher.options.single.mode,
-          PreferredLaunchMode.externalApplication,
-        );
-      });
-
       testWidgets('点击主题设置弹出选择对话框', (tester) async {
         await tester.pumpWidget(
           createTestScreen(const SettingsScreen(), overrides: buildOverrides()),

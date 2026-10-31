@@ -78,7 +78,6 @@ const double _settingsLeadingIconExtent = 32;
 const double _settingsSvgIconExtent = 26;
 const double _settingsBrandIconExtent = 20;
 const double _settingsMaterialIconExtent = 26;
-const _faqUrl = 'https://my.feishu.cn/docx/OPZRdXkRvoAW5Bx78LocBUdqn80';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -704,15 +703,6 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               mode: LaunchMode.externalApplication,
             ),
           ),
-        ListTile(
-          leading: _settingsThemedSvgIcon(context, 'assets/icon/help.svg'),
-          title: const Text('FAQ'),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: () => launchUrl(
-            Uri.parse(_faqUrl),
-            mode: LaunchMode.externalApplication,
-          ),
-        ),
         // 版本检查：原后端走 version.json；自托管版 Android 走本 fork 的 GitHub Releases。
         if (ref.watch(backendApiConfiguredProvider) || Platform.isAndroid)
           ListTile(
