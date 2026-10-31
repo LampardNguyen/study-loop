@@ -1,5 +1,6 @@
 package app.echoloop
 
+import android.media.AudioDeviceInfo
 import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
@@ -146,6 +147,12 @@ class WavRecorder {
             Log.e(TAG, "AudioRecord init failed", e)
             false
         }
+    }
+
+    /** 指定录音输入设备；null 表示由系统选择。需在 [startRecording] 前调用。 */
+    fun setPreferredDevice(device: AudioDeviceInfo?) {
+        val ok = audioRecord?.setPreferredDevice(device) ?: false
+        Log.i(TAG, "setPreferredDevice type=${device?.type} ok=$ok")
     }
 
     /**

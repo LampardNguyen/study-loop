@@ -10396,6 +10396,84 @@ abstract class AppLocalizations {
   /// **'Applies to your next recording. Existing recordings stay the same.'**
   String get recordingSettingsFootnote;
 
+  /// No description provided for @recordingSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Recording source'**
+  String get recordingSource;
+
+  /// No description provided for @recordingSourceAuto.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatic'**
+  String get recordingSourceAuto;
+
+  /// No description provided for @recordingSourceAutoDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Let the system choose (default)'**
+  String get recordingSourceAutoDesc;
+
+  /// No description provided for @recordingSourceBuiltIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Device mic'**
+  String get recordingSourceBuiltIn;
+
+  /// No description provided for @recordingSourceBuiltInDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone on the phone'**
+  String get recordingSourceBuiltInDesc;
+
+  /// No description provided for @recordingSourceHeadset.
+  ///
+  /// In en, this message translates to:
+  /// **'Headset mic'**
+  String get recordingSourceHeadset;
+
+  /// No description provided for @recordingSourceInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'In use'**
+  String get recordingSourceInUse;
+
+  /// No description provided for @recordingHeadsetWired.
+  ///
+  /// In en, this message translates to:
+  /// **'Wired headset'**
+  String get recordingHeadsetWired;
+
+  /// No description provided for @recordingHeadsetUsb.
+  ///
+  /// In en, this message translates to:
+  /// **'USB headset'**
+  String get recordingHeadsetUsb;
+
+  /// No description provided for @recordingHeadsetBluetooth.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth'**
+  String get recordingHeadsetBluetooth;
+
+  /// No description provided for @recordingSourceNoHeadsetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Plug in or connect a headset with a mic to choose another source.'**
+  String get recordingSourceNoHeadsetHint;
+
+  /// No description provided for @recordingSourceHeadsetMissingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No headset found, using the device mic. Your \"Headset mic\" choice applies again when it reconnects.'**
+  String get recordingSourceHeadsetMissingHint;
+
+  /// No description provided for @recordingSourceBluetoothWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Bluetooth mics record at call quality (about 16 kHz). Playback may briefly switch to call mode while recording.'**
+  String get recordingSourceBluetoothWarning;
+
   /// No description provided for @devVersionOverride.
   ///
   /// In en, this message translates to:

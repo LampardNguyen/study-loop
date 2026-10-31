@@ -57,7 +57,11 @@ class _Backend implements SpeechPracticeBackend {
   Future<void> shutdown() async {}
 }
 
-Widget _app(ProviderContainer container, RecordingTrial Function() trial) =>
+Widget _app(
+  ProviderContainer container,
+  RecordingTrial Function() trial, {
+  RecordingHeadset? headset,
+}) =>
     UncontrolledProviderScope(
       container: container,
       child: MaterialApp(
@@ -69,7 +73,10 @@ Widget _app(ProviderContainer container, RecordingTrial Function() trial) =>
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: AppLocalizations.supportedLocales,
-        home: RecordingSettingsScreen(trialBuilder: trial),
+        home: RecordingSettingsScreen(
+          trialBuilder: trial,
+          headsetProbe: () async => headset,
+        ),
       ),
     );
 
@@ -91,7 +98,8 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Rất to'));
-    await tester.scrollUntilVisible(find.text('Cao'), 100);
+    await tester.ensureVisible(find.text('Cao'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Cao'));
     await tester.pumpAndSettle();
 
@@ -127,6 +135,8 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.scrollUntilVisible(find.text('Ghi thử 5 giây'), 100);
+    await tester.ensureVisible(find.text('Ghi thử 5 giây'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Ghi thử 5 giây'));
     await tester.pump();
     expect(find.text('Đang ghi… 2s'), findsOneWidget);
@@ -161,6 +171,8 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.scrollUntilVisible(find.text('Ghi thử 5 giây'), 100);
+    await tester.ensureVisible(find.text('Ghi thử 5 giây'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Ghi thử 5 giây'));
     await tester.pumpAndSettle();
 
@@ -168,5 +180,53 @@ void main() {
       find.text('Chưa cấp quyền micro. Hãy bật trong cài đặt hệ thống.'),
       findsOneWidget,
     );
+  });
+
+  RecordingTrial trial() => RecordingTrial(
+    backend: _Backend(micGranted: true),
+    play: (_) async {},
+  );
+
+  testWidgets('无耳机时只显示手机麦克风与提示', (tester) async {
+    final container = ProviderContainer();
+    addTearDown(container.dispose);
+    await tester.pumpWidget(_app(container, trial));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Mic thiết bị'), findsOneWidget);
+    expect(find.text('Mic tai nghe'), findsNothing);
+    expect(
+      find.text('Cắm hoặc kết nối tai nghe có mic để chọn nguồn khác.'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('蓝牙耳机：可选耳机麦克风并显示音质提醒', (tester) async {
+    final container = ProviderContainer();
+    addTearDown(container.dispose);
+    await tester.pumpWidget(
+      _app(
+        container,
+        trial,
+        headset: const RecordingHeadset(
+          type: RecordingHeadsetType.bluetooth,
+          name: 'Buds',
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Tự động'), findsOneWidget);
+    expect(find.text('Bluetooth · Buds'), findsOneWidget);
+    expect(find.textContaining('chất lượng cuộc gọi'), findsNothing);
+
+    await tester.tap(find.text('Mic tai nghe'));
+    await tester.pumpAndSettle();
+
+    expect(
+      container.read(recordingSettingsNotifierProvider).source,
+      RecordingSource.headset,
+    );
+    expect(find.textContaining('chất lượng cuộc gọi'), findsOneWidget);
   });
 }

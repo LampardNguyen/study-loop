@@ -1,7 +1,7 @@
 /// 录音设置 Provider（self-host 新增）
 ///
 /// keepAlive Notifier，`build()` 返回默认值并异步从 SharedPreferences 加载；
-/// 通过 [RecordingSettingsNotifier.setGainLevel] / [setQuality] 修改并持久化。
+/// 通过 [RecordingSettingsNotifier.setGainLevel] / [setQuality] / [setSource] 修改并持久化。
 library;
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -14,6 +14,7 @@ part 'recording_settings_provider.g.dart';
 
 const _gainKey = 'recording_gain_level';
 const _qualityKey = 'recording_quality';
+const _sourceKey = 'recording_source';
 const _logTag = 'RecordingSettings';
 
 /// 录音设置 Notifier
@@ -40,10 +41,15 @@ class RecordingSettingsNotifier extends _$RecordingSettingsNotifier {
         RecordingQuality.values,
         prefs.getString(_qualityKey),
       );
+      final source = _byName(
+        RecordingSource.values,
+        prefs.getString(_sourceKey),
+      );
       if (_userChanged) return;
       state = RecordingSettings(
         gainLevel: gain ?? RecordingGainLevel.standard,
         quality: quality ?? RecordingQuality.standard,
+        source: source ?? RecordingSource.auto,
       );
       AppLogger.log(_logTag, 'loaded $state');
     } catch (e) {
@@ -63,6 +69,13 @@ class RecordingSettingsNotifier extends _$RecordingSettingsNotifier {
     _userChanged = true;
     state = state.copyWith(quality: quality);
     await _persist(_qualityKey, quality.name);
+  }
+
+  /// 修改录音来源并持久化
+  Future<void> setSource(RecordingSource source) async {
+    _userChanged = true;
+    state = state.copyWith(source: source);
+    await _persist(_sourceKey, source.name);
   }
 
   Future<void> _persist(String key, String value) async {

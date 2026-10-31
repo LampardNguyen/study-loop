@@ -34,6 +34,7 @@ void main() {
       final notifier = first.read(recordingSettingsNotifierProvider.notifier);
       await notifier.setGainLevel(RecordingGainLevel.extraLoud);
       await notifier.setQuality(RecordingQuality.good);
+      await notifier.setSource(RecordingSource.headset);
       first.dispose();
 
       final second = ProviderContainer();
@@ -46,6 +47,7 @@ void main() {
         const RecordingSettings(
           gainLevel: RecordingGainLevel.extraLoud,
           quality: RecordingQuality.good,
+          source: RecordingSource.headset,
         ),
       );
     });
@@ -87,10 +89,38 @@ void main() {
       ..recordingSettings = () => const RecordingSettings(
         gainLevel: RecordingGainLevel.loud,
         quality: RecordingQuality.high,
+        source: RecordingSource.builtIn,
       );
     await platform.startSession(promptId: 'p1');
 
     expect(captured?['gain'], 3.5);
     expect(captured?['sampleRate'], 44100);
+    expect(captured?['source'], 'builtIn');
+  });
+
+  test('getHeadsetInput 解析原生返回的耳机信息', () async {
+    const channel = MethodChannel('top.echo-loop/speech_practice');
+    Object? reply = {'headsetType': 'bluetooth', 'headsetName': 'Buds'};
+    TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+        .setMockMethodCallHandler(channel, (call) async {
+          if (call.method == 'listInputDevices') return reply;
+          return null;
+        });
+    addTearDown(
+      () => TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(channel, null),
+    );
+
+    final platform = SpeechPracticePlatform();
+    expect(
+      await platform.getHeadsetInput(),
+      const RecordingHeadset(
+        type: RecordingHeadsetType.bluetooth,
+        name: 'Buds',
+      ),
+    );
+
+    reply = <String, Object>{};
+    expect(await platform.getHeadsetInput(), isNull);
   });
 }

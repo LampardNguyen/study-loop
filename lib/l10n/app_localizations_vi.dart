@@ -5906,6 +5906,48 @@ class AppLocalizationsVi extends AppLocalizations {
       'Áp dụng cho lần ghi âm tiếp theo. Bản ghi cũ không thay đổi.';
 
   @override
+  String get recordingSource => 'Nguồn ghi âm';
+
+  @override
+  String get recordingSourceAuto => 'Tự động';
+
+  @override
+  String get recordingSourceAutoDesc => 'Để hệ thống chọn (mặc định)';
+
+  @override
+  String get recordingSourceBuiltIn => 'Mic thiết bị';
+
+  @override
+  String get recordingSourceBuiltInDesc => 'Mic trên điện thoại';
+
+  @override
+  String get recordingSourceHeadset => 'Mic tai nghe';
+
+  @override
+  String get recordingSourceInUse => 'Đang dùng';
+
+  @override
+  String get recordingHeadsetWired => 'Tai nghe có dây';
+
+  @override
+  String get recordingHeadsetUsb => 'Tai nghe USB';
+
+  @override
+  String get recordingHeadsetBluetooth => 'Bluetooth';
+
+  @override
+  String get recordingSourceNoHeadsetHint =>
+      'Cắm hoặc kết nối tai nghe có mic để chọn nguồn khác.';
+
+  @override
+  String get recordingSourceHeadsetMissingHint =>
+      'Không tìm thấy tai nghe → đang dùng mic thiết bị. Khi kết nối lại, lựa chọn \"Mic tai nghe\" sẽ tự áp dụng.';
+
+  @override
+  String get recordingSourceBluetoothWarning =>
+      'Mic Bluetooth thu ở chất lượng cuộc gọi (khoảng 16 kHz). Âm thanh phát ra có thể tạm đổi sang chế độ gọi trong lúc ghi.';
+
+  @override
   String get devVersionOverride => 'Ghi đè phiên bản';
 
   @override

@@ -96,3 +96,14 @@ flutter build apk --release --flavor prod --target-platform android-arm64 --dart
 
 - Trao đổi với người dùng: tiếng Việt.
 - Comment code: theo quy ước dự án (tiếng Trung, Dart doc) để đồng nhất với code gốc.
+
+## 7. Bản đồ tri thức `graphify/` (người dùng chốt 2026-10-31)
+
+- **Trước khi phân tích** một chức năng: đọc bản đồ tri thức trong `graphify/` (bắt đầu từ `graphify/index.md`)
+  để nắm kiến trúc, chỉ đọc thêm code khi bản đồ chưa đủ — không tìm hiểu lại từ đầu.
+- **Sau khi phân tích xong** một chức năng: ghi lại thành note trong `graphify/` (chưa có thư mục/note thì tạo mới).
+  Tổ chức kiểu Obsidian: mỗi note 1 chủ đề (chức năng / module / luồng dữ liệu), liên kết chéo bằng `[[tên-note]]`,
+  có mục *Liên quan*; `graphify/index.md` là chỉ mục gốc (MOC) trỏ tới mọi note.
+  Nội dung note: mục đích, file/class chính (đường dẫn), luồng xử lý, phụ thuộc, lưu ý.
+- **Khi sửa logic code** làm bản đồ không còn đúng: cập nhật note liên quan (và `index.md` nếu thêm/xoá note)
+  trong cùng lần thay đổi/commit.

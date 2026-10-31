@@ -5913,6 +5913,48 @@ class AppLocalizationsEn extends AppLocalizations {
       'Applies to your next recording. Existing recordings stay the same.';
 
   @override
+  String get recordingSource => 'Recording source';
+
+  @override
+  String get recordingSourceAuto => 'Automatic';
+
+  @override
+  String get recordingSourceAutoDesc => 'Let the system choose (default)';
+
+  @override
+  String get recordingSourceBuiltIn => 'Device mic';
+
+  @override
+  String get recordingSourceBuiltInDesc => 'Microphone on the phone';
+
+  @override
+  String get recordingSourceHeadset => 'Headset mic';
+
+  @override
+  String get recordingSourceInUse => 'In use';
+
+  @override
+  String get recordingHeadsetWired => 'Wired headset';
+
+  @override
+  String get recordingHeadsetUsb => 'USB headset';
+
+  @override
+  String get recordingHeadsetBluetooth => 'Bluetooth';
+
+  @override
+  String get recordingSourceNoHeadsetHint =>
+      'Plug in or connect a headset with a mic to choose another source.';
+
+  @override
+  String get recordingSourceHeadsetMissingHint =>
+      'No headset found, using the device mic. Your \"Headset mic\" choice applies again when it reconnects.';
+
+  @override
+  String get recordingSourceBluetoothWarning =>
+      'Bluetooth mics record at call quality (about 16 kHz). Playback may briefly switch to call mode while recording.';
+
+  @override
   String get devVersionOverride => 'Version override';
 
   @override

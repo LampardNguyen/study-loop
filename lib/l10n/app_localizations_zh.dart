@@ -5640,6 +5640,47 @@ class AppLocalizationsZh extends AppLocalizations {
   String get recordingSettingsFootnote => '对之后的录音生效，已有录音不变。';
 
   @override
+  String get recordingSource => '录音来源';
+
+  @override
+  String get recordingSourceAuto => '自动';
+
+  @override
+  String get recordingSourceAutoDesc => '由系统选择（默认）';
+
+  @override
+  String get recordingSourceBuiltIn => '手机麦克风';
+
+  @override
+  String get recordingSourceBuiltInDesc => '手机自带麦克风';
+
+  @override
+  String get recordingSourceHeadset => '耳机麦克风';
+
+  @override
+  String get recordingSourceInUse => '使用中';
+
+  @override
+  String get recordingHeadsetWired => '有线耳机';
+
+  @override
+  String get recordingHeadsetUsb => 'USB 耳机';
+
+  @override
+  String get recordingHeadsetBluetooth => '蓝牙';
+
+  @override
+  String get recordingSourceNoHeadsetHint => '插入或连接带麦克风的耳机后可选择其他来源。';
+
+  @override
+  String get recordingSourceHeadsetMissingHint =>
+      '未找到耳机，正在使用手机麦克风。重新连接后将自动使用“耳机麦克风”。';
+
+  @override
+  String get recordingSourceBluetoothWarning =>
+      '蓝牙麦克风为通话音质（约 16 kHz），录音时播放可能暂时切换为通话模式。';
+
+  @override
   String get devVersionOverride => '版本号覆盖';
 
   @override

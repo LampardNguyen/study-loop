@@ -3,6 +3,9 @@ package app.echoloop
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
+import android.media.AudioDeviceInfo
+import android.media.AudioManager
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -95,6 +98,7 @@ class AndroidSpeechPracticeHandler(
             "cancelSession" -> cancelSession(result)
             "shutdown" -> shutdown(result)
             "deleteRecording" -> deleteRecording(call, result)
+            "listInputDevices" -> result.success(headsetInputMap())
             "getDeviceInfo" -> {
                 val runtime = Runtime.getRuntime()
                 val memInfo = android.app.ActivityManager.MemoryInfo()
@@ -188,9 +192,95 @@ class AndroidSpeechPracticeHandler(
     }
 
     private fun cleanupEngine() {
+        releaseBluetoothRoute()
         wavRecorder.release()
         isEngineReady = false
         isRecording = false
+    }
+
+    // endregion
+
+    // region 录音来源（self-host）
+
+    /** 用户选择的录音来源：auto / builtIn / headset。 */
+    private var recordingSource: String = "auto"
+
+    /** 本次录音是否开启了蓝牙 SCO 通话路由（结束时需恢复）。 */
+    private var bluetoothRouteActive = false
+
+    private val audioManager: AudioManager
+        get() = activity.getSystemService(android.content.Context.AUDIO_SERVICE) as AudioManager
+
+    /** 当前可用的耳机麦克风：有线/USB 优先，其次蓝牙。 */
+    private fun findHeadsetInput(): AudioDeviceInfo? {
+        val inputs = audioManager.getDevices(AudioManager.GET_DEVICES_INPUTS)
+        return inputs.firstOrNull { it.type == AudioDeviceInfo.TYPE_WIRED_HEADSET }
+            ?: inputs.firstOrNull { it.type == AudioDeviceInfo.TYPE_USB_HEADSET || it.type == AudioDeviceInfo.TYPE_USB_DEVICE }
+            ?: inputs.firstOrNull { isBluetoothInput(it.type) }
+    }
+
+    private fun isBluetoothInput(type: Int): Boolean =
+        type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO ||
+            (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && type == AudioDeviceInfo.TYPE_BLE_HEADSET)
+
+    private fun headsetInputMap(): Map<String, Any> {
+        val device = findHeadsetInput() ?: return emptyMap()
+        val type = when {
+            device.type == AudioDeviceInfo.TYPE_WIRED_HEADSET -> "wired"
+            isBluetoothInput(device.type) -> "bluetooth"
+            else -> "usb"
+        }
+        return mapOf("headsetType" to type, "headsetName" to device.productName.toString())
+    }
+
+    /** 按 [recordingSource] 设置 AudioRecord 输入设备；目标不可用时回退系统默认。 */
+    private fun applyRecordingSource() {
+        val device = when (recordingSource) {
+            "builtIn" -> audioManager.getDevices(AudioManager.GET_DEVICES_INPUTS)
+                .firstOrNull { it.type == AudioDeviceInfo.TYPE_BUILTIN_MIC }
+            "headset" -> findHeadsetInput()
+            else -> null
+        }
+        if (device != null && isBluetoothInput(device.type)) startBluetoothRoute()
+        wavRecorder.setPreferredDevice(device)
+        Log.i(TAG, "recordingSource=$recordingSource device=${device?.productName}")
+    }
+
+    /** 蓝牙耳机麦克风需开启通话（SCO）路由才有声音。 */
+    private fun startBluetoothRoute() {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val target = audioManager.availableCommunicationDevices.firstOrNull {
+                    it.type == AudioDeviceInfo.TYPE_BLUETOOTH_SCO || it.type == AudioDeviceInfo.TYPE_BLE_HEADSET
+                } ?: return
+                bluetoothRouteActive = audioManager.setCommunicationDevice(target)
+            } else {
+                @Suppress("DEPRECATION")
+                audioManager.startBluetoothSco()
+                @Suppress("DEPRECATION")
+                audioManager.isBluetoothScoOn = true
+                bluetoothRouteActive = true
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "startBluetoothRoute failed", e)
+        }
+    }
+
+    private fun releaseBluetoothRoute() {
+        if (!bluetoothRouteActive) return
+        bluetoothRouteActive = false
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                audioManager.clearCommunicationDevice()
+            } else {
+                @Suppress("DEPRECATION")
+                audioManager.isBluetoothScoOn = false
+                @Suppress("DEPRECATION")
+                audioManager.stopBluetoothSco()
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "releaseBluetoothRoute failed", e)
+        }
     }
 
     // endregion
@@ -209,6 +299,7 @@ class AndroidSpeechPracticeHandler(
         val gain = call.argument<Double>("gain")?.toFloat() ?: 2.2f
         val sampleRate = call.argument<Int>("sampleRate") ?: 16000
         wavRecorder.configure(gain, sampleRate)
+        recordingSource = call.argument<String>("source") ?: "auto"
 
         if (!isEngineReady) {
             warmup(object : MethodChannel.Result {
@@ -238,6 +329,7 @@ class AndroidSpeechPracticeHandler(
         // 延迟初始化 AudioRecord（权限可能在 warmup 之后才授予）。
         if (!wavRecorder.isInitialized) initWavRecorder()
         if (wavRecorder.isInitialized) {
+            applyRecordingSource()
             wavRecorder.startRecording(file.absolutePath)
         }
 
@@ -247,6 +339,7 @@ class AndroidSpeechPracticeHandler(
 
     private fun stopSession(result: MethodChannel.Result) {
         isRecording = false
+        releaseBluetoothRoute()
         val promptId = currentPromptId ?: ""
 
         val filePath = if (wavRecorder.isInitialized) {
@@ -288,6 +381,7 @@ class AndroidSpeechPracticeHandler(
 
     private fun cancelSession(result: MethodChannel.Result) {
         isRecording = false
+        releaseBluetoothRoute()
         cleanupSentenceState()
         result.success(emptyMap<String, Any>())
     }

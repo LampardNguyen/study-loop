@@ -1,7 +1,9 @@
 /// 录音设置页（self-host 新增，仅 Android 入口）。
 ///
-/// 音量档（增益）+ 音质档（采样率）+ 试录 5 秒。设置对下一次录音生效。
+/// 录音来源 + 音量档（增益）+ 音质档（采样率）+ 试录 5 秒。设置对下一次录音生效。
 library;
+
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,12 +48,30 @@ String _qualityDesc(AppLocalizations l10n, RecordingQuality q) => switch (q) {
   RecordingQuality.high => l10n.recordingQualityHighDesc,
 };
 
+/// 耳机类型显示名
+String _headsetLabel(AppLocalizations l10n, RecordingHeadset headset) =>
+    switch (headset.type) {
+      RecordingHeadsetType.wired => l10n.recordingHeadsetWired,
+      RecordingHeadsetType.usb => l10n.recordingHeadsetUsb,
+      RecordingHeadsetType.bluetooth =>
+        headset.name.isEmpty
+            ? l10n.recordingHeadsetBluetooth
+            : '${l10n.recordingHeadsetBluetooth} · ${headset.name}',
+    };
+
 /// 录音设置页
 class RecordingSettingsScreen extends ConsumerStatefulWidget {
-  const RecordingSettingsScreen({super.key, this.trialBuilder});
+  const RecordingSettingsScreen({
+    super.key,
+    this.trialBuilder,
+    this.headsetProbe,
+  });
 
   /// 测试注入：替换试录编排器（默认用平台录音 + just_audio 回放）
   final RecordingTrial Function()? trialBuilder;
+
+  /// 测试注入：查询耳机麦克风（默认走平台 `listInputDevices`）
+  final Future<RecordingHeadset?> Function()? headsetProbe;
 
   @override
   ConsumerState<RecordingSettingsScreen> createState() =>
@@ -72,8 +92,33 @@ class _RecordingSettingsScreenState
     return RecordingTrial(backend: platform, play: _playFile);
   }
 
+  /// 当前可用的耳机麦克风；null 表示只有手机麦克风
+  RecordingHeadset? _headset;
+
+  /// 插拔耳机没有回调，页面打开期间定时刷新
+  Timer? _headsetTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    _refreshHeadset();
+    _headsetTimer = Timer.periodic(
+      const Duration(seconds: 2),
+      (_) => _refreshHeadset(),
+    );
+  }
+
+  Future<void> _refreshHeadset() async {
+    final probe =
+        widget.headsetProbe ?? SpeechPracticePlatform.instance.getHeadsetInput;
+    final headset = await probe();
+    if (!mounted || headset == _headset) return;
+    setState(() => _headset = headset);
+  }
+
   @override
   void dispose() {
+    _headsetTimer?.cancel();
     _trial.dispose();
     super.dispose();
   }
@@ -123,6 +168,9 @@ class _RecordingSettingsScreenState
       body: ListView(
         padding: const EdgeInsets.all(AppSpacing.m),
         children: [
+          _SectionLabel(text: l10n.recordingSource),
+          ..._buildSource(l10n, settings, notifier, hintStyle),
+          const SizedBox(height: AppSpacing.m),
           _SectionLabel(text: l10n.recordingVolume),
           Card(
             child: RadioGroup<RecordingGainLevel>(
@@ -203,6 +251,94 @@ class _RecordingSettingsScreenState
         ],
       ),
     );
+  }
+}
+
+extension on _RecordingSettingsScreenState {
+  /// 录音来源区块：无耳机时只显示手机麦克风 + 提示
+  List<Widget> _buildSource(
+    AppLocalizations l10n,
+    RecordingSettings settings,
+    RecordingSettingsNotifier notifier,
+    TextStyle? hintStyle,
+  ) {
+    final headset = _headset;
+    Widget hint(String text) => Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.m,
+        AppSpacing.xs,
+        AppSpacing.m,
+        0,
+      ),
+      child: Text(text, style: hintStyle),
+    );
+
+    if (headset == null) {
+      return [
+        Card(
+          child: ListTile(
+            leading: const Icon(Icons.radio_button_checked),
+            title: Text(l10n.recordingSourceBuiltIn),
+            subtitle: Text(l10n.recordingSourceInUse, style: hintStyle),
+          ),
+        ),
+        hint(
+          settings.source == RecordingSource.headset
+              ? l10n.recordingSourceHeadsetMissingHint
+              : l10n.recordingSourceNoHeadsetHint,
+        ),
+      ];
+    }
+
+    final theme = Theme.of(context);
+    return [
+      Card(
+        child: RadioGroup<RecordingSource>(
+          groupValue: settings.source,
+          onChanged: (v) {
+            if (v != null) notifier.setSource(v);
+          },
+          child: Column(
+            children: [
+              RadioListTile<RecordingSource>(
+                value: RecordingSource.auto,
+                title: Text(l10n.recordingSourceAuto),
+                subtitle: Text(l10n.recordingSourceAutoDesc, style: hintStyle),
+              ),
+              RadioListTile<RecordingSource>(
+                value: RecordingSource.builtIn,
+                title: Text(l10n.recordingSourceBuiltIn),
+                subtitle: Text(
+                  l10n.recordingSourceBuiltInDesc,
+                  style: hintStyle,
+                ),
+              ),
+              RadioListTile<RecordingSource>(
+                value: RecordingSource.headset,
+                title: Text(l10n.recordingSourceHeadset),
+                subtitle: Text(_headsetLabel(l10n, headset), style: hintStyle),
+              ),
+            ],
+          ),
+        ),
+      ),
+      if (settings.source == RecordingSource.headset &&
+          headset.type == RecordingHeadsetType.bluetooth)
+        Container(
+          margin: const EdgeInsets.only(top: AppSpacing.s),
+          padding: const EdgeInsets.all(AppSpacing.s),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.tertiaryContainer,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Text(
+            l10n.recordingSourceBluetoothWarning,
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onTertiaryContainer,
+            ),
+          ),
+        ),
+    ];
   }
 }
 

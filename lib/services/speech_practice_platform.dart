@@ -233,6 +233,28 @@ class SpeechPracticePlatform implements SpeechPracticeBackend {
     return filePath;
   }
 
+  /// 查询当前可用的耳机麦克风（仅 Android）；无耳机或查询失败返回 null。
+  Future<RecordingHeadset?> getHeadsetInput() async {
+    if (!isSupported) return null;
+    try {
+      final result = await _invokeMap('listInputDevices');
+      final type = switch (result['headsetType'] as String?) {
+        'wired' => RecordingHeadsetType.wired,
+        'usb' => RecordingHeadsetType.usb,
+        'bluetooth' => RecordingHeadsetType.bluetooth,
+        _ => null,
+      };
+      if (type == null) return null;
+      return RecordingHeadset(
+        type: type,
+        name: result['headsetName'] as String? ?? '',
+      );
+    } on SpeechPracticePlatformException catch (e) {
+      AppLogger.log('SpeechPlatform', 'listInputDevices failed $e');
+      return null;
+    }
+  }
+
   @override
   Future<SpeechPracticeStopResult> stopSession() async {
     _ensureSupported();

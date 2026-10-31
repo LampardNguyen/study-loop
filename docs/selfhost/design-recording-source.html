@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nguồn ghi âm</title>
+<style>
+:root{--bg:#f3f4f6;--card:#fff;--fg:#1f2937;--mute:#6b7280;--pri:#4f46e5;--warn:#b45309;--warnbg:#fef3c7;--line:#e5e7eb}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111827;--card:#1f2937;--fg:#f3f4f6;--mute:#9ca3af;--line:#374151;--warnbg:#3b2f12;--warn:#fbbf24}}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,sans-serif;padding:16px}
+h1{font-size:18px}.grid{display:flex;flex-wrap:wrap;gap:20px}
+.phone{width:320px;max-width:100%;background:var(--bg);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.bar{background:var(--card);padding:14px 16px;font-weight:600;border-bottom:1px solid var(--line)}
+.body{padding:12px}.lbl{font-size:12px;font-weight:600;color:var(--mute);margin:8px 4px 6px;text-transform:uppercase}
+.card{background:var(--card);border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.row{display:flex;gap:12px;padding:10px 14px;border-top:1px solid var(--line)}.row:first-child{border-top:0}
+.r{width:18px;height:18px;border-radius:50%;border:2px solid var(--mute);flex:none;margin-top:2px}
+.on .r{border-color:var(--pri);box-shadow:inset 0 0 0 4px var(--card);background:var(--pri)}
+.t{font-weight:500}.d{font-size:12px;color:var(--mute)}
+.hint{font-size:12px;color:var(--mute);margin:6px 8px}
+.warn{background:var(--warnbg);color:var(--warn);font-size:12px;border-radius:8px;padding:8px 10px;margin:8px 4px}
+.dim{opacity:.45}.cap{font-weight:600;margin:4px 0 8px}
+</style></head><body>
+<h1>T14.10 — Nguồn ghi âm (Cá nhân → Ghi âm)</h1>
+<p>Mục mới đặt <b>trên cùng</b>, trước "Âm lượng" và "Chất lượng" (giữ nguyên). Danh sách mic được đọc lại mỗi lần mở màn hình và khi cắm hoặc rút tai nghe.</p>
+<div class="grid">
+
+<div><div class="cap">A. Chỉ có mic máy</div><div class="phone"><div class="bar">← Ghi âm</div><div class="body">
+<div class="lbl">Nguồn ghi âm</div>
+<div class="card"><div class="row on"><span class="r"></span><div><div class="t">Mic thiết bị</div><div class="d">Đang dùng</div></div></div></div>
+<div class="hint">Cắm hoặc kết nối tai nghe có mic để chọn nguồn khác.</div>
+<div class="lbl">Âm lượng</div><div class="card dim"><div class="row"><div class="d">(như hiện tại)</div></div></div>
+</div></div></div>
+
+<div><div class="cap">B. Có tai nghe có dây</div><div class="phone"><div class="bar">← Ghi âm</div><div class="body">
+<div class="lbl">Nguồn ghi âm</div>
+<div class="card">
+<div class="row on"><span class="r"></span><div><div class="t">Tự động</div><div class="d">Để hệ thống chọn (mặc định)</div></div></div>
+<div class="row"><span class="r"></span><div><div class="t">Mic thiết bị</div><div class="d">Mic trên điện thoại</div></div></div>
+<div class="row"><span class="r"></span><div><div class="t">Mic tai nghe</div><div class="d">Tai nghe có dây</div></div></div>
+</div>
+<div class="hint">Áp dụng cho lần ghi tiếp theo. Bấm "Thử ghi 5 giây" để kiểm tra.</div>
+</div></div></div>
+
+<div><div class="cap">C. Chọn tai nghe Bluetooth</div><div class="phone"><div class="bar">← Ghi âm</div><div class="body">
+<div class="lbl">Nguồn ghi âm</div>
+<div class="card">
+<div class="row"><span class="r"></span><div><div class="t">Tự động</div><div class="d">Để hệ thống chọn (mặc định)</div></div></div>
+<div class="row"><span class="r"></span><div><div class="t">Mic thiết bị</div><div class="d">Mic trên điện thoại</div></div></div>
+<div class="row on"><span class="r"></span><div><div class="t">Mic tai nghe</div><div class="d">Bluetooth · Galaxy Buds2</div></div></div>
+</div>
+<div class="warn">⚠ Mic Bluetooth thu ở chất lượng cuộc gọi (khoảng 16 kHz). Âm thanh phát ra có thể tạm đổi sang chế độ gọi trong lúc ghi.</div>
+</div></div></div>
+
+<div><div class="cap">D. Đã chọn tai nghe nhưng đã ngắt</div><div class="phone"><div class="bar">← Ghi âm</div><div class="body">
+<div class="lbl">Nguồn ghi âm</div>
+<div class="card"><div class="row on"><span class="r"></span><div><div class="t">Mic thiết bị</div><div class="d">Đang dùng</div></div></div></div>
+<div class="hint">Không tìm thấy tai nghe → đang dùng mic thiết bị. Khi kết nối lại, lựa chọn "Mic tai nghe" sẽ tự áp dụng.</div>
+</div></div></div>
+
+</div>
+<p class="hint">Lựa chọn được lưu lại. Khi ghi âm mà mic đã chọn không còn, app ghi bằng mic máy và không báo lỗi. Nếu có nhiều tai nghe, app ưu tiên tai nghe có dây/USB rồi đến Bluetooth.</p>
+</body></html>
