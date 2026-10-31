@@ -2,7 +2,7 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
-## Chưa phát hành
+## v1.0.52 (build 17) — 2026-10-31
 
 ### Tính năng mới
 - Cá nhân → Ghi âm: chọn **nguồn ghi âm** (Tự động / Mic thiết bị / Mic tai nghe) khi có tai nghe có mic (có dây, USB hoặc Bluetooth). Tai nghe Bluetooth có cảnh báo về chất lượng cuộc gọi; tai nghe bị ngắt thì tự dùng mic máy.
