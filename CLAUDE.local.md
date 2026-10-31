@@ -95,7 +95,7 @@ flutter build apk --release --flavor prod --target-platform android-arm64 --dart
 ## 6. Ngôn ngữ
 
 - Trao đổi với người dùng: tiếng Việt.
-- Comment code: theo quy ước dự án (tiếng Trung, Dart doc) để đồng nhất với code gốc.
+- Comment code: theo quy ước dự án (tiếng Việt, Dart doc) để đồng nhất với code gốc.
 
 ## 7. Bản đồ tri thức `graphify/` (người dùng chốt 2026-10-31)
 
