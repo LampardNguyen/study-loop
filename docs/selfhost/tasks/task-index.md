@@ -22,6 +22,10 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - [P] T14.8 — 🎨 Nghe thử 2 câu đầu → [task-2026-10-30.md](task-2026-10-30.md#t148)
 - [P] T14.9 — 🎨 Làm đẹp bố cục phần Giọng đọc → [task-2026-10-30.md](task-2026-10-30.md#t149)
 - [P] T14.10 — 🎨 Chọn nguồn ghi âm (thiết bị / tai nghe) → [task-2026-10-31.md](task-2026-10-31.md#t1410)
+- [x] T14.11 — Bỏ mục FAQ trong Cá nhân → [task-2026-10-31.md](task-2026-10-31.md#t1411)
+- [x] T14.12 — Việt hoá "第 x/y 句" ở màn chi tiết câu → [task-2026-10-31.md](task-2026-10-31.md#t1412)
+- [x] T14.13 — 🎨 Khôi phục Drive xong → khởi động lại app → [task-2026-10-31.md](task-2026-10-31.md#t1413)
+- [x] T14.14 — 🎨 Báo có bản sao lưu Drive mới hơn từ máy khác → [task-2026-10-31.md](task-2026-10-31.md#t1414)
 
 ## Quyết định
 - 2026-10-26: Cập nhật APK tải trong app (Dio) + cài qua FileProvider; lỗi tải → mở trình duyệt như cũ.

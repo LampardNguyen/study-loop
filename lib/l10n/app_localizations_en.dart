@@ -5913,6 +5913,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Applies to your next recording. Existing recordings stay the same.';
 
   @override
+  String sentenceProgress(int index) {
+    return 'Sentence $index';
+  }
+
+  @override
+  String sentenceProgressOf(int index, int total) {
+    return 'Sentence $index/$total';
+  }
+
+  @override
   String get recordingSource => 'Recording source';
 
   @override
@@ -6385,6 +6395,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get driveSyncRestoreDone => 'Restored from Google Drive';
+
+  @override
+  String get driveNewerBackupTitle => 'Newer backup available';
+
+  @override
+  String driveNewerBackupMessage(String device, String time) {
+    return 'The backup from $device at $time is newer than the data on this device.';
+  }
+
+  @override
+  String get driveNewerBackupNote =>
+      'Restoring replaces all data and settings on this device, then restarts the app.';
+
+  @override
+  String driveNewerBackupLocalChanges(String time) {
+    return 'This device has changes not backed up since $time. Restoring will lose them.';
+  }
+
+  @override
+  String get driveNewerBackupLocalNeverSynced =>
+      'This device has data that was never backed up to Drive. Restoring will lose it.';
+
+  @override
+  String get driveNewerBackupLater => 'Later';
+
+  @override
+  String get driveNewerBackupRestore => 'Restore';
+
+  @override
+  String get driveNewerBackupRestoreAnyway => 'Restore anyway';
+
+  @override
+  String get driveNewerBackupOtherDevice => 'another device';
+
+  @override
+  String get driveSyncRestoreDoneTitle => 'Restore complete';
+
+  @override
+  String get driveSyncRestoreRestartMessage =>
+      'Your data and settings have been restored. The app will restart to apply all settings.';
+
+  @override
+  String get driveSyncRestartAction => 'Restart';
 
   @override
   String get driveSyncCancelConfirm => 'Cancel the current operation?';

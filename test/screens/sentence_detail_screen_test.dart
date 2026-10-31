@@ -179,7 +179,7 @@ void main() {
     );
     await tester.pump();
 
-    final progress = find.textContaining('第 1/10 句');
+    final progress = find.textContaining('1/10');
     final annotation = find.byType(SentenceExplanationView);
     expect(progress, findsOneWidget);
     expect(annotation, findsOneWidget);
@@ -284,9 +284,9 @@ void main() {
       find.byKey(const ValueKey('sentence-detail-video-view')),
       findsOneWidget,
     );
-    expect(find.textContaining('第 1/10 句 · 2.0'), findsOneWidget);
+    expect(find.textContaining('1/10 · 2.0'), findsOneWidget);
     expect(find.text('00:01 - 00:03'), findsNothing);
-    final timeTop = tester.getTopLeft(find.textContaining('第 1/10 句 · 2.0')).dy;
+    final timeTop = tester.getTopLeft(find.textContaining('1/10 · 2.0')).dy;
     final videoBottom = tester
         .getBottomLeft(find.byKey(const ValueKey('media-visual-surface')))
         .dy;
@@ -351,7 +351,7 @@ void main() {
     await tester.pump();
 
     expect(find.byKey(const ValueKey('media-visual-surface')), findsNothing);
-    expect(find.textContaining('第 1 句 · 2.0'), findsOneWidget);
+    expect(find.textContaining('1 · 2.0'), findsOneWidget);
     expect(find.text('00:01 - 00:03'), findsNothing);
     await tester.pumpWidget(const SizedBox.shrink());
     await tester.pump(const Duration(milliseconds: 1));

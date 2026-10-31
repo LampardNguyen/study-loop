@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../services/app_logger.dart';
+import '../../services/app_restarter.dart';
 import '../../services/backup/backup_progress.dart';
 import '../../services/backup/backup_service.dart';
 import '../../utils/file_size.dart';
@@ -14,10 +15,14 @@ import 'drive_sync_actions.dart';
 import 'drive_sync_service.dart';
 import 'google_drive_auth.dart';
 import 'google_sign_in_button.dart';
+import 'newer_backup_check.dart';
 
 /// Google Drive 同步页：登录、手动备份与恢复。
 class DriveSyncScreen extends ConsumerStatefulWidget {
-  const DriveSyncScreen({super.key});
+  const DriveSyncScreen({super.key, this.autoRestore = false});
+
+  /// 从「有更新的备份」提示进入：用户已确认，打开后直接开始恢复。
+  final bool autoRestore;
 
   @override
   ConsumerState<DriveSyncScreen> createState() => _DriveSyncScreenState();
@@ -31,6 +36,27 @@ class _DriveSyncScreenState extends ConsumerState<DriveSyncScreen> {
   Object? _error;
 
   bool get _busy => _cancelToken != null;
+
+  @override
+  void initState() {
+    super.initState();
+    driveSyncScreenOpen = true;
+    if (widget.autoRestore) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _autoRestore());
+    }
+  }
+
+  @override
+  void dispose() {
+    driveSyncScreenOpen = false;
+    super.dispose();
+  }
+
+  Future<void> _autoRestore() async {
+    final account = await ref.read(googleDriveAccountProvider.future);
+    if (account == null || !mounted) return;
+    await _startRestore(AppLocalizations.of(context)!, account);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -334,6 +360,13 @@ class _DriveSyncScreenState extends ConsumerState<DriveSyncScreen> {
       ),
     );
     if (confirmed != true || !mounted) return;
+    await _startRestore(l10n, account);
+  }
+
+  Future<void> _startRestore(
+    AppLocalizations l10n,
+    GoogleSignInAccount account,
+  ) async {
     await _run(
       restoring: true,
       action: (onProgress, token) => performDriveRestore(
@@ -369,6 +402,11 @@ class _DriveSyncScreenState extends ConsumerState<DriveSyncScreen> {
         if (mounted) setState(() => _progress = value);
       }, token);
       if (!mounted) return;
+      if (restoring) {
+        // 恢复后多数设置仍是启动快照，重启进程让全部设置生效。
+        await showRestoreDoneDialog(context, ref.read(appRestarterProvider));
+        return;
+      }
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(successMessage)));
@@ -403,4 +441,30 @@ class _DriveSyncScreenState extends ConsumerState<DriveSyncScreen> {
     );
     if (confirmed == true) _cancelToken?.cancel();
   }
+}
+
+/// 恢复完成对话框：只有「重新启动」按钮，点击外部不关闭。
+@visibleForTesting
+Future<void> showRestoreDoneDialog(
+  BuildContext context,
+  Future<void> Function() restart,
+) {
+  final l10n = AppLocalizations.of(context)!;
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => PopScope(
+      canPop: false,
+      child: AlertDialog(
+        title: Text(l10n.driveSyncRestoreDoneTitle),
+        content: Text(l10n.driveSyncRestoreRestartMessage),
+        actions: [
+          FilledButton(
+            onPressed: restart,
+            child: Text(l10n.driveSyncRestartAction),
+          ),
+        ],
+      ),
+    ),
+  );
 }

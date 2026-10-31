@@ -361,8 +361,11 @@ class _SentenceDetailScreenState extends ConsumerState<SentenceDetailScreen> {
     final durationSec = durationMs / 1000;
     final durationText = l10n.sentenceDuration(durationSec.toStringAsFixed(1));
     final sentenceProgressText = args.totalSentenceCount == null
-        ? '第 ${args.sentenceIndex + 1} 句'
-        : '第 ${args.sentenceIndex + 1}/${args.totalSentenceCount} 句';
+        ? l10n.sentenceProgress(args.sentenceIndex + 1)
+        : l10n.sentenceProgressOf(
+            args.sentenceIndex + 1,
+            args.totalSentenceCount!,
+          );
 
     final mediaSession = args.mediaSession;
     final hasMedia = mediaSession != null;

@@ -6,6 +6,12 @@ Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Releas
 
 ### Tính năng mới
 - Cá nhân → Ghi âm: chọn **nguồn ghi âm** (Tự động / Mic thiết bị / Mic tai nghe) khi có tai nghe có mic (có dây, USB hoặc Bluetooth). Tai nghe Bluetooth có cảnh báo về chất lượng cuộc gọi; tai nghe bị ngắt thì tự dùng mic máy.
+- Mở app hoặc quay lại app: nếu Google Drive có bản sao lưu mới hơn từ máy khác, app hỏi có muốn khôi phục không (kèm tên máy và giờ sao lưu), và cảnh báo nếu máy này có thay đổi chưa sao lưu. App không tự khôi phục.
+
+### Sửa lỗi
+- Màn chi tiết câu hiện "Câu x/y" theo ngôn ngữ app thay vì chữ Trung "第 x/y 句".
+- Bỏ mục FAQ (dẫn tới tài liệu của tác giả gốc) trong tab Cá nhân.
+- Khôi phục từ Google Drive xong app tự khởi động lại, để mọi cài đặt (học tập, giọng đọc, nghe chép…) có hiệu lực ngay, thay vì vẫn giữ giá trị cũ cho tới khi mở lại app.
 
 ## v1.0.51 (build 16) — 2026-10-30
 

@@ -10,6 +10,7 @@ import '../../providers/backup_provider.dart';
 import '../../services/backup/backup_manifest.dart';
 import '../../services/backup/backup_progress.dart';
 import 'drive_api.dart';
+import 'drive_sync_marker.dart';
 import 'drive_sync_service.dart';
 import 'google_drive_auth.dart';
 
@@ -51,14 +52,18 @@ Future<DriveMediaIndex> performDriveBackup(
     try {
       final BackupManifest manifest = await readBackupManifest(ref, zipPath);
       final mediaFiles = await ref.read(backupServiceProvider).listMediaFiles();
-      return await _serviceFor(ref, account).upload(
+      final index = await _serviceFor(ref, account).upload(
         zipPath: zipPath,
         manifest: manifest,
         mediaFiles: mediaFiles,
         tempDir: workDir.path,
+        deviceId: await driveDeviceId(),
+        deviceName: await driveDeviceName(),
         onProgress: onProgress,
         cancelToken: cancelToken,
       );
+      await recordDriveSync(index.createdAt);
+      return index;
     } finally {
       final zip = File(zipPath);
       if (await zip.exists()) await zip.delete();
@@ -84,7 +89,7 @@ Future<BackupManifest> performDriveRestore(
       cancelToken: cancelToken,
     );
     final stagingDir = await Directory(p.join(workDir.path, 'media')).create();
-    return await performImport(
+    final manifest = await performImport(
       ref,
       package.zipPath,
       stageMedia: (prepared) => service.stageMedia(
@@ -96,6 +101,8 @@ Future<BackupManifest> performDriveRestore(
       ),
       onProgress: onProgress,
     );
+    await recordDriveSync(package.index.createdAt);
+    return manifest;
   } finally {
     await workDir.delete(recursive: true);
   }

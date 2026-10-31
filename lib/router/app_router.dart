@@ -50,6 +50,7 @@ import '../screens/sentence_detail_screen.dart';
 import '../screens/pdf_preview_screen.dart';
 import '../screens/backup_restore_screen.dart';
 import '../features/drive_sync/drive_sync_screen.dart';
+import '../features/drive_sync/newer_backup_check.dart';
 import '../screens/favorite_vocabulary_review_screen.dart';
 import '../screens/activity_calendar_screen.dart';
 import '../screens/review_statistics_screen.dart';
@@ -536,7 +537,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: AppRoutes.driveSync,
-        builder: (context, state) => const DriveSyncScreen(),
+        builder: (context, state) => DriveSyncScreen(
+          autoRestore: state.extra == driveSyncAutoRestore,
+        ),
       ),
       GoRoute(
         path: AppRoutes.onboardingSurvey,

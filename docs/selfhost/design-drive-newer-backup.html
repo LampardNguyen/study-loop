@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bản sao lưu mới hơn</title>
+<style>
+:root{--bg:#f3f4f6;--card:#fff;--fg:#1f2937;--mute:#6b7280;--pri:#4f46e5;--warn:#b91c1c;--warnbg:#fee2e2;--line:#e5e7eb;--scrim:rgba(0,0,0,.35)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111827;--card:#1f2937;--fg:#f3f4f6;--mute:#9ca3af;--line:#374151;--warnbg:#3f1d1d;--warn:#fca5a5}}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,sans-serif;padding:16px}
+h1{font-size:18px}h2{font-size:15px;margin-top:28px}.grid{display:flex;flex-wrap:wrap;gap:20px}
+.phone{width:300px;max-width:100%;height:430px;position:relative;background:var(--bg);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.app{padding:14px;color:var(--mute)}.scrim{position:absolute;inset:0;background:var(--scrim);display:flex;align-items:center;justify-content:center;padding:16px}
+.dlg{background:var(--card);border-radius:20px;padding:20px;width:100%;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.dlg h3{margin:0 0 10px;font-size:17px}.dlg p{margin:0 0 10px}.mute{color:var(--mute);font-size:12px}
+.warn{background:var(--warnbg);color:var(--warn);border-radius:10px;padding:8px 10px;font-size:13px;margin:6px 0 10px}
+.acts{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.tb{color:var(--pri);padding:8px 10px;font-weight:600}.fb{background:var(--pri);color:#fff;border-radius:20px;padding:8px 16px;font-weight:600}
+.fb.red{background:var(--warn);color:#fff}.cap{font-weight:600;margin:4px 0 8px}
+table{border-collapse:collapse;width:100%;max-width:760px}td,th{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+</style></head><body>
+<h1>T14.14 — Báo có bản sao lưu mới hơn từ máy khác</h1>
+<p>App kiểm tra lúc mở và khi quay lại app (tối đa 15 phút một lần), chỉ khi đã đăng nhập Google Drive. Việc kiểm tra chạy ngầm, không có trạng thái "đang tải" trên màn hình. Không có mạng hoặc gặp lỗi thì bỏ qua, không báo gì.</p>
+
+<div class="grid">
+<div><div class="cap">A. Có bản mới, máy này không có thay đổi</div>
+<div class="phone"><div class="app">(màn hình Trang chủ)</div><div class="scrim"><div class="dlg">
+<h3>Có bản sao lưu mới hơn</h3>
+<p>Bản sao lưu từ <b>Galaxy S21</b> lúc <b>21:30, 31/10</b> mới hơn dữ liệu trên máy này.</p>
+<p class="mute">Khôi phục sẽ thay toàn bộ dữ liệu và cài đặt trên máy này, rồi khởi động lại app.</p>
+<div class="acts"><span class="tb">Để sau</span><span class="fb">Khôi phục</span></div>
+</div></div></div></div>
+
+<div><div class="cap">B. Có bản mới, máy này có thay đổi chưa sao lưu</div>
+<div class="phone"><div class="app">(màn hình Trang chủ)</div><div class="scrim"><div class="dlg">
+<h3>Có bản sao lưu mới hơn</h3>
+<p>Bản sao lưu từ <b>Galaxy S21</b> lúc <b>21:30, 31/10</b> mới hơn dữ liệu trên máy này.</p>
+<div class="warn">⚠ Máy này có thay đổi <b>chưa sao lưu</b> từ 20:05, 31/10. Khôi phục sẽ <b>mất</b> các thay đổi đó.</div>
+<div class="acts"><span class="tb">Để sau</span><span class="fb red">Vẫn khôi phục</span></div>
+</div></div></div></div>
+
+<div><div class="cap">C. Bấm Khôi phục</div>
+<div class="phone"><div class="app">← Đồng bộ Google Drive<br><br>▓▓▓▓▓░░░░ Đang tải audio 3/12…<br><br>(dùng lại màn Đồng bộ hiện có, tự bắt đầu khôi phục)</div>
+<div class="scrim" style="background:none;align-items:flex-end"><div class="dlg" style="box-shadow:0 2px 8px rgba(0,0,0,.15)">
+<h3>Khôi phục xong</h3><p class="mute">… → [Khởi động lại] (hộp thoại của T14.13)</p></div></div></div></div>
+</div>
+
+<h2>Khi nào hiện / không hiện</h2>
+<table>
+<tr><th>Tình huống</th><th>Kết quả</th></tr>
+<tr><td>Bản trên Drive do chính máy này tạo</td><td>Không hiện</td></tr>
+<tr><td>Bản trên Drive cũ hơn hoặc bằng lần đồng bộ gần nhất (sao lưu hoặc khôi phục) của máy này</td><td>Không hiện</td></tr>
+<tr><td>Đã bấm "Để sau" với đúng bản đó</td><td>Không hiện lại cho tới khi có bản mới hơn</td></tr>
+<tr><td>Bản sao lưu tạo bằng phiên bản cũ (chưa có tên máy)</td><td>Không hiện. Tính năng chạy sau khi máy kia cập nhật app và sao lưu lại một lần.</td></tr>
+<tr><td>Chưa đăng nhập Drive / không có mạng / lỗi</td><td>Không hiện, không báo lỗi</td></tr>
+<tr><td>Đang ở màn Đồng bộ hoặc đang sao lưu / khôi phục</td><td>Không hiện</td></tr>
+</table>
+
+<h2>Cách hoạt động</h2>
+<ul>
+<li>Mỗi máy có một mã riêng, tạo ngẫu nhiên và lưu trong máy (không sao lưu). Tên máy lấy từ hệ thống (hãng + model, ví dụ "Samsung SM-G991B"). Hai thông tin này được ghi vào <code>backup-index.json</code> khi sao lưu.</li>
+<li>Mỗi lần sao lưu hoặc khôi phục thành công, máy ghi lại "mốc đồng bộ" gồm thời điểm và dấu vân tay của DB.</li>
+<li>"Có thay đổi chưa sao lưu" nghĩa là dấu vân tay DB hiện tại khác với lúc ghi mốc. Lưu ý: một số thao tác nhỏ như ghi thời gian học cũng làm DB thay đổi, nên cảnh báo B có thể hiện cả khi bạn chỉ mở bài ra xem. App chọn cách cẩn thận: báo thừa còn hơn mất dữ liệu.</li>
+</ul>
+</body></html>

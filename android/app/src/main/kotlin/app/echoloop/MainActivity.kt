@@ -21,6 +21,14 @@ class MainActivity : AudioServiceActivity() {
     private var audioDecodeHandler: AndroidAudioDecodeHandler? = null
     private var localAudioPicker: AndroidLocalAudioPicker? = null
 
+    /** 重启进程（自托管：恢复备份后让所有设置从 SharedPreferences 重新加载）。 */
+    private fun restartApp() {
+        val launch = packageManager.getLaunchIntentForPackage(packageName) ?: return
+        val intent = Intent.makeRestartActivityTask(launch.component)
+        startActivity(intent)
+        Runtime.getRuntime().exit(0)
+    }
+
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         Log.i("AuthGMS", "register google services availability channel")
@@ -43,6 +51,10 @@ class MainActivity : AudioServiceActivity() {
                 when (call.method) {
                     "getInstallerPackageName" -> result.success(installerPackageName())
                     "canInstallPackages" -> result.success(canInstallPackages())
+                    "restartApp" -> {
+                        result.success(null)
+                        restartApp()
+                    }
                     "openInstallPermissionSettings" -> {
                         openInstallPermissionSettings()
                         result.success(null)

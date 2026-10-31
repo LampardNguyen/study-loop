@@ -5640,6 +5640,16 @@ class AppLocalizationsZh extends AppLocalizations {
   String get recordingSettingsFootnote => '对之后的录音生效，已有录音不变。';
 
   @override
+  String sentenceProgress(int index) {
+    return '第 $index 句';
+  }
+
+  @override
+  String sentenceProgressOf(int index, int total) {
+    return '第 $index/$total 句';
+  }
+
+  @override
   String get recordingSource => '录音来源';
 
   @override
@@ -6101,6 +6111,46 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get driveSyncRestoreDone => '已从 Google Drive 恢复';
+
+  @override
+  String get driveNewerBackupTitle => '有更新的备份';
+
+  @override
+  String driveNewerBackupMessage(String device, String time) {
+    return '来自 $device 于 $time 的备份比本机数据更新。';
+  }
+
+  @override
+  String get driveNewerBackupNote => '恢复会替换本机全部数据和设置，然后重新启动应用。';
+
+  @override
+  String driveNewerBackupLocalChanges(String time) {
+    return '本机自 $time 起有未备份的改动，恢复后这些改动将丢失。';
+  }
+
+  @override
+  String get driveNewerBackupLocalNeverSynced => '本机有从未备份到 Drive 的数据，恢复后将丢失。';
+
+  @override
+  String get driveNewerBackupLater => '以后再说';
+
+  @override
+  String get driveNewerBackupRestore => '恢复';
+
+  @override
+  String get driveNewerBackupRestoreAnyway => '仍然恢复';
+
+  @override
+  String get driveNewerBackupOtherDevice => '其它设备';
+
+  @override
+  String get driveSyncRestoreDoneTitle => '恢复完成';
+
+  @override
+  String get driveSyncRestoreRestartMessage => '数据和设置已恢复，应用将重新启动以应用全部设置。';
+
+  @override
+  String get driveSyncRestartAction => '重新启动';
 
   @override
   String get driveSyncCancelConfirm => '取消当前操作？';

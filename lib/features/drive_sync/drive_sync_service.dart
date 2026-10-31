@@ -32,12 +32,18 @@ class DriveMediaIndex {
     required this.createdAt,
     required this.appVersion,
     required this.files,
+    this.deviceId,
+    this.deviceName,
   });
 
   final String dbSha256;
   final DateTime createdAt;
   final String appVersion;
   final Map<String, ({String sha256, int size})> files;
+
+  /// 创建该备份的设备 ID / 设备名（旧版本备份为 null）。
+  final String? deviceId;
+  final String? deviceName;
 
   int get totalBytes => files.values.fold(0, (sum, file) => sum + file.size);
 
@@ -46,6 +52,8 @@ class DriveMediaIndex {
     'dbSha256': dbSha256,
     'createdAt': createdAt.toUtc().toIso8601String(),
     'appVersion': appVersion,
+    if (deviceId != null) 'deviceId': deviceId,
+    if (deviceName != null) 'deviceName': deviceName,
     'files': {
       for (final entry in files.entries)
         entry.key: {'sha256': entry.value.sha256, 'size': entry.value.size},
@@ -58,6 +66,8 @@ class DriveMediaIndex {
       dbSha256: json['dbSha256'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       appVersion: json['appVersion'] as String,
+      deviceId: json['deviceId'] as String?,
+      deviceName: json['deviceName'] as String?,
       files: {
         for (final entry in files.entries)
           entry.key: (
@@ -116,6 +126,8 @@ class DriveSyncService {
     required BackupManifest manifest,
     required Map<String, String> mediaFiles,
     required String tempDir,
+    String? deviceId,
+    String? deviceName,
     void Function(BackupProgress)? onProgress,
     CancelToken? cancelToken,
   }) async {
@@ -160,6 +172,8 @@ class DriveSyncService {
       createdAt: DateTime.now().toUtc(),
       appVersion: manifest.appVersion,
       files: files,
+      deviceId: deviceId,
+      deviceName: deviceName,
     );
     final indexPath = p.join(tempDir, driveMediaIndexFileName);
     await File(indexPath).writeAsString(jsonEncode(index.toJson()));

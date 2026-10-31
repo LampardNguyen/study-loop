@@ -48,6 +48,7 @@ import 'features/onboarding_survey/providers/onboarding_survey_provider.dart';
 import 'features/auth/providers/auth_providers.dart';
 import 'features/remote_config/remote_config_providers.dart';
 import 'features/remote_config/remote_config_service.dart';
+import 'features/drive_sync/newer_backup_check.dart';
 import 'features/user_region/user_region_providers.dart';
 import 'features/subscription/providers/subscription_controller.dart';
 import 'features/subscription/providers/subscription_plans_provider.dart';
@@ -322,6 +323,10 @@ class _EchoLoopAppState extends ConsumerState<EchoLoopApp>
     if (pendingIntent != null) _handleNotificationIntent(pendingIntent);
 
     Future.delayed(const Duration(seconds: 3), _triggerCommunitySync);
+    // 自托管：检查 Drive 上是否有其它设备的更新备份（只提示，不自动恢复）。
+    Future.delayed(const Duration(seconds: 5), () {
+      if (mounted) unawaited(checkNewerDriveBackup(ref));
+    });
   }
 
   /// 业务内容提交后再预热，不让原生播放器依赖阻塞进入学习页。
@@ -423,6 +428,7 @@ class _EchoLoopAppState extends ConsumerState<EchoLoopApp>
       case AppLifecycleState.resumed:
         if (ref.read(localStartupProvider).hasValue) {
           _triggerCommunitySync();
+          unawaited(checkNewerDriveBackup(ref));
         }
         // 回前台时条件重对账订阅权益（E8）。单一来源下每次刷新都是真实后端请求
         // （不再有 RC SDK 客户端缓存兜着），且退款/退订分歧主要靠 E6/E7 在后端

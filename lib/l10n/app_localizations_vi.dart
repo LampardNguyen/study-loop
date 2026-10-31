@@ -5906,6 +5906,16 @@ class AppLocalizationsVi extends AppLocalizations {
       'Áp dụng cho lần ghi âm tiếp theo. Bản ghi cũ không thay đổi.';
 
   @override
+  String sentenceProgress(int index) {
+    return 'Câu $index';
+  }
+
+  @override
+  String sentenceProgressOf(int index, int total) {
+    return 'Câu $index/$total';
+  }
+
+  @override
   String get recordingSource => 'Nguồn ghi âm';
 
   @override
@@ -6378,6 +6388,49 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get driveSyncRestoreDone => 'Đã khôi phục từ Google Drive';
+
+  @override
+  String get driveNewerBackupTitle => 'Có bản sao lưu mới hơn';
+
+  @override
+  String driveNewerBackupMessage(String device, String time) {
+    return 'Bản sao lưu từ $device lúc $time mới hơn dữ liệu trên máy này.';
+  }
+
+  @override
+  String get driveNewerBackupNote =>
+      'Khôi phục sẽ thay toàn bộ dữ liệu và cài đặt trên máy này, rồi khởi động lại app.';
+
+  @override
+  String driveNewerBackupLocalChanges(String time) {
+    return 'Máy này có thay đổi chưa sao lưu từ $time. Khôi phục sẽ mất các thay đổi đó.';
+  }
+
+  @override
+  String get driveNewerBackupLocalNeverSynced =>
+      'Máy này có dữ liệu chưa từng sao lưu lên Drive. Khôi phục sẽ mất dữ liệu đó.';
+
+  @override
+  String get driveNewerBackupLater => 'Để sau';
+
+  @override
+  String get driveNewerBackupRestore => 'Khôi phục';
+
+  @override
+  String get driveNewerBackupRestoreAnyway => 'Vẫn khôi phục';
+
+  @override
+  String get driveNewerBackupOtherDevice => 'máy khác';
+
+  @override
+  String get driveSyncRestoreDoneTitle => 'Khôi phục xong';
+
+  @override
+  String get driveSyncRestoreRestartMessage =>
+      'Dữ liệu và cài đặt đã được khôi phục. App sẽ khởi động lại để áp dụng toàn bộ cài đặt.';
+
+  @override
+  String get driveSyncRestartAction => 'Khởi động lại';
 
   @override
   String get driveSyncCancelConfirm => 'Huỷ thao tác đang chạy?';

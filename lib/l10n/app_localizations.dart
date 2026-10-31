@@ -10396,6 +10396,18 @@ abstract class AppLocalizations {
   /// **'Applies to your next recording. Existing recordings stay the same.'**
   String get recordingSettingsFootnote;
 
+  /// No description provided for @sentenceProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Sentence {index}'**
+  String sentenceProgress(int index);
+
+  /// No description provided for @sentenceProgressOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Sentence {index}/{total}'**
+  String sentenceProgressOf(int index, int total);
+
   /// No description provided for @recordingSource.
   ///
   /// In en, this message translates to:
@@ -11229,6 +11241,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Restored from Google Drive'**
   String get driveSyncRestoreDone;
+
+  /// No description provided for @driveNewerBackupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Newer backup available'**
+  String get driveNewerBackupTitle;
+
+  /// No description provided for @driveNewerBackupMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'The backup from {device} at {time} is newer than the data on this device.'**
+  String driveNewerBackupMessage(String device, String time);
+
+  /// No description provided for @driveNewerBackupNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring replaces all data and settings on this device, then restarts the app.'**
+  String get driveNewerBackupNote;
+
+  /// No description provided for @driveNewerBackupLocalChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'This device has changes not backed up since {time}. Restoring will lose them.'**
+  String driveNewerBackupLocalChanges(String time);
+
+  /// No description provided for @driveNewerBackupLocalNeverSynced.
+  ///
+  /// In en, this message translates to:
+  /// **'This device has data that was never backed up to Drive. Restoring will lose it.'**
+  String get driveNewerBackupLocalNeverSynced;
+
+  /// No description provided for @driveNewerBackupLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get driveNewerBackupLater;
+
+  /// No description provided for @driveNewerBackupRestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get driveNewerBackupRestore;
+
+  /// No description provided for @driveNewerBackupRestoreAnyway.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore anyway'**
+  String get driveNewerBackupRestoreAnyway;
+
+  /// No description provided for @driveNewerBackupOtherDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'another device'**
+  String get driveNewerBackupOtherDevice;
+
+  /// No description provided for @driveSyncRestoreDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore complete'**
+  String get driveSyncRestoreDoneTitle;
+
+  /// No description provided for @driveSyncRestoreRestartMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data and settings have been restored. The app will restart to apply all settings.'**
+  String get driveSyncRestoreRestartMessage;
+
+  /// No description provided for @driveSyncRestartAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Restart'**
+  String get driveSyncRestartAction;
 
   /// No description provided for @driveSyncCancelConfirm.
   ///
