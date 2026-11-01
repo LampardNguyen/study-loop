@@ -32,6 +32,10 @@ class MediaKitPlayerBackend implements MediaPlayerBackend {
   Player? _keepAlivePlayer;
   late final VideoController _controller;
   bool _disposed = false;
+
+  /// Bộ lọc chuẩn hoá đã gắn cho bài đang mở chưa. Gắn `af` trước/khi mở bài làm mpv đứng ở 0s
+  /// không phát, nên chỉ gắn sau khi đã bắt đầu phát.
+  bool _filterApplied = false;
   Future<void>? _disposeFuture;
 
   @override
@@ -93,6 +97,7 @@ class MediaKitPlayerBackend implements MediaPlayerBackend {
       'open begin backend=${identityHashCode(this)} '
           'position=${initialPosition.inMilliseconds}ms',
     );
+    await _clearFilter();
     await _player.open(
       Media(
         filePath,
@@ -116,6 +121,7 @@ class MediaKitPlayerBackend implements MediaPlayerBackend {
           'position=${position.inMilliseconds}ms playing=$playing',
     );
     await _player.play();
+    if (!_filterApplied) _applyVolume();
     AppLogger.log(
       'MediaKitBackend',
       'play complete backend=${identityHashCode(this)} '
@@ -210,6 +216,9 @@ class MediaKitPlayerBackend implements MediaPlayerBackend {
     if (_disposed) return;
     final volume = PlaybackVolumeSettings.value;
     final platform = _player.platform;
+    // Chỉ gắn bộ lọc khi đang phát; chưa phát thì để lần play() kế tiếp gắn.
+    final attachFilter = _player.state.playing;
+    _filterApplied = attachFilter;
     unawaited(() async {
       try {
         if (platform is NativePlayer) {
@@ -217,16 +226,30 @@ class MediaKitPlayerBackend implements MediaPlayerBackend {
             'volume-max',
             '${PlaybackVolume.maxPercent}',
           );
-          await platform.setProperty(
-            'af',
-            volume.normalize ? 'lavfi=[dynaudnorm=f=250:g=15]' : '',
-          );
+          if (attachFilter) {
+            await platform.setProperty(
+              'af',
+              volume.normalize ? 'lavfi=[dynaudnorm=f=250:g=15]' : '',
+            );
+          }
         }
         await _player.setVolume(volume.percent.toDouble());
       } catch (error) {
         AppLogger.log('MediaKitBackend', 'apply volume failed: $error');
       }
     }());
+  }
+
+  /// Gỡ bộ lọc trước khi mở bài mới.
+  Future<void> _clearFilter() async {
+    _filterApplied = false;
+    final platform = _player.platform;
+    if (platform is! NativePlayer) return;
+    try {
+      await platform.setProperty('af', '');
+    } catch (error) {
+      AppLogger.log('MediaKitBackend', 'clear filter failed: $error');
+    }
   }
 
   @override

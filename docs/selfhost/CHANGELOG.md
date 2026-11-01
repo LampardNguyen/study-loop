@@ -2,6 +2,11 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
+## Chưa phát hành
+
+### Sửa lỗi
+- Bật **Chuẩn hoá âm lượng** rồi mở lại bài học thì không phát được âm thanh.
+
 ## v1.0.54 (build 19) — 2026-11-01
 
 ### Tính năng mới
