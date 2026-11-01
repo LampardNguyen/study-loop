@@ -2,6 +2,13 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
+## Chưa phát hành
+
+### Tính năng mới
+- Hội thoại → giọng nói (chất lượng tự nhiên): giọng đọc to, rõ và đều hơn.
+- Chọn **cấp độ nghe** khi tạo giọng đọc: Rõ ràng, Chuẩn, Lưu loát, Bản xứ.
+- Nút **Tạo bằng AI** trong khung nhập hội thoại: chọn chủ đề gợi ý / tự nhập / ngẫu nhiên, ngôn ngữ, trình độ, số người nói, độ dài.
+
 ## v1.0.53 (build 18) — 2026-11-01
 
 ### Tính năng mới

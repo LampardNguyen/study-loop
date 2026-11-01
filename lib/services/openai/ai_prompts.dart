@@ -171,3 +171,35 @@ List<OpenAiMessage> retellReviewPrompt({
     ),
   ];
 }
+
+/// Tạo hội thoại luyện nghe: `{"title": string, "lines": [{"speaker": string, "text": string}]}`.
+///
+/// [topic] null → AI tự chọn chủ đề đời thường phù hợp trình độ.
+List<OpenAiMessage> dialogueGeneratePrompt({
+  required String? topic,
+  required String language,
+  required String level,
+  required int speakers,
+  required int lines,
+}) {
+  return [
+    OpenAiMessage.system(
+      'You write realistic dialogues for language-listening practice. '
+      'Write the whole dialogue in $language for a learner at CEFR level '
+      '$level: vocabulary and grammar must match that level; at C1 and '
+      'above use idioms, contractions and casual expressions native '
+      'speakers really use. Use exactly $speakers speakers with short, '
+      'realistic first names, and about $lines lines in total. Each line is '
+      'one natural turn (1–3 sentences). No narration, stage directions, '
+      'emojis or speaker-name prefixes inside "text". The title is short and '
+      'in $language. $_jsonOnly Schema: {"title": string, "lines": '
+      '[{"speaker": string, "text": string}]}',
+    ),
+    OpenAiMessage.user(
+      topic == null || topic.trim().isEmpty
+          ? 'Choose an everyday topic or situation yourself that suits the '
+                'level, and write the dialogue.'
+          : 'Topic / situation: ${topic.trim()}',
+    ),
+  ];
+}

@@ -32,6 +32,9 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - [P] T15.3 — Sửa test router còn tham chiếu pdfPreviewSegment → [task-2026-11-01.md](task-2026-11-01.md#t153)
 - [P] T15.4 — Kiểm tra host remote config, chặn khi không có backend → [task-2026-11-01.md](task-2026-11-01.md#t154)
 - [P] T15.5 — Sửa error analyze trong integration test Kokoro → [task-2026-11-01.md](task-2026-11-01.md#t155)
+- [P] T15.6 — Prompt giọng đọc to, rõ cho hội thoại → giọng nói (gpt-4o-mini-tts) → [task-2026-11-01.md](task-2026-11-01.md#t156)
+- [P] T15.7 — 🎨 Tuỳ chọn cấp độ giọng đọc (Rõ ràng → Bản xứ) khi tạo hội thoại → [task-2026-11-01.md](task-2026-11-01.md#t157)
+- [P] T15.8 — 🎨 Nút tạo hội thoại bằng AI trong khung nhập hội thoại → [task-2026-11-01.md](task-2026-11-01.md#t158)
 
 ## Quyết định
 - 2026-10-26: Cập nhật APK tải trong app (Dio) + cài qua FileProvider; lỗi tải → mở trình duyệt như cũ.

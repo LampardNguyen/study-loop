@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:universal_io/io.dart';
 
 import '../../l10n/app_localizations.dart';
@@ -22,6 +23,7 @@ import '../../widgets/common/form_input_style.dart';
 import '../../widgets/common/secondary_action_button.dart';
 import '../ai_settings/ai_key_required_dialog.dart';
 import '../ai_settings/providers/ai_settings_provider.dart';
+import 'dialogue_ai_generate_sheet.dart';
 import 'dialogue_lesson_service.dart';
 import 'dialogue_parser.dart';
 
@@ -76,6 +78,7 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
   final _dialogueController = TextEditingController();
   final _voices = <String, String>{};
   _Quality _quality = _Quality.natural;
+  DialogueSpeechLevel _level = DialogueSpeechLevel.standard;
   List<DialogueLine> _lines = const [];
   CancelToken? _cancelToken;
   bool _busy = false;
@@ -88,6 +91,32 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
   bool _previewPlaying = false;
   File? _previewFile;
   String? _previewKey;
+
+  static const _prefsSpeechLevel = 'dialogue_speech_level';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSpeechLevel();
+  }
+
+  Future<void> _loadSpeechLevel() async {
+    final prefs = await SharedPreferences.getInstance();
+    final level = DialogueSpeechLevel.values
+        .asNameMap()[prefs.getString(_prefsSpeechLevel)];
+    if (level != null && mounted) setState(() => _level = level);
+  }
+
+  void _setSpeechLevel(DialogueSpeechLevel level) {
+    setState(() => _level = level);
+    SharedPreferences.getInstance().then(
+      (prefs) => prefs.setString(_prefsSpeechLevel, level.name),
+    );
+  }
+
+  /// Prompt giọng đọc theo cấp độ; chỉ gpt-4o-mini-tts hỗ trợ.
+  String? get _instructions =>
+      _quality == _Quality.natural ? _level.instructions : null;
 
   @override
   void dispose() {
@@ -129,6 +158,39 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
     _onDialogueChanged(text);
   }
 
+  Future<void> _generateWithAi() async {
+    final result = await showDialogueAiGenerateSheet(context);
+    if (result == null || !mounted) return;
+    if (_dialogueController.text.trim().isNotEmpty) {
+      final l10n = AppLocalizations.of(context)!;
+      final replace = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text(l10n.dialogueAiReplaceTitle),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text(l10n.cancel),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text(l10n.dialogueAiReplace),
+            ),
+          ],
+        ),
+      );
+      if (replace != true || !mounted) return;
+    }
+    final dialogue = result.dialogue;
+    _dialogueController.text = dialogue.text;
+    if (_nameController.text.trim().isEmpty) {
+      _nameController.text = dialogue.title;
+    }
+    _onDialogueChanged(dialogue.text);
+    // Gợi ý cấp độ giọng đọc theo trình độ vừa chọn (người dùng vẫn đổi được).
+    _setSpeechLevel(result.level.suggestedSpeech);
+  }
+
   void _setBusy(bool busy) {
     setState(() => _busy = busy);
     widget.onBusyChanged(busy);
@@ -164,6 +226,7 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
             lines: lines,
             voices: Map.of(_voices),
             model: _quality.model,
+            instructions: _instructions,
             audioLibrary: ref.read(audioLibraryProvider.notifier),
             audioLibraryState: ref.read(audioLibraryProvider),
             collectionList: collectionId == null
@@ -204,6 +267,7 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
     final lines = _lines.take(dialoguePreviewLines);
     return [
       _quality.model,
+      ?_instructions,
       for (final l in lines) '${_voices[l.speaker]}|${l.speaker}|${l.text}',
     ].join('\n');
   }
@@ -232,6 +296,7 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
               lines: _lines,
               voices: Map.of(_voices),
               model: _quality.model,
+              instructions: _instructions,
               cancelToken: _previewCancel,
             );
         _previewFile = file;
@@ -381,6 +446,12 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
               ),
             ),
             TextButton.icon(
+              key: const ValueKey('dialogue-ai-open'),
+              onPressed: _generateWithAi,
+              icon: const Icon(Icons.auto_awesome, size: 18),
+              label: Text(l10n.dialogueAiGenerate),
+            ),
+            TextButton.icon(
               onPressed: _paste,
               icon: const Icon(Icons.content_paste, size: 18),
               label: Text(l10n.dialogueTtsPaste),
@@ -445,6 +516,54 @@ class _DialogueTtsPanelState extends ConsumerState<DialogueTtsPanel> {
               selected: {_quality},
               onSelectionChanged: (v) => setState(() => _quality = v.first),
             ),
+          ),
+          const SizedBox(height: 12),
+          Text(l10n.dialogueTtsSpeechLevel, style: theme.textTheme.titleSmall),
+          const SizedBox(height: 8),
+          SizedBox(
+            width: double.infinity,
+            child: SegmentedButton<DialogueSpeechLevel>(
+              key: const ValueKey('dialogue-tts-speech-level'),
+              showSelectedIcon: false,
+              segments: [
+                ButtonSegment(
+                  value: DialogueSpeechLevel.clear,
+                  label: Text(l10n.dialogueTtsSpeechLevelClear),
+                ),
+                ButtonSegment(
+                  value: DialogueSpeechLevel.standard,
+                  label: Text(l10n.dialogueTtsSpeechLevelStandard),
+                ),
+                ButtonSegment(
+                  value: DialogueSpeechLevel.fluent,
+                  label: Text(l10n.dialogueTtsSpeechLevelFluent),
+                ),
+                ButtonSegment(
+                  value: DialogueSpeechLevel.native,
+                  label: Text(l10n.dialogueTtsSpeechLevelNative),
+                ),
+              ],
+              selected: {_level},
+              onSelectionChanged: _quality == _Quality.natural
+                  ? (v) => _setSpeechLevel(v.first)
+                  : null,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            _quality != _Quality.natural
+                ? l10n.dialogueTtsSpeechLevelUnsupported
+                : switch (_level) {
+                    DialogueSpeechLevel.clear =>
+                      l10n.dialogueTtsSpeechLevelClearDesc,
+                    DialogueSpeechLevel.standard =>
+                      l10n.dialogueTtsSpeechLevelStandardDesc,
+                    DialogueSpeechLevel.fluent =>
+                      l10n.dialogueTtsSpeechLevelFluentDesc,
+                    DialogueSpeechLevel.native =>
+                      l10n.dialogueTtsSpeechLevelNativeDesc,
+                  },
+            style: small,
           ),
           const SizedBox(height: 6),
           Text(

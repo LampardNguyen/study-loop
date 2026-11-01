@@ -115,6 +115,38 @@ String _srtTime(Duration d) {
 /// Độ lớn mục tiêu của mỗi câu (RMS, khoảng -18 dBFS).
 const dialogueTargetRms = 0.125;
 
+/// Cấp độ giọng đọc (từ dễ đến khó), mỗi mức là một prompt `instructions` cho gpt-4o-mini-tts.
+enum DialogueSpeechLevel {
+  clear(
+    'Speak slowly, loudly and very clearly, like a teacher reading to '
+    'beginners. Pronounce every word separately and fully, without linking '
+    'or reducing sounds. Pause briefly between phrases and clearly between '
+    'sentences. Keep the volume steady.',
+  ),
+  standard(
+    'Speak loudly and clearly with full, confident projection, as if '
+    'talking to a listener across the room. Articulate every word '
+    'distinctly at a moderate pace, keep a natural conversational tone, '
+    'and keep the volume steady from start to finish.',
+  ),
+  fluent(
+    'Speak at a normal everyday conversational speed, clearly and with good '
+    'volume. Use natural linking between words, natural stress, rhythm and '
+    'intonation, like a fluent speaker in a relaxed conversation.',
+  ),
+  native(
+    'Speak fast and casually, exactly like native speakers chatting with '
+    'each other. Use connected speech: linking, elisions, reduced and '
+    'weak forms, natural contractions, expressive emotional intonation and '
+    'natural hesitations in rhythm. Keep the volume clear and steady.',
+  );
+
+  const DialogueSpeechLevel(this.instructions);
+
+  /// Prompt gửi kèm khi tạo giọng.
+  final String instructions;
+}
+
 /// Đưa độ lớn (RMS) của một câu PCM16 về [targetRms] để các người nói có âm lượng đồng đều.
 ///
 /// Hệ số khuếch đại bị giới hạn theo đỉnh (không vượt [peakCeiling], tránh rè) và tối đa [maxGain] lần
@@ -260,6 +292,7 @@ class DialogueLessonService {
     required List<DialogueLine> lines,
     Map<String, String> voices = const {},
     String model = defaultSpeechModel,
+    String? instructions,
     CancelToken? cancelToken,
   }) async {
     final dataDir = await _resolveDataDir();
@@ -271,6 +304,7 @@ class DialogueLessonService {
       ),
       voices: voices,
       model: model,
+      instructions: instructions,
       cancelToken: cancelToken,
     );
     return audio.wavFile;
@@ -292,7 +326,12 @@ class DialogueLessonService {
           input: input,
           voice: voice,
           model: model,
-          instructions: instructions,
+          // Model mới (gpt-4o-mini-tts) mặc định dùng prompt đọc to, rõ.
+          instructions:
+              instructions ??
+              (model == 'gpt-4o-mini-tts'
+                  ? DialogueSpeechLevel.standard.instructions
+                  : null),
           responseFormat: 'pcm',
           cancelToken: cancelToken,
         );

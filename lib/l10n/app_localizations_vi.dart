@@ -6518,4 +6518,141 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get dialogueTtsPreviewing => 'Đang tạo bản nghe thử…';
+
+  @override
+  String get dialogueTtsSpeechLevel => 'Cấp độ nghe';
+
+  @override
+  String get dialogueTtsSpeechLevelClear => 'Rõ ràng';
+
+  @override
+  String get dialogueTtsSpeechLevelStandard => 'Chuẩn';
+
+  @override
+  String get dialogueTtsSpeechLevelFluent => 'Lưu loát';
+
+  @override
+  String get dialogueTtsSpeechLevelNative => 'Bản xứ';
+
+  @override
+  String get dialogueTtsSpeechLevelClearDesc =>
+      'Chậm, phát âm tách bạch từng từ, ngắt rõ giữa cụm và câu.';
+
+  @override
+  String get dialogueTtsSpeechLevelStandardDesc =>
+      'Tốc độ vừa, to rõ, giọng giáo trình.';
+
+  @override
+  String get dialogueTtsSpeechLevelFluentDesc =>
+      'Tốc độ hội thoại thường, có nối âm, ngữ điệu tự nhiên.';
+
+  @override
+  String get dialogueTtsSpeechLevelNativeDesc =>
+      'Nhanh, thoải mái như người bản xứ: nối âm, nuốt âm, ngữ điệu cảm xúc.';
+
+  @override
+  String get dialogueTtsSpeechLevelUnsupported =>
+      'Chỉ dùng được với chất lượng Tự nhiên.';
+
+  @override
+  String get dialogueAiGenerate => 'Tạo bằng AI';
+
+  @override
+  String get dialogueAiTitle => 'Tạo hội thoại bằng AI';
+
+  @override
+  String get dialogueAiTopic => 'Chủ đề';
+
+  @override
+  String get dialogueAiTopicSuggested => 'Gợi ý';
+
+  @override
+  String get dialogueAiTopicCustom => 'Tự nhập';
+
+  @override
+  String get dialogueAiTopicRandom => 'Ngẫu nhiên';
+
+  @override
+  String get dialogueAiTopicCustomHint => 'Vd: Hỏi đường, đang lạc ở ga Tokyo';
+
+  @override
+  String get dialogueAiTopicRandomHint =>
+      'AI sẽ tự chọn chủ đề phù hợp trình độ.';
+
+  @override
+  String get dialogueAiTopicRestaurant => 'Gọi món ở nhà hàng';
+
+  @override
+  String get dialogueAiTopicDirections => 'Hỏi đường';
+
+  @override
+  String get dialogueAiTopicHotel => 'Check-in khách sạn';
+
+  @override
+  String get dialogueAiTopicInterview => 'Phỏng vấn xin việc';
+
+  @override
+  String get dialogueAiTopicDoctor => 'Đi khám bệnh';
+
+  @override
+  String get dialogueAiTopicShopping => 'Mua sắm & đổi trả';
+
+  @override
+  String get dialogueAiTopicAirport => 'Sân bay';
+
+  @override
+  String get dialogueAiTopicMeeting => 'Họp công việc';
+
+  @override
+  String get dialogueAiTopicNewFriend => 'Làm quen bạn mới';
+
+  @override
+  String get dialogueAiTopicWeekend => 'Kế hoạch cuối tuần';
+
+  @override
+  String get dialogueAiTopicRenting => 'Thuê nhà';
+
+  @override
+  String get dialogueAiTopicCustomerService =>
+      'Gọi tổng đài chăm sóc khách hàng';
+
+  @override
+  String get dialogueAiLanguage => 'Ngôn ngữ';
+
+  @override
+  String get dialogueAiLevel => 'Trình độ';
+
+  @override
+  String get dialogueAiSpeakers => 'Số người nói';
+
+  @override
+  String get dialogueAiLength => 'Độ dài';
+
+  @override
+  String get dialogueAiLengthShort => 'Ngắn';
+
+  @override
+  String get dialogueAiLengthMedium => 'Vừa';
+
+  @override
+  String get dialogueAiLengthLong => 'Dài';
+
+  @override
+  String get dialogueAiLengthVeryLong => 'Rất dài';
+
+  @override
+  String get dialogueAiCreate => 'Tạo';
+
+  @override
+  String get dialogueAiGenerating => 'Đang tạo…';
+
+  @override
+  String get dialogueAiReplaceTitle => 'Thay thế hội thoại hiện tại?';
+
+  @override
+  String get dialogueAiReplace => 'Thay thế';
+
+  @override
+  String get dialogueAiErrorFormat =>
+      'AI trả về nội dung không đọc được, hãy thử lại.';
 }

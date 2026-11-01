@@ -11457,6 +11457,264 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Creating preview…'**
   String get dialogueTtsPreviewing;
+
+  /// No description provided for @dialogueTtsSpeechLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Listening level'**
+  String get dialogueTtsSpeechLevel;
+
+  /// No description provided for @dialogueTtsSpeechLevelClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get dialogueTtsSpeechLevelClear;
+
+  /// No description provided for @dialogueTtsSpeechLevelStandard.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard'**
+  String get dialogueTtsSpeechLevelStandard;
+
+  /// No description provided for @dialogueTtsSpeechLevelFluent.
+  ///
+  /// In en, this message translates to:
+  /// **'Fluent'**
+  String get dialogueTtsSpeechLevelFluent;
+
+  /// No description provided for @dialogueTtsSpeechLevelNative.
+  ///
+  /// In en, this message translates to:
+  /// **'Native'**
+  String get dialogueTtsSpeechLevelNative;
+
+  /// No description provided for @dialogueTtsSpeechLevelClearDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow, every word pronounced separately, clear pauses.'**
+  String get dialogueTtsSpeechLevelClearDesc;
+
+  /// No description provided for @dialogueTtsSpeechLevelStandardDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Moderate pace, loud and clear, textbook style.'**
+  String get dialogueTtsSpeechLevelStandardDesc;
+
+  /// No description provided for @dialogueTtsSpeechLevelFluentDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyday conversational speed, linked sounds, natural intonation.'**
+  String get dialogueTtsSpeechLevelFluentDesc;
+
+  /// No description provided for @dialogueTtsSpeechLevelNativeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast and casual like natives: linking, reductions, expressive intonation.'**
+  String get dialogueTtsSpeechLevelNativeDesc;
+
+  /// No description provided for @dialogueTtsSpeechLevelUnsupported.
+  ///
+  /// In en, this message translates to:
+  /// **'Only available with Natural quality.'**
+  String get dialogueTtsSpeechLevelUnsupported;
+
+  /// No description provided for @dialogueAiGenerate.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate with AI'**
+  String get dialogueAiGenerate;
+
+  /// No description provided for @dialogueAiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate dialogue with AI'**
+  String get dialogueAiTitle;
+
+  /// No description provided for @dialogueAiTopic.
+  ///
+  /// In en, this message translates to:
+  /// **'Topic'**
+  String get dialogueAiTopic;
+
+  /// No description provided for @dialogueAiTopicSuggested.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested'**
+  String get dialogueAiTopicSuggested;
+
+  /// No description provided for @dialogueAiTopicCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom'**
+  String get dialogueAiTopicCustom;
+
+  /// No description provided for @dialogueAiTopicRandom.
+  ///
+  /// In en, this message translates to:
+  /// **'Random'**
+  String get dialogueAiTopicRandom;
+
+  /// No description provided for @dialogueAiTopicCustomHint.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. Asking for directions, lost at Tokyo station'**
+  String get dialogueAiTopicCustomHint;
+
+  /// No description provided for @dialogueAiTopicRandomHint.
+  ///
+  /// In en, this message translates to:
+  /// **'AI will pick a topic that suits the level.'**
+  String get dialogueAiTopicRandomHint;
+
+  /// No description provided for @dialogueAiTopicRestaurant.
+  ///
+  /// In en, this message translates to:
+  /// **'Ordering at a restaurant'**
+  String get dialogueAiTopicRestaurant;
+
+  /// No description provided for @dialogueAiTopicDirections.
+  ///
+  /// In en, this message translates to:
+  /// **'Asking for directions'**
+  String get dialogueAiTopicDirections;
+
+  /// No description provided for @dialogueAiTopicHotel.
+  ///
+  /// In en, this message translates to:
+  /// **'Hotel check-in'**
+  String get dialogueAiTopicHotel;
+
+  /// No description provided for @dialogueAiTopicInterview.
+  ///
+  /// In en, this message translates to:
+  /// **'Job interview'**
+  String get dialogueAiTopicInterview;
+
+  /// No description provided for @dialogueAiTopicDoctor.
+  ///
+  /// In en, this message translates to:
+  /// **'Seeing a doctor'**
+  String get dialogueAiTopicDoctor;
+
+  /// No description provided for @dialogueAiTopicShopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping & returns'**
+  String get dialogueAiTopicShopping;
+
+  /// No description provided for @dialogueAiTopicAirport.
+  ///
+  /// In en, this message translates to:
+  /// **'At the airport'**
+  String get dialogueAiTopicAirport;
+
+  /// No description provided for @dialogueAiTopicMeeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Work meeting'**
+  String get dialogueAiTopicMeeting;
+
+  /// No description provided for @dialogueAiTopicNewFriend.
+  ///
+  /// In en, this message translates to:
+  /// **'Making a new friend'**
+  String get dialogueAiTopicNewFriend;
+
+  /// No description provided for @dialogueAiTopicWeekend.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekend plans'**
+  String get dialogueAiTopicWeekend;
+
+  /// No description provided for @dialogueAiTopicRenting.
+  ///
+  /// In en, this message translates to:
+  /// **'Renting an apartment'**
+  String get dialogueAiTopicRenting;
+
+  /// No description provided for @dialogueAiTopicCustomerService.
+  ///
+  /// In en, this message translates to:
+  /// **'Calling customer service'**
+  String get dialogueAiTopicCustomerService;
+
+  /// No description provided for @dialogueAiLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get dialogueAiLanguage;
+
+  /// No description provided for @dialogueAiLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level'**
+  String get dialogueAiLevel;
+
+  /// No description provided for @dialogueAiSpeakers.
+  ///
+  /// In en, this message translates to:
+  /// **'Speakers'**
+  String get dialogueAiSpeakers;
+
+  /// No description provided for @dialogueAiLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Length'**
+  String get dialogueAiLength;
+
+  /// No description provided for @dialogueAiLengthShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Short'**
+  String get dialogueAiLengthShort;
+
+  /// No description provided for @dialogueAiLengthMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get dialogueAiLengthMedium;
+
+  /// No description provided for @dialogueAiLengthLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Long'**
+  String get dialogueAiLengthLong;
+
+  /// No description provided for @dialogueAiLengthVeryLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Very long'**
+  String get dialogueAiLengthVeryLong;
+
+  /// No description provided for @dialogueAiCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate'**
+  String get dialogueAiCreate;
+
+  /// No description provided for @dialogueAiGenerating.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating…'**
+  String get dialogueAiGenerating;
+
+  /// No description provided for @dialogueAiReplaceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace the current dialogue?'**
+  String get dialogueAiReplaceTitle;
+
+  /// No description provided for @dialogueAiReplace.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace'**
+  String get dialogueAiReplace;
+
+  /// No description provided for @dialogueAiErrorFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'The AI returned unreadable content. Please try again.'**
+  String get dialogueAiErrorFormat;
 }
 
 class _AppLocalizationsDelegate

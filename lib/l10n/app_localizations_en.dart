@@ -6525,4 +6525,141 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dialogueTtsPreviewing => 'Creating preview…';
+
+  @override
+  String get dialogueTtsSpeechLevel => 'Listening level';
+
+  @override
+  String get dialogueTtsSpeechLevelClear => 'Clear';
+
+  @override
+  String get dialogueTtsSpeechLevelStandard => 'Standard';
+
+  @override
+  String get dialogueTtsSpeechLevelFluent => 'Fluent';
+
+  @override
+  String get dialogueTtsSpeechLevelNative => 'Native';
+
+  @override
+  String get dialogueTtsSpeechLevelClearDesc =>
+      'Slow, every word pronounced separately, clear pauses.';
+
+  @override
+  String get dialogueTtsSpeechLevelStandardDesc =>
+      'Moderate pace, loud and clear, textbook style.';
+
+  @override
+  String get dialogueTtsSpeechLevelFluentDesc =>
+      'Everyday conversational speed, linked sounds, natural intonation.';
+
+  @override
+  String get dialogueTtsSpeechLevelNativeDesc =>
+      'Fast and casual like natives: linking, reductions, expressive intonation.';
+
+  @override
+  String get dialogueTtsSpeechLevelUnsupported =>
+      'Only available with Natural quality.';
+
+  @override
+  String get dialogueAiGenerate => 'Generate with AI';
+
+  @override
+  String get dialogueAiTitle => 'Generate dialogue with AI';
+
+  @override
+  String get dialogueAiTopic => 'Topic';
+
+  @override
+  String get dialogueAiTopicSuggested => 'Suggested';
+
+  @override
+  String get dialogueAiTopicCustom => 'Custom';
+
+  @override
+  String get dialogueAiTopicRandom => 'Random';
+
+  @override
+  String get dialogueAiTopicCustomHint =>
+      'E.g. Asking for directions, lost at Tokyo station';
+
+  @override
+  String get dialogueAiTopicRandomHint =>
+      'AI will pick a topic that suits the level.';
+
+  @override
+  String get dialogueAiTopicRestaurant => 'Ordering at a restaurant';
+
+  @override
+  String get dialogueAiTopicDirections => 'Asking for directions';
+
+  @override
+  String get dialogueAiTopicHotel => 'Hotel check-in';
+
+  @override
+  String get dialogueAiTopicInterview => 'Job interview';
+
+  @override
+  String get dialogueAiTopicDoctor => 'Seeing a doctor';
+
+  @override
+  String get dialogueAiTopicShopping => 'Shopping & returns';
+
+  @override
+  String get dialogueAiTopicAirport => 'At the airport';
+
+  @override
+  String get dialogueAiTopicMeeting => 'Work meeting';
+
+  @override
+  String get dialogueAiTopicNewFriend => 'Making a new friend';
+
+  @override
+  String get dialogueAiTopicWeekend => 'Weekend plans';
+
+  @override
+  String get dialogueAiTopicRenting => 'Renting an apartment';
+
+  @override
+  String get dialogueAiTopicCustomerService => 'Calling customer service';
+
+  @override
+  String get dialogueAiLanguage => 'Language';
+
+  @override
+  String get dialogueAiLevel => 'Level';
+
+  @override
+  String get dialogueAiSpeakers => 'Speakers';
+
+  @override
+  String get dialogueAiLength => 'Length';
+
+  @override
+  String get dialogueAiLengthShort => 'Short';
+
+  @override
+  String get dialogueAiLengthMedium => 'Medium';
+
+  @override
+  String get dialogueAiLengthLong => 'Long';
+
+  @override
+  String get dialogueAiLengthVeryLong => 'Very long';
+
+  @override
+  String get dialogueAiCreate => 'Generate';
+
+  @override
+  String get dialogueAiGenerating => 'Generating…';
+
+  @override
+  String get dialogueAiReplaceTitle => 'Replace the current dialogue?';
+
+  @override
+  String get dialogueAiReplace => 'Replace';
+
+  @override
+  String get dialogueAiErrorFormat =>
+      'The AI returned unreadable content. Please try again.';
 }

@@ -6234,4 +6234,133 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get dialogueTtsPreviewing => '正在生成试听…';
+
+  @override
+  String get dialogueTtsSpeechLevel => '听力难度';
+
+  @override
+  String get dialogueTtsSpeechLevelClear => '清晰';
+
+  @override
+  String get dialogueTtsSpeechLevelStandard => '标准';
+
+  @override
+  String get dialogueTtsSpeechLevelFluent => '流利';
+
+  @override
+  String get dialogueTtsSpeechLevelNative => '母语';
+
+  @override
+  String get dialogueTtsSpeechLevelClearDesc => '语速慢，逐词清晰发音，停顿明显。';
+
+  @override
+  String get dialogueTtsSpeechLevelStandardDesc => '语速适中，响亮清晰，教材风格。';
+
+  @override
+  String get dialogueTtsSpeechLevelFluentDesc => '日常对话语速，有连读，语调自然。';
+
+  @override
+  String get dialogueTtsSpeechLevelNativeDesc => '像母语者聊天一样快速随意：连读、弱读、语调丰富。';
+
+  @override
+  String get dialogueTtsSpeechLevelUnsupported => '仅“自然”音质可用。';
+
+  @override
+  String get dialogueAiGenerate => 'AI 生成';
+
+  @override
+  String get dialogueAiTitle => '用 AI 生成对话';
+
+  @override
+  String get dialogueAiTopic => '主题';
+
+  @override
+  String get dialogueAiTopicSuggested => '推荐';
+
+  @override
+  String get dialogueAiTopicCustom => '自定义';
+
+  @override
+  String get dialogueAiTopicRandom => '随机';
+
+  @override
+  String get dialogueAiTopicCustomHint => '例如：在东京站迷路问路';
+
+  @override
+  String get dialogueAiTopicRandomHint => 'AI 会自动选择适合该水平的主题。';
+
+  @override
+  String get dialogueAiTopicRestaurant => '餐厅点餐';
+
+  @override
+  String get dialogueAiTopicDirections => '问路';
+
+  @override
+  String get dialogueAiTopicHotel => '酒店入住';
+
+  @override
+  String get dialogueAiTopicInterview => '求职面试';
+
+  @override
+  String get dialogueAiTopicDoctor => '看医生';
+
+  @override
+  String get dialogueAiTopicShopping => '购物与退换';
+
+  @override
+  String get dialogueAiTopicAirport => '在机场';
+
+  @override
+  String get dialogueAiTopicMeeting => '工作会议';
+
+  @override
+  String get dialogueAiTopicNewFriend => '结交新朋友';
+
+  @override
+  String get dialogueAiTopicWeekend => '周末计划';
+
+  @override
+  String get dialogueAiTopicRenting => '租房';
+
+  @override
+  String get dialogueAiTopicCustomerService => '致电客服';
+
+  @override
+  String get dialogueAiLanguage => '语言';
+
+  @override
+  String get dialogueAiLevel => '水平';
+
+  @override
+  String get dialogueAiSpeakers => '说话人数';
+
+  @override
+  String get dialogueAiLength => '长度';
+
+  @override
+  String get dialogueAiLengthShort => '短';
+
+  @override
+  String get dialogueAiLengthMedium => '中';
+
+  @override
+  String get dialogueAiLengthLong => '长';
+
+  @override
+  String get dialogueAiLengthVeryLong => '很长';
+
+  @override
+  String get dialogueAiCreate => '生成';
+
+  @override
+  String get dialogueAiGenerating => '生成中…';
+
+  @override
+  String get dialogueAiReplaceTitle => '替换当前对话？';
+
+  @override
+  String get dialogueAiReplace => '替换';
+
+  @override
+  String get dialogueAiErrorFormat => 'AI 返回的内容无法读取，请重试。';
 }
