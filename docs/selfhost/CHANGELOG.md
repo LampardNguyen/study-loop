@@ -2,7 +2,7 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
-## Chưa phát hành
+## v1.0.53 (build 18) — 2026-11-01
 
 ### Tính năng mới
 - Nút **Âm lượng phát** trên các trình phát: tăng âm lượng tới 200% và bật **Chuẩn hoá âm lượng** để nghe đều, rõ hơn. Cài đặt dùng chung, giữ lại khi mở lại app.
