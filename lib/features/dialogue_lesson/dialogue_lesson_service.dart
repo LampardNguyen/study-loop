@@ -4,6 +4,7 @@
 /// 字幕时间轴无需再做对齐；拼接后的 WAV 再转码为 m4a 入库。
 library;
 
+import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -111,6 +112,41 @@ String _srtTime(Duration d) {
       '${two(d.inSeconds.remainder(60))},$ms';
 }
 
+/// 每句目标响度（RMS，约 -18 dBFS）。
+const dialogueTargetRms = 0.125;
+
+/// 把一句 PCM16 的响度（RMS）调到 [targetRms]，使不同说话人音量一致。
+///
+/// 增益受峰值限制（不超过 [peakCeiling]，避免破音）且最大 [maxGain] 倍
+/// （避免把近乎静音的片段噪声放大）。全静音原样返回。
+Uint8List normalizePcm16Loudness(
+  Uint8List pcm, {
+  double targetRms = dialogueTargetRms,
+  double peakCeiling = 0.95,
+  double maxGain = 4,
+}) {
+  final samples = pcm.buffer.asInt16List(pcm.offsetInBytes, pcm.length ~/ 2);
+  if (samples.isEmpty) return pcm;
+  var sumSquares = 0.0;
+  var peak = 0;
+  for (final v in samples) {
+    sumSquares += v * v;
+    final a = v.abs();
+    if (a > peak) peak = a;
+  }
+  if (peak == 0) return pcm;
+  final rms = math.sqrt(sumSquares / samples.length) / 32768;
+  final gain = math.min(
+    math.min(targetRms / rms, maxGain),
+    peakCeiling * 32767 / peak,
+  );
+  final out = Int16List(samples.length);
+  for (var i = 0; i < samples.length; i++) {
+    out[i] = (samples[i] * gain).round().clamp(-32768, 32767);
+  }
+  return out.buffer.asUint8List();
+}
+
 /// 把 PCM16 单声道数据包成 WAV。
 Uint8List pcm16ToWav(Uint8List pcm, {int sampleRate = dialoguePcmSampleRate}) {
   final header = ByteData(44);
@@ -200,7 +236,10 @@ class DialogueLessonService {
       // PCM16 必须为偶数字节，防御性截掉末尾半个采样。
       final even = bytes.length - bytes.length % 2;
       if (i > 0) pcm.add(gapBytes);
-      pcm.add(Uint8List.fromList(bytes.sublist(0, even)));
+      // 逐句统一响度，避免不同声音一大一小。
+      pcm.add(
+        normalizePcm16Loudness(Uint8List.fromList(bytes.sublist(0, even))),
+      );
       lengths.add(even);
       onProgress?.call(i + 1, lines.length);
     }

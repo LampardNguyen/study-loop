@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -168,5 +169,50 @@ Mark：Okay.
       AudioImportSourceType.fromStorageValue('tts'),
       AudioImportSourceType.tts,
     );
+  });
+
+  group('normalizePcm16Loudness', () {
+    Uint8List sine(double amplitude, {int n = 2400}) {
+      final out = Int16List(n);
+      for (var i = 0; i < n; i++) {
+        out[i] = (amplitude * 32767 * math.sin(2 * math.pi * i / 48)).round();
+      }
+      return out.buffer.asUint8List();
+    }
+
+    double rms(Uint8List pcm) {
+      final s = pcm.buffer.asInt16List();
+      var sum = 0.0;
+      for (final v in s) {
+        sum += v * v;
+      }
+      return math.sqrt(sum / s.length) / 32768;
+    }
+
+    test('câu nhỏ và câu to về cùng mức RMS', () {
+      final quiet = normalizePcm16Loudness(sine(0.05));
+      final loud = normalizePcm16Loudness(sine(0.4));
+      expect(rms(quiet), closeTo(dialogueTargetRms, 0.005));
+      expect(rms(loud), closeTo(dialogueTargetRms, 0.005));
+    });
+
+    test('không vượt peak ceiling', () {
+      // Sóng vuông biên độ lớn nhưng RMS nhỏ hơn đỉnh rất ít → giới hạn theo peak.
+      final spiky = Int16List(2400);
+      spiky[0] = 20000;
+      final out = normalizePcm16Loudness(spiky.buffer.asUint8List());
+      final peak = out.buffer
+          .asInt16List()
+          .map((v) => v.abs())
+          .reduce(math.max);
+      expect(peak, lessThanOrEqualTo((0.95 * 32767).round()));
+    });
+
+    test('giới hạn maxGain và giữ nguyên khi im lặng', () {
+      final tiny = normalizePcm16Loudness(sine(0.001));
+      expect(rms(tiny), lessThan(0.001 * 4));
+      final silent = Uint8List(100);
+      expect(normalizePcm16Loudness(silent), same(silent));
+    });
   });
 }
