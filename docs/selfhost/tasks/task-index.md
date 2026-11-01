@@ -31,6 +31,7 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - [P] T15.2 — Cân bằng độ lớn từng câu khi tạo bài hội thoại → [task-2026-11-01.md](task-2026-11-01.md#t152)
 - [P] T15.3 — Sửa test router còn tham chiếu pdfPreviewSegment → [task-2026-11-01.md](task-2026-11-01.md#t153)
 - [P] T15.4 — Kiểm tra host remote config, chặn khi không có backend → [task-2026-11-01.md](task-2026-11-01.md#t154)
+- [P] T15.5 — Sửa error analyze trong integration test Kokoro → [task-2026-11-01.md](task-2026-11-01.md#t155)
 
 ## Quyết định
 - 2026-10-26: Cập nhật APK tải trong app (Dio) + cài qua FileProvider; lỗi tải → mở trình duyệt như cũ.
