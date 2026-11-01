@@ -9,6 +9,7 @@ import '../../models/audio_item.dart' as model;
 import '../../models/sentence.dart';
 import '../../models/word_highlight_binding.dart';
 import '../../services/app_logger.dart';
+import '../../services/playback_volume_settings.dart';
 import '../../services/subtitle_parser.dart';
 import '../../services/word_highlight_playback_status_tracker.dart';
 
@@ -30,7 +31,8 @@ part 'foreground_audio_engine_provider.g.dart';
 @Riverpod(keepAlive: true)
 class ForegroundAudioEngine extends _$ForegroundAudioEngine {
   /// 裸播放器——独立实例，从不注册到 `audio_service`。
-  final ja.AudioPlayer _player = ja.AudioPlayer();
+  final VolumeAwarePlayer _volumePlayer = VolumeAwarePlayer.create();
+  late final ja.AudioPlayer _player = _volumePlayer.player;
 
   /// 同一材料并发请求只执行一次文件加载，避免重复 setFilePath 打断前一个请求。
   final Map<String, Future<void>> _loadingAudioById = <String, Future<void>>{};
@@ -54,6 +56,7 @@ class ForegroundAudioEngine extends _$ForegroundAudioEngine {
     ref.onDispose(() {
       unawaited(_wordHighlightPlaybackSubscription?.cancel());
       unawaited(_wordHighlightPlaybackStatus.dispose());
+      _volumePlayer.unbind();
       unawaited(_player.dispose());
     });
     return const AudioEngineState();

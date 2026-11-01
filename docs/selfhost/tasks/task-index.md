@@ -27,6 +27,8 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - [x] T14.13 — 🎨 Khôi phục Drive xong → khởi động lại app → [task-2026-10-31.md](task-2026-10-31.md#t1413)
 - [x] T14.14 — 🎨 Báo có bản sao lưu Drive mới hơn từ máy khác → [task-2026-10-31.md](task-2026-10-31.md#t1414)
 - [x] T14.15 — Xoá tính năng xuất PDF và font PDF → [task-2026-10-31.md](task-2026-10-31.md#t1415)
+- [P] T15.1 — 🎨 Điều chỉnh âm lượng + chuẩn hoá trên trình phát → [task-2026-11-01.md](task-2026-11-01.md#t151)
+- [P] T15.2 — Cân bằng độ lớn từng câu khi tạo bài hội thoại → [task-2026-11-01.md](task-2026-11-01.md#t152)
 
 ## Quyết định
 - 2026-10-26: Cập nhật APK tải trong app (Dio) + cài qua FileProvider; lỗi tải → mở trình duyệt như cũ.
@@ -34,3 +36,4 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - 2026-10-28: Đồng bộ = chỉ Google, Drive appDataFolder, thủ công; không đồng bộ OpenAI key.
 - 2026-10-28: Package mới com.studyloop.app (dev: com.studyloop.app.dev), giữ namespace Kotlin.
 - 2026-10-29: Bài học từ hội thoại: OpenAI TTS dạng PCM từng câu, thời gian phụ đề tính theo byte.
+- 2026-11-01: Âm lượng phát 50–200% + chuẩn hoá, cài đặt toàn cục; câu hội thoại chuẩn hoá RMS từng câu khi tạo.

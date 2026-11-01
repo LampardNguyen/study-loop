@@ -24,6 +24,7 @@ import '../widgets/player_hotkey_scope.dart';
 import '../widgets/study/study_activity_detector.dart';
 import '../widgets/dictionary/dictionary_panel_host.dart';
 import 'sentence_detail_screen.dart';
+import '../widgets/playback_volume_button.dart';
 
 const kPlayerSingleSentenceSwipeAreaKey = kFullSingleSentenceSwipeAreaKey;
 const kPlayerBookmarkSingleSentenceSwipeAreaKey =
@@ -113,7 +114,7 @@ class _PlayerScreenState extends ConsumerState<PlayerScreen>
           appBar: AppBar(
             titleSpacing: 0,
             title: _buildAppBarTitle(playerState, l10n),
-            actions: const [SleepTimerButton()],
+            actions: const [PlaybackVolumeButton(), SleepTimerButton()],
           ),
           // 词典面板宿主：面板内嵌 body、非 modal（显示期间正文可继续点词）。
           // 页面自身无 PopScope，由宿主代管返回键（面板开着时先关面板）。

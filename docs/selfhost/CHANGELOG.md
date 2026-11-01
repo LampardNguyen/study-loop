@@ -2,6 +2,14 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
+## Chưa phát hành
+
+### Tính năng mới
+- Nút **Âm lượng phát** trên các trình phát: tăng âm lượng tới 200% và bật **Chuẩn hoá âm lượng** để nghe đều, rõ hơn. Cài đặt dùng chung, giữ lại khi mở lại app.
+
+### Sửa lỗi
+- Bài học tạo từ hội thoại: các câu của người nói khác nhau giờ có độ lớn đồng đều (bài cũ cần tạo lại).
+
 ## v1.0.52 (build 17) — 2026-10-31
 
 ### Tính năng mới

@@ -57,6 +57,7 @@ import '../widgets/common/managed_media_visual_surface.dart';
 import '../widgets/common/practice_media_presentation_host.dart';
 import '../widgets/practice/practice_sentence_pager.dart';
 import '../widgets/study/study_activity_detector.dart';
+import '../widgets/playback_volume_button.dart';
 
 /// 跟读播放器页面
 class ListenAndRepeatPlayerScreen extends ConsumerStatefulWidget {
@@ -623,6 +624,7 @@ class _ListenAndRepeatPlayerScreenState
                               : _handleMediaStartupExit,
                         ),
                         actions: [
+                          const PlaybackVolumeButton(),
                           // AI 助手入口：打开前暂停自动推进（同设置按钮的处理）。
                           if (mediaReady)
                             SentenceChatButton(

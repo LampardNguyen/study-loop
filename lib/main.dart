@@ -21,6 +21,7 @@ import 'providers/startup_bootstrap_provider.dart';
 import 'router/app_router.dart';
 import 'theme/app_theme.dart';
 import 'providers/review_reminder_provider.dart';
+import 'services/playback_volume_settings.dart';
 import 'services/notification_tap_router_bridge.dart';
 import 'analytics/analytics_providers.dart';
 import 'analytics/analytics_service.dart';
@@ -75,6 +76,7 @@ void main() async {
     'shared_preferences',
     SharedPreferences.getInstance,
   );
+  PlaybackVolumeSettings.load(prefs);
   // SecureStorage 在新装设备上可能较慢。立即并行启动匿名 ID 初始化，但不能让它
   // 阻塞 analytics channel ready 或首帧；完成后再注册为事件 super property。
   final anonymousIdReady = startUserIdService(prefs);

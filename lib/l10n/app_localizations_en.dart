@@ -5869,6 +5869,23 @@ class AppLocalizationsEn extends AppLocalizations {
       'Louder levels are softly limited to avoid distortion.';
 
   @override
+  String get playbackVolume => 'Playback volume';
+
+  @override
+  String get playbackVolumeBoostHint =>
+      'Levels above 100% may distort files that are already loud.';
+
+  @override
+  String get playbackVolumeNormalize => 'Normalize volume';
+
+  @override
+  String get playbackVolumeNormalizeHint =>
+      'Evens out loudness: quiet parts get louder, loud parts don\'t distort.';
+
+  @override
+  String get playbackVolumeReset => 'Reset (100%)';
+
+  @override
   String get recordingQuality => 'Recording quality';
 
   @override

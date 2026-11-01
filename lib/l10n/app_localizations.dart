@@ -10318,6 +10318,36 @@ abstract class AppLocalizations {
   /// **'Louder levels are softly limited to avoid distortion.'**
   String get recordingVolumeHint;
 
+  /// No description provided for @playbackVolume.
+  ///
+  /// In en, this message translates to:
+  /// **'Playback volume'**
+  String get playbackVolume;
+
+  /// No description provided for @playbackVolumeBoostHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Levels above 100% may distort files that are already loud.'**
+  String get playbackVolumeBoostHint;
+
+  /// No description provided for @playbackVolumeNormalize.
+  ///
+  /// In en, this message translates to:
+  /// **'Normalize volume'**
+  String get playbackVolumeNormalize;
+
+  /// No description provided for @playbackVolumeNormalizeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Evens out loudness: quiet parts get louder, loud parts don\'t distort.'**
+  String get playbackVolumeNormalizeHint;
+
+  /// No description provided for @playbackVolumeReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset (100%)'**
+  String get playbackVolumeReset;
+
   /// No description provided for @recordingQuality.
   ///
   /// In en, this message translates to:

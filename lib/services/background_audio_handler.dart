@@ -10,6 +10,7 @@ import 'package:just_audio/just_audio.dart' as ja;
 import '../utils/app_data_dir.dart';
 import 'app_logger.dart';
 import 'media_session_router.dart';
+import 'playback_volume_settings.dart';
 
 /// Study Loop 全局后台播放控制器。
 ///
@@ -22,7 +23,10 @@ import 'media_session_router.dart';
 /// 3. 未来若要加上一句/下一句、循环切换、睡眠定时等锁屏控制，只扩这里。
 class EchoLoopAudioHandler extends BaseAudioHandler with SeekHandler {
   EchoLoopAudioHandler({ja.AudioPlayer? player})
-    : _player = player ?? ja.AudioPlayer() {
+    : this._(player, player == null ? VolumeAwarePlayer.create() : null);
+
+  EchoLoopAudioHandler._(ja.AudioPlayer? player, this._volumePlayer)
+    : _player = player ?? _volumePlayer!.player {
     _playbackEventSub = _player.playbackEventStream.listen(
       (_) => _broadcastState(),
     );
@@ -44,6 +48,9 @@ class EchoLoopAudioHandler extends BaseAudioHandler with SeekHandler {
   }
 
   final ja.AudioPlayer _player;
+
+  /// 未注入播放器时自建，绑定全局播放音量。
+  final VolumeAwarePlayer? _volumePlayer;
   StreamSubscription<ja.PlaybackEvent>? _playbackEventSub;
   StreamSubscription<Duration?>? _durationSub;
   StreamSubscription<AudioInterruptionEvent>? _interruptionSub;
@@ -400,6 +407,7 @@ class EchoLoopAudioHandler extends BaseAudioHandler with SeekHandler {
     await _interruptionSub?.cancel();
     await _becomingNoisySub?.cancel();
     await _silencePlayer?.dispose();
+    _volumePlayer?.unbind();
     await _player.dispose();
   }
 

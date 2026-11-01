@@ -5862,6 +5862,23 @@ class AppLocalizationsVi extends AppLocalizations {
       'Mức to được giới hạn mềm để tiếng không bị rè.';
 
   @override
+  String get playbackVolume => 'Âm lượng phát';
+
+  @override
+  String get playbackVolumeBoostHint =>
+      'Mức trên 100% có thể bị rè với file vốn đã to.';
+
+  @override
+  String get playbackVolumeNormalize => 'Chuẩn hoá âm lượng';
+
+  @override
+  String get playbackVolumeNormalizeHint =>
+      'Tự làm đều độ lớn, câu nhỏ to lên, câu to không bị rè.';
+
+  @override
+  String get playbackVolumeReset => 'Đặt lại (100%)';
+
+  @override
   String get recordingQuality => 'Chất lượng ghi âm';
 
   @override

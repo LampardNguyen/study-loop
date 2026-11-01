@@ -9,6 +9,7 @@ import '../../l10n/app_localizations.dart';
 import '../../theme/app_theme.dart';
 import '../practice/practice_progress_section.dart';
 import 'practice_playback_footer.dart';
+import '../playback_volume_button.dart';
 
 /// 段落练习页共享骨架
 class ParagraphPracticeScaffold extends StatelessWidget {
@@ -151,6 +152,7 @@ class ParagraphPracticeScaffold extends StatelessWidget {
                 onPressed: onClose,
               ),
               actions: [
+                const PlaybackVolumeButton(),
                 IconButton(
                   icon: const Icon(Icons.tune),
                   onPressed: onOpenSettings,

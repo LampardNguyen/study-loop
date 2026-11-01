@@ -5599,6 +5599,21 @@ class AppLocalizationsZh extends AppLocalizations {
   String get recordingVolumeHint => '音量越大越容易破音，已自动做柔和限幅。';
 
   @override
+  String get playbackVolume => '播放音量';
+
+  @override
+  String get playbackVolumeBoostHint => '超过 100% 时，本身较响的音频可能破音。';
+
+  @override
+  String get playbackVolumeNormalize => '音量标准化';
+
+  @override
+  String get playbackVolumeNormalizeHint => '自动均衡响度：小声变大，大声不破音。';
+
+  @override
+  String get playbackVolumeReset => '重置（100%）';
+
+  @override
   String get recordingQuality => '录音音质';
 
   @override

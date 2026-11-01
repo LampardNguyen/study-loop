@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -9,6 +10,7 @@ import 'media_subtitle_style.dart';
 import 'app_logger.dart';
 import 'media_kit_debug_initializer.dart';
 import 'media_player_backend.dart';
+import 'playback_volume_settings.dart';
 
 /// media_kit 播放后端。只负责原生播放器适配，不承载业务播放流程。
 ///
@@ -17,6 +19,8 @@ class MediaKitPlayerBackend implements MediaPlayerBackend {
   MediaKitPlayerBackend({Player? player})
     : _player = player ?? _createPlayer() {
     _controller = VideoController(_player);
+    PlaybackVolumeSettings.notifier.addListener(_applyVolume);
+    _applyVolume();
   }
 
   static Player _createPlayer() {
@@ -201,6 +205,30 @@ class MediaKitPlayerBackend implements MediaPlayerBackend {
     );
   }
 
+  /// 应用全局播放音量：volume-max 放宽到 200，标准化用 mpv `dynaudnorm` 滤镜。
+  void _applyVolume() {
+    if (_disposed) return;
+    final volume = PlaybackVolumeSettings.value;
+    final platform = _player.platform;
+    unawaited(() async {
+      try {
+        if (platform is NativePlayer) {
+          await platform.setProperty(
+            'volume-max',
+            '${PlaybackVolume.maxPercent}',
+          );
+          await platform.setProperty(
+            'af',
+            volume.normalize ? 'lavfi=[dynaudnorm=f=250:g=15]' : '',
+          );
+        }
+        await _player.setVolume(volume.percent.toDouble());
+      } catch (error) {
+        AppLogger.log('MediaKitBackend', 'apply volume failed: $error');
+      }
+    }());
+  }
+
   @override
   Future<void> dispose() {
     final existing = _disposeFuture;
@@ -220,6 +248,7 @@ class MediaKitPlayerBackend implements MediaPlayerBackend {
 
   Future<void> _dispose() async {
     if (_disposed) return;
+    PlaybackVolumeSettings.notifier.removeListener(_applyVolume);
     final startedAt = DateTime.now();
     AppLogger.log(
       'MediaKitBackend',

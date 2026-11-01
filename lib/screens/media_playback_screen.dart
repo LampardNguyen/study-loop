@@ -33,6 +33,7 @@ import '../widgets/study/study_activity_detector.dart';
 import '../widgets/settings_dialog.dart';
 import '../widgets/sleep_timer.dart';
 import 'sentence_detail_screen.dart';
+import '../widgets/playback_volume_button.dart';
 
 /// media_kit 随心听页面。
 ///
@@ -206,7 +207,10 @@ class _MediaPlaybackScreenState extends ConsumerState<MediaPlaybackScreen>
               : AppBar(
                   titleSpacing: 0,
                   title: _buildAppBarTitle(state, l10n),
-                  actions: const [SleepTimerButton.mediaPlayback()],
+                  actions: const [
+                    PlaybackVolumeButton(),
+                    SleepTimerButton.mediaPlayback(),
+                  ],
                 ),
           body: ManagedMediaVisualSurface(
             loadKey: widget.audioItem.id,

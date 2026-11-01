@@ -1,0 +1,11 @@
+<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Âm lượng phát</title>
+<style>body{font-family:system-ui;background:#eee;margin:0;padding:16px}.ph{max-width:360px;margin:auto;background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 4px 20px #0002}
+.bar{display:flex;justify-content:space-around;padding:14px;background:#f6f3fa;font-size:22px}.on{color:#6750a4}.dim{background:#0005;height:120px}
+.sh{padding:20px;border-radius:20px 20px 0 0;background:#fff}h3{margin:0 0 16px}.row{display:flex;align-items:center;gap:10px}input{flex:1;accent-color:#6750a4}
+.hint{font-size:12px;color:#b3261e;margin:6px 0 14px}.sw{display:flex;justify-content:space-between;align-items:center}.sub{font-size:12px;color:#666}button{border:0;background:none;color:#6750a4;margin-top:14px;font-weight:600}</style>
+<div class="ph"><div class="dim"></div><div class="sh"><h3>Âm lượng phát</h3>
+<div class="row">🔈<input type="range" min="50" max="200" step="10" value="150" oninput="v.textContent=this.value+'%'">🔊<b id="v">150%</b></div>
+<div class="hint">Mức trên 100% có thể bị rè với file vốn đã to.</div>
+<div class="sw"><div>Chuẩn hoá âm lượng<div class="sub">Tự làm đều độ lớn, câu nhỏ to lên, câu to không bị rè.</div></div><input type="checkbox" checked style="flex:0"></div>
+<button>Đặt lại (100%)</button></div>
+<div class="bar"><span>⏪</span><span>▶️</span><span>⏩</span><span class="on">🔊</span></div></div>
