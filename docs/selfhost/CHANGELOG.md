@@ -2,7 +2,7 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
-## Chưa phát hành
+## v1.0.54 (build 19) — 2026-11-01
 
 ### Tính năng mới
 - Hội thoại → giọng nói (chất lượng tự nhiên): giọng đọc to, rõ và đều hơn.
