@@ -49,7 +49,7 @@ class EchoLoopAudioHandler extends BaseAudioHandler with SeekHandler {
 
   final ja.AudioPlayer _player;
 
-  /// 未注入播放器时自建，绑定全局播放音量。
+  /// Tự tạo khi không truyền player vào; gắn với âm lượng phát toàn cục.
   final VolumeAwarePlayer? _volumePlayer;
   StreamSubscription<ja.PlaybackEvent>? _playbackEventSub;
   StreamSubscription<Duration?>? _durationSub;

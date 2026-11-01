@@ -112,13 +112,13 @@ String _srtTime(Duration d) {
       '${two(d.inSeconds.remainder(60))},$ms';
 }
 
-/// 每句目标响度（RMS，约 -18 dBFS）。
+/// Độ lớn mục tiêu của mỗi câu (RMS, khoảng -18 dBFS).
 const dialogueTargetRms = 0.125;
 
-/// 把一句 PCM16 的响度（RMS）调到 [targetRms]，使不同说话人音量一致。
+/// Đưa độ lớn (RMS) của một câu PCM16 về [targetRms] để các người nói có âm lượng đồng đều.
 ///
-/// 增益受峰值限制（不超过 [peakCeiling]，避免破音）且最大 [maxGain] 倍
-/// （避免把近乎静音的片段噪声放大）。全静音原样返回。
+/// Hệ số khuếch đại bị giới hạn theo đỉnh (không vượt [peakCeiling], tránh rè) và tối đa [maxGain] lần
+/// (tránh phóng to tiếng ồn của đoạn gần như im lặng). Toàn im lặng thì trả nguyên.
 Uint8List normalizePcm16Loudness(
   Uint8List pcm, {
   double targetRms = dialogueTargetRms,
@@ -236,7 +236,7 @@ class DialogueLessonService {
       // PCM16 必须为偶数字节，防御性截掉末尾半个采样。
       final even = bytes.length - bytes.length % 2;
       if (i > 0) pcm.add(gapBytes);
-      // 逐句统一响度，避免不同声音一大一小。
+      // Cân bằng độ lớn từng câu, tránh giọng to giọng nhỏ.
       pcm.add(
         normalizePcm16Loudness(Uint8List.fromList(bytes.sublist(0, even))),
       );

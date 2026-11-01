@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_logger.dart';
 
-/// 播放音量设置（全局）：音量百分比（50–200）+ 是否响度标准化。
+/// Cài đặt âm lượng phát (toàn cục): phần trăm âm lượng (50–200) + có chuẩn hoá độ lớn hay không.
 @immutable
 class PlaybackVolume {
   const PlaybackVolume({this.percent = 100, this.normalize = false});
@@ -18,14 +18,14 @@ class PlaybackVolume {
   final int percent;
   final bool normalize;
 
-  /// 与默认（100%、未标准化）不同 → 按钮高亮。
+  /// Khác mặc định (100%, không chuẩn hoá) → nút được tô sáng.
   bool get isCustom => percent != 100 || normalize;
 
-  /// just_audio 的 volume（0–1）。
+  /// volume cho just_audio (0–1).
   double get justAudioVolume => math.min(percent, 100) / 100;
 
-  /// just_audio 的 Android LoudnessEnhancer 增益（dB）。
-  /// >100% 的部分换算成增益；标准化再额外 +6 dB（LoudnessEnhancer 自带限幅，不易破音）。
+  /// Độ khuếch đại (dB) cho Android LoudnessEnhancer của just_audio.
+  /// Phần >100% đổi thành độ khuếch đại; chuẩn hoá cộng thêm +6 dB (LoudnessEnhancer có sẵn limiter, khó bị rè).
   double get loudnessGainDb {
     var db = percent > 100 ? 20 * math.log(percent / 100) / math.ln10 : 0.0;
     if (normalize) db += 6;
@@ -47,7 +47,7 @@ class PlaybackVolume {
   int get hashCode => Object.hash(percent, normalize);
 }
 
-/// 全局播放音量：各播放器实例监听 [notifier] 即时生效，修改时写入 SharedPreferences。
+/// Âm lượng phát toàn cục: mỗi player lắng nghe [notifier] để áp ngay, khi đổi thì lưu vào SharedPreferences.
 class PlaybackVolumeSettings {
   PlaybackVolumeSettings._();
 
@@ -62,7 +62,7 @@ class PlaybackVolumeSettings {
 
   static PlaybackVolume get value => notifier.value;
 
-  /// 启动时读取已保存的设置。
+  /// Đọc cài đặt đã lưu khi khởi động app.
   static void load(SharedPreferences prefs) {
     _prefs = prefs;
     notifier.value = PlaybackVolume(
@@ -81,8 +81,8 @@ class PlaybackVolumeSettings {
   }
 }
 
-/// 创建带 LoudnessEnhancer 的 just_audio 播放器，并绑定全局播放音量。
-/// 返回的 [VolumeAwarePlayer.unbind] 需在播放器释放时调用。
+/// Tạo player just_audio kèm LoudnessEnhancer và gắn với âm lượng phát toàn cục.
+/// Phải gọi [VolumeAwarePlayer.unbind] khi giải phóng player.
 class VolumeAwarePlayer {
   VolumeAwarePlayer._(this.player, this._enhancer) {
     PlaybackVolumeSettings.notifier.addListener(_apply);

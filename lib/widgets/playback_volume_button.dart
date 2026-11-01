@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../services/playback_volume_settings.dart';
 
-/// 播放器 AppBar 上的音量按钮：打开「播放音量」面板；非默认设置时图标高亮。
+/// Nút âm lượng trên AppBar của trình phát: mở bảng "Âm lượng phát"; icon tô sáng khi khác mặc định.
 class PlaybackVolumeButton extends StatelessWidget {
   const PlaybackVolumeButton({super.key});
 
@@ -28,7 +28,7 @@ class PlaybackVolumeButton extends StatelessWidget {
   }
 }
 
-/// 「播放音量」面板：50–200% 滑杆 + 音量标准化开关 + 重置。拖动即时生效。
+/// Bảng "Âm lượng phát": thanh trượt 50–200% + công tắc chuẩn hoá + đặt lại. Kéo là áp ngay.
 class PlaybackVolumeSheet extends StatelessWidget {
   const PlaybackVolumeSheet({super.key});
 

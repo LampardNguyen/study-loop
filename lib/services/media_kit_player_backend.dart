@@ -205,7 +205,7 @@ class MediaKitPlayerBackend implements MediaPlayerBackend {
     );
   }
 
-  /// 应用全局播放音量：volume-max 放宽到 200，标准化用 mpv `dynaudnorm` 滤镜。
+  /// Áp âm lượng phát toàn cục: nới volume-max lên 200, chuẩn hoá bằng bộ lọc mpv `dynaudnorm`.
   void _applyVolume() {
     if (_disposed) return;
     final volume = PlaybackVolumeSettings.value;

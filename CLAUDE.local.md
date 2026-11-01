@@ -27,6 +27,8 @@
 - **`task-index.md`**: mỗi task 1 dòng, trỏ tới file chi tiết, vd:
   `- [P] T12.3 — Sửa lỗi phát audio → [task-2026-10-26.md](task-2026-10-26.md#t123)`
 - Mọi thay đổi trạng thái phải cập nhật **cả** file task lẫn dòng tương ứng trong `task-index.md`.
+- Đánh số: task tiếp nối/mở rộng chức năng của nhóm đang làm → tăng số nhỏ (T14.15 → T14.16);
+  nhóm chức năng mới hoặc ngày làm việc mới không liên quan → tăng số lớn (T15.1).
 - Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]` code xong chờ test, `[P]` pass, `[-]` bỏ.
 - Quyết định quan trọng ghi vào mục *Ghi chú / Quyết định* cuối file task của ngày đó, và 1 dòng tóm tắt
   ở mục *Quyết định* cuối `task-index.md`.
@@ -37,15 +39,25 @@
 2. **Task 🎨 UI**: làm design trước (mockup bằng widget/HTML hoặc mô tả bố cục + trạng thái:
    rỗng / đang tải / lỗi / thành công) → đổi sang `[D]` → **dừng, chờ người dùng approve**.
    Chỉ code sau khi người dùng nói rõ là duyệt; ghi `Design duyệt: YYYY-MM-DD` dưới task.
+   **Lệch design khi code:** lệch nhỏ (icon, khoảng cách, chữ) → ghi vào *Ghi chú* task và báo người dùng;
+   lệch về hành vi/phạm vi → dừng, hỏi trước khi làm tiếp.
 3. Code (thay đổi tối thiểu, theo style hiện có) → đổi sang `[x]`.
-4. Test: `flutter analyze`, test liên quan (`flutter test <file>`), viết test mới cho hành vi mới;
+4. Test: `flutter analyze` (**không thêm issue mới** so với trước khi sửa — repo có sẵn issue cũ),
+   test liên quan (`flutter test <file>`), viết test mới cho hành vi mới;
    kiểm tra trên emulator bằng `flutter run` (debug, hot reload/restart) — **không build APK release
    khi đang phát triển/test tính năng** (người dùng chốt 2026-10-28, tốn ~5 phút mỗi lần).
    Chỉ build APK khi phát hành bản mới / tạo tag release (§3b.4).
-5. Test OK → `[P]` + ghi `Hoàn thành: YYYY-MM-DD` và `Test: <lệnh — kết quả>`.
+   Chạy emulator **bắt buộc** với task UI, âm thanh, thiết bị/quyền, nền tảng; task thuần logic có unit test → đủ.
+   Test hỏng do chính task gây ra (vd xoá tính năng còn test tham chiếu) → sửa trong cùng task.
+5. Hành vi Claude không tự kiểm được (nghe âm thanh, cảm nhận giao diện) → giữ `[x]`, liệt kê bước để
+   người dùng kiểm; chỉ `[P]` khi người dùng xác nhận.
+   Test OK → `[P]` + ghi `Hoàn thành: YYYY-MM-DD` và `Test: <lệnh — kết quả>`.
    Test fail → giữ `[x]`, ghi lỗi, sửa tiếp; **không sửa assertion cho xanh** nếu chưa rõ nguyên nhân.
 6. Quyết định quan trọng → ghi theo §2b.
-7. Mỗi task PASS → 1 git commit: `selfhost(T<x.y>): <mô tả>`.
+7. Mỗi task PASS → 1 git commit: `selfhost(T<x.y>): <mô tả>`. Làm nhiều task cùng lúc → mỗi task commit
+   code của nó; tài liệu dùng chung (task file, index, CHANGELOG, graphify) đi cùng commit của task cuối.
+   **Không push** sau mỗi commit — chỉ push khi phát hành release (kèm tag).
+8. Thêm chuỗi giao diện → thêm đủ 3 file `lib/l10n/app_en.arb`, `app_vi.arb`, `app_zh.arb`, rồi `flutter gen-l10n`.
 
 ## 3b. Quy tắc bắt buộc (người dùng chốt 2026-10-23)
 
@@ -74,14 +86,21 @@
 - Key chỉ lưu bằng `flutter_secure_storage`; không vào SharedPreferences, backup, analytics, log, crash report.
 - Không thêm SDK analytics/tracking mới.
 - Không gửi request tới `echo-loop.top`, `echo-loop.cn`, posthog, firebase, umeng.
+- Tính năng có gọi mạng (remote config, cập nhật app, thông báo…) phải ghi rõ host được phép gọi
+  (trong task hoặc note graphify). Phát hiện request tới host lạ → báo người dùng.
 - `key.properties`, keystore, `.dev.env`, `.prod.env` không commit.
 
 ## 5. Lệnh hay dùng
 
 ```bash
+# Shell của Claude không có flutter trong PATH:
+export PATH=$HOME/development/flutter/bin:$HOME/Library/Android/sdk/platform-tools:$PATH
 flutter pub get && dart run build_runner build --delete-conflicting-outputs
 flutter analyze
 flutter test
+# Mở emulator, đợi boot xong (getprop trả 1) rồi mới flutter run:
+flutter emulators --launch Pixel_9_Pro
+adb wait-for-device && adb shell getprop sys.boot_completed
 # Test nhanh trên emulator khi phát triển (r = hot reload, R = hot restart, q = thoát):
 flutter run --flavor dev --dart-define-from-file=.dev.env -d emulator-5554
 # Build APK: CHỈ khi phát hành / tạo tag release.
@@ -104,7 +123,8 @@ nếu vẫn lỗi → dừng, báo người dùng nguyên nhân đã tìm đư�
 ## 6. Ngôn ngữ
 
 - Trao đổi với người dùng: tiếng Việt.
-- Comment code: theo quy ước dự án (tiếng Việt, Dart doc) để đồng nhất với code gốc.
+- Comment code mới: **luôn tiếng Việt** (Dart doc `///`), kể cả khi code xung quanh là tiếng Trung;
+  không tự dịch comment cũ không liên quan.
 
 ## 7. Bản đồ tri thức `graphify/` (người dùng chốt 2026-10-31)
 
@@ -114,5 +134,6 @@ nếu vẫn lỗi → dừng, báo người dùng nguyên nhân đã tìm đư�
   Tổ chức kiểu Obsidian: mỗi note 1 chủ đề (chức năng / module / luồng dữ liệu), liên kết chéo bằng `[[tên-note]]`,
   có mục *Liên quan*; `graphify/index.md` là chỉ mục gốc (MOC) trỏ tới mọi note.
   Nội dung note: mục đích, file/class chính (đường dẫn), luồng xử lý, phụ thuộc, lưu ý.
+- Viết/cập nhật note graphify là tài liệu, **không phải task**.
 - **Khi sửa logic code** làm bản đồ không còn đúng: cập nhật note liên quan (và `index.md` nếu thêm/xoá note)
   trong cùng lần thay đổi/commit.
