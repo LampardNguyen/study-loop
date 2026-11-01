@@ -5,6 +5,7 @@
 library;
 
 import '../config/api_config.dart';
+import '../providers/backend_api_provider.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -249,10 +250,13 @@ class _MainShellState extends ConsumerState<MainShell> with RouteAware {
       final regionResult = ref.read(userRegionBootstrapProvider).valueOrNull;
       final startupConfigResolved =
           regionResult?.source == UserRegionDecisionSource.remoteConfig;
-      _remoteConfigController.startPeriodicRefresh(
-        forceFirst: !startupConfigResolved,
-        skipInitialRequest: startupConfigResolved,
-      );
+      // Bản self-host không cấu hình backend gốc → không lấy remote config.
+      if (ref.read(backendApiConfiguredProvider)) {
+        _remoteConfigController.startPeriodicRefresh(
+          forceFirst: !startupConfigResolved,
+          skipInitialRequest: startupConfigResolved,
+        );
+      }
 
       AppLogger.log('StartupLoad', 'study bootstrap start');
       activeStartupTrace?.mark('study_bootstrap_start');
@@ -596,7 +600,9 @@ class _MainShellState extends ConsumerState<MainShell> with RouteAware {
       );
     }
     unawaited(_refreshSubscribedPodcastsInBackground());
-    ref.read(remoteConfigProvider.notifier).startPeriodicRefresh();
+    if (ref.read(backendApiConfiguredProvider)) {
+      ref.read(remoteConfigProvider.notifier).startPeriodicRefresh();
+    }
     // 回前台时同步系统通知权限状态，覆盖用户在系统设置中手动变更的情况
     unawaited(
       ref

@@ -15,5 +15,8 @@
 ## Dữ liệu
 - [[drive-sync]] — Sao lưu/Khôi phục Drive: sao lưu gì, bỏ gì, bẫy cài đặt không nạp lại sau khôi phục
 
+## Mạng
+- [[network-hosts]] — App gọi tới host nào; remote config bị chặn khi không cấu hình backend
+
 ## Build
 - [[build-size]] — APK ~107 MB: thành phần nào chiếm dung lượng, hướng giảm
