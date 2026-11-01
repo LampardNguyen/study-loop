@@ -117,9 +117,8 @@ void main() {
       expect(AppRoutes.bookmarkReview, '/bookmark-review');
     });
 
-    test('讲解页 / PDF 预览为相对路径段（嵌套子路由，防塌栈 §7.17）', () {
+    test('讲解页为相对路径段（嵌套子路由，防塌栈 §7.17）', () {
       expect(AppRoutes.sentenceDetailSegment, 'sentence-detail');
-      expect(AppRoutes.pdfPreviewSegment, 'pdf-preview');
     });
 
     test('Podcast 搜索订阅页与预览子路由段正确', () {
