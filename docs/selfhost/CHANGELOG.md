@@ -2,6 +2,11 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
+## Chưa phát hành
+
+### Tính năng mới
+- Màn Đồng bộ Google Drive: card "Sao lưu gần nhất" hiện thiết bị đã tạo bản sao lưu.
+
 ## v1.0.56 (build 21) — 2026-11-05
 
 ### Tính năng mới

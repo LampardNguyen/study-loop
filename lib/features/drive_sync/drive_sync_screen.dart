@@ -12,6 +12,7 @@ import '../../services/backup/backup_service.dart';
 import '../../utils/file_size.dart';
 import 'drive_api.dart';
 import 'drive_sync_actions.dart';
+import 'drive_sync_marker.dart';
 import 'drive_sync_service.dart';
 import 'google_drive_auth.dart';
 import 'google_sign_in_button.dart';
@@ -183,6 +184,19 @@ class _DriveSyncScreenState extends ConsumerState<DriveSyncScreen> {
             ),
             const SizedBox(height: 4),
             Text(_formatDate(value.createdAt)),
+            if (value.deviceName case final name? when name.isNotEmpty)
+              Text(
+                l10n.driveSyncBackupDevice(
+                  // So deviceId với máy hiện tại qua cache (đã cập nhật khi tải index).
+                  ref
+                              .watch(lastDriveBackupProvider)
+                              .valueOrNull
+                              ?.isThisDevice ==
+                          true
+                      ? '$name ${l10n.driveSyncThisDevice}'
+                      : name,
+                ),
+              ),
             Text(
               l10n.driveSyncBackupSummary(
                 value.files.length,

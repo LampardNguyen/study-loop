@@ -3089,5 +3089,7 @@
   "driveSyncLastBackupInfo": "Last backup: {info}",
   "driveSyncThisDevice": "(this device)",
   "driveSyncToday": "today",
-  "@driveSyncLastBackupInfo": {"placeholders": {"info": {"type": "String"}}}
+  "@driveSyncLastBackupInfo": {"placeholders": {"info": {"type": "String"}}},
+  "driveSyncBackupDevice": "Device: {device}",
+  "@driveSyncBackupDevice": {"placeholders": {"device": {"type": "String"}}}
 }

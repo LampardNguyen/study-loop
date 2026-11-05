@@ -6673,4 +6673,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get driveSyncToday => 'today';
+
+  @override
+  String driveSyncBackupDevice(String device) {
+    return 'Device: $device';
+  }
 }

@@ -38,6 +38,7 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - [P] T15.9 — Sửa lỗi bật Chuẩn hoá âm lượng thì mở lại bài không phát → [task-2026-11-01.md](task-2026-11-01.md#t159)
 - [P] T15.10 — 🎨 Hiện thiết bị của bản sao lưu Drive gần nhất → [task-2026-11-05.md](task-2026-11-05.md#t1510)
 - [P] T15.11 — Giọng alloy = Nam, giãn chip trong dropdown giọng → [task-2026-11-05.md](task-2026-11-05.md#t1511)
+- [P] T15.12 — Card sao lưu ở màn Đồng bộ hiện thiết bị → [task-2026-11-05.md](task-2026-11-05.md#t1512)
 
 ## Quyết định
 - 2026-10-26: Cập nhật APK tải trong app (Dio) + cài qua FileProvider; lỗi tải → mở trình duyệt như cũ.

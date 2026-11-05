@@ -6374,4 +6374,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get driveSyncToday => '今天';
+
+  @override
+  String driveSyncBackupDevice(String device) {
+    return '设备：$device';
+  }
 }

@@ -6666,4 +6666,9 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get driveSyncToday => 'hôm nay';
+
+  @override
+  String driveSyncBackupDevice(String device) {
+    return 'Thiết bị: $device';
+  }
 }

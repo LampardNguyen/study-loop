@@ -1937,5 +1937,6 @@
   "dialogueAiErrorFormat": "AI trả về nội dung không đọc được, hãy thử lại.",
   "driveSyncLastBackupInfo": "Sao lưu gần nhất: {info}",
   "driveSyncThisDevice": "(máy này)",
-  "driveSyncToday": "hôm nay"
+  "driveSyncToday": "hôm nay",
+  "driveSyncBackupDevice": "Thiết bị: {device}"
 }

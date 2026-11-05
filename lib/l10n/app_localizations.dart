@@ -11733,6 +11733,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'today'**
   String get driveSyncToday;
+
+  /// No description provided for @driveSyncBackupDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Device: {device}'**
+  String driveSyncBackupDevice(String device);
 }
 
 class _AppLocalizationsDelegate
