@@ -36,6 +36,8 @@ Ký hiệu: `[ ]` chưa làm, `[~]` đang làm, `[D]` chờ duyệt design, `[x]
 - [P] T15.7 — 🎨 Tuỳ chọn cấp độ giọng đọc (Rõ ràng → Bản xứ) khi tạo hội thoại → [task-2026-11-01.md](task-2026-11-01.md#t157)
 - [P] T15.8 — 🎨 Nút tạo hội thoại bằng AI trong khung nhập hội thoại → [task-2026-11-01.md](task-2026-11-01.md#t158)
 - [P] T15.9 — Sửa lỗi bật Chuẩn hoá âm lượng thì mở lại bài không phát → [task-2026-11-01.md](task-2026-11-01.md#t159)
+- [P] T15.10 — 🎨 Hiện thiết bị của bản sao lưu Drive gần nhất → [task-2026-11-05.md](task-2026-11-05.md#t1510)
+- [P] T15.11 — Giọng alloy = Nam, giãn chip trong dropdown giọng → [task-2026-11-05.md](task-2026-11-05.md#t1511)
 
 ## Quyết định
 - 2026-10-26: Cập nhật APK tải trong app (Dio) + cài qua FileProvider; lỗi tải → mở trình duyệt như cũ.

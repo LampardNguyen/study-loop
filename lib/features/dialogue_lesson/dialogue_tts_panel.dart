@@ -34,7 +34,7 @@ const dialogueVoiceOptions = {
   'echo': true,
   'fable': true,
   'onyx': true,
-  'alloy': false,
+  'alloy': true,
   'coral': false,
   'nova': false,
   'sage': false,
@@ -708,7 +708,7 @@ class _SpeakerVoiceRow extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(voice),
-                  const SizedBox(width: 6),
+                  const SizedBox(width: 8),
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 6,
@@ -723,6 +723,7 @@ class _SpeakerVoiceRow extends StatelessWidget {
                       style: TextStyle(color: fg, fontSize: 11),
                     ),
                   ),
+                  const SizedBox(width: 4),
                   const Icon(Icons.arrow_drop_down, size: 20),
                 ],
               ),

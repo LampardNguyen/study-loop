@@ -2,6 +2,15 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
+## Chưa phát hành
+
+### Tính năng mới
+- Tab Cá nhân → Đồng bộ Google Drive: hiện bản sao lưu gần nhất được tạo từ thiết bị nào và lúc nào.
+
+### Sửa lỗi
+- Tạo hội thoại: giọng alloy hiển thị là Nam; giãn khoảng cách nhãn giới tính trong danh sách chọn giọng.
+- Màn Đồng bộ Google Drive: card tài khoản và card sao lưu gần nhất không còn dính nhau.
+
 ## v1.0.55 (build 20) — 2026-11-01
 
 ### Sửa lỗi

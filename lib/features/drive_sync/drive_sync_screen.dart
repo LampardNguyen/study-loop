@@ -132,6 +132,7 @@ class _DriveSyncScreenState extends ConsumerState<DriveSyncScreen> {
             ),
           ),
         ),
+        const SizedBox(height: 12),
         Card(
           child: Padding(
             padding: const EdgeInsets.all(16),

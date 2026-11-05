@@ -24,5 +24,10 @@ Các Notifier đọc SharedPreferences một lần lúc khởi động (vd `lear
 - `newer_backup_check.dart`: `checkNewerDriveBackup(ref)` chạy từ `main.dart` (mở app sau 5s, khi resumed; giới hạn 15 phút; không chạy khi `driveSyncScreenOpen`). Điều kiện hiện: `shouldOfferNewerBackup`. "Có thay đổi" = `hasLocalChanges` (chưa từng đồng bộ hoặc sha DB khác) → có thể báo thừa.
 - Bấm Khôi phục → `context.push(AppRoutes.driveSync, extra: driveSyncAutoRestore)` → `DriveSyncScreen(autoRestore: true)` tự chạy khôi phục.
 
+## Thiết bị của bản sao lưu gần nhất ở tab Cá nhân (T15.10)
+- Cache `drive_sync_last_backup_at/_device_id/_device_name` (`cacheLastDriveBackup`, `lastDriveBackupProvider` trong `drive_sync_marker.dart`).
+- Ghi khi: sao lưu, khôi phục, `driveBackupIndexProvider` (mở màn Đồng bộ), `checkNewerDriveBackup`. Xoá khi đăng xuất.
+- `settings_screen.dart` `_driveSyncSubtitle` chỉ đọc cache — không gọi Google (tránh lỗi T14.6).
+
 ## Liên quan
 - [[index]] · [[settings-screen]] · [[recording]]
