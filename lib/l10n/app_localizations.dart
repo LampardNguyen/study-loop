@@ -11715,6 +11715,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The AI returned unreadable content. Please try again.'**
   String get dialogueAiErrorFormat;
+
+  /// No description provided for @driveSyncLastBackupInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Last backup: {info}'**
+  String driveSyncLastBackupInfo(String info);
+
+  /// No description provided for @driveSyncThisDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'(this device)'**
+  String get driveSyncThisDevice;
+
+  /// No description provided for @driveSyncToday.
+  ///
+  /// In en, this message translates to:
+  /// **'today'**
+  String get driveSyncToday;
 }
 
 class _AppLocalizationsDelegate

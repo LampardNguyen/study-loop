@@ -12,16 +12,21 @@ import 'dart:math';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../services/app_logger.dart';
 import '../../utils/app_data_dir.dart';
+import 'drive_sync_service.dart';
 
 const _deviceIdKey = 'drive_sync_device_id';
 const _lastSyncedAtKey = 'drive_sync_last_synced_at';
 const _lastSyncedDbShaKey = 'drive_sync_last_synced_db_sha';
 const _dismissedBackupAtKey = 'drive_sync_dismissed_backup_at';
+const _lastBackupAtKey = 'drive_sync_last_backup_at';
+const _lastBackupDeviceIdKey = 'drive_sync_last_backup_device_id';
+const _lastBackupDeviceNameKey = 'drive_sync_last_backup_device_name';
 
 const _deviceInfoChannel = MethodChannel('top.echo-loop/device_info');
 
@@ -111,4 +116,81 @@ Future<void> dismissDriveBackup(DateTime backupCreatedAt) async {
     _dismissedBackupAtKey,
     backupCreatedAt.toUtc().toIso8601String(),
   );
+}
+
+/// Thông tin bản sao lưu gần nhất trên Drive đã biết (cache cục bộ, T15.10).
+class LastDriveBackupInfo {
+  const LastDriveBackupInfo({
+    required this.createdAt,
+    this.deviceName,
+    this.isThisDevice = false,
+  });
+
+  final DateTime createdAt;
+
+  /// Tên thiết bị tạo bản sao lưu; null với bản sao lưu cũ không ghi tên.
+  final String? deviceName;
+
+  /// Bản sao lưu được tạo từ chính máy này.
+  final bool isThisDevice;
+}
+
+/// Lưu thông tin bản sao lưu gần nhất vào cache; [index] null (Drive trống) → xoá cache.
+/// Không gọi mạng; người gọi tự `invalidate(lastDriveBackupProvider)`.
+Future<void> cacheLastDriveBackup(DriveMediaIndex? index) async {
+  final prefs = await SharedPreferences.getInstance();
+  if (index == null) return clearLastDriveBackup();
+  await prefs.setString(
+    _lastBackupAtKey,
+    index.createdAt.toUtc().toIso8601String(),
+  );
+  for (final (key, value) in [
+    (_lastBackupDeviceIdKey, index.deviceId),
+    (_lastBackupDeviceNameKey, index.deviceName),
+  ]) {
+    if (value == null || value.isEmpty) {
+      await prefs.remove(key);
+    } else {
+      await prefs.setString(key, value);
+    }
+  }
+}
+
+/// Xoá cache bản sao lưu gần nhất (vd khi đăng xuất).
+Future<void> clearLastDriveBackup() async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.remove(_lastBackupAtKey);
+  await prefs.remove(_lastBackupDeviceIdKey);
+  await prefs.remove(_lastBackupDeviceNameKey);
+}
+
+/// Đọc cache bản sao lưu gần nhất cho tab Cá nhân (null = chưa biết).
+final lastDriveBackupProvider = FutureProvider<LastDriveBackupInfo?>((
+  ref,
+) async {
+  final prefs = await SharedPreferences.getInstance();
+  final at = DateTime.tryParse(prefs.getString(_lastBackupAtKey) ?? '');
+  if (at == null) return null;
+  final id = prefs.getString(_lastBackupDeviceIdKey);
+  return LastDriveBackupInfo(
+    createdAt: at,
+    deviceName: prefs.getString(_lastBackupDeviceNameKey),
+    isThisDevice: id != null && id == prefs.getString(_deviceIdKey),
+  );
+});
+
+/// Định dạng thời gian sao lưu: hôm nay → "[today] HH:mm", cùng năm → "dd/MM HH:mm",
+/// khác năm → "dd/MM/yyyy".
+String formatLastDriveBackupAt(DateTime at, DateTime now, String today) {
+  final local = at.toLocal();
+  String two(int v) => v.toString().padLeft(2, '0');
+  final time = '${two(local.hour)}:${two(local.minute)}';
+  if (local.year == now.year &&
+      local.month == now.month &&
+      local.day == now.day) {
+    return '$today $time';
+  }
+  final date = '${two(local.day)}/${two(local.month)}';
+  if (local.year == now.year) return '$date $time';
+  return '$date/${local.year}';
 }

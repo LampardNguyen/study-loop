@@ -13,6 +13,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:path_provider/path_provider.dart'
     show getTemporaryDirectory, getApplicationCacheDirectory;
 import '../features/ai_settings/providers/ai_settings_provider.dart';
+import '../features/drive_sync/drive_sync_marker.dart';
 import '../features/ai_settings/screens/ai_settings_screen.dart';
 import '../database/app_database.dart';
 import '../database/providers.dart';
@@ -297,6 +298,46 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     );
   }
 
+  /// Subtitle mục Đồng bộ Drive: email + bản sao lưu gần nhất (chỉ đọc cache, T15.10).
+  Widget _driveSyncSubtitle(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations l10n,
+  ) {
+    // 只读缓存的邮箱；watch googleDriveAccountProvider 会触发 Google
+    // 静默登录，Android 上每次进入本页都会弹出「正在登录」面板。
+    final email = ref.watch(driveSyncSignedInEmailProvider).valueOrNull;
+    final account = Text(switch (email) {
+      null => l10n.driveSyncNotSignedIn,
+      '' => l10n.driveSyncSignedIn,
+      final email => email,
+    });
+    final last = ref.watch(lastDriveBackupProvider).valueOrNull;
+    if (email == null || last == null) return account;
+    final name = last.deviceName;
+    final info = [
+      if (name != null && name.isNotEmpty)
+        last.isThisDevice ? '$name ${l10n.driveSyncThisDevice}' : name,
+      formatLastDriveBackupAt(
+        last.createdAt,
+        DateTime.now(),
+        l10n.driveSyncToday,
+      ),
+    ].join(' · ');
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        account,
+        Text(
+          l10n.driveSyncLastBackupInfo(info),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildSection(
     BuildContext context, {
     required String title,
@@ -519,13 +560,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           title: Text(l10n.driveSync),
           // 只读缓存的邮箱；watch googleDriveAccountProvider 会触发 Google
           // 静默登录，Android 上每次进入本页都会弹出「正在登录」面板。
-          subtitle: Text(switch (ref
-              .watch(driveSyncSignedInEmailProvider)
-              .valueOrNull) {
-            null => l10n.driveSyncNotSignedIn,
-            '' => l10n.driveSyncSignedIn,
-            final email => email,
-          }),
+          subtitle: _driveSyncSubtitle(context, ref, l10n),
           trailing: const Icon(Icons.chevron_right),
           onTap: () => context.push(AppRoutes.driveSync),
         ),

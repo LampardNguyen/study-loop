@@ -1934,5 +1934,8 @@
   "dialogueAiGenerating": "Đang tạo…",
   "dialogueAiReplaceTitle": "Thay thế hội thoại hiện tại?",
   "dialogueAiReplace": "Thay thế",
-  "dialogueAiErrorFormat": "AI trả về nội dung không đọc được, hãy thử lại."
+  "dialogueAiErrorFormat": "AI trả về nội dung không đọc được, hãy thử lại.",
+  "driveSyncLastBackupInfo": "Sao lưu gần nhất: {info}",
+  "driveSyncThisDevice": "(máy này)",
+  "driveSyncToday": "hôm nay"
 }

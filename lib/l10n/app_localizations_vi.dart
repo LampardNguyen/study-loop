@@ -6655,4 +6655,15 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get dialogueAiErrorFormat =>
       'AI trả về nội dung không đọc được, hãy thử lại.';
+
+  @override
+  String driveSyncLastBackupInfo(String info) {
+    return 'Sao lưu gần nhất: $info';
+  }
+
+  @override
+  String get driveSyncThisDevice => '(máy này)';
+
+  @override
+  String get driveSyncToday => 'hôm nay';
 }

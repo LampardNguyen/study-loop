@@ -6662,4 +6662,15 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get dialogueAiErrorFormat =>
       'The AI returned unreadable content. Please try again.';
+
+  @override
+  String driveSyncLastBackupInfo(String info) {
+    return 'Last backup: $info';
+  }
+
+  @override
+  String get driveSyncThisDevice => '(this device)';
+
+  @override
+  String get driveSyncToday => 'today';
 }

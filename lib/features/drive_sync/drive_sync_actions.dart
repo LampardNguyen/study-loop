@@ -25,7 +25,11 @@ final driveBackupIndexProvider = FutureProvider.autoDispose
       final auth = ref.read(googleDriveAuthProvider);
       return DriveSyncService(
         DioDriveApi(() => auth.accessToken(account)),
-      ).fetchIndex();
+      ).fetchIndex().then((index) async {
+        await cacheLastDriveBackup(index);
+        ref.invalidate(lastDriveBackupProvider);
+        return index;
+      });
     });
 
 Future<Directory> _createWorkDir(String prefix) async {
@@ -63,6 +67,8 @@ Future<DriveMediaIndex> performDriveBackup(
         cancelToken: cancelToken,
       );
       await recordDriveSync(index.createdAt);
+      await cacheLastDriveBackup(index);
+      ref.invalidate(lastDriveBackupProvider);
       return index;
     } finally {
       final zip = File(zipPath);
@@ -102,6 +108,8 @@ Future<BackupManifest> performDriveRestore(
       onProgress: onProgress,
     );
     await recordDriveSync(package.index.createdAt);
+    await cacheLastDriveBackup(package.index);
+    ref.invalidate(lastDriveBackupProvider);
     return manifest;
   } finally {
     await workDir.delete(recursive: true);

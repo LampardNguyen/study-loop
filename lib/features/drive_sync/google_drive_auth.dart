@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/auth_config.dart' as auth_config;
 import '../../services/app_logger.dart';
+import 'drive_sync_marker.dart';
 
 /// 仅访问应用在 Drive 中的隐藏数据目录（appDataFolder）。
 const driveAppDataScope = 'https://www.googleapis.com/auth/drive.appdata';
@@ -150,7 +151,9 @@ class GoogleDriveAccountNotifier extends AsyncNotifier<GoogleSignInAccount?> {
     final preferences = await SharedPreferences.getInstance();
     await preferences.remove(_signedInKey);
     await preferences.remove(_signedInEmailKey);
+    await clearLastDriveBackup();
     ref.invalidate(driveSyncSignedInEmailProvider);
+    ref.invalidate(lastDriveBackupProvider);
     state = const AsyncData(null);
   }
 }

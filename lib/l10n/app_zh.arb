@@ -2546,5 +2546,8 @@
   "dialogueAiGenerating": "生成中…",
   "dialogueAiReplaceTitle": "替换当前对话？",
   "dialogueAiReplace": "替换",
-  "dialogueAiErrorFormat": "AI 返回的内容无法读取，请重试。"
+  "dialogueAiErrorFormat": "AI 返回的内容无法读取，请重试。",
+  "driveSyncLastBackupInfo": "最近备份：{info}",
+  "driveSyncThisDevice": "（本机）",
+  "driveSyncToday": "今天"
 }

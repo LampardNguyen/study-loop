@@ -68,6 +68,8 @@ Future<void> checkNewerDriveBackup(WidgetRef ref) async {
     final remote = await DriveSyncService(
       DioDriveApi(() => auth.accessToken(account)),
     ).fetchIndex();
+    await cacheLastDriveBackup(remote);
+    ref.invalidate(lastDriveBackupProvider);
     final marker = await readDriveSyncMarker();
     final myId = await driveDeviceId();
     final offer = shouldOfferNewerBackup(

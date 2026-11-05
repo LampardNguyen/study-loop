@@ -6363,4 +6363,15 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get dialogueAiErrorFormat => 'AI 返回的内容无法读取，请重试。';
+
+  @override
+  String driveSyncLastBackupInfo(String info) {
+    return '最近备份：$info';
+  }
+
+  @override
+  String get driveSyncThisDevice => '（本机）';
+
+  @override
+  String get driveSyncToday => '今天';
 }
