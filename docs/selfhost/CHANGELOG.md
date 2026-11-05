@@ -2,7 +2,7 @@
 
 Ghi theo từng task hoàn thành, dùng để chép vào ghi chú GitHub Release.
 
-## Chưa phát hành
+## v1.0.56 (build 21) — 2026-11-05
 
 ### Tính năng mới
 - Tab Cá nhân → Đồng bộ Google Drive: hiện bản sao lưu gần nhất được tạo từ thiết bị nào và lúc nào.
